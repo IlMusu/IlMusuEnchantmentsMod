@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "ilmusuenchantments",
+  "version": "${version}",
+
+  "name": "IlMusu's Enchantments Mod",
+  "description": "Adds new enchantments!",
+  "authors": [
+    "IlMusu"
+  ],
+
+  "license": "All Rights Reserved",
+  "icon": "assets/ilmusuenchantments/icon.png",
+
+  "environment": "*",
+
+  "accessWidener" : "ilmusuenchantments.accesswidener",
+
+  "entrypoints": {
+    "main": [
+      "com.ilmusu.ilmusuenchantments.IlMusuEnchantments"
+    ],
+    "client": [
+      "com.ilmusu.ilmusuenchantments.IlMusuEnchantments"
+    ]
+  },
+  "mixins": [
+    "ilmusuenchantments.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.11",
+    "fabric-api": "*",
+    "minecraft": "~1.19.3",
+    "java": ">=17"
+  }
+}

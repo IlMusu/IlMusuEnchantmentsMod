@@ -1,0 +1,7 @@
+{
+	"entity.living.elytra_wing_flap":
+	{
+		"subtitle": "ilmusuenchantments.subtitle.entity.living.elytra_wing_flap",
+		"sounds": [ "ilmusuenchantments:entity.living.elytra_wing_flap" ]
+	}
+}

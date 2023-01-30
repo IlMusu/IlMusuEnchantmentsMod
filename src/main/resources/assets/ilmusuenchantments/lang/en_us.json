@@ -1,0 +1,16 @@
+{
+  "enchantment.ilmusuenchantments.laceration": "Laceration",
+  "enchantment.ilmusuenchantments.skewering": "Skewering",
+  "enchantment.ilmusuenchantments.unearthing": "Unearthing",
+  "enchantment.ilmusuenchantments.phasing": "Phasing",
+  "enchantment.ilmusuenchantments.reaching": "Reaching",
+  "enchantment.ilmusuenchantments.pocketed": "Pocketed",
+  "enchantment.ilmusuenchantments.vein_miner": "Vein Miner",
+  "enchantment.ilmusuenchantments.gravitate": "Gravitate",
+  "enchantment.ilmusuenchantments.meteority": "Meteority",
+  "enchantment.ilmusuenchantments.wingspan": "Wingspan",
+  "enchantment.ilmusuenchantments.alighting": "Alighting",
+
+  "death.attack.demonicEnchanting" : "%1$s made a bad deal with a demon",
+  "death.attack.demonicDamageEnchantment" : "A demon absorbed all %1$s's life"
+}
