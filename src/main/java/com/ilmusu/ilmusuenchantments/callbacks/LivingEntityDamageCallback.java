@@ -7,7 +7,7 @@ import net.minecraft.entity.damage.DamageSource;
 
 public interface LivingEntityDamageCallback
 {
-    Event<LivingEntityDamageCallback> EVENT = EventFactory.createArrayBacked(LivingEntityDamageCallback.class,
+    Event<LivingEntityDamageCallback> BEFORE_PROTECTION = EventFactory.createArrayBacked(LivingEntityDamageCallback.class,
             (listeners) -> (entity, source, damage) ->
             {
                 for (LivingEntityDamageCallback listener : listeners)
@@ -15,7 +15,7 @@ public interface LivingEntityDamageCallback
                 return damage;
             });
 
-    Event<LivingEntityDamageCallback> FALL = EventFactory.createArrayBacked(LivingEntityDamageCallback.class,
+    Event<LivingEntityDamageCallback> BEFORE_FALL = EventFactory.createArrayBacked(LivingEntityDamageCallback.class,
             (listeners) -> (entity, source, damage) ->
             {
                 for (LivingEntityDamageCallback listener : listeners)

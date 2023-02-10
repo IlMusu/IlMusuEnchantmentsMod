@@ -26,7 +26,7 @@ public class WingspanEnchantment extends Enchantment
     @Override
     public boolean isAcceptableItem(ItemStack stack)
     {
-        return stack.getItem() instanceof ElytraItem && super.isAcceptableItem(stack);
+        return stack.getItem() instanceof ElytraItem;
     }
 
     @Override
@@ -50,14 +50,14 @@ public class WingspanEnchantment extends Enchantment
     {
         LivingEntityElytraLandCallback.EVENT.register((entity ->
         {
-             int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.WINGSPAN, entity);
+            int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.WINGSPAN, entity);
             if(level == 0)
                 return;
 
-            float radius = 2.0F+level*2.0F;
+            float radius = 1.5F+level*1.5F;
             // The power of the knockback is based on both the level of the enchantment and the
             // velocity that player has when landing on the ground
-            float power = (level*0.25F) + Math.min(3.0F, (float)entity.getVelocity().length()*1.5F);
+            float power = (level*0.25F) + Math.min(3.0F, (float)entity.getVelocity().length()*1.4F);
 
             Box box = Box.from(entity.getPos()).expand(radius);
             entity.world.getOtherEntities(entity, box, (other -> other instanceof LivingEntity))

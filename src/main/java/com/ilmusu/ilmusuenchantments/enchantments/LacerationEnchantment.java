@@ -1,5 +1,6 @@
 package com.ilmusu.ilmusuenchantments.enchantments;
 
+import com.ilmusu.ilmusuenchantments.Resources;
 import com.ilmusu.ilmusuenchantments.callbacks.PlayerAttackCallback;
 import com.ilmusu.ilmusuenchantments.mixins.interfaces._IEnchantmentExtensions;
 import com.ilmusu.ilmusuenchantments.utils.ModUtils;
@@ -18,7 +19,7 @@ import java.util.Map;
 
 public class LacerationEnchantment extends DamageEnchantment implements _IDemonicEnchantment, _IEnchantmentExtensions
 {
-    private static final String NBT_DAMAGE_TAG = "laceration.additional_damage";
+    private static final String NBT_DAMAGE_TAG = Resources.MOD_ID+".laceration_additional_damage";
 
     public LacerationEnchantment(Enchantment.Rarity weight, int typeIndex)
     {

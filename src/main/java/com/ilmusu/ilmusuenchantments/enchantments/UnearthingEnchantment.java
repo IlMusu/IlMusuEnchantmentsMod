@@ -53,6 +53,22 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
 
     static
     {
+        // Reduce the player break speed when using the unearthing enchantment
+        PlayerBreakSpeedCallback.AFTER.register(((player, stack, pos) ->
+        {
+            // Check if there is a tunneling enchantment on the stack
+            int level = EnchantmentHelper.getLevel(ModEnchantments.UNEARTHING, stack);
+            if(level <= 0)
+                return 1.0F;
+
+            UnearthingEnchantment ench = ((UnearthingEnchantment)ModEnchantments.UNEARTHING);
+            int side = ench.getSideBreakingLength(level);
+            int forward = ench.getForwardBreakingLength(level);
+            int volume = (1+2*side)*(1+2*side)*(1+forward);
+            return 1 / (volume*0.1F);
+        }));
+
+        // The break logic of the unearthing enchantment
         PlayerBlockBreakEvents.BEFORE.register(((world, player, pos, state, blockEntity) ->
         {
             // Check if there is a tunneling enchantment on the stack
@@ -94,20 +110,6 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
                     }
 
             return true;
-        }));
-
-        PlayerBreakSpeedCallback.AFTER_VANILLA_COMPUTATION.register(((player, stack, pos) ->
-        {
-            // Check if there is a tunneling enchantment on the stack
-            int level = EnchantmentHelper.getLevel(ModEnchantments.UNEARTHING, stack);
-            if(level <= 0)
-                return 1.0F;
-
-            UnearthingEnchantment ench = ((UnearthingEnchantment)ModEnchantments.UNEARTHING);
-            int side = ench.getSideBreakingLength(level);
-            int forward = ench.getForwardBreakingLength(level);
-            int volume = (1+2*side)*(1+2*side)*(1+forward);
-            return 1 / (volume*0.1F);
         }));
     }
 

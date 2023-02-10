@@ -25,9 +25,9 @@ public class ReachingEnchantment extends Enchantment
     @Override
     public boolean isAcceptableItem(ItemStack stack)
     {
-        return EnchantmentTarget.DIGGER.isAcceptableItem(stack.getItem()) ||
-               EnchantmentTarget.WEAPON.isAcceptableItem(stack.getItem()) ||
-               EnchantmentTarget.TRIDENT.isAcceptableItem(stack.getItem());
+        return  EnchantmentTarget.DIGGER.isAcceptableItem(stack.getItem()) ||
+                EnchantmentTarget.WEAPON.isAcceptableItem(stack.getItem()) ||
+                EnchantmentTarget.TRIDENT.isAcceptableItem(stack.getItem());
     }
 
     static

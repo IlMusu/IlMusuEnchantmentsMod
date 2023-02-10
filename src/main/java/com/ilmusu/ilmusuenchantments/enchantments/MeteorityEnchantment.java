@@ -19,7 +19,7 @@ public class MeteorityEnchantment extends Enchantment
     @Override
     public boolean isAcceptableItem(ItemStack stack)
     {
-        return stack.getItem() instanceof ElytraItem && super.isAcceptableItem(stack);
+        return stack.getItem() instanceof ElytraItem;
     }
 
     @Override

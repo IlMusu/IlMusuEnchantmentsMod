@@ -9,9 +9,11 @@ public class Resources
     public static final String MOD_ID = "ilmusuenchantments";
     public static final String MOD_NAME = "IlMusu's Enchantments";
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final String DONT_ANIMATE_TAG = Resources.MOD_ID+".dont_animate_nbt";
 
     public static final Identifier POCKETS_TEXTURE = identifier("textures/gui/container/pockets.png");
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 
     public static Identifier identifier(String string)

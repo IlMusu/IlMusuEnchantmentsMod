@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 
 public interface PlayerBreakSpeedCallback
 {
-    Event<PlayerBreakSpeedCallback> AFTER_VANILLA_COMPUTATION = EventFactory.createArrayBacked(PlayerBreakSpeedCallback.class,
+    Event<PlayerBreakSpeedCallback> AFTER = EventFactory.createArrayBacked(PlayerBreakSpeedCallback.class,
             (listeners) -> (player, stack, pos) ->
             {
                 float multiplier = 1;

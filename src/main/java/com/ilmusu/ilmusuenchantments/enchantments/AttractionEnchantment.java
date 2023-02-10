@@ -14,9 +14,9 @@ import net.minecraft.util.math.Vec3d;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GravitateEnchantment extends Enchantment
+public class AttractionEnchantment extends Enchantment
 {
-    public GravitateEnchantment(Rarity weight)
+    public AttractionEnchantment(Rarity weight)
     {
         super(weight, EnchantmentTarget.ARMOR_CHEST, new EquipmentSlot[]{EquipmentSlot.CHEST});
     }
@@ -34,7 +34,7 @@ public class GravitateEnchantment extends Enchantment
             if(player.world.isClient)
                 return;
 
-            int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.GRAVITATE, player);
+            int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.ATTRACTION, player);
             if(level <= 0)
                 return;
 

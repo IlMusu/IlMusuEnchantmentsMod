@@ -282,11 +282,11 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     static
     {
         ServerPlayConnectionEvents.JOIN.register(((handler, sender, server) ->
-                new SynchronizePocketsMessage(handler.player).sendToClient(handler.player))
+            new SynchronizePocketsMessage(handler.player).sendToClient(handler.player))
         );
 
         ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register(((player, origin, destination) ->
-                new SynchronizePocketsMessage(player).sendToClient(player))
+            new SynchronizePocketsMessage(player).sendToClient(player))
         );
 
         ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, isEndTeleport) ->
@@ -300,7 +300,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         });
 
         ServerPlayerEvents.AFTER_RESPAWN.register(((oldPlayer, newPlayer, isEndTeleport) ->
-                new SynchronizePocketsMessage(newPlayer).sendToClient(newPlayer))
+            new SynchronizePocketsMessage(newPlayer).sendToClient(newPlayer))
         );
     }
 }

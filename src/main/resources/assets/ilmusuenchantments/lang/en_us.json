@@ -6,10 +6,13 @@
   "enchantment.ilmusuenchantments.reaching": "Reaching",
   "enchantment.ilmusuenchantments.pocketed": "Pocketed",
   "enchantment.ilmusuenchantments.vein_miner": "Vein Miner",
-  "enchantment.ilmusuenchantments.gravitate": "Gravitate",
+  "enchantment.ilmusuenchantments.attraction": "Attraction",
   "enchantment.ilmusuenchantments.meteority": "Meteority",
   "enchantment.ilmusuenchantments.wingspan": "Wingspan",
   "enchantment.ilmusuenchantments.alighting": "Alighting",
+  "enchantment.ilmusuenchantments.gravitate": "Gravitate",
+  "enchantment.ilmusuenchantments.telekinesis": "Telekinesis",
+  "enchantment.ilmusuenchantments.overcharged": "Overcharged",
 
   "death.attack.demonicEnchanting" : "%1$s made a bad deal with a demon",
   "death.attack.demonicDamageEnchantment" : "A demon absorbed all %1$s's life"

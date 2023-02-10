@@ -15,10 +15,12 @@ public class ModEnchantments
     public static final Enchantment REACHING = new ReachingEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment POCKETED = new PocketedEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment VEIN_MINER = new VeinMinerEnchantment(Enchantment.Rarity.RARE);
-    public static final Enchantment GRAVITATE = new GravitateEnchantment(Enchantment.Rarity.COMMON);
+    public static final Enchantment ATTRACTION = new AttractionEnchantment(Enchantment.Rarity.COMMON);
     public static final Enchantment METEORITY = new MeteorityEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment WINGSPAN = new WingspanEnchantment(Enchantment.Rarity.COMMON);
     public static final Enchantment ALIGHTING = new AlightingEnchantment(Enchantment.Rarity.UNCOMMON);
+    public static final Enchantment TELEKINESIS = new TelekinesisEnchantment(Enchantment.Rarity.RARE);
+    public static final Enchantment OVERCHARGED = new OverchargeEnchantment(Enchantment.Rarity.RARE);
 
     public static void register()
     {
@@ -29,9 +31,11 @@ public class ModEnchantments
         Registry.register(Registries.ENCHANTMENT, Resources.identifier("reaching"), REACHING);
         Registry.register(Registries.ENCHANTMENT, Resources.identifier("pocketed"), POCKETED);
         Registry.register(Registries.ENCHANTMENT, Resources.identifier("vein_miner"), VEIN_MINER);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("gravitate"), GRAVITATE);
+        Registry.register(Registries.ENCHANTMENT, Resources.identifier("attraction"), ATTRACTION);
         Registry.register(Registries.ENCHANTMENT, Resources.identifier("meteority"), METEORITY);
         Registry.register(Registries.ENCHANTMENT, Resources.identifier("wingspan"), WINGSPAN);
         Registry.register(Registries.ENCHANTMENT, Resources.identifier("alighting"), ALIGHTING);
+        Registry.register(Registries.ENCHANTMENT, Resources.identifier("telekinesis"), TELEKINESIS);
+        Registry.register(Registries.ENCHANTMENT, Resources.identifier("overcharged"), OVERCHARGED);
     }
 }

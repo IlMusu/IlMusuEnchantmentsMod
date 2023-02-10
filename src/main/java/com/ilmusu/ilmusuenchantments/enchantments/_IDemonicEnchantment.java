@@ -48,7 +48,7 @@ public interface _IDemonicEnchantment
         // The health consumed leaves the player with half hearth if this is safe
         float remaining = Math.max(safe ? 1.0F : 0.0F, initialHealth-healthToConsume);
 
-        entity.damage(ModDamageSources.DEMONIC_DAMAGE_ENCHANTMENT, initialHealth-remaining);
+        entity.damage(ModDamageSources.DEMONIC_DAMAGE, initialHealth-remaining);
 
         // Returning the actual consumed health
         return new Pair<>(healthToConsume, initialHealth-entity.getHealth());

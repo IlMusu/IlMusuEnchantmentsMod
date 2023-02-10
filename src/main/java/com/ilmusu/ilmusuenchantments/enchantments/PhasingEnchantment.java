@@ -1,6 +1,7 @@
 package com.ilmusu.ilmusuenchantments.enchantments;
 
 import com.ilmusu.ilmusuenchantments.callbacks.PlayerFovMultiplierCallback;
+import com.ilmusu.ilmusuenchantments.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.ilmusuenchantments.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.ilmusuenchantments.networking.messages.PhasingSwitchMessage;
 import com.ilmusu.ilmusuenchantments.registries.ModEnchantments;
@@ -23,6 +24,9 @@ import org.joml.Vector3f;
 
 public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantment
 {
+    private static final String PHASING_TAG = "is_phasing";
+    private static final int TICK_DELAY_BETWEEN_PHASING = 10;
+
     public static float clientTargetFov = 1.0F;
 
     public PhasingEnchantment(Rarity weight)
@@ -38,6 +42,10 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
 
     public static boolean onPhasingKeyBindingPress(PlayerEntity player, int modifiers)
     {
+        long lastPhaseTick = ((_IEntityPersistentNbt)player).get().getLong(PHASING_TAG);
+        if(player.world.getTime() - lastPhaseTick <= TICK_DELAY_BETWEEN_PHASING)
+            return false;
+
         // The phasing enchantment must be present on the legs
         int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.PHASING, player);
         if(level == 0)
@@ -67,13 +75,17 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
         Vec3d target = result.getPos();
         if(player.world.getBlockState(new BlockPos(target)).getMaterial().blocksMovement())
             target = new Vec3d(target.getX(), ((int)target.getY())+1, target.getZ());
-
+        
         Vec3d finalTarget = target;
-        ((_IPlayerTickers)player).addTicker(new _IPlayerTickers.Ticker(10)
+        int fovEffectTime = 10;
+        ((_IPlayerTickers)player).addTicker(new _IPlayerTickers.Ticker(fovEffectTime)
             .onEntering(() ->
+            {
+                // The player starts to phase, registering in the nbt
+                ((_IEntityPersistentNbt)player).get().putLong(PHASING_TAG, player.world.getTime()+fovEffectTime);
                 // Sending the message for updating the player fov
-                new PhasingSwitchMessage(true).sendToClient((ServerPlayerEntity) player)
-            )
+                new PhasingSwitchMessage(true).sendToClient((ServerPlayerEntity) player);
+            })
             .onExiting(() ->
             {
                 // Teleporting player

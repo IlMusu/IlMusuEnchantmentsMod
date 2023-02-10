@@ -1,16 +1,21 @@
 package com.ilmusu.ilmusuenchantments.mixins.mixin;
 
+import com.ilmusu.ilmusuenchantments.Resources;
 import com.ilmusu.ilmusuenchantments.callbacks.*;
+import com.ilmusu.ilmusuenchantments.mixins.interfaces._IEntityTrackableDrops;
 import com.ilmusu.ilmusuenchantments.utils.ModUtils;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.FireworkRocketEntity;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.ItemStack;
@@ -19,6 +24,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -46,6 +52,12 @@ public abstract class CustomCallbacksMixins
         {
             Entity owner = ((TridentEntity)(Object)this).getOwner();
             PlayerAttackCallback.AFTER_ENCHANTMENT_DAMAGE.invoker().handler(owner,  this.tridentStack, result.getEntity(), Hand.MAIN_HAND);
+        }
+
+        @Inject(method = "<init>(Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;copy()Lnet/minecraft/item/ItemStack;"))
+        public void onCreatedFromStack(World world, LivingEntity owner, ItemStack stack, CallbackInfo ci)
+        {
+            ProjectileShotCallback.AFTER_TRIDENT.invoker().handler(owner, stack, (TridentEntity)(Object)this);
         }
     }
 
@@ -77,14 +89,14 @@ public abstract class CustomCallbacksMixins
                 return speed;
 
             // Multiplying the speed with the computed multiplier
-            float multiplier = PlayerBreakSpeedCallback.AFTER_VANILLA_COMPUTATION.invoker().handler(player, player.getMainHandStack(), pos);
+            float multiplier = PlayerBreakSpeedCallback.AFTER.invoker().handler(player, player.getMainHandStack(), pos);
             return speed * multiplier;
         }
 
         @Inject(method = "tick", at = @At("TAIL"))
         public void afterPlayerTick(CallbackInfo ci)
         {
-            PlayerTickCallback.AFTER.invoker().handler((PlayerEntity)(Object)this);
+            PlayerTickCallback.BEFORE.invoker().handler((PlayerEntity)(Object)this);
         }
 
         @Inject(method = "tick", at = @At("HEAD"))
@@ -171,18 +183,9 @@ public abstract class CustomCallbacksMixins
         @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;setFlag(IZ)V", shift = At.Shift.AFTER))
         public void beforeElytraLanding(CallbackInfo ci)
         {
-            LivingEntity entity = (LivingEntity)(Object)this;
             if(this.isFallFlying())
                 return;
-
             LivingEntityElytraLandCallback.EVENT.invoker().handler((LivingEntity)(Object)this);
-        }
-
-        @Inject(method = "damage", at = @At(value = "HEAD"))
-        public void beforeApplyingDamageToLiving(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir)
-        {
-            LivingEntity entity = (LivingEntity)(Object)this;
-            LivingEntityDamageCallback.EVENT.invoker().handler(entity, source, amount);
         }
 
         @ModifyVariable(method = "handleFallDamage", at = @At(value = "LOAD", ordinal = 0))
@@ -192,7 +195,64 @@ public abstract class CustomCallbacksMixins
                 return damage;
 
             LivingEntity entity = (LivingEntity)(Object)this;
-            return (int)LivingEntityDamageCallback.FALL.invoker().handler(entity, DamageSource.FALL, damage);
+            return (int)LivingEntityDamageCallback.BEFORE_FALL.invoker().handler(entity, DamageSource.FALL, damage);
+        }
+    }
+
+    @Mixin(Entity.class)
+    public abstract static class EntityCallbacks
+    {
+        @Inject(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
+        public void beforeEntityDropsItemStack(ItemStack stack, float yOffset, CallbackInfoReturnable<ItemEntity> cir, ItemEntity item)
+        {
+            DamageSource source = ((_IEntityTrackableDrops)this).getDeathDamageSource();
+            Entity entity = (Entity)(Object)this;
+            boolean shouldDrop = EntityDropCallback.EVENT.invoker().handler(entity, item, source);
+            if(!shouldDrop)
+                cir.setReturnValue(null);
+        }
+    }
+
+    @Mixin(ArrowEntity.class)
+    public abstract static class ArrowEntityCallbacks
+    {
+        @Inject(method = "initFromStack", at = @At("HEAD"))
+        public void afterArrowEntityCreated(ItemStack stack, CallbackInfo ci)
+        {
+            ArrowEntity arrow = (ArrowEntity)(Object)this;
+            if(arrow.getOwner() instanceof LivingEntity entity)
+                ProjectileShotCallback.AFTER_ARROW.invoker().handler(entity, entity.getActiveItem(), arrow);
+        }
+    }
+
+    @Mixin(HeldItemRenderer.class)
+    public abstract static class HeldItemRendererMixins
+    {
+        @Shadow private ItemStack mainHand;
+        @Shadow private ItemStack offHand;
+
+        @Inject(method = "updateHeldItems", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;areEqual(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z", ordinal = 0))
+        public void beforeCheckingStackEquality(CallbackInfo ci)
+        {
+            PlayerEntity player = MinecraftClient.getInstance().player;
+
+            // First check is for the main hand item
+            ItemStack newMainHand = player.getMainHandStack();
+            if(newMainHand != this.mainHand && newMainHand.getItem() == this.mainHand.getItem())
+                if(shouldPreventNbtChangeAnimation(this.mainHand, newMainHand))
+                    this.mainHand = newMainHand;
+
+            // Then for the off hand item
+            ItemStack newOffHand = player.getOffHandStack();
+            if(newOffHand != this.offHand && newOffHand.getItem() == this.mainHand.getItem())
+                if(shouldPreventNbtChangeAnimation(this.offHand, newOffHand))
+                    this.offHand = newOffHand;
+        }
+
+        private static boolean shouldPreventNbtChangeAnimation(ItemStack prevStack, ItemStack newStack)
+        {
+            return  (newStack.hasNbt() && newStack.getNbt().getBoolean(Resources.DONT_ANIMATE_TAG)) ||
+                    (prevStack.hasNbt() && prevStack.getNbt().getBoolean(Resources.DONT_ANIMATE_TAG));
         }
     }
 }
