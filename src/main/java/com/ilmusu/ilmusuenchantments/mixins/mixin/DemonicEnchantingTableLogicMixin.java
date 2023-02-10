@@ -103,7 +103,7 @@ public abstract class DemonicEnchantingTableLogicMixin
                 players.removeIf(PlayerEntity::isCreative);
                 healthToConsume = takeHealthFromEntitiesRandomly(world.getRandom(), players, healthToConsume);
 
-                if(healthToConsume <= 0)
+                if(healthToConsume <= 0 || player.isCreative())
                     return;
 
                 cir.setReturnValue(false);

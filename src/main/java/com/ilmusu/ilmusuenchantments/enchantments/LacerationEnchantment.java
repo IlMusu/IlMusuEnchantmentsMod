@@ -80,7 +80,7 @@ public class LacerationEnchantment extends DamageEnchantment implements _IDemoni
         });
 
         PlayerAttackCallback.AFTER_ENCHANTMENT_DAMAGE.register(((player, stack, entity, hand) ->
-                stack.removeSubNbt(NBT_DAMAGE_TAG))
+            stack.removeSubNbt(NBT_DAMAGE_TAG))
         );
     }
 }
