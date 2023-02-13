@@ -114,7 +114,10 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         this.pocketsLevel = other.getPocketLevel();
     }
 
-    @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;updateItems()V"))
+    @Inject(method = "tickMovement", at = @At(
+        value = "INVOKE",
+        target = "Lnet/minecraft/entity/player/PlayerInventory;updateItems()V"
+    ))
     public void updatePocketItems(CallbackInfo ci)
     {
         for(int i=0; i<this.pockets.size(); ++i)
@@ -222,7 +225,8 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         }
 
         @Inject(method = "isClickOutsideBounds", at = @At("HEAD"), cancellable = true)
-        public void addPocketsOutsideInventoryBounds(double mouseX, double mouseY, int left, int top, int button, CallbackInfoReturnable<Boolean> cir)
+        public void addPocketsOutsideInventoryBounds(double mouseX, double mouseY, int left, int top, int button,
+            CallbackInfoReturnable<Boolean> cir)
         {
             int level = ((_IPlayerPockets)MinecraftClient.getInstance().player).getPocketLevel();
             if(level == 0)
@@ -264,13 +268,20 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     {
         private static boolean isPocket;
 
-        @ModifyArgs(method = "setSelectedTab", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/CreativeInventoryScreen$CreativeSlot;<init>(Lnet/minecraft/screen/slot/Slot;III)V"))
+        @ModifyArgs(method = "setSelectedTab", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/gui/screen/ingame/CreativeInventoryScreen$CreativeSlot;<init>(Lnet/minecraft/screen/slot/Slot;III)V"
+        ))
         public void disablePocketsInCreativeInventoryHook(Args args)
         {
             DisablePocketsInCreativeInventory.isPocket = args.get(0) instanceof PocketSlot;
         }
 
-        @Redirect(method = "setSelectedTab", at = @At(value = "INVOKE", ordinal = 2, target = "Lnet/minecraft/util/collection/DefaultedList;add(Ljava/lang/Object;)Z"))
+        @Redirect(method = "setSelectedTab", at = @At(
+            value = "INVOKE",
+            ordinal = 2,
+            target = "Lnet/minecraft/util/collection/DefaultedList;add(Ljava/lang/Object;)Z"
+        ))
         public boolean disablePocketsInCreativeInventory(DefaultedList<Slot> instance, Object o)
         {
             if(DisablePocketsInCreativeInventory.isPocket)

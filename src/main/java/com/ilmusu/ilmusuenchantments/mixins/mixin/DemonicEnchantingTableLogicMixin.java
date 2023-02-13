@@ -55,14 +55,20 @@ public abstract class DemonicEnchantingTableLogicMixin
             self.addPropertyAccess(Property.create(this.demonicEnchantments, 2));
         }
 
-        @Inject(method = "method_17411", at = @At(value = "INVOKE", target = "Ljava/util/List;get(I)Ljava/lang/Object;"), locals = LocalCapture.CAPTURE_FAILHARD)
+        @Inject(method = "method_17411", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
+            value = "INVOKE",
+            target = "Ljava/util/List;get(I)Ljava/lang/Object;"
+        ))
         private void addDemonicEnchantmentPropertyValueHook(ItemStack itemStack, World world, BlockPos pos, CallbackInfo ci, int i, int j)
         {
             DemonicEnchantmentScreenHandler.slot = j;
         }
 
         @SuppressWarnings("unchecked")
-        @Redirect(method = "method_17411", at = @At(value = "INVOKE", target = "Ljava/util/List;get(I)Ljava/lang/Object;"))
+        @Redirect(method = "method_17411", at = @At(
+            value = "INVOKE",
+            target = "Ljava/util/List;get(I)Ljava/lang/Object;"
+        ))
         private <E> E addDemonicEnchantmentPropertyValue(List<EnchantmentLevelEntry> list, int i)
         {
             // The demonic enchantment is placed always at the first position
@@ -79,7 +85,10 @@ public abstract class DemonicEnchantingTableLogicMixin
             return (E) list.get(i);
         }
 
-        @Inject(method = "onButtonClick", at = @At(value = "INVOKE", target = "Lnet/minecraft/screen/ScreenHandlerContext;run(Ljava/util/function/BiConsumer;)V"), cancellable = true)
+        @Inject(method = "onButtonClick", cancellable = true, at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/screen/ScreenHandlerContext;run(Ljava/util/function/BiConsumer;)V"
+        ))
         public void takeHealthFromNearbyEntities(PlayerEntity player, int id, CallbackInfoReturnable<Boolean> cir)
         {
             this.context.run((world, pos) ->
@@ -135,8 +144,9 @@ public abstract class DemonicEnchantingTableLogicMixin
     @Mixin(EnchantmentHelper.class)
     public abstract static class FixEnchantmentGenerationList
     {
-        @Inject(method = "generateEnchantments", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILHARD)
-        private static void fixEnchantmentListWithDemonicEnchantments(Random random, ItemStack stack, int level, boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<EnchantmentLevelEntry> list)
+        @Inject(method = "generateEnchantments", locals = LocalCapture.CAPTURE_FAILHARD, at = @At("TAIL"))
+        private static void fixEnchantmentListWithDemonicEnchantments(Random random, ItemStack stack, int level,
+            boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<EnchantmentLevelEntry> list)
         {
             // Getting the first extracted demonic enchantment
             EnchantmentLevelEntry demonic = list.stream().filter((entry) -> entry.enchantment instanceof _IDemonicEnchantment).findFirst().orElse(null);

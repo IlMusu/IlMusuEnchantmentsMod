@@ -15,9 +15,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.entity.projectile.FireworkRocketEntity;
-import net.minecraft.entity.projectile.TridentEntity;
+import net.minecraft.entity.projectile.*;
+import net.minecraft.item.ArrowItem;
+import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
@@ -40,45 +40,102 @@ public abstract class CustomCallbacksMixins
     {
         @Shadow private ItemStack tridentStack;
 
-        @Inject(method = "onEntityHit", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getGroup()Lnet/minecraft/entity/EntityGroup;"))
+        @Inject(method = "onEntityHit", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/entity/LivingEntity;getGroup()Lnet/minecraft/entity/EntityGroup;"
+        ))
         public void beforeComputingEnchantmentDamage(EntityHitResult result, CallbackInfo ci)
         {
             Entity owner = ((TridentEntity)(Object)this).getOwner();
             PlayerAttackCallback.BEFORE_ENCHANTMENT_DAMAGE.invoker().handler(owner, this.tridentStack, result.getEntity(), Hand.MAIN_HAND);
         }
 
-        @Inject(method = "onEntityHit", at = @At(value = "INVOKE", target = "Lnet/minecraft/enchantment/EnchantmentHelper;getAttackDamage(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/EntityGroup;)F", shift = At.Shift.AFTER))
+        @Inject(method = "onEntityHit", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/enchantment/EnchantmentHelper;getAttackDamage(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/EntityGroup;)F",
+            shift = At.Shift.AFTER
+        ))
         public void afterComputingEnchantmentDamage(EntityHitResult result, CallbackInfo ci)
         {
             Entity owner = ((TridentEntity)(Object)this).getOwner();
             PlayerAttackCallback.AFTER_ENCHANTMENT_DAMAGE.invoker().handler(owner,  this.tridentStack, result.getEntity(), Hand.MAIN_HAND);
         }
 
-        @Inject(method = "<init>(Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;copy()Lnet/minecraft/item/ItemStack;"))
+        @Inject(method = "<init>(Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;)V", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/item/ItemStack;copy()Lnet/minecraft/item/ItemStack;"
+        ))
         public void onCreatedFromStack(World world, LivingEntity owner, ItemStack stack, CallbackInfo ci)
         {
-            ProjectileShotCallback.AFTER_TRIDENT.invoker().handler(owner, stack, (TridentEntity)(Object)this);
+            ProjectileShotCallback.AFTER.invoker().handler(owner, stack, (TridentEntity)(Object)this);
+        }
+    }
+
+    @Mixin(ArrowItem.class)
+    public abstract static class ArrowItemCallbacks
+    {
+        @Inject(method = "createArrow", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILHARD)
+        public void afterArrowEntityCreated(World world, ItemStack stack, LivingEntity shooter,
+            CallbackInfoReturnable<PersistentProjectileEntity> cir, ArrowEntity arrow)
+        {
+            ProjectileShotCallback.AFTER.invoker().handler(shooter, stack, arrow);
+        }
+    }
+
+    @Mixin(CrossbowItem.class)
+    public abstract static class CrossbowItemCallbacks
+    {
+        @Inject(method = "loadProjectiles", at = @At("HEAD"))
+        private static void beforeLoadingProjectiles(LivingEntity shooter, ItemStack crossbow, CallbackInfoReturnable<Boolean> cir)
+        {
+            ProjectileLoadCallback.BEFORE.invoker().handler(shooter, crossbow);
+        }
+
+        @Inject(method = "shoot", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z")
+        )
+        private static void afterShootingProjectile(World world, LivingEntity shooter, Hand hand, ItemStack crossbow,
+            ItemStack projectile, float soundPitch, boolean creative, float speed, float divergence, float simulated,
+            CallbackInfo ci, boolean isFirework, ProjectileEntity projectileEntity)
+        {
+            ProjectileShotCallback.AFTER.invoker().handler(shooter, crossbow, projectileEntity);
+        }
+
+        @Inject(method = "postShoot", at = @At("HEAD"))
+        private static void afterShootingAllProjectiles(World world, LivingEntity shooter, ItemStack stack, CallbackInfo ci)
+        {
+            ProjectileShotCallback.AFTER_MULTIPLE.invoker().handler(shooter, stack, null);
         }
     }
 
     @Mixin(PlayerEntity.class)
     public abstract static class PlayerCallbacks
     {
-        @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getAttributeValue(Lnet/minecraft/entity/attribute/EntityAttribute;)D"))
+        @Inject(method = "attack", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/entity/player/PlayerEntity;getAttributeValue(Lnet/minecraft/entity/attribute/EntityAttribute;)D"
+        ))
         public void beforeComputingEnchantmentDamage(Entity target, CallbackInfo ci)
         {
             PlayerEntity player = (PlayerEntity)(Object)this;
             PlayerAttackCallback.BEFORE_ENCHANTMENT_DAMAGE.invoker().handler(player, player.getMainHandStack(), target, Hand.MAIN_HAND);
         }
 
-        @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getAttackCooldownProgress(F)F"))
+        @Inject(method = "attack", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/entity/player/PlayerEntity;getAttackCooldownProgress(F)F"
+        ))
         public void afterComputingEnchantmentDamage(Entity target, CallbackInfo ci)
         {
             PlayerEntity player = (PlayerEntity)(Object)this;
             PlayerAttackCallback.AFTER_ENCHANTMENT_DAMAGE.invoker().handler(player, player.getMainHandStack(), target, Hand.MAIN_HAND);
         }
 
-        @ModifyVariable(method = "getBlockBreakingSpeed", at = @At(value = "TAIL", shift = At.Shift.BEFORE))
+        @ModifyVariable(method = "getBlockBreakingSpeed", at = @At(
+            value = "TAIL",
+            shift = At.Shift.BEFORE
+        ))
         public float afterComputingBlockBreakingSpeed(float speed)
         {
             PlayerEntity player = (PlayerEntity)(Object)this;
@@ -151,7 +208,10 @@ public abstract class CustomCallbacksMixins
     @Mixin(PlayerInventory.class)
     public abstract static class PlayerInventoryCallbacks
     {
-        @Inject(method = "setStack", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/collection/DefaultedList;set(ILjava/lang/Object;)Ljava/lang/Object;"), locals = LocalCapture.CAPTURE_FAILHARD)
+        @Inject(method = "setStack", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/util/collection/DefaultedList;set(ILjava/lang/Object;)Ljava/lang/Object;"
+        ))
         public void afterSettingStackInPlayerInventory(int slot, ItemStack stack, CallbackInfo ci, DefaultedList<ItemStack> list)
         {
             PlayerInventory inventory = (PlayerInventory)(Object)this;
@@ -180,7 +240,11 @@ public abstract class CustomCallbacksMixins
     {
         @Shadow public abstract boolean isFallFlying();
 
-        @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;setFlag(IZ)V", shift = At.Shift.AFTER))
+        @Inject(method = "travel", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/entity/LivingEntity;setFlag(IZ)V",
+            shift = At.Shift.AFTER
+        ))
         public void beforeElytraLanding(CallbackInfo ci)
         {
             if(this.isFallFlying())
@@ -202,7 +266,11 @@ public abstract class CustomCallbacksMixins
     @Mixin(Entity.class)
     public abstract static class EntityCallbacks
     {
-        @Inject(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
+        @Inject(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;",
+            locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true, at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"
+        ))
         public void beforeEntityDropsItemStack(ItemStack stack, float yOffset, CallbackInfoReturnable<ItemEntity> cir, ItemEntity item)
         {
             DamageSource source = ((_IEntityTrackableDrops)this).getDeathDamageSource();
@@ -213,25 +281,17 @@ public abstract class CustomCallbacksMixins
         }
     }
 
-    @Mixin(ArrowEntity.class)
-    public abstract static class ArrowEntityCallbacks
-    {
-        @Inject(method = "initFromStack", at = @At("HEAD"))
-        public void afterArrowEntityCreated(ItemStack stack, CallbackInfo ci)
-        {
-            ArrowEntity arrow = (ArrowEntity)(Object)this;
-            if(arrow.getOwner() instanceof LivingEntity entity)
-                ProjectileShotCallback.AFTER_ARROW.invoker().handler(entity, entity.getActiveItem(), arrow);
-        }
-    }
-
     @Mixin(HeldItemRenderer.class)
     public abstract static class HeldItemRendererMixins
     {
         @Shadow private ItemStack mainHand;
         @Shadow private ItemStack offHand;
 
-        @Inject(method = "updateHeldItems", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;areEqual(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z", ordinal = 0))
+        @Inject(method = "updateHeldItems", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/item/ItemStack;areEqual(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z",
+            ordinal = 0
+        ))
         public void beforeCheckingStackEquality(CallbackInfo ci)
         {
             PlayerEntity player = MinecraftClient.getInstance().player;

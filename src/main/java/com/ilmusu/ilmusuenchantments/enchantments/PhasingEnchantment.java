@@ -15,6 +15,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
@@ -32,6 +33,12 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
     public PhasingEnchantment(Rarity weight)
     {
         super(weight, EnchantmentTarget.ARMOR_LEGS, new EquipmentSlot[]{EquipmentSlot.LEGS});
+    }
+
+    @Override
+    public Text getName(int level)
+    {
+        return _IDemonicEnchantment.super.getName(this.getTranslationKey(), level, this.getMaxLevel());
     }
 
     @Override

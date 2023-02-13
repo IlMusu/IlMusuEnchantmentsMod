@@ -22,34 +22,34 @@ public class ColoredParticleEffect implements ParticleEffect
 			Codec.FLOAT.fieldOf("b").forGetter((data) -> data.blue),
 			Codec.FLOAT.fieldOf("a").forGetter((data) -> data.alpha),
 			Codec.FLOAT.fieldOf("size").forGetter((data) -> data.size),
-			Codec.INT.fieldOf("life").forGetter((data) -> data.life),
-			Codec.FLOAT.fieldOf("gravity").forGetter((data) -> data.gravity))
-			.apply(builder, (r, g, b, a, s, l, gr) -> new ColoredParticleEffect(r, g, b, a).size(s).life(l).gravity(gr)));
+			Codec.FLOAT.fieldOf("gravity").forGetter((data) -> data.gravity),
+			Codec.INT.fieldOf("life").forGetter((data) -> data.life))
+			.apply(builder, (r, g, b, a, s, gr, l) -> new ColoredParticleEffect(r, g, b, a).size(s).life(l).gravity(gr)));
 
 	@SuppressWarnings("deprecation")
 	public static final Factory<ColoredParticleEffect> DESERIALIZER = new Factory<>()
 	{
 		public ColoredParticleEffect read(ParticleType<ColoredParticleEffect> particleTypeIn, StringReader reader) throws CommandSyntaxException
 		{
-			reader.expect(' '); float r = (float)reader.readDouble();
-			reader.expect(' '); float g = (float)reader.readDouble();
-			reader.expect(' '); float b = (float)reader.readDouble();
-			reader.expect(' '); float a = (float)reader.readDouble();
-			reader.expect(' '); float size = (float)reader.readDouble();
+			reader.expect(' '); float r = reader.readFloat();
+			reader.expect(' '); float g = reader.readFloat();
+			reader.expect(' '); float b = reader.readFloat();
+			reader.expect(' '); float a = reader.readFloat();
+			reader.expect(' '); float size = reader.readFloat();
+			reader.expect(' '); float gravity = reader.readFloat();
 			reader.expect(' '); int life = reader.readInt();
-			reader.expect(' '); float gravity = (float)reader.readDouble();
 			return new ColoredParticleEffect(r, g, b, a).size(size).life(life).gravity(gravity);
 		}
 
 		public ColoredParticleEffect read(ParticleType<ColoredParticleEffect> particleTypeIn, PacketByteBuf buffer)
 		{
-			float r = (float)buffer.readDouble();
-			float g = (float)buffer.readDouble();
-			float b = (float)buffer.readDouble();
-			float a = (float)buffer.readDouble();
-			float size = (float)buffer.readDouble();
+			float r = buffer.readFloat();
+			float g = buffer.readFloat();
+			float b = buffer.readFloat();
+			float a = buffer.readFloat();
+			float size = buffer.readFloat();
+			float gravity = buffer.readFloat();
 			int life = buffer.readInt();
-			float gravity = (float)buffer.readDouble();
 			return new ColoredParticleEffect(r, g, b, a).size(size).life(life).gravity(gravity);
 		}
 	};
@@ -60,8 +60,8 @@ public class ColoredParticleEffect implements ParticleEffect
 	private final float alpha;
 
 	private float size = 1;
-	private int life = 20;
 	private float gravity = 0.0F;
+	private int life = 20;
 
 	public ColoredParticleEffect(float red, float green, float blue, float alpha)
 	{
@@ -106,18 +106,20 @@ public class ColoredParticleEffect implements ParticleEffect
 	@Override
 	public void write(PacketByteBuf buffer)
 	{
-		buffer.writeFloat(red);
-		buffer.writeFloat(green);
-		buffer.writeFloat(blue);
-		buffer.writeFloat(alpha);
-		buffer.writeFloat(size);
-		buffer.writeFloat(life);
+		buffer.writeFloat(this.red);
+		buffer.writeFloat(this.green);
+		buffer.writeFloat(this.blue);
+		buffer.writeFloat(this.alpha);
+		buffer.writeFloat(this.size);
+		buffer.writeFloat(this.gravity);
+		buffer.writeInt(this.life);
 	}
 
 	@Override
 	public String asString()
 	{
-		return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f %.2f %d", ModParticles.COLORED, this.red, this.green, this.blue, this.alpha, this.size, this.life);
+		return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f %.2f %.2f %d", ModParticles.COLORED,
+				this.red, this.green, this.blue, this.alpha, this.size, this.gravity, this.life);
 	}
 
 	@Environment(EnvType.CLIENT)

@@ -25,8 +25,13 @@ public abstract class EnchantmentWithExtensions
             EnchantmentHelperModifications.stack = stack;
         }
 
-        @Inject(method = "method_8208", at = @At(value = "INVOKE", target = "Lorg/apache/commons/lang3/mutable/MutableFloat;add(F)V", shift = At.Shift.AFTER))
-        private static void addStackDependantDamage(MutableFloat mutableFloat, EntityGroup entityGroup, Enchantment enchantment, int level, CallbackInfo ci)
+        @Inject(method = "method_8208", at = @At(
+            value = "INVOKE",
+            target = "Lorg/apache/commons/lang3/mutable/MutableFloat;add(F)V",
+            shift = At.Shift.AFTER
+        ))
+        private static void addStackDependantDamage(MutableFloat mutableFloat, EntityGroup entityGroup,
+            Enchantment enchantment, int level, CallbackInfo ci)
         {
             if(!(enchantment instanceof _IEnchantmentExtensions enchantmentExt))
                 return;

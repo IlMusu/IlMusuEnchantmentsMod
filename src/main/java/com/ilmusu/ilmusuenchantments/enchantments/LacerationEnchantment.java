@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class LacerationEnchantment extends DamageEnchantment implements _IDemonicEnchantment, _IEnchantmentExtensions
 {
-    private static final String NBT_DAMAGE_TAG = Resources.MOD_ID+".laceration_additional_damage";
+    private static final String LACERATION_DAMAGE_TAG = Resources.MOD_ID+".laceration_additional_damage";
 
     public LacerationEnchantment(Enchantment.Rarity weight, int typeIndex)
     {
@@ -42,7 +42,7 @@ public class LacerationEnchantment extends DamageEnchantment implements _IDemoni
     @Override
     public float getAdditionalAttackDamage(ItemStack stack, int level, EntityGroup group)
     {
-        return stack.getOrCreateNbt().getFloat(NBT_DAMAGE_TAG);
+        return stack.getOrCreateNbt().getFloat(LACERATION_DAMAGE_TAG);
     }
 
     public float getDamageForHealthConsumed(float health, float level)
@@ -76,11 +76,13 @@ public class LacerationEnchantment extends DamageEnchantment implements _IDemoni
             }
 
             // Setting the additional damage before attacking the entity
-            stack.getOrCreateNbt().putFloat(NBT_DAMAGE_TAG, additionalDamage);
+            if(additionalDamage > 0.0F)
+                stack.getOrCreateNbt().putFloat(LACERATION_DAMAGE_TAG, additionalDamage);
         });
 
         PlayerAttackCallback.AFTER_ENCHANTMENT_DAMAGE.register(((player, stack, entity, hand) ->
-            stack.removeSubNbt(NBT_DAMAGE_TAG))
+            // Removing the eventual tag after the enchantment damage
+            stack.removeSubNbt(LACERATION_DAMAGE_TAG))
         );
     }
 }

@@ -23,14 +23,20 @@ public abstract class DemonicEnchantingTableRenderingMixin
         private int slot = 0;
         private boolean isDemonicEnchantment = false;
 
-        @Inject(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/screen/EnchantmentScreenHandler;getLapisCount()I"))
+        @Inject(method = "drawBackground", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/screen/EnchantmentScreenHandler;getLapisCount()I"
+        ))
         public void drawBackgroundEnchantmentPreHook(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
             // Resetting the slot count before entering the for-loop cycle
             this.slot = -1;
         }
 
-        @Inject(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/EnchantmentScreen;setZOffset(I)V"))
+        @Inject(method = "drawBackground", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/gui/screen/ingame/EnchantmentScreen;setZOffset(I)V"
+        ))
         public void drawBackgroundEnchantmentHook(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
             // Increasing the slot count, this is called at every iteration
@@ -48,7 +54,10 @@ public abstract class DemonicEnchantingTableRenderingMixin
             return size-20;
         }
 
-        @ModifyArg(method = "drawBackground", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;drawTrimmed(Lnet/minecraft/text/StringVisitable;IIII)V"))
+        @ModifyArg(method = "drawBackground", index = 1, at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/font/TextRenderer;drawTrimmed(Lnet/minecraft/text/StringVisitable;IIII)V"
+        ))
         public int modifyHieroglyphPosition(int x)
         {
             // Moving the letters for making space for the hearth cost
@@ -57,7 +66,12 @@ public abstract class DemonicEnchantingTableRenderingMixin
             return x+22;
         }
 
-        @Inject(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/EnchantmentScreen;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V", ordinal = 3, shift = At.Shift.AFTER))
+        @Inject(method = "drawBackground", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/gui/screen/ingame/EnchantmentScreen;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V",
+            ordinal = 3,
+            shift = At.Shift.AFTER
+        ))
         public void addUnsaturatedHealthRequirementRendering(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
             if(!this.isDemonicEnchantment)
@@ -65,7 +79,12 @@ public abstract class DemonicEnchantingTableRenderingMixin
             drawHeartRequirement(matrices, this.slot, false);
         }
 
-        @Inject(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/EnchantmentScreen;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V", ordinal = 6, shift = At.Shift.AFTER))
+        @Inject(method = "drawBackground", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/gui/screen/ingame/EnchantmentScreen;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V",
+            ordinal = 6,
+            shift = At.Shift.AFTER
+        ))
         public void addSaturatedHealthRequirementRendering(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
             if(!this.isDemonicEnchantment)

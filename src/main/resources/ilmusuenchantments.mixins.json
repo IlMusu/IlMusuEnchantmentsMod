@@ -6,7 +6,8 @@
   "mixins": [
     "AccessorScreenHandler",
     "AccessorServerPlayerInteractionManager",
-    "CustomCallbacksMixins$ArrowEntityCallbacks",
+    "CustomCallbacksMixins$ArrowItemCallbacks",
+    "CustomCallbacksMixins$CrossbowItemCallbacks",
     "CustomCallbacksMixins$EntityCallbacks",
     "CustomCallbacksMixins$FireworkRocketEntityCallbacks",
     "CustomCallbacksMixins$LivingEntityCallbacks",

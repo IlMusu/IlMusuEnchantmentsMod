@@ -48,7 +48,7 @@ public class TelekinesisEnchantment extends Enchantment
                     if(!item.isAlive())
                         return;
 
-                    // Spawining effect particle
+                    // Spawning effect particle
                     int count = ModUtils.range(player.getRandom(), 10, 20);
                     ParticleEffect particle = new ColoredParticleEffect(new Color(113, 50, 168)).life(20).size(0.2F);
                     ((ServerWorld)item.world).spawnParticles(particle, item.getX(), item.getY()+0.25F, item.getZ(), count, 0, 0, 0, 0.02F);
