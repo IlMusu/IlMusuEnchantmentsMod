@@ -13,7 +13,10 @@
   "enchantment.ilmusuenchantments.gravitate": "Gravitate",
   "enchantment.ilmusuenchantments.telekinesis": "Telekinesis",
   "enchantment.ilmusuenchantments.overcharged": "Overcharged",
+  "enchantment.ilmusuenchantments.moon_jump": "Moon Jump",
+  "enchantment.ilmusuenchantments.long_jump": "Long Jump",
+  "enchantment.ilmusuenchantments.demonction": "Demonction",
 
   "death.attack.demonicEnchanting" : "%1$s made a bad deal with a demon",
-  "death.attack.demonicDamageEnchantment" : "A demon absorbed all %1$s's life"
+  "death.attack.demonicDamage" : "A demon absorbed all %1$s's life"
 }

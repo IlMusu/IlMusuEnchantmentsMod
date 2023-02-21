@@ -1,5 +1,6 @@
 package com.ilmusu.ilmusuenchantments.enchantments;
 
+import com.ilmusu.ilmusuenchantments.Resources;
 import com.ilmusu.ilmusuenchantments.callbacks.PlayerFovMultiplierCallback;
 import com.ilmusu.ilmusuenchantments.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.ilmusuenchantments.mixins.interfaces._IPlayerTickers;
@@ -25,7 +26,7 @@ import org.joml.Vector3f;
 
 public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantment
 {
-    private static final String PHASING_TAG = "is_phasing";
+    private static final String PHASING_TAG = Resources.MOD_ID+".is_phasing";
     private static final int TICK_DELAY_BETWEEN_PHASING = 10;
 
     public static float clientTargetFov = 1.0F;

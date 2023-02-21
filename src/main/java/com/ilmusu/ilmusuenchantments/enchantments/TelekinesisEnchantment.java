@@ -45,7 +45,7 @@ public class TelekinesisEnchantment extends Enchantment
             ((_IPlayerTickers)player).addTicker(new _IPlayerTickers.Ticker(ModUtils.range(player.getRandom(), 25, 50))
                 .onExiting(() ->
                 {
-                    if(!item.isAlive())
+                    if(!item.isAlive() || !player.isAlive())
                         return;
 
                     // Spawning effect particle

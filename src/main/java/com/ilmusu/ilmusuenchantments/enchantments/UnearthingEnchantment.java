@@ -41,6 +41,12 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
         return 5;
     }
 
+    @Override
+    protected boolean canAccept(Enchantment other)
+    {
+        return !(other instanceof UnearthingEnchantment) && !(other instanceof VeinMinerEnchantment);
+    }
+
     protected int getSideBreakingLength(int level)
     {
         return (int)Math.min(3, 1+level*0.2F);
@@ -86,7 +92,7 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
             int forward = ench.getForwardBreakingLength(level);
 
             // Computing percentage of blocks that the player can break with the consumed health
-            float healthPercentage = new ModUtils.Linear(ench.getMinLevel(), 0.05F, ench.getMaxLevel(), 0.10F).of(level);
+            float healthPercentage = new ModUtils.Linear(ench.getMinLevel(), 0.20F, ench.getMaxLevel(), 0.30F).of(level);
             float consumedPercentage = _IDemonicEnchantment.consumeHealthPercentage(player, healthPercentage, true);
             // Computing how many blocks the enchantment can break
             int amount = (int) ((1+2*side)*(1+2*side)*(1+forward) * consumedPercentage);

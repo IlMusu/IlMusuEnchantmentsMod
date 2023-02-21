@@ -114,7 +114,7 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
                 return;
 
             // Applying damage to the player
-            player.damage(ModDamageSources.DEMONIC_DAMAGE, 1.0F);
+            player.damage(ModDamageSources.DEMONIC_DAMAGE, 2.0F);
         }));
 
         ProjectileLoadCallback.BEFORE.register((shooter, stack) ->

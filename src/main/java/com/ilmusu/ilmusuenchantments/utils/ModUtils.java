@@ -9,7 +9,10 @@ import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
+
+import java.awt.*;
 
 public class ModUtils
 {
@@ -30,6 +33,17 @@ public class ModUtils
         }
     }
 
+    public static int clamp(int min, int value, int max)
+    {
+        if(value < min)
+            return min;
+        if(value > max)
+            return max;
+        return value;
+    }
+
+    // ### RANDOM UTILITIES ############################################################################
+
     public static double range(Random rand, double min, double max)
     {
         return min + rand.nextDouble()*(max - min);
@@ -45,6 +59,23 @@ public class ModUtils
         return min + rand.nextInt(max - min);
     }
 
+    public static Color randomizeColor(Random random, Color color, int amount)
+    {
+        int red = color.getRed() + range(random, -amount, amount);
+        int green = color.getGreen() + range(random, -amount, amount);
+        int blue = color.getBlue() + range(random, -amount, amount);
+        return new Color(clamp(0, red, 255), clamp(0, green, 255), clamp(0, blue, 255));
+    }
+
+    public static Vec3d randomInSphere(Random rand)
+    {
+        return Vec3d.fromPolar(rand.nextFloat()*360, rand.nextFloat()*360);
+    }
+
+    public static Vec3d randomInCircle(Random rand)
+    {
+        return Vec3d.fromPolar(0, rand.nextFloat()*360);
+    }
 
     // ### PLAYER UTILITIES ############################################################################
 

@@ -49,9 +49,9 @@ public class VeinMinerEnchantment extends Enchantment
             // Computing the total blocks that the VeinMiner enchantments on the stack can break
             Map<Enchantment, Integer> enchantments = EnchantmentHelper.get(stack);
             int remainingBlocksToBreak = enchantments.keySet().stream()
-                    .filter(enchantment -> enchantment instanceof VeinMinerEnchantment)
-                    .map(enchantment -> ((VeinMinerEnchantment)enchantment).getMaxBreakableBlocks(enchantments.get(enchantment)))
-                    .reduce(0, Integer::sum);
+                .filter(enchantment -> enchantment instanceof VeinMinerEnchantment)
+                .map(enchantment -> ((VeinMinerEnchantment)enchantment).getMaxBreakableBlocks(enchantments.get(enchantment)))
+                .reduce(0, Integer::sum);
 
             if(remainingBlocksToBreak <= 0)
                 return true;

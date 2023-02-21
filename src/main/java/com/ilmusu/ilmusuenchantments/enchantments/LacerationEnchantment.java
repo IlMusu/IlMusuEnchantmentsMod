@@ -69,7 +69,7 @@ public class LacerationEnchantment extends DamageEnchantment implements _IDemoni
                    continue;
 
                 // The percentage of health to consume at the current level of the enchantment
-                float percentage = new ModUtils.Linear(enchantment.getMinLevel(), 0.05F, enchantment.getMaxLevel(), 0.10F).of(level);
+                float percentage = new ModUtils.Linear(enchantment.getMinLevel(), 0.10F, enchantment.getMaxLevel(), 0.25F).of(level);
                 // Getting the amount of actually consumed health and the related damage
                 float consumed = _IDemonicEnchantment.consumeHealthValue(living, percentage, true);
                 additionalDamage += ((LacerationEnchantment) enchantment).getDamageForHealthConsumed(consumed, level);

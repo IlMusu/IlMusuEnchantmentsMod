@@ -1,5 +1,6 @@
 package com.ilmusu.ilmusuenchantments.enchantments;
 
+import com.ilmusu.ilmusuenchantments.Resources;
 import com.ilmusu.ilmusuenchantments.callbacks.PlayerAttackCallback;
 import com.ilmusu.ilmusuenchantments.mixins.interfaces._IEnchantmentExtensions;
 import com.ilmusu.ilmusuenchantments.utils.ModUtils;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchantment, _IEnchantmentExtensions
 {
-    private static final String NBT_DAMAGE_TAG = "skewering.additional_damage";
+    private static final String NBT_DAMAGE_TAG = Resources.MOD_ID+".skewering_additional_damage";
 
     public SkeweringEnchantment(Rarity weight)
     {

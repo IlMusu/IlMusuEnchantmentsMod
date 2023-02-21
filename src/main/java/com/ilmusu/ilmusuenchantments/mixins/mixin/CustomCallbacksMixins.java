@@ -26,6 +26,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
@@ -150,13 +151,19 @@ public abstract class CustomCallbacksMixins
             return speed * multiplier;
         }
 
-        @Inject(method = "tick", at = @At("TAIL"))
+        @Inject(method = "handleFallDamage", at = @At("HEAD"))
+        public void onPlayerLandingOnBlock(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir)
+        {
+            PlayerLandCallback.EVENT.invoker().handler((PlayerEntity)(Object)this, fallDistance);
+        }
+
+        @Inject(method = "tick", at = @At("HEAD"))
         public void afterPlayerTick(CallbackInfo ci)
         {
             PlayerTickCallback.BEFORE.invoker().handler((PlayerEntity)(Object)this);
         }
 
-        @Inject(method = "tick", at = @At("HEAD"))
+        @Inject(method = "tick", at = @At("TAIL"))
         public void beforePlayerTick(CallbackInfo ci)
         {
             PlayerTickCallback.AFTER.invoker().handler((PlayerEntity)(Object)this);
@@ -239,6 +246,11 @@ public abstract class CustomCallbacksMixins
     public abstract static class LivingEntityCallbacks
     {
         @Shadow public abstract boolean isFallFlying();
+        @Shadow protected abstract void jump();
+
+        @Shadow private int jumpingCooldown;
+
+        private static boolean hasCheckedForJumpAndFailed = false;
 
         @Inject(method = "travel", at = @At(
             value = "INVOKE",
@@ -252,6 +264,16 @@ public abstract class CustomCallbacksMixins
             LivingEntityElytraLandCallback.EVENT.invoker().handler((LivingEntity)(Object)this);
         }
 
+        @ModifyVariable(method = "modifyAppliedDamage", at = @At(value = "LOAD", ordinal = 4), argsOnly = true)
+        public float beforeApplyingProtectionToDamage(float damage, DamageSource source)
+        {
+            if(damage <= 0)
+                return damage;
+
+            LivingEntity entity = (LivingEntity)(Object)this;
+            return LivingEntityDamageCallback.BEFORE_PROTECTION.invoker().handler(entity, source, damage);
+        }
+
         @ModifyVariable(method = "handleFallDamage", at = @At(value = "LOAD", ordinal = 0))
         public int beforeApplyingFallDamageToLiving(int damage)
         {
@@ -260,6 +282,48 @@ public abstract class CustomCallbacksMixins
 
             LivingEntity entity = (LivingEntity)(Object)this;
             return (int)LivingEntityDamageCallback.BEFORE_FALL.invoker().handler(entity, DamageSource.FALL, damage);
+        }
+
+        @Redirect(method = "tickMovement", at = @At(
+            value = "FIELD",
+            target = "Lnet/minecraft/entity/LivingEntity;onGround:Z",
+            opcode = Opcodes.GETFIELD,
+            ordinal = 2
+        ))
+        public boolean beforeOnGroundJumpCheck(LivingEntity instance)
+        {
+            LivingEntityCallbacks.hasCheckedForJumpAndFailed = !instance.isOnGround();
+            return instance.isOnGround();
+        }
+
+        @Inject(method = "tickMovement", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/util/profiler/Profiler;pop()V",
+            ordinal = 2
+        ))
+        public void afterJumpCheck(CallbackInfo ci)
+        {
+            if(!LivingEntityCallbacks.hasCheckedForJumpAndFailed)
+                return;
+
+            LivingEntityCallbacks.hasCheckedForJumpAndFailed = false;
+            LivingEntity entity = (LivingEntity)(Object)this;
+            if(LivingEntityJumpCheckCallback.EVENT.invoker().handler(entity, this.jumpingCooldown))
+            {
+                this.jump();
+                this.jumpingCooldown = 10;
+            }
+        }
+
+        @Inject(method = "jump", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/entity/LivingEntity;isSprinting()Z")
+        )
+        public void onLivingJump(CallbackInfo ci)
+        {
+            LivingEntity entity = (LivingEntity)(Object)this;
+            Vec3d velocity = LivingEntityJumpCallback.EVENT.invoker().handler(entity, entity.getVelocity());
+            entity.setVelocity(velocity);
         }
     }
 
