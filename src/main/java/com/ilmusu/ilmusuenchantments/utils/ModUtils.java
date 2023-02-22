@@ -7,6 +7,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -34,6 +35,15 @@ public class ModUtils
     }
 
     public static int clamp(int min, int value, int max)
+    {
+        if(value < min)
+            return min;
+        if(value > max)
+            return max;
+        return value;
+    }
+
+    public static float clamp(float min, float value, float max)
     {
         if(value < min)
             return min;
@@ -99,5 +109,13 @@ public class ModUtils
         ClientPlayerInteractionManager manager = MinecraftClient.getInstance().interactionManager;
         AccessorClientPlayerInteractionManager accessor = (AccessorClientPlayerInteractionManager)manager;
         return manager.isBreakingBlock() ? accessor.getCurrentMiningPos() : null;
+    }
+
+    public static int findInInventory(PlayerEntity player, Item item)
+    {
+        for(int i=0; i<player.getInventory().size(); ++i)
+            if(player.getInventory().getStack(i).getItem() == item)
+                return i;
+        return -1;
     }
 }

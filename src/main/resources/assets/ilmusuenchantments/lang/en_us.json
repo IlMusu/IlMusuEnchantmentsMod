@@ -10,12 +10,12 @@
   "enchantment.ilmusuenchantments.meteority": "Meteority",
   "enchantment.ilmusuenchantments.wingspan": "Wingspan",
   "enchantment.ilmusuenchantments.alighting": "Alighting",
-  "enchantment.ilmusuenchantments.gravitate": "Gravitate",
   "enchantment.ilmusuenchantments.telekinesis": "Telekinesis",
   "enchantment.ilmusuenchantments.overcharged": "Overcharged",
   "enchantment.ilmusuenchantments.moon_jump": "Moon Jump",
   "enchantment.ilmusuenchantments.long_jump": "Long Jump",
   "enchantment.ilmusuenchantments.demonction": "Demonction",
+  "enchantment.ilmusuenchantments.skyhook": "Skyhook",
 
   "death.attack.demonicEnchanting" : "%1$s made a bad deal with a demon",
   "death.attack.demonicDamage" : "A demon absorbed all %1$s's life"

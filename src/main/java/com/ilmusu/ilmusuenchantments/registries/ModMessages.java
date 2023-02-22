@@ -1,9 +1,6 @@
 package com.ilmusu.ilmusuenchantments.registries;
 
-import com.ilmusu.ilmusuenchantments.networking.messages.PhasingKeyBindingMessage;
-import com.ilmusu.ilmusuenchantments.networking.messages.PhasingSwitchMessage;
-import com.ilmusu.ilmusuenchantments.networking.messages.SynchronizePocketsMessage;
-import com.ilmusu.ilmusuenchantments.networking.messages._Message;
+import com.ilmusu.ilmusuenchantments.networking.messages.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -34,6 +31,7 @@ public class ModMessages
         {
             registerMessage(new SynchronizePocketsMessage());
             registerMessage(new PhasingSwitchMessage());
+            registerMessage(new SkyhookLeashMessage());
         }
 
         protected static void registerMessage(_Message message)

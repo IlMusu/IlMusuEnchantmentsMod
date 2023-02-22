@@ -43,7 +43,7 @@ public class TelekinesisEnchantment extends Enchantment
                 return true;
 
             ((_IPlayerTickers)player).addTicker(new _IPlayerTickers.Ticker(ModUtils.range(player.getRandom(), 25, 50))
-                .onExiting(() ->
+                .onExiting((ticker) ->
                 {
                     if(!item.isAlive() || !player.isAlive())
                         return;

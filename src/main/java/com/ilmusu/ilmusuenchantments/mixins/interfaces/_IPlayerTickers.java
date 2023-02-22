@@ -1,5 +1,7 @@
 package com.ilmusu.ilmusuenchantments.mixins.interfaces;
 
+import java.util.function.Consumer;
+
 public interface _IPlayerTickers
 {
     void addTicker(Ticker ticker);
@@ -9,9 +11,9 @@ public interface _IPlayerTickers
         protected final int duration;
         protected int remainingTime;
 
-        protected Runnable onEnter = () -> {};
-        protected Runnable onTick  = () -> {};
-        protected Runnable onExit = () -> {};
+        protected Consumer<Ticker> onEnter = (ticker) -> {};
+        protected Consumer<Ticker> onTick  = (ticker) -> {};
+        protected Consumer<Ticker> onExit  = (ticker) -> {};
 
         public Ticker(int duration)
         {
@@ -19,19 +21,19 @@ public interface _IPlayerTickers
             this.remainingTime = duration;
         }
 
-        public Ticker onEntering(Runnable action)
+        public Ticker onEntering(Consumer<Ticker> action)
         {
             this.onEnter = action;
             return this;
         }
 
-        public Ticker onTicking(Runnable action)
+        public Ticker onTicking(Consumer<Ticker> action)
         {
             this.onTick = action;
             return this;
         }
 
-        public Ticker onExiting(Runnable action)
+        public Ticker onExiting(Consumer<Ticker> action)
         {
             this.onExit = action;
             return this;
@@ -40,7 +42,7 @@ public interface _IPlayerTickers
         public void start()
         {
             // The ticker started, execute the runnable
-            this.onEnter.run();
+            this.onEnter.accept(this);
         }
 
         public void tick()
@@ -51,11 +53,16 @@ public interface _IPlayerTickers
             --this.remainingTime;
 
             // The ticker is ticking, execute the runnable
-            this.onTick.run();
+            this.onTick.accept(this);
 
             // The ticker finished executing, execute the runnable
             if(this.remainingTime == 0)
-                this.onExit.run();
+                this.onExit.accept(this);
+        }
+
+        public void setFinished()
+        {
+            this.remainingTime = 0;
         }
 
         public boolean hasFinished()

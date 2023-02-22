@@ -23,7 +23,8 @@ public class ModEnchantments
     public static final Enchantment TELEKINESIS = new TelekinesisEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment MOON_JUMP = new MoonJumpEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment LONG_JUMP = new LongJumpEnchantment(Enchantment.Rarity.UNCOMMON);
-    public static final Enchantment DEMONCTION = new DemonctionEnchantment(Enchantment.Rarity.VERY_RARE);
+    public static final Enchantment DEMONCTION = new DemonctionEnchantment(Enchantment.Rarity.RARE);
+    public static final Enchantment SKYHOOK = new SkyhookEnchantment(Enchantment.Rarity.VERY_RARE);
 
     public static void register()
     {
@@ -43,5 +44,6 @@ public class ModEnchantments
         Registry.register(Registries.ENCHANTMENT, Resources.identifier("moon_jump"), MOON_JUMP);
         Registry.register(Registries.ENCHANTMENT, Resources.identifier("long_jump"), LONG_JUMP);
         Registry.register(Registries.ENCHANTMENT, Resources.identifier("demonction"), DEMONCTION);
+        Registry.register(Registries.ENCHANTMENT, Resources.identifier("skyhook"), SKYHOOK);
     }
 }

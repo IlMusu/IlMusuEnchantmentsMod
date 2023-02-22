@@ -87,14 +87,14 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
         Vec3d finalTarget = target;
         int fovEffectTime = 10;
         ((_IPlayerTickers)player).addTicker(new _IPlayerTickers.Ticker(fovEffectTime)
-            .onEntering(() ->
+            .onEntering((ticker) ->
             {
                 // The player starts to phase, registering in the nbt
                 ((_IEntityPersistentNbt)player).get().putLong(PHASING_TAG, player.world.getTime()+fovEffectTime);
                 // Sending the message for updating the player fov
                 new PhasingSwitchMessage(true).sendToClient((ServerPlayerEntity) player);
             })
-            .onExiting(() ->
+            .onExiting((ticker) ->
             {
                 // Teleporting player
                 player.requestTeleport(finalTarget.x, finalTarget.getY(), finalTarget.getZ());

@@ -6,8 +6,13 @@ import com.ilmusu.ilmusuenchantments.mixins.interfaces._IEntityTrackableDrops;
 import com.ilmusu.ilmusuenchantments.utils.ModUtils;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.item.HeldItemRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
@@ -15,10 +20,11 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.projectile.*;
-import net.minecraft.item.ArrowItem;
-import net.minecraft.item.CrossbowItem;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.projectile.FireworkRocketEntity;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.entity.projectile.TridentEntity;
+import net.minecraft.item.*;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.EntityHitResult;
@@ -72,14 +78,34 @@ public abstract class CustomCallbacksMixins
         }
     }
 
-    @Mixin(ArrowItem.class)
+    @Mixin(TridentItem.class)
+    public abstract static class TridentItemCallbacks
+    {
+        @Inject(method = "onStoppedUsing", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
+                value = "INVOKE",
+                target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z",
+                shift = At.Shift.AFTER
+        ))
+        public void afterArrowEntityCreated(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci,
+            PlayerEntity player, int i, int j, TridentEntity projectile)
+        {
+            ProjectileShotCallback.AFTER.invoker().handler(user, stack, projectile);
+        }
+    }
+
+    @Mixin(BowItem.class)
     public abstract static class ArrowItemCallbacks
     {
-        @Inject(method = "createArrow", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILHARD)
-        public void afterArrowEntityCreated(World world, ItemStack stack, LivingEntity shooter,
-            CallbackInfoReturnable<PersistentProjectileEntity> cir, ArrowEntity arrow)
+        @Inject(method = "onStoppedUsing", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
+                value = "INVOKE",
+                target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z",
+                shift = At.Shift.AFTER
+        ))
+        public void afterArrowEntityCreated(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci,
+            PlayerEntity playerEntity, boolean bl, ItemStack itemStack, int i, float f, boolean bl2, ArrowItem arrowItem,
+            PersistentProjectileEntity projectile)
         {
-            ProjectileShotCallback.AFTER.invoker().handler(shooter, stack, arrow);
+            ProjectileShotCallback.AFTER.invoker().handler(user, stack, projectile);
         }
     }
 
@@ -94,8 +120,9 @@ public abstract class CustomCallbacksMixins
 
         @Inject(method = "shoot", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z")
-        )
+            target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z",
+            shift = At.Shift.AFTER
+        ))
         private static void afterShootingProjectile(World world, LivingEntity shooter, Hand hand, ItemStack crossbow,
             ItemStack projectile, float soundPitch, boolean creative, float speed, float divergence, float simulated,
             CallbackInfo ci, boolean isFirework, ProjectileEntity projectileEntity)
@@ -167,6 +194,19 @@ public abstract class CustomCallbacksMixins
         public void beforePlayerTick(CallbackInfo ci)
         {
             PlayerTickCallback.AFTER.invoker().handler((PlayerEntity)(Object)this);
+        }
+    }
+
+    @Mixin(PlayerEntityRenderer.class)
+    public static abstract class PlayerEntityRendererCallbacks
+    {
+        @Redirect(method = "setupTransforms(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/client/util/math/MatrixStack;FFF)V", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;isFallFlying()Z"
+        ))
+        public boolean shouldRenderAsFallflying(AbstractClientPlayerEntity instance)
+        {
+            return instance.isFallFlying();
         }
     }
 
@@ -377,6 +417,21 @@ public abstract class CustomCallbacksMixins
         {
             return  (newStack.hasNbt() && newStack.getNbt().getBoolean(Resources.DONT_ANIMATE_TAG)) ||
                     (prevStack.hasNbt() && prevStack.getNbt().getBoolean(Resources.DONT_ANIMATE_TAG));
+        }
+    }
+
+    @Mixin(EntityRenderDispatcher.class)
+    public abstract static class EntityRenderDispatcherCallbacks<E extends Entity>
+    {
+        @Inject(method = "render", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/render/entity/EntityRenderer;render(Lnet/minecraft/entity/Entity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V",
+            shift = At.Shift.AFTER
+        ))
+        public void afterRenderingEntities(E entity, double x, double y, double z, float yaw, float tickDelta,
+               MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci)
+        {
+            EntityRendererCallback.AFTER.invoker().handler(entity, matrices, tickDelta, vertexConsumers);
         }
     }
 }
