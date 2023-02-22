@@ -1,9 +1,12 @@
 package com.ilmusu.ilmusuenchantments.networking.messages;
 
 import com.ilmusu.ilmusuenchantments.Resources;
+import com.ilmusu.ilmusuenchantments.enchantments.SkyhookEnchantment;
 import com.ilmusu.ilmusuenchantments.mixins.interfaces._IEntityPersistentNbt;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ElytraItem;
 import net.minecraft.network.PacketByteBuf;
 
 public class SkyhookLeashMessage extends _Message
@@ -49,15 +52,9 @@ public class SkyhookLeashMessage extends _Message
         if(leashed == null)
             return;
 
-        if(!this.isLeashed)
-        {
-            ((_IEntityPersistentNbt)leashed).get().remove(Resources.MOD_ID+".skyhook_entity");
-            player.stopFallFlying();
-        }
+        if(this.isLeashed)
+            ((_IEntityPersistentNbt)leashed).get().putInt(SkyhookEnchantment.SKYHOOK_HOLDER, this.holderID);
         else
-        {
-            ((_IEntityPersistentNbt)leashed).get().putInt(Resources.MOD_ID+".skyhook_entity", this.holderID);
-            player.startFallFlying();
-        }
+            ((_IEntityPersistentNbt)leashed).get().remove(SkyhookEnchantment.SKYHOOK_HOLDER);
     }
 }

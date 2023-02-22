@@ -22,6 +22,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -30,7 +31,8 @@ import org.joml.Matrix4f;
 
 public class SkyhookEnchantment extends Enchantment
 {
-    public static final String SKYHOOK_ENTITY = Resources.MOD_ID+".skyhook_entity";
+    public static final String SKYHOOK_HOLDER = Resources.MOD_ID+".skyhook_holder";
+    public static final String SKYHOOK_PROJECTILE = Resources.MOD_ID+".skyhook_projectile";
 
     public SkyhookEnchantment(Rarity weight)
     {
@@ -55,19 +57,27 @@ public class SkyhookEnchantment extends Enchantment
             if(level == 0 || (slot == -1 && !player.isCreative()))
                 return;
 
+            // Starting the skyhook
+            NbtCompound nbt = ((_IEntityPersistentNbt)player).get();
+            new SkyhookLeashMessage(projectile, player, true).sendToClientsTrackingAndSelf(player);
+            nbt.putUuid(SKYHOOK_PROJECTILE, projectile.getUuid());
+            // Removing the leash from the player inventory
             ItemStack leadStack = player.getInventory().removeStack(slot, 1);
-            ((_IEntityPersistentNbt)projectile).get().putUuid(SKYHOOK_ENTITY, shooter.getUuid());
-            new SkyhookLeashMessage(projectile, shooter, true).sendToClientsTrackingAndSelf(shooter);
 
             int duration = 20*(level*2);
             ((_IPlayerTickers)player).addTicker(new _IPlayerTickers.Ticker(duration)
                 .onTicking((ticker) -> {
-                    if((projectile instanceof PersistentProjectileEntity p && p.inGround) || projectile.isRemoved())
+                    // Conditions for prematurely stopping the skyhook
+                    boolean isProjectileInGround = (projectile instanceof PersistentProjectileEntity p && p.inGround);
+                    boolean isHoldingContainer = player.getMainHandStack() == container;
+                    boolean isHooked = nbt.getUuid(SKYHOOK_PROJECTILE).equals(projectile.getUuid());
+                    if(isProjectileInGround || !isHoldingContainer || !isHooked || projectile.isRemoved())
                     {
                         ticker.setFinished();
                         return;
                     }
 
+                    // Computing the velocity for the given projectile
                     Vec3d diff = projectile.getPos().subtract(player.getPos());
                     float magnitude = ModUtils.clamp(0.0F, (float)diff.length(), 2.0F);
                     Vec3d velocity = diff.normalize().multiply(magnitude);
@@ -76,19 +86,23 @@ public class SkyhookEnchantment extends Enchantment
                     player.velocityModified = true;
                 })
                 .onExiting((ticker -> {
+                    // Actually stopping the skyhook
+                    new SkyhookLeashMessage(projectile, player, false).sendToClientsTrackingAndSelf(player);
+                    if(nbt.getUuid(SKYHOOK_PROJECTILE).equals(projectile.getUuid()))
+                        nbt.remove(SKYHOOK_PROJECTILE);
+                    // Putting the leash back into the player inventory
                     player.getInventory().insertStack(leadStack);
-                    ((_IEntityPersistentNbt)projectile).get().remove(SKYHOOK_ENTITY);
-                    new SkyhookLeashMessage(projectile, shooter, false).sendToClientsTrackingAndSelf(shooter);
                 })));
         });
 
         EntityRendererCallback.AFTER.register(((entity, matrices, tickDelta, provider) ->
         {
-            if(!((_IEntityPersistentNbt)entity).get().contains(SKYHOOK_ENTITY))
+            NbtCompound nbt = ((_IEntityPersistentNbt)entity).get();
+            if(!nbt.contains(SKYHOOK_HOLDER))
                 return;
 
-            Entity other = entity.world.getEntityById(((_IEntityPersistentNbt)entity).get().getInt(SKYHOOK_ENTITY));
-            renderLeash(entity, other, tickDelta, matrices, provider);
+            Entity holder = entity.world.getEntityById(nbt.getInt(SKYHOOK_HOLDER));
+            renderLeash(entity, holder, tickDelta, matrices, provider);
         }));
     }
 
