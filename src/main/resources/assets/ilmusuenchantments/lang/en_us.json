@@ -16,6 +16,9 @@
   "enchantment.ilmusuenchantments.long_jump": "Long Jump",
   "enchantment.ilmusuenchantments.demonction": "Demonction",
   "enchantment.ilmusuenchantments.skyhook": "Skyhook",
+  "enchantment.ilmusuenchantments.reflection": "Reflection",
+  "enchantment.ilmusuenchantments.shockwave": "Shockwave",
+  "enchantment.ilmusuenchantments.coverage": "Coverage",
 
   "death.attack.demonicEnchanting" : "%1$s made a bad deal with a demon",
   "death.attack.demonicDamage" : "A demon absorbed all %1$s's life"

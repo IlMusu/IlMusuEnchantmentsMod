@@ -11,6 +11,7 @@
     "CustomCallbacksMixins$EntityCallbacks",
     "CustomCallbacksMixins$FireworkRocketEntityCallbacks",
     "CustomCallbacksMixins$LivingEntityCallbacks",
+    "CustomCallbacksMixins$PersistentProjectileEntityCallbacks",
     "CustomCallbacksMixins$PlayerCallbacks",
     "CustomCallbacksMixins$PlayerInventoryCallbacks",
     "CustomCallbacksMixins$TridentEntityCallbacks",

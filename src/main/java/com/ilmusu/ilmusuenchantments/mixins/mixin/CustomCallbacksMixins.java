@@ -137,6 +137,28 @@ public abstract class CustomCallbacksMixins
         }
     }
 
+    @Mixin(PersistentProjectileEntity.class)
+    public abstract static class PersistentProjectileEntityCallbacks
+    {
+        private static boolean isReflected = false;
+
+        @Inject(method = "onEntityHit", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;setFireTicks(I)V"))
+        private void afterProjectileReflectedHook(EntityHitResult entityHitResult, CallbackInfo ci)
+        {
+            PersistentProjectileEntityCallbacks.isReflected = true;
+        }
+
+        @Inject(method = "onEntityHit", at = @At("TAIL"))
+        private void afterProjectileReflected(EntityHitResult hit, CallbackInfo ci)
+        {
+            if(!PersistentProjectileEntityCallbacks.isReflected)
+                return;
+
+            PersistentProjectileEntityCallbacks.isReflected = false;
+            ProjectileReflectionCallback.AFTER.invoker().handler(hit, (PersistentProjectileEntity)(Object)this);
+        }
+    }
+
     @Mixin(PlayerEntity.class)
     public abstract static class PlayerCallbacks
     {
@@ -291,6 +313,7 @@ public abstract class CustomCallbacksMixins
         @Shadow private int jumpingCooldown;
 
         private static boolean hasCheckedForJumpAndFailed = false;
+        private static DamageSource source;
 
         @Inject(method = "travel", at = @At(
             value = "INVOKE",
@@ -364,6 +387,24 @@ public abstract class CustomCallbacksMixins
             LivingEntity entity = (LivingEntity)(Object)this;
             Vec3d velocity = LivingEntityJumpCallback.EVENT.invoker().handler(entity, entity.getVelocity());
             entity.setVelocity(velocity);
+        }
+
+        @Inject(method = "blockedByShield", at = @At("HEAD"))
+        public void onShieldBlockHook(DamageSource source, CallbackInfoReturnable<Boolean> cir)
+        {
+            LivingEntityCallbacks.source = source;
+        }
+
+        @ModifyConstant(method = "blockedByShield", constant = @Constant(doubleValue = 0.0, ordinal = 1))
+        public double onShieldBlock(double constant)
+        {
+            LivingEntityCallbacks.source = null;
+            LivingEntity user = (LivingEntity)(Object)this;
+            ItemStack stack = user.getActiveItem();
+            if(!(stack.getItem() instanceof ShieldItem))
+                return constant;
+
+            return ShieldCoverageAngleCallback.BEFORE.invoker().handler(user, stack, LivingEntityCallbacks.source);
         }
     }
 

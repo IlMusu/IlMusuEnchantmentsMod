@@ -3,6 +3,7 @@ package com.ilmusu.ilmusuenchantments.registries;
 import com.ilmusu.ilmusuenchantments.Resources;
 import com.ilmusu.ilmusuenchantments.callbacks.KeyInputCallback;
 import com.ilmusu.ilmusuenchantments.networking.messages.PhasingKeyBindingMessage;
+import com.ilmusu.ilmusuenchantments.networking.messages.ShockwaveKeyBindingMessage;
 import com.ilmusu.ilmusuenchantments.networking.messages._KeyBindingMessage;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -20,13 +21,15 @@ public class ModKeybindings
     protected static final Map<Integer, KeyBinding> defaultKeyMappings = new HashMap<>();
 
     public static final KeyBinding PHASING_ENCHANTMENT = new KeyBinding(Resources.key("phasing_enchantment"), GLFW.GLFW_KEY_P, Resources.MOD_NAME);
+    public static final KeyBinding SHOCKWAVE_ENCHANTMENT = new KeyBinding(Resources.key("shockwave_enchantment"), GLFW.GLFW_MOUSE_BUTTON_LEFT, Resources.MOD_NAME);
 
     public static void register()
     {
         register(PHASING_ENCHANTMENT, EnvType.SERVER, PhasingKeyBindingMessage::new, List.of(GLFW.GLFW_PRESS));
+        register(SHOCKWAVE_ENCHANTMENT, EnvType.SERVER, ShockwaveKeyBindingMessage::new, List.of(GLFW.GLFW_PRESS));
     }
 
-    protected static void register(KeyBinding keyBinding, EnvType side, BiFunction<Integer, Integer, _KeyBindingMessage> construct, List<Integer> actions)
+    protected static void register(KeyBinding keyBinding, EnvType receiver, BiFunction<Integer, Integer, _KeyBindingMessage> construct, List<Integer> actions)
     {
         // Registering the KeyBinding
         if(KeyBindingHelper.registerKeyBinding(keyBinding) == null)
@@ -51,7 +54,7 @@ public class ModKeybindings
 
             _KeyBindingMessage message = construct.apply(action, modifiers);
 
-            if(side == EnvType.SERVER)
+            if(receiver == EnvType.SERVER)
                 message.sendToServer();
             else
                 message.handle(MinecraftClient.getInstance().player);

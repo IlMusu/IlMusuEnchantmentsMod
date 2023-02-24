@@ -47,7 +47,7 @@ public class LacerationEnchantment extends DamageEnchantment implements _IDemoni
 
     public float getDamageForHealthConsumed(float health, float level)
     {
-        return (level*0.5F) + health*(4.0F+level);
+        return (level*0.5F) + health*(2.0F+level);
     }
 
     static
