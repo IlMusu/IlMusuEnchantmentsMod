@@ -1,27 +1,24 @@
 package com.ilmusu.ilmusuenchantments.registries;
 
 import com.ilmusu.ilmusuenchantments.Resources;
-import com.ilmusu.ilmusuenchantments.callbacks.KeyInputCallback;
 import com.ilmusu.ilmusuenchantments.networking.messages.PhasingKeyBindingMessage;
 import com.ilmusu.ilmusuenchantments.networking.messages.ShockwaveKeyBindingMessage;
 import com.ilmusu.ilmusuenchantments.networking.messages._KeyBindingMessage;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.BiFunction;
 
 public class ModKeybindings
 {
-    protected static final Map<Integer, KeyBinding> defaultKeyMappings = new HashMap<>();
-
-    public static final KeyBinding PHASING_ENCHANTMENT = new KeyBinding(Resources.key("phasing_enchantment"), GLFW.GLFW_KEY_P, Resources.MOD_NAME);
-    public static final KeyBinding SHOCKWAVE_ENCHANTMENT = new KeyBinding(Resources.key("shockwave_enchantment"), GLFW.GLFW_MOUSE_BUTTON_LEFT, Resources.MOD_NAME);
+    public static final KeyBinding PHASING_ENCHANTMENT = new KeyBinding(Resources.key("phasing_enchantment"), InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_P, Resources.MOD_NAME);
+    public static final KeyBinding SHOCKWAVE_ENCHANTMENT = new KeyBinding(Resources.key("shockwave_enchantment"), InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Z, Resources.MOD_NAME);
 
     public static void register()
     {
@@ -36,35 +33,24 @@ public class ModKeybindings
             Resources.LOGGER.error("Could not register KeyBinding: " + keyBinding);
 
         // Registering the handler for the KeyBinding
-        KeyInputCallback.EVENT.register((key, scancode, action, modifiers) ->
+        ClientTickEvents.END_CLIENT_TICK.register((client) ->
         {
-            // Not interested if not the correct key
-            if(!keyBinding.matchesKey(key, scancode))
+            // Consumes the existing clicks, but only once is handled
+            boolean wasPressed = keyBinding.wasPressed();
+            while(keyBinding.wasPressed());
+            if(!wasPressed)
                 return;
-
-            // Consumes the existing clicks
-            while (keyBinding.wasPressed());
 
             // If in a gui, the click is consumed but not used
             if(MinecraftClient.getInstance().currentScreen != null)
                 return;
-            // The click is consumed but not used if the action is not the desired one
-            if(!actions.contains(action))
-                return;
 
-            _KeyBindingMessage message = construct.apply(action, modifiers);
+            _KeyBindingMessage message = construct.apply(GLFW.GLFW_PRESS, GLFW.GLFW_FALSE);
 
             if(receiver == EnvType.SERVER)
                 message.sendToServer();
             else
                 message.handle(MinecraftClient.getInstance().player);
         });
-
-        defaultKeyMappings.put(keyBinding.getDefaultKey().getCode(), keyBinding);
-    }
-
-    public static KeyBinding fromDefaultKey(int key)
-    {
-        return defaultKeyMappings.get(key);
     }
 }

@@ -12,6 +12,7 @@ public class Resources
     public static final String DONT_ANIMATE_TAG = Resources.MOD_ID+".dont_animate_nbt";
 
     public static final Identifier POCKETS_TEXTURE = identifier("textures/gui/container/pockets.png");
+    public static final Identifier POCKETS_BUTTON_TEXTURE = identifier("textures/gui/pockets_button.png");
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 

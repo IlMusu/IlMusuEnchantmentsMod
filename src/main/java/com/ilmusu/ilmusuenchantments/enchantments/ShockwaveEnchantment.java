@@ -80,8 +80,6 @@ public class ShockwaveEnchantment extends Enchantment
 
         // Swinging player hand
         new SwingHandMessage().sendToClient((ServerPlayerEntity)player);
-        // Damaging the shield
-        stack.damage(5, player, e -> e.sendToolBreakStatus(Hand.MAIN_HAND));
 
         ((_IPlayerTickers)player).addTicker(new _IPlayerTickers.Ticker(duration)
             .onTicking(ticker ->
@@ -103,6 +101,8 @@ public class ShockwaveEnchantment extends Enchantment
                 ShockwaveEnchantment.damageEntitiesWithShockwave(player, pos, direction, perpendicular, size, damage);
             }));
 
+        // Damaging the shield
+        stack.damage(5, player, e -> e.sendToolBreakStatus(Hand.MAIN_HAND));
         // Disabling the shield for some time
         player.getItemCooldownManager().set(stack.getItem(), 20);
     }

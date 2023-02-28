@@ -2,16 +2,19 @@ package com.ilmusu.ilmusuenchantments.mixins.mixin;
 
 import com.ilmusu.ilmusuenchantments.Resources;
 import com.ilmusu.ilmusuenchantments.mixins.interfaces._IPlayerPockets;
-import com.ilmusu.ilmusuenchantments.networking.messages.SynchronizePocketsMessage;
+import com.ilmusu.ilmusuenchantments.networking.messages.PocketsLevelMessage;
+import com.ilmusu.ilmusuenchantments.networking.messages.PocketsToggleMessage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -45,6 +48,8 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     // The inventory containing the items in the pockets
     private final SimpleInventory pockets = new SimpleInventory(20);
     private int firstSlotId = -1;
+    // If the pockets are currently open
+    private boolean pocketsOpen = false;
     // The current level of the pockets, which changes the amount of available slots
     private int pocketsLevel = 0;
 
@@ -55,17 +60,40 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     }
 
     @Override
+    public void setFirstSlotId(int id)
+    {
+        if(this.firstSlotId != -1)
+            return;
+        this.firstSlotId = id;
+    }
+
+    @Override
+    public boolean arePocketsOpen()
+    {
+        return this.pocketsOpen;
+    }
+
+    @Override
     public int getPocketLevel()
     {
         return this.pocketsLevel;
     }
 
     @Override
-    public void setFirstSlotId(int id)
+    public void setPocketsOpen(boolean open)
     {
-        if(this.firstSlotId != -1)
-            return;
-        this.firstSlotId = id;
+        this.pocketsOpen = open;
+
+        // Setting the correct state for the pockets
+        for(int i=0; i<this.pocketsLevel*4; ++i)
+        {
+            PocketSlot slot = (PocketSlot)this.playerScreenHandler.slots.get(this.firstSlotId+i);
+            slot.arePocketsOpen = this.pocketsOpen;
+        }
+
+        PlayerEntity player = (PlayerEntity)(Object)this;
+        if(player.world.isClient)
+            new PocketsToggleMessage(player).sendToServer();
     }
 
     @Override
@@ -102,7 +130,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         if(!world.isClient)
         {
             ServerPlayerEntity player = (ServerPlayerEntity)(Object)this;
-            new SynchronizePocketsMessage(player).sendToClient(player);
+            new PocketsLevelMessage(player).sendToClient(player);
         }
     }
 
@@ -112,6 +140,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         for (int i = 0; i < this.pockets.size(); ++i)
             this.pockets.setStack(i, other.getPockets().getStack(i));
         this.pocketsLevel = other.getPocketLevel();
+        this.pocketsOpen = other.arePocketsOpen();
     }
 
     @Inject(method = "tickMovement", at = @At(
@@ -149,6 +178,8 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         pockets.put("items", list);
         // Writing level
         pockets.putInt("level", this.pocketsLevel);
+        // Writing state
+        pockets.putBoolean("open", this.pocketsOpen);
 
         nbt.put(Resources.MOD_ID+".pockets", pockets);
     }
@@ -173,6 +204,8 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
             }
             // Reading level
             this.pocketsLevel = pockets.getInt("level");
+            // Reading state
+            this.pocketsOpen = pockets.getBoolean("open");
         }
     }
 
@@ -203,25 +236,64 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         }
     }
 
+    @Mixin(AbstractInventoryScreen.class)
+    public abstract static class RemoveStatusEffectsRenderingWhenPocketsOpen
+    {
+        @Inject(method = "drawStatusEffects", at = @At("HEAD"), cancellable = true)
+        public void removeStatusEffectsRendering(MatrixStack matrices, int mouseX, int mouseY, CallbackInfo ci)
+        {
+            _IPlayerPockets pockets = ((_IPlayerPockets)MinecraftClient.getInstance().player);
+            if(pockets.arePocketsOpen())
+                ci.cancel();
+        }
+    }
+
     @Mixin(InventoryScreen.class)
     public abstract static class RenderPocketsInPlayerInventory
     {
         @Shadow @Final private RecipeBookWidget recipeBook;
 
+        private TexturedButtonWidget pocketsButton;
+
+        @Inject(method = "init", at = @At(value = "RETURN", ordinal = 1))
+        public void initPocketsButton(CallbackInfo ci)
+        {
+            _IPlayerPockets pockets = ((_IPlayerPockets)MinecraftClient.getInstance().player);
+
+            this.pocketsButton = new TexturedButtonWidget(0, 0, 20, 18, 0, 0, 19, Resources.POCKETS_BUTTON_TEXTURE, button ->
+                pockets.setPocketsOpen(!pockets.arePocketsOpen())
+            );
+            this.updatePocketsButtonPos();
+
+            ((AccessorScreen)this).addDrawableChildAccess(this.pocketsButton);
+        }
+
         @Inject(method = "drawBackground", at = @At("TAIL"))
         public void renderPocketSlots(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
+            // Disabling the pockets button if the pockets are not open
+            _IPlayerPockets pockets = ((_IPlayerPockets)MinecraftClient.getInstance().player);
+            this.pocketsButton.visible = pockets.getPocketLevel() > 0;
+            this.updatePocketsButtonPos();
+
             // Do not render pockets if recipe book is open
             if(this.recipeBook.isOpen())
                 return;
 
-            int level = ((_IPlayerPockets)MinecraftClient.getInstance().player).getPocketLevel();
-            if(level == 0)
+            if(pockets.getPocketLevel() == 0 || !pockets.arePocketsOpen())
                 return;
 
             RenderSystem.setShaderTexture(0, Resources.POCKETS_TEXTURE);
-            renderPockets(matrices, level, true);
-            renderPockets(matrices, level, false);
+            renderPockets(matrices, pockets.getPocketLevel(), true);
+            renderPockets(matrices, pockets.getPocketLevel(), false);
+        }
+
+        @SuppressWarnings("unchecked")
+        public void updatePocketsButtonPos()
+        {
+            int x = ((AccessorHandledScreen<PlayerScreenHandler>)this).getX();
+            int height = ((AccessorScreen)this).getHeight();
+            this.pocketsButton.setPos(x+126, height/2-22);
         }
 
         @Inject(method = "isClickOutsideBounds", at = @At("HEAD"), cancellable = true)
@@ -293,12 +365,16 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     static
     {
         ServerPlayConnectionEvents.JOIN.register(((handler, sender, server) ->
-            new SynchronizePocketsMessage(handler.player).sendToClient(handler.player))
-        );
+        {
+            new PocketsLevelMessage(handler.player).sendToClient(handler.player);
+            new PocketsToggleMessage(handler.player).sendToClient(handler.player);
+        }));
 
         ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register(((player, origin, destination) ->
-            new SynchronizePocketsMessage(player).sendToClient(player))
-        );
+        {
+            new PocketsLevelMessage(player).sendToClient(player);
+            new PocketsToggleMessage(player).sendToClient(player);
+        }));
 
         ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, isEndTeleport) ->
         {
@@ -311,7 +387,9 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         });
 
         ServerPlayerEvents.AFTER_RESPAWN.register(((oldPlayer, newPlayer, isEndTeleport) ->
-            new SynchronizePocketsMessage(newPlayer).sendToClient(newPlayer))
-        );
+        {
+            new PocketsLevelMessage(newPlayer).sendToClient(newPlayer);
+            new PocketsToggleMessage(newPlayer).sendToClient(newPlayer);
+        }));
     }
 }

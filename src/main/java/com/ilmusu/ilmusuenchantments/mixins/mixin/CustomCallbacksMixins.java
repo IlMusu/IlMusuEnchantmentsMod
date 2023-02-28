@@ -270,7 +270,7 @@ public abstract class CustomCallbacksMixins
         @Inject(method = "onKey", at = @At(value = "RETURN", ordinal = 4))
         protected void afterHandlingVanillaKeybindings(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci)
         {
-            KeyInputCallback.EVENT.invoker().handler(key, scancode, action, modifiers);
+            KeybindInputCallback.EVENT.invoker().handler(key, scancode, action, modifiers);
         }
     }
 

@@ -14,12 +14,17 @@ public interface _IPlayerPockets
 
     int getPocketLevel();
 
+    void setPocketsOpen(boolean open);
+
+    boolean arePocketsOpen();
+
     void clone(_IPlayerPockets other);
 
     class PocketSlot extends Slot
     {
         public boolean enabled = false;
         public boolean isRecipeBookOpen = false;
+        public boolean arePocketsOpen = false;
 
         public PocketSlot(Inventory inventory, int index, int x, int y)
         {
@@ -29,7 +34,7 @@ public interface _IPlayerPockets
         @Override
         public boolean isEnabled()
         {
-            return !this.isRecipeBookOpen && this.enabled;
+            return !this.isRecipeBookOpen && this.arePocketsOpen && this.enabled;
         }
     }
 }

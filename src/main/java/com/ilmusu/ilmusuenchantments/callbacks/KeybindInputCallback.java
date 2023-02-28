@@ -3,12 +3,12 @@ package com.ilmusu.ilmusuenchantments.callbacks;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 
-public interface KeyInputCallback
+public interface KeybindInputCallback
 {
-    Event<KeyInputCallback> EVENT = EventFactory.createArrayBacked(KeyInputCallback.class,
+    Event<KeybindInputCallback> EVENT = EventFactory.createArrayBacked(KeybindInputCallback.class,
             (listeners) -> (key, scancode, action, modifiers) ->
             {
-                for (KeyInputCallback listener : listeners)
+                for (KeybindInputCallback listener : listeners)
                     listener.handler(key, scancode, action, modifiers);
             });
 

@@ -4,37 +4,38 @@ import com.ilmusu.ilmusuenchantments.mixins.interfaces._IPlayerPockets;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 
-public class SynchronizePocketsMessage extends _Message
+public class PocketsToggleMessage extends _Message
 {
-    private int level;
+    private boolean areOpen;
 
-    public SynchronizePocketsMessage()
+    public PocketsToggleMessage()
     {
-        super("synchronize_pockets");
+        super("pockets_toggle");
     }
 
-    public SynchronizePocketsMessage(PlayerEntity player)
+    public PocketsToggleMessage(PlayerEntity player)
     {
         this();
-        this.level = ((_IPlayerPockets)player).getPocketLevel();
+        this.areOpen = ((_IPlayerPockets)player).arePocketsOpen();
     }
 
     @Override
     public PacketByteBuf encode(PacketByteBuf buf)
     {
-        buf.writeInt(this.level);
+        buf.writeBoolean(this.areOpen);
         return buf;
     }
 
     @Override
     public void decode(PacketByteBuf buf)
     {
-        this.level = buf.readInt();
+        this.areOpen = buf.readBoolean();
     }
 
     @Override
     public void handle(PlayerEntity player)
     {
-        ((_IPlayerPockets)player).setPocketLevel(player.world, this.level);
+        ((_IPlayerPockets)player).setPocketsOpen(this.areOpen);
     }
 }
+
