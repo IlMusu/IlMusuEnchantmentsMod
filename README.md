@@ -35,6 +35,6 @@ At level 5, it consumes 25.00% of the player health and produces +37.6 additiona
 An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
 				 
 <p align="center">
-	<img src=https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/laceraiton.gif?raw=true">
+	<img src=https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/laceration.gif?raw=true">
 </p>
 </details>
