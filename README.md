@@ -201,3 +201,18 @@ This enchantment <b>can be applied to</b>:
 
 This enchantment <b>is not compatible</b> with:
 1. UnearthingEnchantment Enchantment
+
+## ATTRACTION ENCHANTMENT (III)
+The <b>Attraction Enchantment</b> makes the items that are lying on the ground near the make move toward the player.
+
+<details>
+<summary><b>Details here</b></summary>
+The reach of the attraction increases with the level of the enchantment: at level 1 it is 2 blocks and increases by 2 blocks for every level. <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/attraction.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Chestplate Item
