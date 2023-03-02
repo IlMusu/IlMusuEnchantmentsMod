@@ -17,7 +17,7 @@ Notice that when there are not enough living entities aroung the enchanting tabl
 If the health requirement is satisfied, you will obtain the <b><span style="color:purple">demonic enchantment</span></b>:  
 
 <p align="center">
-	<img src="https://i.imgur.com/BNr1blB.png">
+	<img src=https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/book_with_demonic_enchantment.png?raw=true">
 </p>
 
 ## NEW ENCHANTMENTS
@@ -33,4 +33,8 @@ At level 3, it consumes 17.50% of the player health and produces +19.0 additiona
 At level 4, it consumes 21.25% of the player health and produces +27.5 additional damage. <br />
 At level 5, it consumes 25.00% of the player health and produces +37.6 additional damage. <br />
 An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
+				 
+<p align="center">
+	<img src=https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/laceraiton.gif?raw=true">
+</p>
 </details>
