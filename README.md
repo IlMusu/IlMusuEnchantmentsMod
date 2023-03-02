@@ -166,7 +166,7 @@ The <b>Pocketed Enchantment</b> adds pockets to leggings to provide additional i
 
 <details>
 <summary><b>Details here</b></summary>
-The size of the pockets increase with the level of the enchantment: at level 1, the pockets provide 4 slots and then 4 additional slots for every level.
+The size of the pockets increase with the level of the enchantment: at level 1, the pockets provide 4 slots and then 4 additional slots for every level. <br />
 <br />
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/pocketed.gif?raw=true">
@@ -175,3 +175,20 @@ The size of the pockets increase with the level of the enchantment: at level 1, 
 
 This enchantment <b>can be applied to</b>:
 1. Leggings Item
+
+## VEIN MINER ENCHANTMENT (V)
+The <b>Vein Miner Enchantment</b> increases the amout of blocks that the player breaks every time he digs a block: it allows the player to mine entire veins of the same type of block with just breaking a single block.
+
+<details>
+<summary><b>Details here</b></summary>
+The amount of blocks that will be broken increases with the level of the enchantment: <br />
+At level 1, the enchantment will break 14 additional blocks. <br />
+At level 2, the enchantment will break 26 additional blocks. <br />
+At level 3, the enchantment will break 46 additional blocks. <br />
+At level 4, the enchantment will break 74 additional blocks. <br />
+At level 5, the enchantment will break 110 additional blocks. <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/vein_miner.gif?raw=true">
+</p>
+</details>
