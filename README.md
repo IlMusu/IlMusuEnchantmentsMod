@@ -20,8 +20,7 @@ If the health requirement is satisfied, you will obtain the <b><span style="colo
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/book_with_demonic_enchantment.png?raw=true">
 </p>
 
-## NEW ENCHANTMENTS
-### LACERATION ENCHANTMENT
+## LACERATION ENCHANTMENT
 The <b><span style="color:purple">Laceration Enchantment</span></b> provides additional damage for weapon tools (similarly to the Sharpness Enchantment). Since it is a demonic enchantment, attacking an entity with an item containing this enchantment will damage also the player: at the maximum level, it will provide +37.5 additional damage and consume 25% of the player maxium health.  
 
 <details>
@@ -42,7 +41,7 @@ An important notice is that it never kills the player, <b>leaving him at half a 
 This enchantment <b>is not compatible</b> with:
 1. Sharpness Enchantment
 
-### SKEWERING ENCHANTMENT
+## SKEWERING ENCHANTMENT
 The <b><span style="color:purple">Skewering Enchantment</span></b> provides additional damage for the trident both in the case of melee attack and ranged attack. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment will damage also the player: at the maximum level, it will provide +37.5 additional damage and consume 25% of the player maxium health.  
 
 <details>
@@ -64,7 +63,7 @@ This enchantment <b>is not compatible</b> with:
 1. Impaling Enchantment
 2. Overcharge Enchantment
 
-### UNEARTHING ENCHANTMENT
+## UNEARTHING ENCHANTMENT
 The <b><span style="color:purple">Unearthing Enchantment</span></b> makes a digger tool dig tunnels with the depth and area depending on the level of the enchantments. Since it is a demonic enchantment, digging with an item containing this enchantment will damage also the player: the tunnel will be complete only if the player has enough life.  
 
 <details>
@@ -84,7 +83,7 @@ An important notice is that it never kills the player, <b>leaving him at half a 
 This enchantment <b>is not compatible</b> with:
 1. Veinminer Enchantment
 
-### OVERCHARGED ENCHANTMENT
+## OVERCHARGED ENCHANTMENT
 The <b><span style="color:purple">Overcharged Enchantment</span></b> makes the chargeable items (such as bow, trident and crossbow) to be overchargable and perform additional damage. Since it is a demonic enchantment, overcharging an item containing this enchantment will damage also the player.
 
 <details>
