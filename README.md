@@ -33,7 +33,7 @@ At level 3, it consumes 17.50% of the player health and produces +19.0 additiona
 At level 4, it consumes 21.25% of the player health and produces +27.5 additional damage. <br />
 At level 5, it consumes 25.00% of the player health and produces +37.6 additional damage. <br />
 An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
-				 
+<br />
 <p align="center">
 	<img src=https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/laceration.gif?raw=true">
 </p>
