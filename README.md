@@ -92,7 +92,7 @@ The <b><span style="color:purple">Overcharged Enchantment</span></b> makes the c
 The overcharging logic starts after the item has been fully charged: if the player continues to charge the item, he will start taking a heart of damage every 10 ticks (0.5 seconds). The projectile will make additional damage depending on the level of the enchantment and the total damage that the player endured. In particular, the final damage is computed as:  
 
 ```bash
-	additional_damage = player_endured_damage*(0.3 + enchantment_level * 0.2)
+additional_damage = player_endured_damage*(0.3 + enchantment_level * 0.2)
 ```
 
 An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
