@@ -6,9 +6,9 @@ It also includes a new mechanic, referred to as <b><span style="color:purple">De
 While enchanting items or books, you might discover <b><span style="color:purple">demonic enchantments</span></b> : 
 
 <p align="center">
-	<img src=https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/demonic_enchanting_1?raw=true">
+	<img src=https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/demonic_enchanting_1.png?raw=true">
 	<br>
-	<img src=https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/demonic_enchanting_2?raw=true">
+	<img src=https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/demonic_enchanting_2.png?raw=true">
 </p>
 
 These enchantments require, not only experience levels and lapislazuli, but also a <b><span style="color:red">sacrifice</span></b>: this means that around the Enchanting Table (in a radius of 5 blocks) there should be enough living entities to drawn the health requested by the enchantment. For example in the second image, 40 hearts needs to be consumed and a sheep has only 4 hearts, this means that 10 sheeps are necessary to apply the <b><span style="color:purple">demonic enchantment</span></b> on the item.  
