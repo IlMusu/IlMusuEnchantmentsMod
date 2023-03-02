@@ -80,7 +80,7 @@ An important notice is that it never kills the player, <b>leaving him at half a 
 </details>
 <br />
 <p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/unearting.gif?raw=true">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/unearthing.gif?raw=true">
 </p>
 <br />
 </details>
