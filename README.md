@@ -107,3 +107,19 @@ This enchantment <b>is not compatible</b> with:
 3. Impaling Enchantment
 4. Power Enchantment
 5. Damage Enchantments
+
+## PHASING ENCHANTMENT
+The <b><span style="color:purple">Phasing Enchantment</span></b> makes the player able to teleport: it provides the ability of both teleporting where the player is looking at and teleporting behind walls.  Since it is a demonic enchantment, overcharging an item containing this enchantment will damage also the player.
+
+<details>
+<summary><b>Details here</b></summary>
+The phasing enchantment ability is activated through the related keybinding. <br />
+When the ability is activated, the logic performs a raycasting in the direction the player is looking at and, if a wall is found, it tries to teleport the player behind that wall. Instead, if a wall is not found, the player is teleported in the direction he was looking at with a distance depending on the current level of the enchantment.
+
+An important notice is that<b>this kills the player if he does not have enough health!</b> <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/phasing.gif?raw=true">
+</p>
+</details>
+
