@@ -192,3 +192,12 @@ At level 5, the enchantment will break 110 additional blocks. <br />
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/vein_miner.gif?raw=true">
 </p>
 </details>
+
+This enchantment <b>can be applied to</b>:
+1. Axe Item
+2. Hoe Item
+3. Pickaxe Item
+4. Shovel Item
+
+This enchantment <b>is not compatible</b> with:
+1. UnearthingEnchantment Enchantment
