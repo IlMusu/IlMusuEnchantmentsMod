@@ -1,7 +1,7 @@
 # ILMUSU ENCHANTMENTS MOD
 This mod adds unique enchantments to Minecraft.  
 It also includes a new mechanic, referred to as <b><span style="color:purple">Demonic Enchanting</span></b>, for making enchanting a little bit more interesting without twisting too much the game. Currently, there is no way of disabling this mechanic and I will consider making it possible based on users review.  
-<font color="green"> Some green text </font>
+
 ## DEMONIC ENCHANTING
 While enchanting items or books, you might discover <b><span style="color:purple">demonic enchantments</span></b> : 
 
@@ -19,3 +19,20 @@ If the health requirement is satisfied, you will obtain the <b><span style="colo
 <p align="center">
 	<img src="https://i.imgur.com/BNr1blB.png">
 </p>
+
+## NEW ENCHANTMENTS
+### LACERATION
+The <b><span style="color:purple">Laceration Enchantment</span></b> provides additional damage for weapon tools (similarly to the Sharpness Enchantment). Since it is a demonic enchantment, attacking a entity with an item containing this enchantment will damage also the player: at the maximum level, it will provide +37.5 additional damage and consume 25% of the player maxium health.
+<details>
+<summary><b>Details here</b></summary>
+<br>
+This is how you dropdown.
+<br><br>
+<pre>
+&lt;details&gt;
+&lt;summary&gt;How do I dropdown?&lt;&#47;summary&gt;
+&lt;br&gt;
+This is how you dropdown.
+&lt;&#47;details&gt;
+</pre>
+</details>
