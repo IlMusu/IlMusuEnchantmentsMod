@@ -1,7 +1,7 @@
 # ILMUSU ENCHANTMENTS MOD
 This mod adds unique enchantments to Minecraft.  
 It also includes a new mechanic, referred to as <b><span style="color:purple">Demonic Enchanting</span></b>, for making enchanting a little bit more interesting without twisting too much the game. Currently, there is no way of disabling this mechanic and I will consider making it possible based on users review.  
-
+<font color="green"> Some green text </font>
 ## DEMONIC ENCHANTING
 While enchanting items or books, you might discover <b><span style="color:purple">demonic enchantments</span></b> : 
 
