@@ -19,3 +19,5 @@ If the health requirement is satisfied, you will obtain the <b><span style="colo
 <p align="center">
 	<img src="https://i.imgur.com/BNr1blB.png">
 </p>
+
+$$\color{purple}{Purple}$$
