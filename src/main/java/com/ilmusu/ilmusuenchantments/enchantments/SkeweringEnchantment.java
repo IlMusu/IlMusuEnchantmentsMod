@@ -4,10 +4,7 @@ import com.ilmusu.ilmusuenchantments.Resources;
 import com.ilmusu.ilmusuenchantments.callbacks.PlayerAttackCallback;
 import com.ilmusu.ilmusuenchantments.mixins.interfaces._IEnchantmentExtensions;
 import com.ilmusu.ilmusuenchantments.utils.ModUtils;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentTarget;
-import net.minecraft.enchantment.ImpalingEnchantment;
+import net.minecraft.enchantment.*;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -40,6 +37,14 @@ public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchan
     }
 
     @Override
+    protected boolean canAccept(Enchantment other)
+    {
+        return !(other instanceof SkeweringEnchantment) &&
+               !(other instanceof ImpalingEnchantment) &&
+               !(other instanceof OverchargeEnchantment);
+    }
+
+    @Override
     public float getAttackDamage(int level, EntityGroup group)
     {
         // The base attack damage for this enchantment is 0
@@ -55,12 +60,6 @@ public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchan
     public float getDamageForHealthConsumed(float health, float level)
     {
         return level + health*(4.0F+level);
-    }
-
-    @Override
-    protected boolean canAccept(Enchantment other)
-    {
-        return !(other instanceof SkeweringEnchantment) && !(other instanceof ImpalingEnchantment);
     }
 
     static

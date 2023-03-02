@@ -44,7 +44,8 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
     @Override
     protected boolean canAccept(Enchantment other)
     {
-        return !(other instanceof UnearthingEnchantment) && !(other instanceof VeinMinerEnchantment);
+        return !(other instanceof UnearthingEnchantment) &&
+               !(other instanceof VeinMinerEnchantment);
     }
 
     protected int getSideBreakingLength(int level)

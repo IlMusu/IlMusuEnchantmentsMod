@@ -13,6 +13,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
 
@@ -52,6 +55,10 @@ public class TelekinesisEnchantment extends Enchantment
                     int count = ModUtils.range(player.getRandom(), 10, 20);
                     ParticleEffect particle = new ColoredParticleEffect(new Color(113, 50, 168)).life(20).size(0.2F);
                     ((ServerWorld)item.world).spawnParticles(particle, item.getX(), item.getY()+0.25F, item.getZ(), count, 0, 0, 0, 0.02F);
+                    // Playing teleport sound
+                    Vec3d pos = item.getPos();
+                    float pitch = ModUtils.range(player.world.getRandom(), 1.0F, 1.2F);
+                    item.world.playSound(null, pos.x, pos.y, pos.z, SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT, SoundCategory.AMBIENT, 0.8F, pitch);
 
                     // Teleporting the stack to the player
                     item.setPosition(player.getPos());

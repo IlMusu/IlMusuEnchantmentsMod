@@ -34,7 +34,8 @@ public class VeinMinerEnchantment extends Enchantment
     @Override
     protected boolean canAccept(Enchantment other)
     {
-        return !(other instanceof UnearthingEnchantment) && !(other instanceof VeinMinerEnchantment);
+        return !(other instanceof VeinMinerEnchantment) &&
+               !(other instanceof UnearthingEnchantment);
     }
 
     static

@@ -5,6 +5,7 @@ import com.ilmusu.ilmusuenchantments.registries.ModEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.util.math.MathHelper;
 
@@ -19,6 +20,14 @@ public class LongJumpEnchantment extends Enchantment
     public int getMaxLevel()
     {
         return 5;
+    }
+
+    @Override
+    protected boolean canAccept(Enchantment other)
+    {
+        return !(other instanceof LongJumpEnchantment) &&
+               !(other instanceof MoonJumpEnchantment) &&
+               !(other == Enchantments.FEATHER_FALLING);
     }
 
     static

@@ -93,13 +93,12 @@ public class ModRaycast
         return raycastFullBlock(entity.world, start, direction, range, filter);
     }
 
-    public static HitResult raycastBox(LivingEntity entity, float from, float range)
+    public static HitResult raycastBox(LivingEntity entity, Box box, float from, float range)
     {
         // Adjusting the start pos with the value of "from"
         Vec3d direction = entity.getRotationVector();
         Vec3d start = computeStart(entity).add(direction.multiply(from));
         // The selector for the block
-        Box box = entity.getBoundingBox(entity.getPose()).expand(0.3F, 0.1F, 0.3F);
         box = box.offset(0, -entity.getEyeHeight(entity.getPose()), 0);
         return raycastBox(entity.world, start, direction, range, box);
     }

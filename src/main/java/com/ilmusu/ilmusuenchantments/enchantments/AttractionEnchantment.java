@@ -53,7 +53,7 @@ public class AttractionEnchantment extends Enchantment
                 // Moving entity and updating on client
                 Vec3d vec = player.getPos().subtract(item.getPos()).normalize();
                 Vec3d delta = item.getVelocity();
-                item.setVelocity(delta.add(vec.multiply(0.025F)));
+                item.setVelocity(delta.add(vec.multiply(0.03F)));
                 item.velocityModified = true;
             });
         }));

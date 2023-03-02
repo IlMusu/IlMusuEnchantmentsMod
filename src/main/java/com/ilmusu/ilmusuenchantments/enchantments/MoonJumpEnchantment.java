@@ -32,7 +32,9 @@ public class MoonJumpEnchantment extends Enchantment
     @Override
     protected boolean canAccept(Enchantment other)
     {
-        return other != Enchantments.FEATHER_FALLING && super.canAccept(other);
+        return !(other instanceof MoonJumpEnchantment) &&
+               !(other instanceof LongJumpEnchantment) &&
+               !(other == Enchantments.FEATHER_FALLING);
     }
 
     static

@@ -16,6 +16,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -80,6 +82,9 @@ public class ShockwaveEnchantment extends Enchantment
 
         // Swinging player hand
         new SwingHandMessage().sendToClient((ServerPlayerEntity)player);
+        // Playing shield hit sound
+        float pitch = ModUtils.range(player.world.getRandom(), 0.6F, 0.8F);
+        player.world.playSoundFromEntity(null, player, SoundEvents.ITEM_SHIELD_BLOCK, SoundCategory.PLAYERS, 1.0F, pitch);
 
         ((_IPlayerTickers)player).addTicker(new _IPlayerTickers.Ticker(duration)
             .onTicking(ticker ->
@@ -88,8 +93,9 @@ public class ShockwaveEnchantment extends Enchantment
                 Vec3d pos = posAtom.get().add(direction.multiply(0.4F));
                 posAtom.set(pos);
 
-                BlockState state = player.world.getBlockState(new BlockPos(pos).down());
-                if(!state.getMaterial().blocksMovement())
+                BlockState stateDown = player.world.getBlockState(new BlockPos(pos).down());
+                BlockState state = player.world.getBlockState(new BlockPos(pos));
+                if(!stateDown.getMaterial().blocksMovement() || state.getMaterial().blocksMovement())
                 {
                     ticker.setFinished();
                     return;

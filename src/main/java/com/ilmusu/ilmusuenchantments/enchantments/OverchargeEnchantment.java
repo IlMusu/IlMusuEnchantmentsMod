@@ -8,9 +8,7 @@ import com.ilmusu.ilmusuenchantments.callbacks.ProjectileShotCallback;
 import com.ilmusu.ilmusuenchantments.mixins.interfaces._IEnchantmentExtensions;
 import com.ilmusu.ilmusuenchantments.registries.ModDamageSources;
 import com.ilmusu.ilmusuenchantments.registries.ModEnchantments;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentTarget;
+import net.minecraft.enchantment.*;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -44,6 +42,16 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
     public int getMaxLevel()
     {
         return 5;
+    }
+
+    @Override
+    protected boolean canAccept(Enchantment other)
+    {
+        return !(other instanceof OverchargeEnchantment) &&
+               !(other instanceof SkeweringEnchantment) &&
+               !(other instanceof DamageEnchantment) &&
+               !(other instanceof ImpalingEnchantment) &&
+               !(other instanceof PowerEnchantment);
     }
 
     @Override

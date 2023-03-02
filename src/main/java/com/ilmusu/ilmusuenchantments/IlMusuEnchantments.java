@@ -19,6 +19,7 @@ public class IlMusuEnchantments implements ModInitializer, ClientModInitializer
 	public void onInitializeClient()
 	{
 		ModKeybindings.register();
+		ModRenderings.register();
 		ModParticles.registerFactories();
 		ModMessages.ClientHandlers.register();
 	}
