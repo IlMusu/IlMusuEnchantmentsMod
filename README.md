@@ -37,7 +37,6 @@ An important notice is that it never kills the player, <b>leaving him at half a 
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/laceration.gif?raw=true">
 </p>
-<br />
 </details>
 
 This enchantment <b>is not compatible</b> with:
@@ -59,7 +58,6 @@ An important notice is that it never kills the player, <b>leaving him at half a 
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/skewering.gif?raw=true">
 </p>
-<br />
 </details>
 
 This enchantment <b>is not compatible</b> with:
@@ -77,12 +75,10 @@ At level 3, the tunnel will have an area of 3x3 blocks and a depth of 4 block. <
 At level 4, the tunnel will have an area of 3x3 blocks and a depth of 6 block. <br />
 At level 5, the tunnel will have an area of 3x3 blocks and a depth of 7 block. <br />
 An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
-</details>
 <br />
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/unearthing.gif?raw=true">
 </p>
-<br />
 </details>
 
 This enchantment <b>is not compatible</b> with:
