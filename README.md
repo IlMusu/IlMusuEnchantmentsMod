@@ -20,8 +20,8 @@ If the health requirement is satisfied, you will obtain the <b><span style="colo
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/book_with_demonic_enchantment.png?raw=true">
 </p>
 
-## LACERATION ENCHANTMENT
-The <b><span style="color:purple">Laceration Enchantment</span></b> provides additional damage for weapon tools (similarly to the Sharpness Enchantment). Since it is a demonic enchantment, attacking an entity with an item containing this enchantment will damage also the player: at the maximum level, it will provide +37.5 additional damage and consume 25% of the player maxium health.  
+## LACERATION ENCHANTMENT (V)
+The <b><span style="color:purple">Laceration Enchantment</span></b> provides additional damage for weapon tools. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment will damage also the player: at the maximum level, it will provide +37.5 additional damage and consume 25% of the player maxium health.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -41,7 +41,7 @@ An important notice is that it never kills the player, <b>leaving him at half a 
 This enchantment <b>is not compatible</b> with:
 1. Sharpness Enchantment
 
-## SKEWERING ENCHANTMENT
+## SKEWERING ENCHANTMENT (V)
 The <b><span style="color:purple">Skewering Enchantment</span></b> provides additional damage for the trident both in the case of melee attack and ranged attack. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment will damage also the player: at the maximum level, it will provide +37.5 additional damage and consume 25% of the player maxium health.  
 
 <details>
@@ -59,11 +59,15 @@ An important notice is that it never kills the player, <b>leaving him at half a 
 </p>
 </details>
 
+This enchantment <b>can be applied to</b>:
+1. Axe Item
+2. Sword Item
+
 This enchantment <b>is not compatible</b> with:
 1. Impaling Enchantment
 2. Overcharge Enchantment
 
-## UNEARTHING ENCHANTMENT
+## UNEARTHING ENCHANTMENT (V)
 The <b><span style="color:purple">Unearthing Enchantment</span></b> makes a digger tool dig tunnels with the depth and area depending on the level of the enchantments. Since it is a demonic enchantment, digging with an item containing this enchantment will damage also the player: the tunnel will be complete only if the player has enough life.  
 
 <details>
@@ -80,11 +84,17 @@ An important notice is that it never kills the player, <b>leaving him at half a 
 </p>
 </details>
 
+This enchantment <b>can be applied to</b>:
+1. Axe Item
+2. Hoe Item
+3. Pickaxe Item
+4. Shovel Item
+
 This enchantment <b>is not compatible</b> with:
 1. Veinminer Enchantment
 
-## OVERCHARGED ENCHANTMENT
-The <b><span style="color:purple">Overcharged Enchantment</span></b> makes the chargeable items (such as bow, trident and crossbow) to be overchargable and perform additional damage. Since it is a demonic enchantment, overcharging an item containing this enchantment will damage also the player.
+## OVERCHARGED ENCHANTMENT (V)
+The <b><span style="color:purple">Overcharged Enchantment</span></b> makes the chargeable items to be overchargable and perform additional damage. Since it is a demonic enchantment, overcharging an item containing this enchantment will damage also the player.
 
 <details>
 <summary><b>Details here</b></summary>
@@ -101,6 +111,11 @@ An important notice is that it never kills the player, <b>leaving him at half a 
 </p>
 </details>
 
+This enchantment <b>can be applied to</b>:
+1. Bow Item
+2. Crossbow Item
+3. Trident Item
+
 This enchantment <b>is not compatible</b> with:
 1. Skewering Enchantment
 2. Laceration Enchantment
@@ -108,7 +123,7 @@ This enchantment <b>is not compatible</b> with:
 4. Power Enchantment
 5. Damage Enchantments
 
-## PHASING ENCHANTMENT
+## PHASING ENCHANTMENT (V)
 The <b><span style="color:purple">Phasing Enchantment</span></b> makes the player able to teleport: it provides the ability of both teleporting where the player is looking at and teleporting behind walls.  Since it is a demonic enchantment, overcharging an item containing this enchantment will damage also the player.
 
 <details>
@@ -116,10 +131,47 @@ The <b><span style="color:purple">Phasing Enchantment</span></b> makes the playe
 The phasing enchantment ability is activated through the related keybinding. <br />
 When the ability is activated, the logic performs a raycasting in the direction the player is looking at and, if a wall is found, it tries to teleport the player behind that wall. Instead, if a wall is not found, the player is teleported in the direction he was looking at with a distance depending on the current level of the enchantment.
 
-An important notice is that<b>this kills the player if he does not have enough health!</b> <br />
+An important notice is that <b>this kills the player if he does not have enough health!</b> <br />
 <br />
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/phasing.gif?raw=true">
 </p>
 </details>
 
+This enchantment <b>can be applied to</b>:
+1. Leggings Item
+
+## REACHING ENCHANTMENT (IV)
+The <b>Reaching Enchantment</b> increases the reach of player making him able to interact with blocks and entities that would normally be out of reach.  
+
+<details>
+<summary><b>Details here</b></summary>
+The reaching echantment increases the player reach by one block for every level. <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/reaching.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Axe Item
+2. Hoe Item
+3. Pickaxe Item
+4. Shovel Item
+5. Sword Item
+6. Triden Item
+
+## POCKETED ENCHANTMENT (V)
+The <b>Pocketed Enchantment</b> adds pockets to leggings to provide additional inventory storage for the player.
+
+<details>
+<summary><b>Details here</b></summary>
+The size of the pockets increase with the level of the enchantment: at level 1, the pockets provide 4 slots and then 4 additional slots for every level.
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/pocketed.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Leggings Item
