@@ -83,3 +83,26 @@ An important notice is that it never kills the player, <b>leaving him at half a 
 
 This enchantment <b>is not compatible</b> with:
 1. Veinminer Enchantment
+
+### OVERCHARGED ENCHANTMENT
+The <b><span style="color:purple">Overcharged Enchantment</span></b> makes the chargeable items (such as bow, trident and crossbow) to be overchargable and perform additional damage. Since it is a demonic enchantment, overcharging an item containing this enchantment will damage also the player.
+
+<details>
+<summary><b>Details here</b></summary>
+The overcharging logic starts after the item has been fully charged: if the player continues to charge the item, he will start taking a heart of damage every 10 ticks (0.5 seconds). The projectile will make additional damage depending on the level of the enchantment and the total damage that the player endured. In particular, the final damage is computed as:
+```bash
+	additional_damage = player_endured_damage*(0.3 + enchantment_level * 0.2)
+```
+An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/overcharged.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>is not compatible</b> with:
+1. Skewering Enchantment
+2. Laceration Enchantment
+3. Impaling Enchantment
+4. Power Enchantment
+5. Damage Enchantments
