@@ -57,7 +57,7 @@ At level 5, it consumes 25.00% of the player health and produces +37.6 additiona
 An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
 <br />
 <p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/skewring.gif?raw=true">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/skewering.gif?raw=true">
 </p>
 <br />
 </details>
@@ -80,7 +80,7 @@ An important notice is that it never kills the player, <b>leaving him at half a 
 </details>
 <br />
 <p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/unearthing.gif?raw=true">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/unearting.gif?raw=true">
 </p>
 <br />
 </details>
