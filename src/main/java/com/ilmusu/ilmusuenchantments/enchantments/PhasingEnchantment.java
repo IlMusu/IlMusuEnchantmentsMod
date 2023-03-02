@@ -8,11 +8,20 @@ import com.ilmusu.ilmusuenchantments.networking.messages.PhasingSwitchMessage;
 import com.ilmusu.ilmusuenchantments.registries.ModEnchantments;
 import com.ilmusu.ilmusuenchantments.utils.ModUtils;
 import com.ilmusu.ilmusuenchantments.utils.raycasting.ModRaycast;
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Items;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTables;
+import net.minecraft.loot.entry.EmptyEntry;
+import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.function.EnchantRandomlyLootFunction;
+import net.minecraft.loot.function.SetCountLootFunction;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -29,145 +38,6 @@ import org.joml.Vector3f;
 
 public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantment
 {
-    /*
-    public static List<Vec3d> poses = new ArrayList<>();
-
-    public static void debugPositions()
-    {
-        poses.clear();
-
-        PlayerEntity player = MinecraftClient.getInstance().player;
-        // If there was no block on the path of the ray, simply teleport the player there
-        BlockHitResult hitResult = ModRaycast.raycastFullBlock(player, 0.0F, 25);
-        if(hitResult.getType() == HitResult.Type.MISS)
-            return;
-
-        Box box = player.getBoundingBox(player.getPose()).expand(0.3F, 0.0F, 0.3F);
-        box = box.withMinY(box.minY+0.6F);
-        float travelled = ModRaycast.computeTravelDistance(player, hitResult);
-        HitResult phaseResult = raycastBox(player, box, travelled+0.5F, 25);
-    }
-
-    public static class RayStepper
-    {
-        protected Vec3d start;
-        protected Vec3d direction;
-        protected float step;
-        protected float range;
-
-        protected  Vec3d position;
-        protected float current;
-
-        public RayStepper(Vec3d start, Vec3d direction, float step, float range)
-        {
-            this.start = start;
-            this.direction = direction.normalize();
-            this.step = step;
-            this.range = range;
-
-            this.current = 0;
-            this.updatePosition();
-        }
-
-        public boolean step()
-        {
-            // Computing the new position of the ray
-            this.current += this.step;
-            this.updatePosition();
-            // Return true if this is complete
-            return this.current < this.range;
-        }
-
-        protected void updatePosition()
-        {
-            this.position = this.start.add(this.direction.multiply(this.current));
-        }
-
-        public HitResult intersectsEmpty(World world, Box box)
-        {
-            // DEBUG IS DONE HERE
-            poses.add(this.position);
-
-            // The box must be centered at its center position!
-            box = box.offset(this.position);
-            // Trying to find and empty position by moving the box up
-            if(!world.getBlockCollisions(null, box).iterator().hasNext())
-            {
-                Vec3d center = box.getCenter();
-                return BlockHitResult.createMissed(center, Direction.UP, new BlockPos(center));
-            }
-
-            return null;
-        }
-    }
-
-    public static HitResult raycastBox(World word, Vec3d start, Vec3d direction, float range, Box box)
-    {
-        RayStepper stepper = new RayStepper(start, direction, 0.1F, range);
-        while(stepper.step())
-        {
-            HitResult result = stepper.intersectsEmpty(word, box);
-            if(result != null)
-                return result;
-        }
-
-        return null;
-    }
-
-    public static HitResult raycastBox(LivingEntity entity, Box box, float from, float range)
-    {
-        // Adjusting the start pos with the value of "from"
-        Vec3d direction = entity.getRotationVector();
-        Vec3d start = computeStart(entity).add(direction.multiply(from));
-        // The selector for the block
-        box = box.offset(0, -entity.getEyeHeight(entity.getPose()), 0);
-        return raycastBox(entity.world, start, direction, range, box);
-    }
-
-    public static Vec3d computeStart(LivingEntity entity)
-    {
-        return entity.getPos().add(0, entity.getEyeHeight(entity.getPose()), 0);
-    }
-
-
-    static
-    {
-        WorldRendererCallback.AFTER.register((matrices, tickDelta, provider) ->
-        {
-            for(Vec3d pos : poses)
-            {
-                matrices.push();
-
-                ItemStack block = new ItemStack(Blocks.DIAMOND_BLOCK);
-
-                MinecraftClient mc = MinecraftClient.getInstance();
-                Camera camera = mc.gameRenderer.getCamera();
-                int blockLight = mc.world.getLightLevel(LightType.BLOCK, new BlockPos(pos));
-                int skyLight = mc.world.getLightLevel(LightType.SKY, new BlockPos(pos));
-                int light = LightmapTextureManager.pack(blockLight, skyLight);
-
-                // Translating to the origin
-                matrices.translate(-camera.getPos().x, -camera.getPos().y, -camera.getPos().z);
-
-                Box box = mc.player.getBoundingBox(mc.player.getPose()).expand(0.3F, 0.0F, 0.3F);
-                box = box.withMinY(box.minY+0.6F);
-                box = box.offset(0, -mc.player.getEyeHeight(mc.player.getPose()), 0);
-                box = box.offset(pos);
-
-                matrices.translate(box.getCenter().x, box.getCenter().y, box.getCenter().z);
-
-                // Scaling with the player bounding box
-                matrices.scale((float)box.getXLength(), (float)box.getYLength(), (float)box.getZLength());
-                // Scaling correctly the block
-                matrices.scale(2.0F, 2.0F, 2.0F);
-                MinecraftClient.getInstance().getItemRenderer().renderItem(block, ModelTransformation.Mode.FIXED, light, OverlayTexture.DEFAULT_UV, matrices, provider, 0);
-
-                matrices.pop();
-            }
-        });
-    }
-    */
-
     private static final String PHASING_TAG = Resources.MOD_ID+".is_phasing";
     private static final int TICK_DELAY_BETWEEN_PHASING = 10;
 
@@ -308,6 +178,23 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
 
             return new PlayerFovMultiplierCallback.FovParams(PhasingEnchantment.clientTargetFov)
                     .unclamped().velocity(0.35F);
+        }));
+
+        LootTableEvents.MODIFY.register(((resourceManager, lootManager, id, builder, source) ->
+        {
+            if(!id.equals(LootTables.ANCIENT_CITY_CHEST))
+                return;
+
+            // Adding enchanted book to ancient city loot table3
+            builder.pool(LootPool.builder()
+                .rolls(ConstantLootNumberProvider.create(1.0F))
+                .with(ItemEntry.builder(Items.BOOK)
+                    .weight(5)
+                    .apply(EnchantRandomlyLootFunction.create().add(ModEnchantments.PHASING)))
+                    .apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1.0F)))
+                .with(EmptyEntry.builder()
+                    .weight(10))
+                .build());
         }));
     }
 }

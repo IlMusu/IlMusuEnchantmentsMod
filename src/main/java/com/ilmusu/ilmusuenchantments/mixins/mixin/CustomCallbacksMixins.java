@@ -7,7 +7,8 @@ import com.ilmusu.ilmusuenchantments.utils.ModUtils;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.*;
+import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.item.HeldItemRenderer;
@@ -31,9 +32,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
 import org.objectweb.asm.Opcodes;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
@@ -474,19 +473,6 @@ public abstract class CustomCallbacksMixins
                MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci)
         {
             EntityRendererCallback.AFTER.invoker().handler(entity, matrices, tickDelta, vertexConsumers, light);
-        }
-    }
-
-    @Mixin(WorldRenderer.class)
-    public abstract static class WorldRendererCallbacks
-    {
-        @Shadow @Final private BufferBuilderStorage bufferBuilders;
-
-        @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;drawCurrentLayer()V"))
-        public void afterRenderingEntities(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f positionMatrix, CallbackInfo ci)
-        {
-            VertexConsumerProvider.Immediate provides = this.bufferBuilders.getEntityVertexConsumers();
-            WorldRendererCallback.AFTER.invoker().handler(matrices, tickDelta, provides);
         }
     }
 }
