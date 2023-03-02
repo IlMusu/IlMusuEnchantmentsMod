@@ -40,7 +40,6 @@ An important notice is that it never kills the player, <b>leaving him at half a 
 <br />
 </details>
 
-<br />
 This enchantment <b>is not compatible</b> with:
 1. Sharpness Enchantment
 
@@ -63,7 +62,6 @@ An important notice is that it never kills the player, <b>leaving him at half a 
 <br />
 </details>
 
-<br />
 This enchantment <b>is not compatible</b> with:
 1. Impaling Enchantment
 2. Overcharge Enchantment
@@ -87,6 +85,5 @@ An important notice is that it never kills the player, <b>leaving him at half a 
 <br />
 </details>
 
-<br />
 This enchantment <b>is not compatible</b> with:
 1. Veinminer Enchantment
