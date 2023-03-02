@@ -13,3 +13,6 @@ These enchantments require, not only experience levels and lapislazuli, but also
 Notice that when there are not enough living entities aroung the enchanting table, <b>the health is drawn from the player</b> who might also get killed! 
 
 If the health requirement is satisfied, you will obtain the <b><span style="color:purple">demonic enchantment</span></b>:
+<p align="center">
+	<img src="https://i.imgur.com/BNr1blB.png">
+</p>
