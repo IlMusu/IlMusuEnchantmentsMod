@@ -66,8 +66,8 @@ This enchantment <b>is not compatible</b> with:
 1. Impaling Enchantment
 2. Overcharge Enchantment
 
-### UNEARTING ENCHANTMENT
-The <b><span style="color:purple">Skewering Enchantment</span></b> makes a digger tool dig tunnels with the depth and area depending on the level of the enchantments. Since it is a demonic enchantment, digging with an item containing this enchantment will damage also the player: the tunnel will be complete only if the player has enough life.  
+### UNEARTHING ENCHANTMENT
+The <b><span style="color:purple">Unearthing Enchantment</span></b> makes a digger tool dig tunnels with the depth and area depending on the level of the enchantments. Since it is a demonic enchantment, digging with an item containing this enchantment will damage also the player: the tunnel will be complete only if the player has enough life.  
 
 <details>
 <summary><b>Details here</b></summary>
