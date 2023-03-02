@@ -23,6 +23,7 @@ If the health requirement is satisfied, you will obtain the <b><span style="colo
 ## NEW ENCHANTMENTS
 ### LACERATION
 The <b><span style="color:purple">Laceration Enchantment</span></b> provides additional damage for weapon tools (similarly to the Sharpness Enchantment). Since it is a demonic enchantment, attacking an entity with an item containing this enchantment will damage also the player: at the maximum level, it will provide +37.5 additional damage and consume 25% of the player maxium health.  
+
 <details>
 <summary><b>Details here</b></summary>
 This enchantment produces more damage the more the health it can consume from the player.  
