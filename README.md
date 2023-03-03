@@ -359,7 +359,7 @@ This enchantment <b>is not compatible</b> with:
 2. Long Jump Enchantment
 
 ## LONG JUMP ENCHANTMENT (V)
-The <b>Long Jump Enchantment</b> allows the player to perform longer jumps when jumping while sprinting: the distance of the jump increases with the level of the enchantment and a Leaping Effect can be used to perform higher jumps.
+The <b>Long Jump Enchantment</b> allows the player to perform longer jumps when jumping while sprinting: the distance of the jump increases with the level of the enchantment and a Leaping Effect can be used to perform higher jumps.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -369,6 +369,10 @@ The distance of the jumps increases with the level of the enchantment: <br />
 strength = level*0.2  
 player_velocity.add(normal_jump_velocity * strength)  
 ```
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/long_jump.gif?raw=true">
+</p>
 </details>
 
 This enchantment <b>can be applied to</b>:
@@ -377,3 +381,24 @@ This enchantment <b>can be applied to</b>:
 This enchantment <b>is not compatible</b> with:
 1. Feather Falling Enchantment
 2. Moon Jump Enchantment
+
+## SKYHOOK ENCHANTMENT (IV)
+The <b>Skyhook Enchantment</b> introduces a new movement mechanic which connects the player and an arrow with a lace: the player is attached to the arrow and flies following the arrow. Because of this reason, the player needs to have a lace in the inventory for this to work. The player is able to disconnect the lace by unequipping the crossbow or by shooting another arrow (but this requires to have another lace inside the inventory).
+
+<details>
+<summary><b>Details here</b></summary>
+The amount of time the player is attached to the arrow increases with the level: <br />
+At level 1, the player is attached to the arrow for 2 seconds. <br />
+At level 2, the player is attached to the arrow for 4 seconds. <br />
+At level 3, the player is attached to the arrow for 6 seconds. <br />
+At level 4, the player is attached to the arrow for 8 seconds. <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/sky_hook.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Crossbow item
+
+<br 7>
