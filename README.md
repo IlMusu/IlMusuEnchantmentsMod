@@ -146,7 +146,11 @@ The <b>Reaching Enchantment</b> increases the reach of player making him able to
 
 <details>
 <summary><b>Details here</b></summary>
-The reaching echantment increases the player reach by one block for every level. <br />
+The reaching echantment increases the player reach by one block for every level: <br />
+At level 1, the reach distance is 4 blocks. <br />
+At level 2, the reach distance is 5 blocks. <br />
+At level 3, the reach distance is 6 blocks. <br />
+At level 4, the reach distance is 7 blocks. <br />
 <br />
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/reaching.gif?raw=true">
@@ -162,11 +166,16 @@ This enchantment <b>can be applied to</b>:
 6. Triden Item
 
 ## POCKETED ENCHANTMENT (V)
-The <b>Pocketed Enchantment</b> adds pockets to leggings to provide additional inventory storage for the player.
+The <b>Pocketed Enchantment</b> adds pockets to leggings to provide additional inventory storage for the player.  
 
 <details>
 <summary><b>Details here</b></summary>
-The size of the pockets increase with the level of the enchantment: at level 1, the pockets provide 4 slots and then 4 additional slots for every level. <br />
+The size of the pockets increase with the level of the enchantment:  <br />
+At level 1, the pockets provide 4 slots. <br />
+At level 2, the pockets provide 8 slots. <br />
+At level 3, the pockets provide 12 slots. <br />
+At level 4, the pockets provide 16 slots. <br />
+At level 5, the pockets provide 24 slots. <br />
 <br />
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/pocketed.gif?raw=true">
@@ -177,7 +186,7 @@ This enchantment <b>can be applied to</b>:
 1. Leggings Item
 
 ## VEIN MINER ENCHANTMENT (V)
-The <b>Vein Miner Enchantment</b> increases the amout of blocks that the player breaks every time he digs a block: it allows the player to mine entire veins of the same type of block with just breaking a single block.
+The <b>Vein Miner Enchantment</b> increases the amout of blocks that the player breaks every time he digs a block: it allows the player to mine entire veins of the same type of block with just breaking a single block.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -200,14 +209,17 @@ This enchantment <b>can be applied to</b>:
 4. Shovel Item
 
 This enchantment <b>is not compatible</b> with:
-1. UnearthingEnchantment Enchantment
+1. Unearthing Enchantment
 
 ## ATTRACTION ENCHANTMENT (III)
-The <b>Attraction Enchantment</b> makes the items that are lying on the ground near the make move toward the player.
+The <b>Attraction Enchantment</b> makes the items, that are lying on the ground near the player, move toward him.  
 
 <details>
 <summary><b>Details here</b></summary>
-The reach of the attraction increases with the level of the enchantment: at level 1 it is 2 blocks and increases by 2 blocks for every level. <br />
+The attraction distance increases with the level of the enchantment: 
+At level 1, the attraction reach is 2 blocks. <br />
+At level 2, the attraction reach is 4 blocks. <br />
+At level 3, the attraction reach is 8 blocks. <br />
 <br />
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/attraction.gif?raw=true">
@@ -216,3 +228,22 @@ The reach of the attraction increases with the level of the enchantment: at leve
 
 This enchantment <b>can be applied to</b>:
 1. Chestplate Item
+
+## METEORITY ENCHANTMENT (III)
+The <b>Meteority Enchantment</b> increases the maximim flyight speed of the elytra applied when using a firework.  
+Notice that after the effect of the firework is expired, the maximum speed is reset to normal.  
+
+<details>
+<summary><b>Details here</b></summary>
+The speed of the elytra increases differently at different levels of the enchantment: <br />
+Normally, the maximum speed is 1.0 m/s. <br />
+At level 1, the maximum speed is 1.7 m/s. <br />
+At level 2, the masimum speed is 2.4 m/s. <br />
+At level 3, the maximum speed is 3.1 m/s. <br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/meteority.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Elytra Item
