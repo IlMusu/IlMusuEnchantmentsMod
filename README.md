@@ -296,7 +296,7 @@ This enchantment <b>can be applied to</b>:
 1. Elytra Item
 
 ## ALIGHTING ENCHANTMENT (V)
-The <b>Alighting Enchantment</b> reduces the fall damage taken by the player when the elytra are equippied: at the maximum level, it complitely cancels the fall damage, making the landing complitely safe.  
+The <b>Alighting Enchantment</b> reduces the fall damage taken by the player when the elytra are equippied: at the maximum level, it completely cancels the fall damage, making the landing completely safe.  
 Notice that it <b>does not cancel wall damage!</b>
 
 <details>
@@ -306,7 +306,7 @@ At level 1, the damage reduction is 1.5 half-hearts. <br />
 At level 2, the damage reduction is 3.0 half-hearts. <br />
 At level 3, the damage reduction is 4.5 half-hearts. <br />
 At level 4, the damage reduction is 6.0 half-hearts. <br />
-At level 5, the damage reduction complitely cancels the damage. <br />
+At level 5, the damage reduction completely cancels the damage. <br />
 <br />
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/alighting.gif?raw=true">
@@ -333,3 +333,29 @@ This enchantment <b>can be applied to</b>:
 2. Trident Item
 3. Bow Item
 4. Crossbow Item
+
+## MOON JUMP (V)
+The <b>Moon Jump Enchantment</b> allows the player to perform multiple jumps while already in mid-air: the number of jumps increases with the level of the enchantment and you can use a Leaping Effect to perform higher jumps.
+
+<details>
+<summary><b>Details here</b></summary>
+The number of available jumps increases with the level of the enchantment: <br />
+At level 1, the player can perform 2 mir-air jumps. <br />
+At level 2, the player can perform 4 mir-air jumps. <br />
+At level 3, the player can perform 6 mir-air jumps. <br />
+At level 4, the player can perform 8 mir-air jumps. <br />
+At level 5, the player can perform 10 mir-air jumps. <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/moon_jump.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Boots item
+
+This enchantment <b>is not compatible</b> with:
+1. Feather Falling Enchantment
+2. Long Jump Enchantment
+
+## 
