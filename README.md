@@ -426,6 +426,7 @@ The <b>Shockwave Enchantment</b> adds a new mechanic for the shield by creating 
 <details>
 <summary><b>Details here</b></summary>
 The size, duration and damage of the shockwave increase with the level of the enchantment: <br />
+
 ```bash
 size = (1+level) [blocks]
 damage = (0.5+level*0.2) [half-hearts]
