@@ -334,8 +334,8 @@ This enchantment <b>can be applied to</b>:
 3. Bow Item
 4. Crossbow Item
 
-## MOON JUMP (V)
-The <b>Moon Jump Enchantment</b> allows the player to perform multiple jumps while already in mid-air: the number of jumps increases with the level of the enchantment and you can use a Leaping Effect to perform higher jumps.
+## MOON JUMP ENCHANTMENT (V)
+The <b>Moon Jump Enchantment</b> allows the player to perform multiple jumps while already in mid-air: the number of jumps increases with the level of the enchantment and a Leaping Effect can be used to perform higher jumps.
 
 <details>
 <summary><b>Details here</b></summary>
@@ -358,4 +358,22 @@ This enchantment <b>is not compatible</b> with:
 1. Feather Falling Enchantment
 2. Long Jump Enchantment
 
-## 
+## LONG JUMP ENCHANTMENT (V)
+The <b>Long Jump Enchantment</b> allows the player to perform longer jumps when jumping while sprinting: the distance of the jump increases with the level of the enchantment and a Leaping Effect can be used to perform higher jumps.
+
+<details>
+<summary><b>Details here</b></summary>
+The distance of the jumps increases with the level of the enchantment: <br />
+
+```bash
+strength = level*0.2  
+player_velocity.add(normal_jump_velocity * strength)  
+```
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Boots item
+
+This enchantment <b>is not compatible</b> with:
+1. Feather Falling Enchantment
+2. Moon Jump Enchantment
