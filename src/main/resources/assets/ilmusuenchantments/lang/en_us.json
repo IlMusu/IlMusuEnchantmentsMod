@@ -41,5 +41,8 @@
   "enchantment.ilmusuenchantments.coverage.desc": "Increases the coverage that the shield provides.",
 
   "death.attack.demonicEnchanting" : "%1$s made a bad deal with a demon",
-  "death.attack.demonicDamage" : "A demon absorbed all %1$s's life"
+  "death.attack.demonicDamage" : "A demon absorbed all %1$s's life",
+
+  "key.ilmusuenchantments.phasing_enchantment": "Phasing Enchantment Ability",
+  "key.ilmusuenchantments.shockwave_enchantment": "Shockwave Enchantment Ability"
 }

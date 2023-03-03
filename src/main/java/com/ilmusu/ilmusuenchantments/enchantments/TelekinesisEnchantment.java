@@ -31,7 +31,8 @@ public class TelekinesisEnchantment extends Enchantment
     {
         return EnchantmentTarget.WEAPON.isAcceptableItem(stack.getItem()) ||
                EnchantmentTarget.TRIDENT.isAcceptableItem(stack.getItem()) ||
-               EnchantmentTarget.BOW.isAcceptableItem(stack.getItem());
+               EnchantmentTarget.BOW.isAcceptableItem(stack.getItem()) ||
+               EnchantmentTarget.CROSSBOW.isAcceptableItem(stack.getItem());
     }
 
     static

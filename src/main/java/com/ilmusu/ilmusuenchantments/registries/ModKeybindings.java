@@ -17,7 +17,7 @@ import java.util.function.BiFunction;
 
 public class ModKeybindings
 {
-    public static final KeyBinding PHASING_ENCHANTMENT = new KeyBinding(Resources.key("phasing_enchantment"), InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_P, Resources.MOD_NAME);
+    public static final KeyBinding PHASING_ENCHANTMENT = new KeyBinding(Resources.key("phasing_enchantment"), InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, Resources.MOD_NAME);
     public static final KeyBinding SHOCKWAVE_ENCHANTMENT = new KeyBinding(Resources.key("shockwave_enchantment"), InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Z, Resources.MOD_NAME);
 
     public static void register()

@@ -50,7 +50,8 @@ public interface _IDemonicEnchantment
 
         entity.damage(ModDamageSources.DEMONIC_DAMAGE, initialHealth-remaining);
 
-        // Returning the actual consumed health
-        return new Pair<>(healthToConsume, initialHealth-entity.getHealth());
+        // Returning the health that would be consumed, notice that now there is the demonction
+        // enchantment, therefore returning the actual health after the damage would not work
+        return new Pair<>(healthToConsume, initialHealth-remaining);
     }
 }

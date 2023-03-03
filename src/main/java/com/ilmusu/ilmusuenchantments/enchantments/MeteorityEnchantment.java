@@ -36,7 +36,7 @@ public class MeteorityEnchantment extends Enchantment
             if(level == 0)
                 return rotation;
 
-            float speedBonus = level * 1.1F;
+            float speedBonus = 1.0F + level * 0.7F;
             return rotation.multiply(speedBonus);
         }));
     }
