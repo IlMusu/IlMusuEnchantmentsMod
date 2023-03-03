@@ -440,3 +440,24 @@ duration = (1+level) [seconds]
 
 This enchantment <b>can be applied to</b>:
 1. Shield item
+
+## COVERAGE ENCHANTMENT (V)
+The <b>Coverage Enchantment</b> increases the coverage ability of the shield by increases the angles at which the shield is able to protect the player: at the maximum level, this enchantment provides full coverage from enemies attacks.
+
+<details>
+<summary><b>Details here</b></summary>
+The coverage ability of the shield increases linearly with the level of the enchantment: <br />
+Normally, the shield covers angles from -90° to +90° from the user look direction. <br />
+At level 1, the shield covers angles from -108° to +108° from the user look direction. <br />
+At level 2, the shield covers angles from -126° to +126° from the user look direction. <br />
+At level 3, the shield covers angles from -144° to +144° from the user look direction. <br />
+At level 4, the shield covers angles from -162° to +162° from the user look direction. <br />
+At level 5, the shield covers angles from -180° to +180° from the user look direction. <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/coverage.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Shield item
