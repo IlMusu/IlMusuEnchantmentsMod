@@ -142,6 +142,29 @@ An important notice is that <b>this kills the player if he does not have enough 
 This enchantment <b>can be applied to</b>:
 1. Leggings Item
 
+## DEMONCTION ENCHANTMENT (V)
+The <b>Demonction Enchantment</b> is the only enchantment that is able to protect the user against demonic damage: this applies only to the demonic damage inflicted by the enchantments and not by the demonic enchanting.
+
+<details>
+<summary><b>Details here</b></summary>
+The protection provieded by the demontion enchantment increases with the level: <br />
+At level 1, the damage reduction is 0.25 hearts. <br />
+At level 2, the damage reduction is 0.50 hearts. <br />
+At level 3, the damage reduction is 0.75 hearts. <br />
+At level 4, the damage reduction is 1.00 hearts. <br />
+At level 5, the damage reduction is 1.25 hearts. <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/demonction.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Helmet Item
+2. Chestplate Item
+3. Leggings Item
+4. Boots Item
+
 ## REACHING ENCHANTMENT (IV)
 The <b>Reaching Enchantment</b> increases the reach of player making him able to interact with blocks and entities that would normally be out of reach.  
 
