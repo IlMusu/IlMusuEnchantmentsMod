@@ -278,7 +278,7 @@ Notice that it <b>does not cancel wall damage!</b>
 
 <details>
 <summary><b>Details here</b></summary>
-The damage reduction increases with the level of the enchantment:
+The damage reduction increases with the level of the enchantment: <br />
 At level 1, the damage reduction is 1.5 half-hearts. <br />
 At level 2, the damage reduction is 3.0 half-hearts. <br />
 At level 3, the damage reduction is 4.5 half-hearts. <br />
@@ -289,3 +289,24 @@ At level 5, the damage reduction complitely cancels the damage. <br />
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/alighting.gif?raw=true">
 </p>
 </details>
+
+This enchantment <b>can be applied to</b>:
+1. Elytra Item
+
+## TELEKINESIS ENCHANTMENT (I)
+The <b>Telekinesis Enchantment</b> teleports the loot dropped by entities at the player position only if the player killed that entity using a weapon equipped with this enchantment.  
+
+<details>
+<summary><b>Details here</b></summary>
+The range of this enchantment is unlimited, which means that every drop will be teleported at the player position. <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/telekinesis.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Sword Item
+2. Trident Item
+3. Bow Item
+4. Crossbow Item
