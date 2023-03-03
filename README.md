@@ -25,7 +25,7 @@ The <b><span style="color:purple">Laceration Enchantment</span></b> provides add
 
 <details>
 <summary><b>Details here</b></summary>
-This enchantment produces more damage the more the health it can consume from the player. <br />
+This enchantment produces more damage the more the health it can consume from the player: <br />
 At level 1, it consumes 10.00% of the player health and produces +6.5 additional damage. <br />
 At level 2, it consumes 13.75% of the player health and produces +12.0 additional damage.  <br />
 At level 3, it consumes 17.50% of the player health and produces +19.0 additional damage. <br />
@@ -46,7 +46,7 @@ The <b><span style="color:purple">Skewering Enchantment</span></b> provides addi
 
 <details>
 <summary><b>Details here</b></summary>
-This enchantment produces more damage the more the health it can consume from the player. <br />
+This enchantment produces more damage the more the health it can consume from the player: <br />
 At level 1, it consumes 10.00% of the player health and produces +6.5 additional damage. <br />
 At level 2, it consumes 13.75% of the player health and produces +12.0 additional damage.  <br />
 At level 3, it consumes 17.50% of the player health and produces +19.0 additional damage. <br />
@@ -72,6 +72,7 @@ The <b><span style="color:purple">Unearthing Enchantment</span></b> makes a digg
 
 <details>
 <summary><b>Details here</b></summary>
+This enchantment creates a bigger tunnel the more the health it can consume from the player: 
 At level 1, it consumes 20.0% of the player health and the tunnel will be of 3x3 blocks and 1 blocks depth. <br />
 At level 2, it consumes 22.5% of the player health and the tunnel will be of 3x3 blocks and 3 blocks depth. <br />
 At level 3, it consumes 25.0% of the player health and the tunnel will be of 3x3 blocks and 4 blocks depth. <br />
@@ -212,7 +213,7 @@ This enchantment <b>is not compatible</b> with:
 1. Unearthing Enchantment
 
 ## ATTRACTION ENCHANTMENT (III)
-The <b>Attraction Enchantment</b> makes the items, that are lying on the ground near the player, move toward him.  
+The <b>Attraction Enchantment</b> makes the items, that are lying on the ground near the player, move toward him: the 
 
 <details>
 <summary><b>Details here</b></summary>
@@ -230,8 +231,7 @@ This enchantment <b>can be applied to</b>:
 1. Chestplate Item
 
 ## METEORITY ENCHANTMENT (III)
-The <b>Meteority Enchantment</b> increases the maximim flyight speed of the elytra applied when using a firework.  
-Notice that after the effect of the firework is expired, the maximum speed is reset to normal.  
+The <b>Meteority Enchantment</b> increases the maximim flyight speed of the elytra applied when using a firework: the spees increases with the level of the enchantment and notice that after the effect of the firework is expired, the maximum speed is reset to normal.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -243,6 +243,29 @@ At level 3, the maximum speed is 3.1 m/s. <br />
 <br />
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/meteority.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Elytra Item
+
+## WINGSPAN ENCHANTMENT (III)
+The <b>Wingspan Enchantment</b> applies knockback on all the living entities near the player after landing with the elytra: the force of the knockback and the range increases with the level of the enchantment.
+
+<details>
+<summary><b>Details here</b></summary>
+The range of the enchantment increases with the level of the enchantment: <br />
+At level 1, the reach distance is 3 blocks. <br />
+At level 2, the reach distance is 4 blocks. <br />
+At level 3, the reach distance is 6 blocks. <br />
+The force of knockback increases with the level of the enchantment and the speed of the player when landing, it can be obtained by applying the following formula: <br />
+
+```bash
+power = (level * 0.25) + min(3.0, player_speed * 1.4)
+```
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/wingspan.gif?raw=true">
 </p>
 </details>
 
