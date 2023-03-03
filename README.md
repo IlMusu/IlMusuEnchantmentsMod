@@ -21,7 +21,7 @@ If the health requirement is satisfied, you will obtain the <b><span style="colo
 </p>
 
 ## LACERATION ENCHANTMENT (V)
-The <b><span style="color:purple">Laceration Enchantment</span></b> provides additional damage for weapon tools. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment will damage also the player: at the maximum level, it will provide +37.5 additional damage and consume 25% of the player maxium health.  
+The <b><span style="color:purple">Laceration Enchantment</span></b> provides additional damage for weapon tools. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>will damage also the player</b>: at the maximum level, it will provide +37.5 additional damage and consume 25% of the player maxium health.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -42,7 +42,7 @@ This enchantment <b>is not compatible</b> with:
 1. Sharpness Enchantment
 
 ## SKEWERING ENCHANTMENT (V)
-The <b><span style="color:purple">Skewering Enchantment</span></b> provides additional damage for the trident both in the case of melee attack and ranged attack. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment will damage also the player: at the maximum level, it will provide +37.5 additional damage and consume 25% of the player maxium health.  
+The <b><span style="color:purple">Skewering Enchantment</span></b> provides additional damage for the trident both in the case of melee attack and ranged attack. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>will damage also the player</b>: at the maximum level, it will provide +37.5 additional damage and consume 25% of the player maxium health.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -68,7 +68,7 @@ This enchantment <b>is not compatible</b> with:
 2. Overcharge Enchantment
 
 ## UNEARTHING ENCHANTMENT (V)
-The <b><span style="color:purple">Unearthing Enchantment</span></b> makes a digger tool dig tunnels with the depth and area depending on the level of the enchantments. Since it is a demonic enchantment, digging with an item containing this enchantment will damage also the player: the tunnel will be complete only if the player has enough life.  
+The <b><span style="color:purple">Unearthing Enchantment</span></b> makes a digger tool dig tunnels with the depth and area depending on the level of the enchantments. Since it is a demonic enchantment, digging with an item containing this enchantment <b>will damage also the player</b>: the tunnel will be complete only if the player has enough life.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -95,7 +95,7 @@ This enchantment <b>is not compatible</b> with:
 1. Veinminer Enchantment
 
 ## OVERCHARGED ENCHANTMENT (V)
-The <b><span style="color:purple">Overcharged Enchantment</span></b> makes the chargeable items to be overchargable and perform additional damage. Since it is a demonic enchantment, overcharging an item containing this enchantment will damage also the player.
+The <b><span style="color:purple">Overcharged Enchantment</span></b> makes the chargeable items to be overchargable and perform additional damage. Since it is a demonic enchantment, overcharging an item containing this enchantment <b>will damage also the player</b>.
 
 <details>
 <summary><b>Details here</b></summary>
@@ -125,7 +125,7 @@ This enchantment <b>is not compatible</b> with:
 5. Damage Enchantments
 
 ## PHASING ENCHANTMENT (V)
-The <b><span style="color:purple">Phasing Enchantment</span></b> makes the player able to teleport: it provides the ability of both teleporting where the player is looking at and teleporting behind walls.  Since it is a demonic enchantment, overcharging an item containing this enchantment will damage also the player.  
+The <b><span style="color:purple">Phasing Enchantment</span></b> makes the player able to teleport: it provides the ability of both teleporting where the player is looking at and teleporting behind walls.  Since it is a demonic enchantment, overcharging an item containing this enchantment <b>will damage also the player</b>.  
 <b>The phasing enchantment ability is activated through the related keybinding.</b>  
 
 <details>
