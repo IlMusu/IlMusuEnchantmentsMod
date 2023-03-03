@@ -99,7 +99,7 @@ The <b><span style="color:purple">Overcharged Enchantment</span></b> makes the c
 
 <details>
 <summary><b>Details here</b></summary>
-The overcharging logic starts after the item has been fully charged: if the player continues to charge the item, he will start taking a heart of damage every 10 ticks (0.5 seconds). The projectile will make additional damage depending on the level of the enchantment and the total damage that the player endured. In particular, the final damage is computed as:  
+The overcharging logic starts after the item has been fully charged: if the player continues to charge the item, he will start taking a heart of damage every 10 ticks (0.5 seconds). The projectile will make additional damage depending on the level of the enchantment and the total damage that the player endured:  
 
 ```bash
 additional_damage = player_endured_damage*(0.3 + enchantment_level * 0.2)
@@ -258,7 +258,7 @@ The range of the enchantment increases with the level of the enchantment: <br />
 At level 1, the reach distance is 3 blocks. <br />
 At level 2, the reach distance is 4 blocks. <br />
 At level 3, the reach distance is 6 blocks. <br />
-The force of knockback increases with the level of the enchantment and the speed of the player when landing, it can be obtained by applying the following formula: <br />
+The force of knockback increases with the level of the enchantment and the speed of the player when landing: <br />
 
 ```bash
 power = (level * 0.25) + min(3.0, player_speed * 1.4)
@@ -271,3 +271,21 @@ power = (level * 0.25) + min(3.0, player_speed * 1.4)
 
 This enchantment <b>can be applied to</b>:
 1. Elytra Item
+
+## ALIGHTING ENCHANTMENT (V)
+The <b>Alighting Enchantment</b> reduces the fall damage taken by the player when the elytra are equippied: at the maximum level, it complitely cancels the fall damage, making the landing complitely safe.  
+Notice that it <b>does not cancel wall damage!</b>
+
+<details>
+<summary><b>Details here</b></summary>
+The damage reduction increases with the level of the enchantment:
+At level 1, the damage reduction is 1.5 half-hearts. <br />
+At level 2, the damage reduction is 3.0 half-hearts. <br />
+At level 3, the damage reduction is 4.5 half-hearts. <br />
+At level 4, the damage reduction is 6.0 half-hearts. <br />
+At level 5, the damage reduction complitely cancels the damage. <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/alighting.gif?raw=true">
+</p>
+</details>
