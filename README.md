@@ -72,11 +72,11 @@ The <b><span style="color:purple">Unearthing Enchantment</span></b> makes a digg
 
 <details>
 <summary><b>Details here</b></summary>
-At level 1, the tunnel will have an area of 3x3 blocks and a depth of 1 block. <br />
-At level 2, the tunnel will have an area of 3x3 blocks and a depth of 3 block. <br />
-At level 3, the tunnel will have an area of 3x3 blocks and a depth of 4 block. <br />
-At level 4, the tunnel will have an area of 3x3 blocks and a depth of 6 block. <br />
-At level 5, the tunnel will have an area of 3x3 blocks and a depth of 7 block. <br />
+At level 1, it consumes 20.0% of the player health and the tunnel will be of 3x3 blocks and 1 blocks depth. <br />
+At level 2, it consumes 22.5% of the player health and the tunnel will be of 3x3 blocks and 3 blocks depth. <br />
+At level 3, it consumes 25.0% of the player health and the tunnel will be of 3x3 blocks and 4 blocks depth. <br />
+At level 4, it consumes 27.5% of the player health and the tunnel will be of 3x3 blocks and 6 blocks depth. <br />
+At level 5, it consumes 30.0% of the player health and the tunnel will be of 5x5 blocks and 7 blocks depth. <br />
 An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
 <br />
 <p align="center">
@@ -216,7 +216,7 @@ The <b>Attraction Enchantment</b> makes the items, that are lying on the ground 
 
 <details>
 <summary><b>Details here</b></summary>
-The attraction distance increases with the level of the enchantment: 
+The attraction distance increases with the level of the enchantment: <br />
 At level 1, the attraction reach is 2 blocks. <br />
 At level 2, the attraction reach is 4 blocks. <br />
 At level 3, the attraction reach is 8 blocks. <br />
@@ -240,6 +240,7 @@ Normally, the maximum speed is 1.0 m/s. <br />
 At level 1, the maximum speed is 1.7 m/s. <br />
 At level 2, the masimum speed is 2.4 m/s. <br />
 At level 3, the maximum speed is 3.1 m/s. <br />
+<br />
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/meteority.gif?raw=true">
 </p>
