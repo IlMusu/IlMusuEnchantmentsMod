@@ -38,6 +38,10 @@ An important notice is that it never kills the player, <b>leaving him at half a 
 </p>
 </details>
 
+This enchantment <b>can be applied to</b>:
+1. Axe Item
+2. Sword Item
+
 This enchantment <b>is not compatible</b> with:
 1. Sharpness Enchantment
 
@@ -60,8 +64,7 @@ An important notice is that it never kills the player, <b>leaving him at half a 
 </details>
 
 This enchantment <b>can be applied to</b>:
-1. Axe Item
-2. Sword Item
+1. Trident Item
 
 This enchantment <b>is not compatible</b> with:
 1. Impaling Enchantment
@@ -352,7 +355,7 @@ At level 5, the player can perform 10 mir-air jumps. <br />
 </details>
 
 This enchantment <b>can be applied to</b>:
-1. Boots item
+1. Boots Item
 
 This enchantment <b>is not compatible</b> with:
 1. Feather Falling Enchantment
@@ -376,7 +379,7 @@ player_velocity.add(normal_jump_velocity * strength)
 </details>
 
 This enchantment <b>can be applied to</b>:
-1. Boots item
+1. Boots Item
 
 This enchantment <b>is not compatible</b> with:
 1. Feather Falling Enchantment
@@ -399,7 +402,7 @@ At level 4, the player is attached to the arrow for 8 seconds. <br />
 </details>
 
 This enchantment <b>can be applied to</b>:
-1. Crossbow item
+1. Crossbow Item
 
 ## REFLECTION ENCHANTMENT (III)
 The <b>Reflection Enchantment</b> makes the shield more reflective towards the projectiles by reflecting them back toward the shooter entity: the reflection force of the shield increases with the level of the enchantment and at the maximum level it provides an almost comlete reflection of the projectile.
@@ -417,7 +420,7 @@ At level 3, the reflection force is 9 times the default one. <br />
 </details>
 
 This enchantment <b>can be applied to</b>:
-1. Shield item
+1. Shield Item
 
 ## SHOCKWAVE ENCHANTMENT (III)
 The <b>Shockwave Enchantment</b> adds a new mechanic for the shield by creating a shockwave that starts from the player and propagates in the direction he is looking at. The shockwave pushes aways and damages entities but is stopped when ancountering solid blocks and non-solid ground. 
@@ -439,7 +442,7 @@ duration = (1+level) [seconds]
 </details>
 
 This enchantment <b>can be applied to</b>:
-1. Shield item
+1. Shield Item
 
 ## COVERAGE ENCHANTMENT (V)
 The <b>Coverage Enchantment</b> increases the coverage ability of the shield by increases the angles at which the shield is able to protect the player: at the maximum level, this enchantment provides full coverage from enemies attacks.
@@ -460,4 +463,4 @@ At level 5, the shield covers angles from -180° to +180° from the user look di
 </details>
 
 This enchantment <b>can be applied to</b>:
-1. Shield item
+1. Shield Item
