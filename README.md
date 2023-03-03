@@ -394,7 +394,7 @@ At level 3, the player is attached to the arrow for 6 seconds. <br />
 At level 4, the player is attached to the arrow for 8 seconds. <br />
 <br />
 <p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/sky_hook.gif?raw=true">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/skyhook.gif?raw=true">
 </p>
 </details>
 
