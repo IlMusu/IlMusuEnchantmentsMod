@@ -321,7 +321,7 @@ This enchantment <b>can be applied to</b>:
 1. Elytra Item
 
 ## TELEKINESIS ENCHANTMENT (I)
-The <b>Telekinesis Enchantment</b> teleports the loot dropped by entities at the player position only if the player killed that entity using a weapon equipped with this enchantment.  
+The <b>Telekinesis Enchantment</b> teleports the loot dropped by entities at the player position only if the player killed that entity using a weapon equipped with this enchantment: the range of this enchantment is unlimited.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -339,7 +339,7 @@ This enchantment <b>can be applied to</b>:
 4. Crossbow Item
 
 ## MOON JUMP ENCHANTMENT (V)
-The <b>Moon Jump Enchantment</b> allows the player to perform multiple jumps while already in mid-air: the number of jumps increases with the level of the enchantment and a Leaping Effect can be used to perform higher jumps.
+The <b>Moon Jump Enchantment</b> allows the player to perform multiple jumps while already in mid-air: the number of jumps increases with the level of the enchantment and a Leaping Effect can be used to perform higher jumps: at the maximum level, it allows the player to perform 10 mir-air jumps.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -387,7 +387,7 @@ This enchantment <b>is not compatible</b> with:
 2. Moon Jump Enchantment
 
 ## SKYHOOK ENCHANTMENT (IV)
-The <b>Skyhook Enchantment</b> introduces a new movement mechanic which connects the player and an arrow with a lace: the player is attached to the arrow and flies following the arrow. Because of this reason, the player needs to have a lace in the inventory for this to work. The player is able to disconnect the lace by unequipping the crossbow or by shooting another arrow (but this requires to have another lace inside the inventory).
+The <b>Skyhook Enchantment</b> introduces a new movement mechanic which connects the player and an arrow with a lace: the player is attached to the arrow and flies following the arrow. Because of this reason, the player needs to have a lace in the inventory for this to work. The player is able to disconnect the lace by unequipping the crossbow or by shooting another arrow (but this requires to have another lace inside the inventory). The amount of time the player is attached to the arrow increases with the level: at the maximum level, the duration is 8 seconds.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -424,7 +424,7 @@ This enchantment <b>can be applied to</b>:
 1. Shield Item
 
 ## SHOCKWAVE ENCHANTMENT (III)
-The <b>Shockwave Enchantment</b> adds a new mechanic for the shield by creating a shockwave that starts from the player and propagates in the direction he is looking at. The shockwave pushes aways and damages entities but is stopped when ancountering solid blocks and non-solid ground. 
+The <b>Shockwave Enchantment</b> adds a new mechanic for the shield by creating a shockwave that starts from the player and propagates in the direction he is looking at. The shockwave pushes aways and damages entities but is stopped when ancountering solid blocks and non-solid ground: the size, duration and damage of the shockware increases with the level of the enchantment.  
 <b>The shockwave enchantment ability is activated through the related keybinding</b> while the player is using the shield.  
 
 <details>
