@@ -125,11 +125,11 @@ This enchantment <b>is not compatible</b> with:
 5. Damage Enchantments
 
 ## PHASING ENCHANTMENT (V)
-The <b><span style="color:purple">Phasing Enchantment</span></b> makes the player able to teleport: it provides the ability of both teleporting where the player is looking at and teleporting behind walls.  Since it is a demonic enchantment, overcharging an item containing this enchantment will damage also the player.
+The <b><span style="color:purple">Phasing Enchantment</span></b> makes the player able to teleport: it provides the ability of both teleporting where the player is looking at and teleporting behind walls.  Since it is a demonic enchantment, overcharging an item containing this enchantment will damage also the player.  
+<b>The phasing enchantment ability is activated through the related keybinding.</b>  
 
 <details>
 <summary><b>Details here</b></summary>
-The phasing enchantment ability is activated through the related keybinding. <br />
 When the ability is activated, the logic performs a raycasting in the direction the player is looking at and, if a wall is found, it tries to teleport the player behind that wall. Instead, if a wall is not found, the player is teleported in the direction he was looking at with a distance depending on the current level of the enchantment.
 
 An important notice is that <b>this kills the player if he does not have enough health!</b> <br />
@@ -401,4 +401,41 @@ At level 4, the player is attached to the arrow for 8 seconds. <br />
 This enchantment <b>can be applied to</b>:
 1. Crossbow item
 
-<br 7>
+## REFLECTION ENCHANTMENT (III)
+The <b>Reflection Enchantment</b> makes the shield more reflective towards the projectiles by reflecting them back toward the shooter entity: the reflection force of the shield increases with the level of the enchantment and at the maximum level it provides an almost comlete reflection of the projectile.
+
+<details>
+<summary><b>Details here</b></summary>
+The reflection force of the shield increases with the level of the enchantment: <br />
+At level 1, the reflection force is 3 times the default one. <br />
+At level 2, the reflection force is 6 times the default one. <br />
+At level 3, the reflection force is 9 times the default one. <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/reflection.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Shield item
+
+## SHOCKWAVE ENCHANTMENT (III)
+The <b>Shockwave Enchantment</b> adds a new mechanic for the shield by creating a shockwave that starts from the player and propagates in the direction he is looking at. The shockwave pushes aways and damages entities but is stopped when ancountering solid blocks and non-solid ground. 
+<b>The shockwave enchantment ability is activated through the related keybinding</b> while the player is using the shield.  
+
+<details>
+<summary><b>Details here</b></summary>
+The size, duration and damage of the shockwave increase with the level of the enchantment: <br />
+```bash
+size = (1+level) [blocks]
+damage = (0.5+level*0.2) [half-hearts]
+duration = (1+level) [seconds]
+```
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/shockwave.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Shield item
