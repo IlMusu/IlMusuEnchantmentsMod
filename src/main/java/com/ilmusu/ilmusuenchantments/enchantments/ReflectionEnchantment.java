@@ -1,6 +1,7 @@
 package com.ilmusu.ilmusuenchantments.enchantments;
 
 import com.ilmusu.ilmusuenchantments.callbacks.ProjectileReflectionCallback;
+import com.ilmusu.ilmusuenchantments.mixins.interfaces._IEnchantmentExtensions;
 import com.ilmusu.ilmusuenchantments.registries.ModEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -10,11 +11,17 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
 
-public class ReflectionEnchantment extends Enchantment
+public class ReflectionEnchantment extends Enchantment implements _IEnchantmentExtensions
 {
     public ReflectionEnchantment(Rarity weight)
     {
         super(weight, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND});
+    }
+
+    @Override
+    public boolean shouldUseStackInsteadOfTargetCheck()
+    {
+        return true;
     }
 
     @Override

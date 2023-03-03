@@ -33,6 +33,12 @@ public class LacerationEnchantment extends DamageEnchantment implements _IDemoni
     }
 
     @Override
+    public boolean isAvailableForEnchantedBookOffer()
+    {
+        return false;
+    }
+
+    @Override
     public float getAttackDamage(int level, EntityGroup group)
     {
         // The base attack damage for this enchantment is 0

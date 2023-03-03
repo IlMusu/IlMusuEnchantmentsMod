@@ -37,7 +37,6 @@
     "CustomCallbacksMixins$GameRendererCallbacks",
     "CustomCallbacksMixins$HeldItemRendererMixins",
     "CustomCallbacksMixins$KeyboardCallbacks",
-    "CustomCallbacksMixins$PlayerEntityRendererCallbacks",
     "DemonicEnchantingTableRenderingMixin$HeartRequirementsRendering",
     "PlayerWithExtendedReach$FixClientReachDistance",
     "PlayerWithExtendedReach$ModifyClientReachDistance",

@@ -14,6 +14,7 @@ import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.MiningToolItem;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
@@ -33,6 +34,12 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
     public Text getName(int level)
     {
         return _IDemonicEnchantment.super.getName(this.getTranslationKey(), level, this.getMaxLevel());
+    }
+
+    @Override
+    public boolean isAvailableForEnchantedBookOffer()
+    {
+        return false;
     }
 
     @Override
@@ -68,6 +75,11 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
             if(level <= 0)
                 return 1.0F;
 
+            // Check if the state the player is trying the break is suitable for the tool
+            BlockState state = player.world.getBlockState(pos);
+            if(!(stack.getItem() instanceof MiningToolItem tool) || !tool.isSuitableFor(state))
+                return 1.0F;
+
             UnearthingEnchantment ench = ((UnearthingEnchantment)ModEnchantments.UNEARTHING);
             int side = ench.getSideBreakingLength(level);
             int forward = ench.getForwardBreakingLength(level);
@@ -81,6 +93,11 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
             // Check if there is a tunneling enchantment on the stack
             int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.UNEARTHING, player);
             if(level <= 0)
+                return true;
+
+            // Check if the state the player is trying the break is suitable for the tool
+            ItemStack stack = player.getMainHandStack();
+            if(!(stack.getItem() instanceof MiningToolItem tool) || !tool.isSuitableFor(state))
                 return true;
 
             // Ray cast is necessary because side is only on client
@@ -113,7 +130,7 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
 
                         Vec3d offset = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
                         offset = offset.add(forwardDir.multiply(z)).add(sideDir.multiply(x)).add(upDir.multiply(y));
-                        tryBreakBlock(world, player, new BlockPos(offset.x, offset.y, offset.z));
+                        tryBreakBlock(world, player, stack, new BlockPos(offset.x, offset.y, offset.z));
                     }
 
             return true;
@@ -121,10 +138,10 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
     }
 
     // Copied and modified from the ServerPlayerInteractionManager function
-    public static void tryBreakBlock(World world, PlayerEntity player, BlockPos pos)
+    public static void tryBreakBlock(World world, PlayerEntity player, ItemStack tool, BlockPos pos)
     {
         BlockState blockState = world.getBlockState(pos);
-        if (!player.getMainHandStack().getItem().canMine(blockState, world, pos, player))
+        if(!tool.isSuitableFor(blockState))
             return;
         // Avoid breaking bedrock or air
         if(blockState.getBlock().getHardness() < 0 || blockState.isAir())

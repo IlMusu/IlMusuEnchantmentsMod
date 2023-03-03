@@ -29,13 +29,25 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
 
     public OverchargeEnchantment(Rarity weight)
     {
-        super(weight, EnchantmentTarget.BOW, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        super(weight, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+    }
+
+    @Override
+    public boolean shouldUseStackInsteadOfTargetCheck()
+    {
+        return true;
     }
 
     @Override
     public Text getName(int level)
     {
         return _IDemonicEnchantment.super.getName(this.getTranslationKey(), level, this.getMaxLevel());
+    }
+
+    @Override
+    public boolean isAvailableForEnchantedBookOffer()
+    {
+        return false;
     }
 
     @Override

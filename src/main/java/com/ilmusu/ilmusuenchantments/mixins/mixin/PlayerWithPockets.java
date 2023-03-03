@@ -1,6 +1,7 @@
 package com.ilmusu.ilmusuenchantments.mixins.mixin;
 
 import com.ilmusu.ilmusuenchantments.Resources;
+import com.ilmusu.ilmusuenchantments.callbacks.PlayerDropInventoryCallback;
 import com.ilmusu.ilmusuenchantments.mixins.interfaces._IPlayerPockets;
 import com.ilmusu.ilmusuenchantments.networking.messages.PocketsLevelMessage;
 import com.ilmusu.ilmusuenchantments.networking.messages.PocketsToggleMessage;
@@ -141,6 +142,20 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
             this.pockets.setStack(i, other.getPockets().getStack(i));
         this.pocketsLevel = other.getPocketLevel();
         this.pocketsOpen = other.arePocketsOpen();
+    }
+
+    static
+    {
+        PlayerDropInventoryCallback.AFTER.register(player ->
+        {
+            _IPlayerPockets pockets = (_IPlayerPockets)player;
+            for(int i=0; i<pockets.getPockets().size(); ++i)
+            {
+                ItemStack stack = pockets.getPockets().removeStack(i);
+                if(!stack.isEmpty())
+                    player.dropItem(stack, false, true);
+            }
+        });
     }
 
     @Inject(method = "tickMovement", at = @At(

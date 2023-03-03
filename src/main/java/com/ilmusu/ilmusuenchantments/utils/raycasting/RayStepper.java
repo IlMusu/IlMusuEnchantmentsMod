@@ -35,13 +35,20 @@ public class RayStepper
         this.updatePosition();
     }
 
-    public boolean step()
+    public boolean stepForward()
     {
         // Computing the new position of the ray
         this.current += this.step;
         this.updatePosition();
         // Return true if this is complete
         return this.current < this.range;
+    }
+
+    public void stepBackward()
+    {
+        // Stepping the ray backwards
+        this.current -= this.step;
+        this.updatePosition();
     }
 
     protected void updatePosition()
@@ -79,6 +86,7 @@ public class RayStepper
         if(boxes.stream().noneMatch((box::intersects)))
             return null;
 
+        this.stepBackward();
         Vec3d delta = this.position.subtract(new Vec3d(pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5));
         return new BlockHitResult(this.position, Direction.getFacing(delta.x, delta.y, delta.z), pos, true);
     }
@@ -91,6 +99,7 @@ public class RayStepper
         if(state.isAir() || !filter.apply(state))
             return null;
 
+        this.stepBackward();
         Vec3d delta = this.position.subtract(new Vec3d(pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5));
         return new BlockHitResult(this.position, Direction.getFacing(delta.x, delta.y, delta.z), pos, true);
     }

@@ -6,11 +6,9 @@ import com.ilmusu.ilmusuenchantments.mixins.interfaces._IEntityTrackableDrops;
 import com.ilmusu.ilmusuenchantments.utils.ModUtils;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
-import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
@@ -66,15 +64,6 @@ public abstract class CustomCallbacksMixins
         {
             Entity owner = ((TridentEntity)(Object)this).getOwner();
             PlayerAttackCallback.AFTER_ENCHANTMENT_DAMAGE.invoker().handler(owner,  this.tridentStack, result.getEntity(), Hand.MAIN_HAND);
-        }
-
-        @Inject(method = "<init>(Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;)V", at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/item/ItemStack;copy()Lnet/minecraft/item/ItemStack;"
-        ))
-        public void onCreatedFromStack(World world, LivingEntity owner, ItemStack stack, CallbackInfo ci)
-        {
-            ProjectileShotCallback.AFTER.invoker().handler(owner, stack, (TridentEntity)(Object)this);
         }
     }
 
@@ -217,60 +206,20 @@ public abstract class CustomCallbacksMixins
         {
             PlayerTickCallback.AFTER.invoker().handler((PlayerEntity)(Object)this);
         }
-    }
 
-    @Mixin(PlayerEntityRenderer.class)
-    public static abstract class PlayerEntityRendererCallbacks
-    {
-        @Redirect(method = "setupTransforms(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/client/util/math/MatrixStack;FFF)V", at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;isFallFlying()Z"
-        ))
-        public boolean shouldRenderAsFallflying(AbstractClientPlayerEntity instance)
+        @Inject(method = "equipStack", at = @At("TAIL"))
+        public void afterEquippingStack(EquipmentSlot slot, ItemStack stack, CallbackInfo ci)
         {
-            return instance.isFallFlying();
-        }
-    }
+            if(!slot.isArmorSlot())
+                return;
 
-    @Mixin(GameRenderer.class)
-    public static abstract class GameRendererCallbacks
-    {
-        private PlayerFovMultiplierCallback.FovParams params;
-
-        @ModifyVariable(method = "updateFovMultiplier", at = @At("STORE"))
-        protected float afterComputingNewFovMultiplier(float multiplier)
-        {
-            PlayerEntity player = MinecraftClient.getInstance().player;
-            this.params = PlayerFovMultiplierCallback.AFTER.invoker().handler(player);
-
-            if(this.params.shouldNotChange())
-                return multiplier;
-
-            return multiplier * this.params.getMultiplier();
+            PlayerEquipArmorCallback.EVENT.invoker().handler((PlayerEntity)(Object)this, stack, slot);
         }
 
-        @ModifyConstant(method = "updateFovMultiplier", constant = @Constant(floatValue = 0.5F))
-        protected float beforeUpdatingCurrentFovMultiplier(float constant)
+        @Inject(method = "dropInventory", at = @At("TAIL"))
+        public void afterDroppingInventory(CallbackInfo ci)
         {
-            return this.params.getUpdateVelocityOr(constant);
-        }
-
-        @ModifyConstant(method = "updateFovMultiplier", constant = @Constant(floatValue = 1.5F))
-        protected float beforeClampingCurrentFovMultiplier(float constant)
-        {
-            if(this.params.isUnclamped())
-                return 2000.0F;
-            return constant;
-        }
-    }
-
-    @Mixin(Keyboard.class)
-    public static abstract class KeyboardCallbacks
-    {
-        @Inject(method = "onKey", at = @At(value = "RETURN", ordinal = 4))
-        protected void afterHandlingVanillaKeybindings(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci)
-        {
-            KeybindInputCallback.EVENT.invoker().handler(key, scancode, action, modifiers);
+            PlayerDropInventoryCallback.AFTER.invoker().handler((PlayerEntity)(Object)this);
         }
     }
 
@@ -473,6 +422,48 @@ public abstract class CustomCallbacksMixins
                MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci)
         {
             EntityRendererCallback.AFTER.invoker().handler(entity, matrices, tickDelta, vertexConsumers, light);
+        }
+    }
+
+    @Mixin(GameRenderer.class)
+    public static abstract class GameRendererCallbacks
+    {
+        private PlayerFovMultiplierCallback.FovParams params;
+
+        @ModifyVariable(method = "updateFovMultiplier", at = @At("STORE"))
+        protected float afterComputingNewFovMultiplier(float multiplier)
+        {
+            PlayerEntity player = MinecraftClient.getInstance().player;
+            this.params = PlayerFovMultiplierCallback.AFTER.invoker().handler(player);
+
+            if(this.params.shouldNotChange())
+                return multiplier;
+
+            return multiplier * this.params.getMultiplier();
+        }
+
+        @ModifyConstant(method = "updateFovMultiplier", constant = @Constant(floatValue = 0.5F))
+        protected float beforeUpdatingCurrentFovMultiplier(float constant)
+        {
+            return this.params.getUpdateVelocityOr(constant);
+        }
+
+        @ModifyConstant(method = "updateFovMultiplier", constant = @Constant(floatValue = 1.5F))
+        protected float beforeClampingCurrentFovMultiplier(float constant)
+        {
+            if(this.params.isUnclamped())
+                return 2000.0F;
+            return constant;
+        }
+    }
+
+    @Mixin(Keyboard.class)
+    public static abstract class KeyboardCallbacks
+    {
+        @Inject(method = "onKey", at = @At(value = "RETURN", ordinal = 4))
+        protected void afterHandlingVanillaKeybindings(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci)
+        {
+            KeybindInputCallback.EVENT.invoker().handler(key, scancode, action, modifiers);
         }
     }
 }

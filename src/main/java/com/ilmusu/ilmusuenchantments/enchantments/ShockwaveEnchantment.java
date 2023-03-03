@@ -1,5 +1,6 @@
 package com.ilmusu.ilmusuenchantments.enchantments;
 
+import com.ilmusu.ilmusuenchantments.mixins.interfaces._IEnchantmentExtensions;
 import com.ilmusu.ilmusuenchantments.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.ilmusuenchantments.networking.messages.ShockwaveEffectMessage;
 import com.ilmusu.ilmusuenchantments.networking.messages.SwingHandMessage;
@@ -25,11 +26,17 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ShockwaveEnchantment extends Enchantment
+public class ShockwaveEnchantment extends Enchantment implements _IEnchantmentExtensions
 {
     public ShockwaveEnchantment(Rarity weight)
     {
-        super(weight, EnchantmentTarget.WEARABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        super(weight, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+    }
+
+    @Override
+    public boolean shouldUseStackInsteadOfTargetCheck()
+    {
+        return true;
     }
 
     @Override
@@ -54,7 +61,7 @@ public class ShockwaveEnchantment extends Enchantment
             {
                 Vec3d knockbackVec = direction.multiply(-1).add(ModUtils.randomInCircle(user.getRandom()).multiply(0.2F)).normalize();
                 living.takeKnockback(ModUtils.range(living.getRandom(), 0.2F, 0.3F), knockbackVec.x, knockbackVec.z);
-                entity.damage(DamageSource.IN_WALL, damage);
+                entity.damage(DamageSource.player(user), damage);
             }
         }));
     }
@@ -77,7 +84,7 @@ public class ShockwaveEnchantment extends Enchantment
         Vec3d perpendicular = new Vec3d(-direction.z, 0, direction.x);
 
         float size = 1.0F + level;
-        float damage = 0.5F + level*0.2F;
+        float damage = 1.0F + level*0.7F;
         int duration = 20*(1+level);
 
         // Swinging player hand

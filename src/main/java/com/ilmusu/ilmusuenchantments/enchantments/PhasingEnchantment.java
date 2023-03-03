@@ -55,6 +55,12 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
     }
 
     @Override
+    public boolean isAvailableForEnchantedBookOffer()
+    {
+        return false;
+    }
+
+    @Override
     public int getMaxLevel()
     {
         return 5;
@@ -84,19 +90,9 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
         float travelled = ModRaycast.computeTravelDistance(player, hitResult);
         HitResult phaseResult = ModRaycast.raycastBox(player, box, travelled+0.5F, distance);
 
-        // If it is not possible to phase, teleport to the looked block if the distance is not minimal
+        // If it is not possible to phase, teleport to the looked block
         if(phaseResult == null)
-        {
-            // The phasing has failed
-            if(travelled <= 2.0F)
-            {
-                float pitch = ModUtils.range(player.world.getRandom(), 0.5F, 0.7F);
-                player.world.playSoundFromEntity(null, player, SoundEvents.ENTITY_BLAZE_DEATH, SoundCategory.PLAYERS, 1.0F, pitch);
-                return false;
-            }
-
             return performPlayerPhasing(player, ModEnchantments.PHASING, offsetFromDir(hitResult), level);
-        }
 
         // This is the actual phasing
         return performPlayerPhasing(player, ModEnchantments.PHASING, phaseResult, level);
@@ -104,9 +100,19 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
 
     private static boolean performPlayerPhasing(PlayerEntity player, Enchantment ench, HitResult result, int level)
     {
+        // Modifies the target position to make it more suitable
         Vec3d target = result.getPos();
         if(player.world.getBlockState(new BlockPos(target)).getMaterial().blocksMovement())
             target = new Vec3d(target.getX(), ((int)target.getY())+1, target.getZ());
+
+        // Prevents the teleport if the position is out of world
+        float preDistance = (float)player.getPos().distanceTo(target);
+        if(player.world.isOutOfHeightLimit(new BlockPos(target)) || preDistance < 2.0F)
+        {
+            float pitch = ModUtils.range(player.world.getRandom(), 0.5F, 0.7F);
+            player.world.playSoundFromEntity(null, player, SoundEvents.ENTITY_BLAZE_DEATH, SoundCategory.PLAYERS, 1.0F, pitch);
+            return false;
+        }
         
         Vec3d finalTarget = target;
         int fovEffectTime = 13;

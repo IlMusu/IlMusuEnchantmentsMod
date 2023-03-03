@@ -34,6 +34,8 @@ public abstract class DemonicEnchantingTableLogicMixin
     @Mixin(EnchantmentScreenHandler.class)
     public abstract static class DemonicEnchantmentScreenHandler implements _IEnchantmentScreenHandlerDemonic
     {
+        private static final int DEMONIC_ENCHANTING_ENTITY_RADIUS = 7;
+
         @Shadow @Final private ScreenHandlerContext context;
         @Shadow @Final public int[] enchantmentId;
 
@@ -97,10 +99,11 @@ public abstract class DemonicEnchantingTableLogicMixin
                 if(!(enchantment instanceof _IDemonicEnchantment))
                     return;
 
-                float healthToConsume = (id == 0 ? 20 : id == 1 ? 40 : 80) * 2;
+                float healthToConsume = (id == 0 ? 10 : id == 1 ? 20 : 40) * 2;
+                Box box = new Box(pos.up()).expand(DEMONIC_ENCHANTING_ENTITY_RADIUS, 2, DEMONIC_ENCHANTING_ENTITY_RADIUS);
 
                 // Consuming the health of non player entities
-                List<LivingEntity> nearEntities = world.getNonSpectatingEntities(LivingEntity.class, new Box(pos.up()).expand(5, 2, 5));
+                List<LivingEntity> nearEntities = world.getNonSpectatingEntities(LivingEntity.class, box);
                 nearEntities.removeIf((entity) -> entity instanceof PlayerEntity);
                 healthToConsume = takeHealthFromEntitiesRandomly(world.getRandom(), nearEntities, healthToConsume);
 
@@ -108,7 +111,7 @@ public abstract class DemonicEnchantingTableLogicMixin
                     return;
 
                 // Consuming the health of player entities
-                List<PlayerEntity> players = world.getNonSpectatingEntities(PlayerEntity.class, new Box(pos.up()).expand(5, 2, 5));
+                List<PlayerEntity> players = world.getNonSpectatingEntities(PlayerEntity.class, box);
                 players.removeIf(PlayerEntity::isCreative);
                 healthToConsume = takeHealthFromEntitiesRandomly(world.getRandom(), players, healthToConsume);
 

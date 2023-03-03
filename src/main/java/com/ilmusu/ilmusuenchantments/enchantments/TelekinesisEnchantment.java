@@ -2,6 +2,7 @@ package com.ilmusu.ilmusuenchantments.enchantments;
 
 import com.ilmusu.ilmusuenchantments.callbacks.EntityDropCallback;
 import com.ilmusu.ilmusuenchantments.client.particles.colored.ColoredParticleEffect;
+import com.ilmusu.ilmusuenchantments.mixins.interfaces._IEnchantmentExtensions;
 import com.ilmusu.ilmusuenchantments.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.ilmusuenchantments.registries.ModEnchantments;
 import com.ilmusu.ilmusuenchantments.utils.ModUtils;
@@ -19,11 +20,17 @@ import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
 
-public class TelekinesisEnchantment extends Enchantment
+public class TelekinesisEnchantment extends Enchantment implements _IEnchantmentExtensions
 {
     public TelekinesisEnchantment(Rarity weight)
     {
-        super(weight, EnchantmentTarget.WEAPON, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        super(weight, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+    }
+
+    @Override
+    public boolean shouldUseStackInsteadOfTargetCheck()
+    {
+        return true;
     }
 
     @Override

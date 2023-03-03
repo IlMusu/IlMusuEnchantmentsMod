@@ -77,7 +77,7 @@ public class VeinMinerEnchantment extends Enchantment
                             {
                                 posesToCheck.add(newPos);
                                 // Block is removed immediately to avoid storing the same position
-                                UnearthingEnchantment.tryBreakBlock(world, player, newPos);
+                                UnearthingEnchantment.tryBreakBlock(world, player, stack, newPos);
                                 // Check is done here so that no useless poses are added to the list
                                 if(remainingBlocksToBreak-- <= 0)
                                     break outer_loop;

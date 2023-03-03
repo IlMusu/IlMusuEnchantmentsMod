@@ -1,6 +1,7 @@
 package com.ilmusu.ilmusuenchantments.enchantments;
 
 import com.ilmusu.ilmusuenchantments.callbacks.ShieldCoverageAngleCallback;
+import com.ilmusu.ilmusuenchantments.mixins.interfaces._IEnchantmentExtensions;
 import com.ilmusu.ilmusuenchantments.registries.ModEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -9,11 +10,17 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
 
-public class CoverageEnchantment extends Enchantment
+public class CoverageEnchantment extends Enchantment implements _IEnchantmentExtensions
 {
     public CoverageEnchantment(Rarity weight)
     {
-        super(weight, EnchantmentTarget.WEARABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        super(weight, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+    }
+
+    @Override
+    public boolean shouldUseStackInsteadOfTargetCheck()
+    {
+        return true;
     }
 
     @Override

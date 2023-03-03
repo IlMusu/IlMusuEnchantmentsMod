@@ -1,6 +1,7 @@
 package com.ilmusu.ilmusuenchantments.enchantments;
 
 import com.ilmusu.ilmusuenchantments.callbacks.LivingEntityElytraLandCallback;
+import com.ilmusu.ilmusuenchantments.mixins.interfaces._IEnchantmentExtensions;
 import com.ilmusu.ilmusuenchantments.registries.ModEnchantments;
 import com.ilmusu.ilmusuenchantments.registries.ModSoundEvents;
 import com.ilmusu.ilmusuenchantments.utils.ModUtils;
@@ -16,11 +17,17 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
-public class WingspanEnchantment extends Enchantment
+public class WingspanEnchantment extends Enchantment implements _IEnchantmentExtensions
 {
     public WingspanEnchantment(Rarity weight)
     {
         super(weight, EnchantmentTarget.WEARABLE, new EquipmentSlot[]{EquipmentSlot.CHEST});
+    }
+
+    @Override
+    public boolean shouldUseStackInsteadOfTargetCheck()
+    {
+        return true;
     }
 
     @Override

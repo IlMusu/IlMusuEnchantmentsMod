@@ -1,6 +1,7 @@
 package com.ilmusu.ilmusuenchantments.enchantments;
 
 import com.ilmusu.ilmusuenchantments.callbacks.FireworkElytraSpeedCallback;
+import com.ilmusu.ilmusuenchantments.mixins.interfaces._IEnchantmentExtensions;
 import com.ilmusu.ilmusuenchantments.registries.ModEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -9,11 +10,17 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ElytraItem;
 import net.minecraft.item.ItemStack;
 
-public class MeteorityEnchantment extends Enchantment
+public class MeteorityEnchantment extends Enchantment implements _IEnchantmentExtensions
 {
     public MeteorityEnchantment(Rarity weight)
     {
         super(weight, EnchantmentTarget.WEARABLE, new EquipmentSlot[]{EquipmentSlot.CHEST});
+    }
+
+    @Override
+    public boolean shouldUseStackInsteadOfTargetCheck()
+    {
+        return true;
     }
 
     @Override
