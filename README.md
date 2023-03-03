@@ -11,7 +11,8 @@ While enchanting items or books, you might discover <b><span style="color:purple
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/demonic_enchanting_2.png?raw=true">
 </p>
 
-These enchantments require, not only experience levels and lapislazuli, but also a <b><span style="color:red">sacrifice</span></b>: this means that around the Enchanting Table (in a radius of 5 blocks) there should be enough living entities to drawn the health requested by the enchantment. For example in the second image, 40 hearts needs to be consumed and a sheep has only 4 hearts, this means that 10 sheeps are necessary to apply the <b><span style="color:purple">demonic enchantment</span></b> on the item.  
+These enchantments require, not only experience levels and lapislazuli, but also a <b><span style="color:red">sacrifice</span></b>: around the Enchanting Table, in a radius of 5 blocks, there should be enough living entities to drawn the health requested by the enchantment.  
+For example in the second image, 40 hearts needs to be consumed and a sheep has only 4 hearts, this means that 10 sheeps are necessary to apply the <b><span style="color:purple">demonic enchantment</span></b> on the item.  
 Notice that when there are not enough living entities aroung the enchanting table, <b>the health is drawn from the player</b> who might also get killed!  
   
 If the health requirement is satisfied, you will obtain the <b><span style="color:purple">demonic enchantment</span></b>:  
@@ -21,7 +22,7 @@ If the health requirement is satisfied, you will obtain the <b><span style="colo
 </p>
 
 ## LACERATION ENCHANTMENT (V)
-The <b><span style="color:purple">Laceration Enchantment</span></b> provides additional damage for weapon tools. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>will damage also the player</b>: at the maximum level, it will provide +37.5 additional damage and consume 25% of the player maxium health.  
+The <b><span style="color:purple">Laceration Enchantment</span></b> provides additional damage for weapon tools. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level, it provides +37.5 additional damage and consumes 25% of the player maxium health.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -46,7 +47,7 @@ This enchantment <b>is not compatible</b> with:
 1. Sharpness Enchantment
 
 ## SKEWERING ENCHANTMENT (V)
-The <b><span style="color:purple">Skewering Enchantment</span></b> provides additional damage for the trident both in the case of melee attack and ranged attack. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>will damage also the player</b>: at the maximum level, it will provide +37.5 additional damage and consume 25% of the player maxium health.  
+The <b><span style="color:purple">Skewering Enchantment</span></b> provides additional damage for the trident both in the case of melee attack and ranged attack. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level, it provides +37.5 additional damage and consumes 25% of the player maxium health.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -71,7 +72,7 @@ This enchantment <b>is not compatible</b> with:
 2. Overcharge Enchantment
 
 ## UNEARTHING ENCHANTMENT (V)
-The <b><span style="color:purple">Unearthing Enchantment</span></b> makes a digger tool dig tunnels with the depth and area depending on the level of the enchantments. Since it is a demonic enchantment, digging with an item containing this enchantment <b>will damage also the player</b>: the tunnel will be complete only if the player has enough life.  
+The <b><span style="color:purple">Unearthing Enchantment</span></b> makes a digger tool dig tunnels with the depth and area depending on the level of the enchantments. Since it is a demonic enchantment, digging with an item containing this enchantment <b>damages also the player</b>: the tunnel will be complete only if the player has enough life.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -98,11 +99,11 @@ This enchantment <b>is not compatible</b> with:
 1. Veinminer Enchantment
 
 ## OVERCHARGED ENCHANTMENT (V)
-The <b><span style="color:purple">Overcharged Enchantment</span></b> makes the chargeable items to be overchargable and perform additional damage. Since it is a demonic enchantment, overcharging an item containing this enchantment <b>will damage also the player</b>.
+The <b><span style="color:purple">Overcharged Enchantment</span></b> makes the chargeable items to be overchargable and perform additional damage. Since it is a demonic enchantment, overcharging an item containing this enchantment <b>damages also the player</b>: after the item is normally charged, the player starts to take damage every 0.5 seconds and the projectile makes additional damage depending on the total health absorbed by the player.
 
 <details>
 <summary><b>Details here</b></summary>
-The overcharging logic starts after the item has been fully charged: if the player continues to charge the item, he will start taking a heart of damage every 10 ticks (0.5 seconds). The projectile will make additional damage depending on the level of the enchantment and the total damage that the player endured:  
+The projectile will make additional damage depending on the level of the enchantment and the health absorbed:
 
 ```bash
 additional_damage = player_endured_damage*(0.3 + enchantment_level * 0.2)
@@ -128,7 +129,7 @@ This enchantment <b>is not compatible</b> with:
 5. Damage Enchantments
 
 ## PHASING ENCHANTMENT (V)
-The <b><span style="color:purple">Phasing Enchantment</span></b> makes the player able to teleport: it provides the ability of both teleporting where the player is looking at and teleporting behind walls.  Since it is a demonic enchantment, overcharging an item containing this enchantment <b>will damage also the player</b>.  
+The <b><span style="color:purple">Phasing Enchantment</span></b> makes the player able to teleport: it provides the ability of both teleporting where the player is looking at and teleporting behind walls.  Since it is a demonic enchantment, activating this ability <b>damages also the player</b>.  
 <b>The phasing enchantment ability is activated through the related keybinding.</b>  
 
 <details>
@@ -146,7 +147,7 @@ This enchantment <b>can be applied to</b>:
 1. Leggings Item
 
 ## DEMONCTION ENCHANTMENT (V)
-The <b>Demonction Enchantment</b> is the only enchantment that is able to protect the user against demonic damage: this applies only to the demonic damage inflicted by the enchantments and not by the demonic enchanting.
+The <b>Demonction Enchantment</b> is the only enchantment that is able to protect the user against demonic damage: this applies only to the demonic damage inflicted by the enchantments and not by demonic enchanting.
 
 <details>
 <summary><b>Details here</b></summary>
@@ -169,7 +170,7 @@ This enchantment <b>can be applied to</b>:
 4. Boots Item
 
 ## REACHING ENCHANTMENT (IV)
-The <b>Reaching Enchantment</b> increases the reach of player making him able to interact with blocks and entities that would normally be out of reach.  
+The <b>Reaching Enchantment</b> increases the reach of player making him able to interact with blocks and entities that would normally be out of reach: at the maximum level, it extends the player reach by 7 blocks.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -193,7 +194,7 @@ This enchantment <b>can be applied to</b>:
 6. Triden Item
 
 ## POCKETED ENCHANTMENT (V)
-The <b>Pocketed Enchantment</b> adds pockets to leggings to provide additional inventory storage for the player.  
+The <b>Pocketed Enchantment</b> adds pockets to leggings to provide additional inventory storage for the player: at the maximum level, it increases the player inventory by 24 slots.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -213,7 +214,7 @@ This enchantment <b>can be applied to</b>:
 1. Leggings Item
 
 ## VEIN MINER ENCHANTMENT (V)
-The <b>Vein Miner Enchantment</b> increases the amout of blocks that the player breaks every time he digs a block: it allows the player to mine entire veins of the same type of block with just breaking a single block.  
+The <b>Vein Miner Enchantment</b> increases the amout of blocks that the player breaks every time he digs a block: it allows the player to mine entire veins of the same type of block with just breaking a single block: at the maximum level, it breaks 110 additional blocks at maximum.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -239,7 +240,7 @@ This enchantment <b>is not compatible</b> with:
 1. Unearthing Enchantment
 
 ## ATTRACTION ENCHANTMENT (III)
-The <b>Attraction Enchantment</b> makes the items, that are lying on the ground near the player, move toward him: the 
+The <b>Attraction Enchantment</b> makes the items, that are lying on the ground near the player, move toward him: at the maximum level, the attraction distance is 8 blocks.
 
 <details>
 <summary><b>Details here</b></summary>
@@ -257,7 +258,7 @@ This enchantment <b>can be applied to</b>:
 1. Chestplate Item
 
 ## METEORITY ENCHANTMENT (III)
-The <b>Meteority Enchantment</b> increases the maximim flyight speed of the elytra applied when using a firework: the spees increases with the level of the enchantment and notice that after the effect of the firework is expired, the maximum speed is reset to normal.  
+The <b>Meteority Enchantment</b> increases the maximim flyight speed of the elytra applied when using a firework. The speed increases with the level of the enchantment and notice that after the effect of the firework is expired, the maximum speed is reset to normal: normally, the maximum speed is 1.0 m/s, instead while using this enchantment at the maximum level, the speed is 3.1 m/s.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -276,7 +277,7 @@ This enchantment <b>can be applied to</b>:
 1. Elytra Item
 
 ## WINGSPAN ENCHANTMENT (III)
-The <b>Wingspan Enchantment</b> applies knockback on all the living entities near the player after landing with the elytra: the force of the knockback and the range increases with the level of the enchantment.
+The <b>Wingspan Enchantment</b> applies knockback on all the living entities near the player after landing with the elytra. The force of the knockback and the range increases with the level of the enchantment: at the maximum level, the application distance is 6 blocks and the force depends on the velocity of the player.
 
 <details>
 <summary><b>Details here</b></summary>
