@@ -31,7 +31,7 @@ At level 1, it consumes 10.00% of the player health and produces +6.5 additional
 At level 2, it consumes 13.75% of the player health and produces +12.0 additional damage.  <br />
 At level 3, it consumes 17.50% of the player health and produces +19.0 additional damage. <br />
 At level 4, it consumes 21.25% of the player health and produces +27.5 additional damage. <br />
-At level 5, it consumes 25.00% of the player health and produces +37.6 additional damage. <br />
+At level 5, it consumes 25.00% of the player health and produces +37.5 additional damage. <br />
 An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
 <br />
 <p align="center">
