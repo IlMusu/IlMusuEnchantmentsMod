@@ -446,7 +446,7 @@ This enchantment <b>can be applied to</b>:
 1. Shield Item
 
 ## COVERAGE ENCHANTMENT (V)
-The <b>Coverage Enchantment</b> increases the coverage ability of the shield by increases the angles at which the shield is able to protect the player: at the maximum level, this enchantment provides full coverage from enemies attacks.
+The <b>Coverage Enchantment</b> increases the coverage ability of the shield by increasing the angles at which the shield is able to protect the player: at the maximum level, this enchantment provides full coverage from enemies attacks.
 
 <details>
 <summary><b>Details here</b></summary>
