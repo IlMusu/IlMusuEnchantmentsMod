@@ -338,8 +338,8 @@ This enchantment <b>can be applied to</b>:
 3. Bow Item
 4. Crossbow Item
 
-## MOON JUMP ENCHANTMENT (V)
-The <b>Moon Jump Enchantment</b> allows the player to perform multiple jumps while already in mid-air: the number of jumps increases with the level of the enchantment and a Leaping Effect can be used to perform higher jumps: at the maximum level, it allows the player to perform 10 mir-air jumps.  
+## SKY JUMP ENCHANTMENT (V)
+The <b>Sky Jump Enchantment</b> allows the player to perform multiple jumps while already in mid-air: the number of jumps increases with the level of the enchantment and a Leaping Effect can be used to perform higher jumps: at the maximum level, it allows the player to perform 10 mir-air jumps.  
 
 <details>
 <summary><b>Details here</b></summary>
@@ -387,7 +387,7 @@ This enchantment <b>is not compatible</b> with:
 2. Moon Jump Enchantment
 
 ## SKYHOOK ENCHANTMENT (IV)
-The <b>Skyhook Enchantment</b> introduces a new movement mechanic which connects the player and an arrow with a lace: the player is attached to the arrow and flies following the arrow. Because of this reason, the player needs to have a lace in the inventory for this to work. The player is able to disconnect the lace by unequipping the crossbow or by shooting another arrow (but this requires to have another lace inside the inventory). The amount of time the player is attached to the arrow increases with the level: at the maximum level, the duration is 8 seconds.  
+The <b>Skyhook Enchantment</b> introduces a new movement mechanic which connects the player and an arrow with a lead: the player is attached to the arrow and flies following the arrow. Because of this reason, the player needs to have a lead in the inventory for this to work. The player is able to disconnect the lead by unequipping the crossbow or by shooting another arrow (but this requires to have another lead inside the inventory). The amount of time the player is attached to the arrow increases with the level: at the maximum level, the duration is 8 seconds.  
 
 <details>
 <summary><b>Details here</b></summary>
