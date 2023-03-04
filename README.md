@@ -384,7 +384,7 @@ This enchantment <b>can be applied to</b>:
 
 This enchantment <b>is not compatible</b> with:
 1. Feather Falling Enchantment
-2. Moon Jump Enchantment
+2. Sky Jump Enchantment
 
 ## SKYHOOK ENCHANTMENT (IV)
 The <b>Skyhook Enchantment</b> introduces a new movement mechanic which connects the player and an arrow with a lead: the player is attached to the arrow and flies following the arrow. Because of this reason, the player needs to have a lead in the inventory for this to work. The player is able to disconnect the lead by unequipping the crossbow or by shooting another arrow (but this requires to have another lead inside the inventory). The amount of time the player is attached to the arrow increases with the level: at the maximum level, the duration is 8 seconds.  
