@@ -433,7 +433,7 @@ The size, duration and damage of the shockwave increase with the level of the en
 
 ```bash
 size = (1+level) [blocks]
-damage = (0.5+level*0.2) [half-hearts]
+damage = (1.0+level*0.7) [half-hearts]
 duration = (1+level) [seconds]
 ```
 <br />
