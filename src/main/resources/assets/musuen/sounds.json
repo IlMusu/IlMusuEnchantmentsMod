@@ -1,0 +1,7 @@
+{
+	"entity.living.elytra_wing_flap":
+	{
+		"subtitle": "musuen.subtitle.entity.living.elytra_wing_flap",
+		"sounds": [ "musuen:entity.living.elytra_wing_flap" ]
+	}
+}
