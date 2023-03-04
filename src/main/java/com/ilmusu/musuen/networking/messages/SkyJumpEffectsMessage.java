@@ -12,16 +12,16 @@ import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
 
-public class MoonJumpEffectsMessage extends _Message
+public class SkyJumpEffectsMessage extends _Message
 {
     private Vec3d pos;
 
-    public MoonJumpEffectsMessage()
+    public SkyJumpEffectsMessage()
     {
-        super("moon_jump_effects");
+        super("sky_jump_effects");
     }
 
-    public MoonJumpEffectsMessage(LivingEntity jumper)
+    public SkyJumpEffectsMessage(LivingEntity jumper)
     {
         this();
         this.pos = jumper.getPos();

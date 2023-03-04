@@ -4,7 +4,7 @@ import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.LivingEntityJumpCheckCallback;
 import com.ilmusu.musuen.callbacks.PlayerLandCallback;
 import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
-import com.ilmusu.musuen.networking.messages.MoonJumpEffectsMessage;
+import com.ilmusu.musuen.networking.messages.SkyJumpEffectsMessage;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -14,11 +14,11 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 
-public class MoonJumpEnchantment extends Enchantment
+public class SkyJumpEnchantment extends Enchantment
 {
-    private static final String MOON_JUMPS_TAG = Resources.MOD_ID+".is_phasing";
+    private static final String SKY_JUMPS_TAG = Resources.MOD_ID+".is_phasing";
 
-    public MoonJumpEnchantment(Rarity weight)
+    public SkyJumpEnchantment(Rarity weight)
     {
         super(weight, EnchantmentTarget.ARMOR_FEET, new EquipmentSlot[]{EquipmentSlot.FEET});
     }
@@ -32,7 +32,7 @@ public class MoonJumpEnchantment extends Enchantment
     @Override
     protected boolean canAccept(Enchantment other)
     {
-        return !(other instanceof MoonJumpEnchantment) &&
+        return !(other instanceof SkyJumpEnchantment) &&
                !(other instanceof LongJumpEnchantment) &&
                !(other == Enchantments.FEATHER_FALLING);
     }
@@ -45,24 +45,24 @@ public class MoonJumpEnchantment extends Enchantment
             if(!(entity instanceof PlayerEntity) || entity.isTouchingWater() || jumpCooldown > 5)
                 return false;
 
-            int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.MOON_JUMP, entity);
+            int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.SKY_JUMP, entity);
             if(level == 0)
                 return false;
 
             NbtCompound tag = ((_IEntityPersistentNbt)entity).get();
-            int additionalJumps = tag.getInt(MOON_JUMPS_TAG);
+            int additionalJumps = tag.getInt(SKY_JUMPS_TAG);
             if(additionalJumps >= level*2)
                 return false;
 
             entity.fallDistance = 0.0F;
-            tag.putInt(MOON_JUMPS_TAG, additionalJumps+1);
+            tag.putInt(SKY_JUMPS_TAG, additionalJumps+1);
 
-            new MoonJumpEffectsMessage(entity).sendToServer();
+            new SkyJumpEffectsMessage(entity).sendToServer();
             return true;
         });
 
         PlayerLandCallback.EVENT.register(((player, fallDistance) ->
-            ((_IEntityPersistentNbt)player).get().remove(MOON_JUMPS_TAG))
+            ((_IEntityPersistentNbt)player).get().remove(SKY_JUMPS_TAG))
         );
     }
 }

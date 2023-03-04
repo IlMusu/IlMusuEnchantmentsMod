@@ -26,7 +26,7 @@ public class LongJumpEnchantment extends Enchantment
     protected boolean canAccept(Enchantment other)
     {
         return !(other instanceof LongJumpEnchantment) &&
-               !(other instanceof MoonJumpEnchantment) &&
+               !(other instanceof SkyJumpEnchantment) &&
                !(other == Enchantments.FEATHER_FALLING);
     }
 

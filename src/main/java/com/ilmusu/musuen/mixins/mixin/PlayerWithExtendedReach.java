@@ -57,7 +57,7 @@ public abstract class PlayerWithExtendedReach implements _IPlayerExtendedReach
     @Mixin(GameRenderer.class)
     public abstract static class FixClientReachDistance
     {
-        private static double rangeCache;
+        @Shadow @Final MinecraftClient client;
 
         @ModifyConstant(method = "updateTargetedEntity", constant = @Constant(doubleValue = 9.0))
         public double increaseMaximumPossibleEntityInteraction(double constant)
@@ -65,17 +65,10 @@ public abstract class PlayerWithExtendedReach implements _IPlayerExtendedReach
             return 150.0F;
         }
 
-        @ModifyVariable(method = "updateTargetedEntity", name = "d", at = @At(value = "LOAD", ordinal = 0))
-        public double increaseCreativeRangeOnlyIfTheCurrentRangeIsLessHook(double range)
-        {
-            FixClientReachDistance.rangeCache = range;
-            return range;
-        }
-
-        @ModifyVariable(method = "updateTargetedEntity", name = "e", at = @At(value = "STORE", ordinal = 1))
+        @ModifyConstant(method = "updateTargetedEntity", constant = @Constant(doubleValue = 6.0))
         public double increaseCreativeRangeOnlyIfTheCurrentRangeIsLess(double range)
         {
-            return Math.max(range, FixClientReachDistance.rangeCache);
+            return Math.max(range, this.client.interactionManager.getReachDistance());
         }
     }
 

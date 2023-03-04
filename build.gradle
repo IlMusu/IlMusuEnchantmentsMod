@@ -61,7 +61,7 @@ jar {
 
 loom {
 	// Adding the path to the access widener
-	accessWidenerPath = file("src/main/resources/${project.archivesBaseName}.accesswidener")
+	accessWidenerPath = file("src/main/resources/musuen.accesswidener")
 }
 
 // configure the maven publication

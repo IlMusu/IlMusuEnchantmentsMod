@@ -280,7 +280,9 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
             );
             this.updatePocketsButtonPos();
 
-            ((AccessorScreen)this).addDrawableChildAccess(this.pocketsButton);
+            ((AccessorScreen)this).getDrawables().add(this.pocketsButton);
+            ((AccessorScreen)this).getChildren().add(this.pocketsButton);
+            ((AccessorScreen)this).getSelectables().add(this.pocketsButton);
         }
 
         @Inject(method = "drawBackground", at = @At("TAIL"))

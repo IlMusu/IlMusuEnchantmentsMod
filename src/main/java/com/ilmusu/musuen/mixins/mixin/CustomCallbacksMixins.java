@@ -4,7 +4,6 @@ import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.*;
 import com.ilmusu.musuen.mixins.interfaces._IEntityTrackableDrops;
 import com.ilmusu.musuen.utils.ModUtils;
-import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -465,16 +464,6 @@ public abstract class CustomCallbacksMixins
             if(this.params.isUnclamped())
                 return 2000.0F;
             return constant;
-        }
-    }
-
-    @Mixin(Keyboard.class)
-    public static abstract class KeyboardCallbacks
-    {
-        @Inject(method = "onKey", at = @At(value = "RETURN", ordinal = 4))
-        protected void afterHandlingVanillaKeybindings(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci)
-        {
-            KeybindInputCallback.EVENT.invoker().handler(key, scancode, action, modifiers);
         }
     }
 }
