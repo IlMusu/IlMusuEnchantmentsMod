@@ -11,6 +11,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.world.ServerWorld;
@@ -49,7 +50,12 @@ public class TelekinesisEnchantment extends Enchantment implements _IEnchantment
             if(source == null || entity.world.isClient || !(source.getAttacker() instanceof PlayerEntity player))
                 return true;
 
-            int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.TELEKINESIS, player);
+            int level;
+            if(source.getSource() instanceof TridentEntity trident)
+                level = EnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, trident.tridentStack);
+            else
+                level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.TELEKINESIS, player);
+
             if(level == 0)
                 return true;
 
