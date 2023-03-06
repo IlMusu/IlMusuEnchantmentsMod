@@ -209,8 +209,8 @@ public abstract class DemonicEnchantingTableLogicMixin
             if(!MixinSharedData.isGeneratingFromEnchantingTable || !MixinSharedData.areSkullsAroundEnchantingTable)
                 return;
 
-            // There is a 1/10 chance of extracting a demonic enchantment
-            if(random.nextFloat() > 0.1)
+            // There is a 1/20 chance of extracting a demonic enchantment
+            if(random.nextFloat() > 0.05)
                 return;
 
             // Getting only the demonic enchantments
