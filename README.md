@@ -19,7 +19,7 @@ Only after the skulls have been placed correctly around the enchanting table, yo
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/demonic_enchanting_2.png?raw=true">
 </p>
 
-These enchantments require, not only experience levels and lapislazuli, but also a <b><span style="color:red">sacrifice</span></b>: around the Enchanting Table, in a radius of 5 blocks, there should be enough living entities to drawn the health requested by the enchantment.  
+These enchantments require, not only experience levels and lapislazuli, but also a <b><span style="color:red">sacrifice</span></b> in health: around the Enchanting Table, in a radius of 7 blocks, there should be enough living entities to drawn the health requested by the enchantment.  
 For example in the second image, 40 hearts needs to be consumed and a sheep has only 4 hearts, this means that 10 sheeps are necessary to apply the <b><span style="color:purple">demonic enchantment</span></b> on the item.  
 Notice that when there are not enough living entities aroung the enchanting table, <b>the health is drawn from the player</b> who might also get killed!  
   
