@@ -1,9 +1,12 @@
 package com.ilmusu.musuen.mixins.mixin;
 
+import com.ilmusu.musuen.client.particles.colored_enchant.ColoredGlyphParticleEffect;
 import com.ilmusu.musuen.enchantments._IDemonicEnchantment;
 import com.ilmusu.musuen.mixins.MixinSharedData;
 import com.ilmusu.musuen.mixins.interfaces._IDemonicEnchantmentScreenHandler;
 import com.ilmusu.musuen.registries.ModDamageSources;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.EnchantingTableBlock;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
@@ -12,12 +15,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.screen.EnchantmentScreenHandler;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.util.collection.Weighting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
@@ -30,6 +35,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.awt.*;
 import java.util.List;
 
 public abstract class DemonicEnchantingTableLogicMixin
@@ -219,6 +225,34 @@ public abstract class DemonicEnchantingTableLogicMixin
 
             // Adding only one demonic enchantment at the beginning of the list
             Weighting.getRandom(random, demonics).ifPresent((entry -> list.add(0, entry)));
+        }
+    }
+
+    @Mixin(EnchantingTableBlock.class)
+    public abstract static class ChangeEnchantingTableBehavior
+    {
+        @Redirect(method = "canAccessBookshelf", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/World;isAir(Lnet/minecraft/util/math/BlockPos;)Z"
+        ))
+        private static boolean fixBookshelvesAccessWithSkulls(World world, BlockPos pos)
+        {
+            return world.isAir(pos) || _IDemonicEnchantmentScreenHandler.isValidSkull(world.getBlockState(pos));
+        }
+
+        @Inject(method = "randomDisplayTick", at = @At("TAIL"))
+        public void addDemonicEnchantingGlyphParticles(BlockState state, World world, BlockPos pos, Random random, CallbackInfo ci)
+        {
+            for(BlockPos offset : _IDemonicEnchantmentScreenHandler.SKULLS_OFFSETS)
+            {
+                if(random.nextInt(8) != 0 || !_IDemonicEnchantmentScreenHandler.isValidSkull(world.getBlockState(pos.add(offset))))
+                    continue;
+
+                Vec3d pos0 = new Vec3d(pos.getX() + 0.5, (double)pos.getY() + 2.0, (double)pos.getZ() + 0.5);
+                Vec3d vel = new Vec3d(offset.getX()+random.nextFloat()-0.5, offset.getY()-random.nextFloat()-1.0, offset.getZ()+random.nextFloat()-0.5);
+                ParticleEffect effect = new ColoredGlyphParticleEffect(new Color(107, 15, 15));
+                world.addParticle(effect, pos0.x, pos0.y, pos0.z, vel.x, vel.y, vel.z);
+            }
         }
     }
 }

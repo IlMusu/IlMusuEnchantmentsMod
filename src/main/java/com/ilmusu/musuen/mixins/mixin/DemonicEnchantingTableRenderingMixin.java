@@ -1,29 +1,17 @@
 package com.ilmusu.musuen.mixins.mixin;
 
 import com.ilmusu.musuen.Resources;
-import com.ilmusu.musuen.client.particles.colored_enchant.ColoredGlyphParticleEffect;
 import com.ilmusu.musuen.mixins.interfaces._IDemonicEnchantmentScreenHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.EnchantingTableBlock;
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.awt.*;
 
 public abstract class DemonicEnchantingTableRenderingMixin
 {
@@ -118,25 +106,6 @@ public abstract class DemonicEnchantingTableRenderingMixin
         private _IDemonicEnchantmentScreenHandler getDemonicScreenHandler()
         {
             return ((_IDemonicEnchantmentScreenHandler)((EnchantmentScreen)(Object)this).getScreenHandler());
-        }
-    }
-
-    @Mixin(EnchantingTableBlock.class)
-    public abstract static class AddDemonicEnchantingGlyphParticles
-    {
-        @Inject(method = "randomDisplayTick", at = @At("TAIL"))
-        public void addDemonicEnchantingGlyphParticles(BlockState state, World world, BlockPos pos, Random random, CallbackInfo ci)
-        {
-            for(BlockPos offset : _IDemonicEnchantmentScreenHandler.SKULLS_OFFSETS)
-            {
-                if(random.nextInt(8) != 0 || !_IDemonicEnchantmentScreenHandler.isValidSkull(world.getBlockState(pos.add(offset))))
-                    continue;
-
-                Vec3d pos0 = new Vec3d(pos.getX() + 0.5, (double)pos.getY() + 2.0, (double)pos.getZ() + 0.5);
-                Vec3d vel = new Vec3d(offset.getX()+random.nextFloat()-0.5, offset.getY()-random.nextFloat()-1.0, offset.getZ()+random.nextFloat()-0.5);
-                ParticleEffect effect = new ColoredGlyphParticleEffect(new Color(107, 15, 15));
-                world.addParticle(effect, pos0.x, pos0.y, pos0.z, vel.x, vel.y, vel.z);
-            }
         }
     }
 }
