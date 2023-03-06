@@ -11,7 +11,7 @@ The demonic enchanting mechanic can be triggered by placing <b>three skulls</b>,
 	<img width="80%" src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/skulls_red_glyph.png?raw=true">
 </p>
 
-Only after the skulls have been placed correctly around the enchanting table, you might discover <b><span style="color:purple">demonic enchantments</span></b> while enchanting items or books: 
+Then, you might discover <b><span style="color:purple">demonic enchantments</span></b> while enchanting items or books: 
 
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/demonic_enchanting_1.png?raw=true">
