@@ -19,6 +19,7 @@
     "CustomCallbacksMixins$TridentItemCallbacks",
     "DemonicEnchantingTableLogicMixin$DemonicEnchantmentScreenHandler",
     "DemonicEnchantingTableLogicMixin$FixEnchantmentGenerationList",
+    "DemonicEnchantingTableRenderingMixin$AddDemonicEnchantingGlyphParticles",
     "EnchantmentWithExtensions$EnchantmentHelperModifications",
     "EntityWithPersistentNbt",
     "EntityWithTrackableDrops",

@@ -1,6 +1,6 @@
 package com.ilmusu.musuen.mixins.mixin;
 
-import com.ilmusu.musuen.mixins.interfaces._IEnchantmentExtensions;
+import com.ilmusu.musuen.enchantments._IEnchantmentExtensions;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentLevelEntry;

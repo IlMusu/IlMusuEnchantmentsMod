@@ -1,6 +1,5 @@
 package com.ilmusu.musuen.enchantments;
 
-import com.ilmusu.musuen.mixins.interfaces._IEnchantmentExtensions;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.musuen.networking.messages.ShockwaveEffectMessage;
 import com.ilmusu.musuen.networking.messages.SwingHandMessage;

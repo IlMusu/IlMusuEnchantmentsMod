@@ -1,4 +1,4 @@
-package com.ilmusu.musuen.mixins.interfaces;
+package com.ilmusu.musuen.enchantments;
 
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.item.ItemStack;

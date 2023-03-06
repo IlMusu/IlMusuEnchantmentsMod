@@ -2,7 +2,6 @@ package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.*;
-import com.ilmusu.musuen.mixins.interfaces._IEnchantmentExtensions;
 import com.ilmusu.musuen.registries.ModDamageSources;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import net.minecraft.enchantment.*;

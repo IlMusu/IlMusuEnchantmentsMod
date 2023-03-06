@@ -1,18 +1,21 @@
 package com.ilmusu.musuen.mixins.mixin;
 
 import com.ilmusu.musuen.enchantments._IDemonicEnchantment;
+import com.ilmusu.musuen.mixins.MixinSharedData;
+import com.ilmusu.musuen.mixins.interfaces._IDemonicEnchantmentScreenHandler;
 import com.ilmusu.musuen.registries.ModDamageSources;
-import com.ilmusu.musuen.mixins.interfaces._IEnchantmentScreenHandlerDemonic;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.EnchantmentScreenHandler;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.util.collection.Weighting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.random.Random;
@@ -32,7 +35,7 @@ import java.util.List;
 public abstract class DemonicEnchantingTableLogicMixin
 {
     @Mixin(EnchantmentScreenHandler.class)
-    public abstract static class DemonicEnchantmentScreenHandler implements _IEnchantmentScreenHandlerDemonic
+    public abstract static class DemonicEnchantmentScreenHandler implements _IDemonicEnchantmentScreenHandler
     {
         private static final int DEMONIC_ENCHANTING_ENTITY_RADIUS = 7;
 
@@ -57,12 +60,46 @@ public abstract class DemonicEnchantingTableLogicMixin
             self.addPropertyAccess(Property.create(this.demonicEnchantments, 2));
         }
 
+        @Inject(method = "method_17411", at = @At(value = "HEAD"))
+        private void checkSkullsAroundEnchantingTable(ItemStack itemStack, World world, BlockPos pos, CallbackInfo ci)
+        {
+            // Checking if there are all the skulls around
+            int skullCount = 0;
+
+            // Count the number of skulls around the enchanting table
+            for(BlockPos offset : _IDemonicEnchantmentScreenHandler.SKULLS_OFFSETS)
+                if(_IDemonicEnchantmentScreenHandler.isValidSkull(world.getBlockState(pos.add(offset))))
+                    ++skullCount;
+
+            MixinSharedData.areSkullsAroundEnchantingTable = skullCount >= 3;
+        }
+
+        @Inject(method = "generateEnchantments", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/enchantment/EnchantmentHelper;generateEnchantments(Lnet/minecraft/util/math/random/Random;Lnet/minecraft/item/ItemStack;IZ)Ljava/util/List;"
+        ))
+        private void storeGeneratingFromEnchantingTableFlag(ItemStack stack, int slot, int level, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir)
+        {
+            MixinSharedData.isGeneratingFromEnchantingTable = true;
+        }
+
+        @Inject(method = "generateEnchantments", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/enchantment/EnchantmentHelper;generateEnchantments(Lnet/minecraft/util/math/random/Random;Lnet/minecraft/item/ItemStack;IZ)Ljava/util/List;",
+            shift = At.Shift.AFTER
+        ))
+        private void removeGeneratingFromEnchantingTableFlag(ItemStack stack, int slot, int level, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir)
+        {
+            MixinSharedData.isGeneratingFromEnchantingTable = false;
+        }
+
         @Inject(method = "method_17411", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
             value = "INVOKE",
             target = "Ljava/util/List;get(I)Ljava/lang/Object;"
         ))
         private void addDemonicEnchantmentPropertyValueHook(ItemStack itemStack, World world, BlockPos pos, CallbackInfo ci, int i, int j)
         {
+            // Storing the slot for which the enchantments are generated
             DemonicEnchantmentScreenHandler.slot = j;
         }
 
@@ -76,7 +113,8 @@ public abstract class DemonicEnchantingTableLogicMixin
             // The demonic enchantment is placed always at the first position
             EnchantmentLevelEntry entry = list.get(0);
 
-            // Overriding the first enchantment in case there is a demonic enchantment
+            // Storing if this slot contains a demonic enchantment
+            // Overriding the visualization of the enchantment if there is a demonic enchantment
             if(entry.enchantment instanceof _IDemonicEnchantment)
             {
                 this.demonicEnchantments[DemonicEnchantmentScreenHandler.slot] = 1;
@@ -147,19 +185,40 @@ public abstract class DemonicEnchantingTableLogicMixin
     @Mixin(EnchantmentHelper.class)
     public abstract static class FixEnchantmentGenerationList
     {
+        private static int level = 0;
+
+        @Inject(method = "generateEnchantments", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
+                value = "INVOKE",
+                target = "Ljava/util/List;isEmpty()Z",
+                ordinal = 0
+        ))
+        private static void removeDemonicEnchantmentsFromExtraction(Random random, ItemStack stack, int level, boolean treasureAllowed,
+            CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<?> list, Item item, int i, float f, List<EnchantmentLevelEntry> list2)
+        {
+            // Removing all the demonic enchantments since the extraction is done later
+            list2.removeIf(entry -> entry.enchantment instanceof _IDemonicEnchantment);
+            // Storing the modified power level
+            FixEnchantmentGenerationList.level = level;
+        }
+
         @Inject(method = "generateEnchantments", locals = LocalCapture.CAPTURE_FAILHARD, at = @At("TAIL"))
         private static void fixEnchantmentListWithDemonicEnchantments(Random random, ItemStack stack, int level,
             boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<EnchantmentLevelEntry> list)
         {
-            // Getting the first extracted demonic enchantment
-            EnchantmentLevelEntry demonic = list.stream().filter((entry) -> entry.enchantment instanceof _IDemonicEnchantment).findFirst().orElse(null);
-            if(demonic == null)
+            // Check if a demonic enchantment can be added to the list
+            if(!MixinSharedData.isGeneratingFromEnchantingTable || !MixinSharedData.areSkullsAroundEnchantingTable)
                 return;
 
-            // Removing all the other and keeping only the first one, there can be only one,
-            // and it is placed at the first position in the list
-            list.removeIf((entry) -> entry.enchantment instanceof _IDemonicEnchantment);
-            list.add(0, demonic);
+            // There is a 1/10 chance of extracting a demonic enchantment
+            if(random.nextFloat() > 0.1)
+                return;
+
+            // Getting only the demonic enchantments
+            List<EnchantmentLevelEntry> demonics = EnchantmentHelper.getPossibleEntries(FixEnchantmentGenerationList.level, stack, false);
+            demonics.removeIf(entry -> !(entry.enchantment instanceof _IDemonicEnchantment));
+
+            // Adding only one demonic enchantment at the beginning of the list
+            Weighting.getRandom(random, demonics).ifPresent((entry -> list.add(0, entry)));
         }
     }
 }

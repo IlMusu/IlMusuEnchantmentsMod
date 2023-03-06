@@ -1,7 +1,6 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.LivingEntityDamageCallback;
-import com.ilmusu.musuen.mixins.interfaces._IEnchantmentExtensions;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;

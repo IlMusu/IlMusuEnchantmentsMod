@@ -2,7 +2,6 @@ package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.EntityDropCallback;
 import com.ilmusu.musuen.client.particles.colored.ColoredParticleEffect;
-import com.ilmusu.musuen.mixins.interfaces._IEnchantmentExtensions;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;

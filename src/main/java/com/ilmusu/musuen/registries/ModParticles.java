@@ -3,6 +3,8 @@ package com.ilmusu.musuen.registries;
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.client.particles.colored.ColoredParticle;
 import com.ilmusu.musuen.client.particles.colored.ColoredParticleType;
+import com.ilmusu.musuen.client.particles.colored_enchant.ColoredGlyphParticle;
+import com.ilmusu.musuen.client.particles.colored_enchant.ColoredGlyphParticleType;
 import com.ilmusu.musuen.client.particles.eblock.BlockParticle;
 import com.ilmusu.musuen.client.particles.eblock.BlockParticleType;
 import net.fabricmc.api.EnvType;
@@ -14,11 +16,13 @@ import net.minecraft.registry.Registry;
 public class ModParticles
 {
     public static final ColoredParticleType COLORED = new ColoredParticleType();
+    public static final ColoredGlyphParticleType COLORED_GLYPH = new ColoredGlyphParticleType();
     public static final BlockParticleType BLOCK = new BlockParticleType();
 
     public static void register()
     {
         Registry.register(Registries.PARTICLE_TYPE, Resources.identifier("colored"), COLORED);
+        Registry.register(Registries.PARTICLE_TYPE, Resources.identifier("colored_glyph"), COLORED_GLYPH);
         Registry.register(Registries.PARTICLE_TYPE, Resources.identifier("block"), BLOCK);
     }
 
@@ -26,6 +30,7 @@ public class ModParticles
     public static void registerFactories()
     {
         ParticleFactoryRegistry.getInstance().register(COLORED, ColoredParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(COLORED_GLYPH, ColoredGlyphParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(BLOCK, BlockParticle.Factory::new);
     }
 }

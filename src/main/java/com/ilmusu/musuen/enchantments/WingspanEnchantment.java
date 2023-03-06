@@ -1,7 +1,6 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.LivingEntityElytraLandCallback;
-import com.ilmusu.musuen.mixins.interfaces._IEnchantmentExtensions;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.registries.ModSoundEvents;
 import com.ilmusu.musuen.utils.ModUtils;

@@ -1,7 +1,6 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.PlayerReachDistanceCallback;
-import com.ilmusu.musuen.mixins.interfaces._IEnchantmentExtensions;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
