@@ -1,6 +1,6 @@
 package com.ilmusu.musuen.enchantments;
 
-import com.ilmusu.musuen.callbacks.PlayerEquipArmorCallback;
+import com.ilmusu.musuen.callbacks.PlayerEquipCallback;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerPockets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import net.minecraft.enchantment.Enchantment;
@@ -23,7 +23,7 @@ public class PocketedEnchantment extends Enchantment
 
     static
     {
-        PlayerEquipArmorCallback.EVENT.register(((player, stack, slot) ->
+        PlayerEquipCallback.ARMOR.register(((player, stack, slot) ->
         {
             if(player.world.isClient || slot != EquipmentSlot.LEGS)
                 return;
