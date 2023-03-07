@@ -24,9 +24,6 @@
     "EntityWithPersistentNbt",
     "EntityWithTrackableDrops",
     "EntityWithTrackableDrops$LivingEntityTrackableDrops",
-    "PlayerWithExtendedReach",
-    "PlayerWithExtendedReach$ModifyServerBlockBreakingDistance",
-    "PlayerWithExtendedReach$ModifyServerInteractionDistance",
     "PlayerWithPockets",
     "PlayerWithPockets$AddPocketSlotsToPlayerInventory",
     "PlayerWithTickers"
@@ -39,8 +36,6 @@
     "CustomCallbacksMixins$GameRendererCallbacks",
     "CustomCallbacksMixins$HeldItemRendererMixins",
     "DemonicEnchantingTableRenderingMixin$HeartRequirementsRendering",
-    "PlayerWithExtendedReach$FixClientReachDistance",
-    "PlayerWithExtendedReach$ModifyClientReachDistance",
     "PlayerWithPockets$DisablePocketsInCreativeInventory",
     "PlayerWithPockets$RemoveStatusEffectsRenderingWhenPocketsOpen",
     "PlayerWithPockets$RenderPocketsInPlayerInventory"

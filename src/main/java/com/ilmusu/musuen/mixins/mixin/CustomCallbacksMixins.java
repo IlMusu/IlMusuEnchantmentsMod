@@ -210,10 +210,10 @@ public abstract class CustomCallbacksMixins
         @Inject(method = "equipStack", at = @At("TAIL"))
         public void afterEquippingStack(EquipmentSlot slot, ItemStack stack, CallbackInfo ci)
         {
-            if(!slot.isArmorSlot())
-                return;
-
-            PlayerEquipArmorCallback.EVENT.invoker().handler((PlayerEntity)(Object)this, stack, slot);
+            if(slot.isArmorSlot())
+                PlayerEquipCallback.ARMOR.invoker().handler((PlayerEntity) (Object) this, stack, slot);
+            else if(slot == EquipmentSlot.MAINHAND)
+                PlayerEquipCallback.MAINHAND.invoker().handler((PlayerEntity) (Object) this, stack, slot);
         }
 
         @Inject(method = "dropInventory", at = @At("TAIL"))
@@ -237,7 +237,7 @@ public abstract class CustomCallbacksMixins
                 return;
 
             EquipmentSlot equipmentSlot = EquipmentSlot.values()[2+slot];
-            PlayerEquipArmorCallback.EVENT.invoker().handler(inventory.player, stack, equipmentSlot);
+            PlayerEquipCallback.ARMOR.invoker().handler(inventory.player, stack, equipmentSlot);
         }
     }
 
