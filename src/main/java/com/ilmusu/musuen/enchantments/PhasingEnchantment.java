@@ -1,6 +1,7 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.Resources;
+import com.ilmusu.musuen.callbacks.PlayerFovMultiplierCallback;
 import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.musuen.networking.messages.PhasingSwitchMessage;
@@ -148,5 +149,17 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
     public static void onClientPlayerPhasing(boolean enter)
     {
         PhasingEnchantment.clientTargetFov = enter ? 1.8F : 1.0F;
+    }
+
+    static
+    {
+        PlayerFovMultiplierCallback.AFTER.register(((player) ->
+        {
+            if(PhasingEnchantment.clientTargetFov == 1.0F)
+                return PlayerFovMultiplierCallback.FovParams.UNCHANGED;
+
+            return new PlayerFovMultiplierCallback.FovParams(PhasingEnchantment.clientTargetFov)
+                    .unclamped().velocity(0.35F);
+        }));
     }
 }
