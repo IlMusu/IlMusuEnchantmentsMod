@@ -1,30 +1,18 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.Resources;
-import com.ilmusu.musuen.callbacks.PlayerFovMultiplierCallback;
 import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.musuen.networking.messages.PhasingSwitchMessage;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import com.ilmusu.musuen.utils.raycasting.ModRaycast;
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTables;
-import net.minecraft.loot.entry.EmptyEntry;
-import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.loot.function.EnchantRandomlyLootFunction;
-import net.minecraft.loot.function.SetCountLootFunction;
-import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -119,22 +107,13 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
                 ((_IEntityPersistentNbt)player).get().putLong(PHASING_TAG, player.world.getTime()+fovEffectTime);
                 // Sending the message for updating the player fov
                 new PhasingSwitchMessage(true).sendToClient((ServerPlayerEntity) player);
-
-                Vec3d start = player.getEyePos();
-                Vec3d direction = finalTarget.subtract(start).normalize();
-                float distance = Math.min((float)finalTarget.subtract(start).length(), 3.0F);
-                for(float i=0; i<distance; i+=ModUtils.range(player.getRandom(), 0.7F, 1.1F))
-                {
-                    Vec3d pos = start.add(direction.multiply(i));
-                    ((ServerWorld)player.world).spawnParticles(ParticleTypes.SONIC_BOOM, pos.x, pos.y, pos.z, 1, 0.0, 0.0, 0.0, 0.0);
-                }
             })
             .onExiting((ticker) ->
             {
                 // Teleporting player
                 player.requestTeleport(finalTarget.x, finalTarget.getY(), finalTarget.getZ());
                 float pitch = ModUtils.range(player.world.getRandom(), 0.8F, 1.2F);
-                player.world.playSoundFromEntity(null, player, SoundEvents.ENTITY_WARDEN_SONIC_BOOM, SoundCategory.PLAYERS, 1.0F, pitch);
+                player.world.playSoundFromEntity(null, player, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, pitch);
 
                 // Sending the message for updating the player fov
                 new PhasingSwitchMessage(false).sendToClient((ServerPlayerEntity) player);
@@ -169,34 +148,5 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
     public static void onClientPlayerPhasing(boolean enter)
     {
         PhasingEnchantment.clientTargetFov = enter ? 1.8F : 1.0F;
-    }
-
-    static
-    {
-        PlayerFovMultiplierCallback.AFTER.register(((player) ->
-        {
-            if(PhasingEnchantment.clientTargetFov == 1.0F)
-                return PlayerFovMultiplierCallback.FovParams.UNCHANGED;
-
-            return new PlayerFovMultiplierCallback.FovParams(PhasingEnchantment.clientTargetFov)
-                    .unclamped().velocity(0.35F);
-        }));
-
-        LootTableEvents.MODIFY.register(((resourceManager, lootManager, id, builder, source) ->
-        {
-            if(!id.equals(LootTables.ANCIENT_CITY_CHEST))
-                return;
-
-            // Adding enchanted book to ancient city loot table3
-            builder.pool(LootPool.builder()
-                .rolls(ConstantLootNumberProvider.create(1.0F))
-                .with(ItemEntry.builder(Items.BOOK)
-                    .weight(5)
-                    .apply(EnchantRandomlyLootFunction.create().add(ModEnchantments.PHASING)))
-                    .apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1.0F)))
-                .with(EmptyEntry.builder()
-                    .weight(10))
-                .build());
-        }));
     }
 }

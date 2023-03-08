@@ -2,7 +2,7 @@ package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.*;
-import com.ilmusu.musuen.registries.ModDamageSources;
+import com.ilmusu.musuen.entity.damage.DemonicDamageSource;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import net.minecraft.enchantment.*;
 import net.minecraft.entity.EntityGroup;
@@ -132,7 +132,7 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
                 return;
 
             // Applying damage to the player
-            player.damage(ModDamageSources.DEMONIC_DAMAGE, 2.0F);
+            player.damage(DemonicDamageSource.DEMONIC_DAMAGE, 2.0F);
         }));
 
         ProjectileLoadCallback.BEFORE.register((shooter, stack) ->

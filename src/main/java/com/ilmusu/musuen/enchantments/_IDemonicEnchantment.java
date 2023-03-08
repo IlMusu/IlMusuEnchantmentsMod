@@ -1,10 +1,11 @@
 package com.ilmusu.musuen.enchantments;
 
-import com.ilmusu.musuen.registries.ModDamageSources;
+import com.ilmusu.musuen.entity.damage.DemonicDamageSource;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Pair;
 
@@ -13,11 +14,11 @@ public interface _IDemonicEnchantment
     default Text getName(String translationKey, int level, int maxLevel)
     {
         // Making enchantment name as purple
-        MutableText mutableText = Text.translatable(translationKey);
+        MutableText mutableText = new TranslatableText(translationKey);
         mutableText.formatted(Formatting.DARK_PURPLE);
         // Appending enchantment level if necessary
         if (level != 1 || maxLevel != 1)
-            mutableText.append(" ").append(Text.translatable("enchantment.level." + level));
+            mutableText.append(" ").append(new TranslatableText("enchantment.level." + level));
 
         return mutableText;
     }
@@ -48,7 +49,7 @@ public interface _IDemonicEnchantment
         // The health consumed leaves the player with half hearth if this is safe
         float remaining = Math.max(safe ? 1.0F : 0.0F, initialHealth-healthToConsume);
 
-        entity.damage(ModDamageSources.DEMONIC_DAMAGE, initialHealth-remaining);
+        entity.damage(DemonicDamageSource.DEMONIC_DAMAGE, initialHealth-remaining);
 
         // Returning the health that would be consumed, notice that now there is the demonction
         // enchantment, therefore returning the actual health after the damage would not work

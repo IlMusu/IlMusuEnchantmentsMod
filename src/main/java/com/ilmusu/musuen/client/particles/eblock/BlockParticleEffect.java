@@ -84,7 +84,7 @@ public class BlockParticleEffect implements ParticleEffect
     @Override
     public void write(PacketByteBuf buffer)
     {
-        buffer.writeRegistryValue(Block.STATE_IDS, this.state);
+        buffer.writeInt(Block.STATE_IDS.getRawId(this.state));
         buffer.writeFloat(this.size);
         buffer.writeFloat(this.gravity);
         buffer.writeInt(this.life);
