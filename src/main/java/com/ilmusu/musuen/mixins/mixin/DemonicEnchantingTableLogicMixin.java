@@ -70,14 +70,12 @@ public abstract class DemonicEnchantingTableLogicMixin
         private void checkSkullsAroundEnchantingTable(ItemStack itemStack, World world, BlockPos pos, CallbackInfo ci)
         {
             // Checking if there are all the skulls around
-            int skullCount = 0;
+            MixinSharedData.skullsAroundEnchantingTable = 0;
 
             // Count the number of skulls around the enchanting table
             for(BlockPos offset : _IDemonicEnchantmentScreenHandler.SKULLS_OFFSETS)
                 if(_IDemonicEnchantmentScreenHandler.isValidSkull(world.getBlockState(pos.add(offset))))
-                    ++skullCount;
-
-            MixinSharedData.areSkullsAroundEnchantingTable = skullCount >= 3;
+                    ++MixinSharedData.skullsAroundEnchantingTable;
         }
 
         @Inject(method = "generateEnchantments", at = @At(
@@ -212,11 +210,13 @@ public abstract class DemonicEnchantingTableLogicMixin
             boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<EnchantmentLevelEntry> list)
         {
             // Check if a demonic enchantment can be added to the list
-            if(!MixinSharedData.isGeneratingFromEnchantingTable || !MixinSharedData.areSkullsAroundEnchantingTable)
+            if(!MixinSharedData.isGeneratingFromEnchantingTable || MixinSharedData.skullsAroundEnchantingTable < 3)
                 return;
 
-            // There is a 1/20 chance of extracting a demonic enchantment
-            if(random.nextFloat() > 0.05)
+            // There is a 1/10 chance of extracting a demonic enchantment
+            float extracted = random.nextFloat();
+            float additional = (MixinSharedData.skullsAroundEnchantingTable-3)*0.05F;
+            if(extracted > 0.10F+additional)
                 return;
 
             // Getting only the demonic enchantments
