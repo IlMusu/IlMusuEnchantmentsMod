@@ -216,7 +216,7 @@ public abstract class DemonicEnchantingTableLogicMixin
             // There is a 1/10 chance of extracting a demonic enchantment
             float extracted = random.nextFloat();
             float additional = (MixinSharedData.skullsAroundEnchantingTable-3)*0.05F;
-            if(extracted > 0.1F+additional)
+            if(extracted > 0.10F+additional)
                 return;
 
             // Getting only the demonic enchantments
