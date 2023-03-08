@@ -10,8 +10,7 @@ import com.ilmusu.musuen.client.particles.eblock.BlockParticleType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.util.registry.Registry;
 
 public class ModParticles
 {
@@ -21,9 +20,9 @@ public class ModParticles
 
     public static void register()
     {
-        Registry.register(Registries.PARTICLE_TYPE, Resources.identifier("colored"), COLORED);
-        Registry.register(Registries.PARTICLE_TYPE, Resources.identifier("colored_glyph"), COLORED_GLYPH);
-        Registry.register(Registries.PARTICLE_TYPE, Resources.identifier("block"), BLOCK);
+        Registry.register(Registry.PARTICLE_TYPE, Resources.identifier("colored"), COLORED);
+        Registry.register(Registry.PARTICLE_TYPE, Resources.identifier("colored_glyph"), COLORED_GLYPH);
+        Registry.register(Registry.PARTICLE_TYPE, Resources.identifier("block"), BLOCK);
     }
 
     @Environment(EnvType.CLIENT)

@@ -3,8 +3,7 @@ package com.ilmusu.musuen.registries;
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.enchantments.*;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.util.registry.Registry;
 
 public class ModEnchantments
 {
@@ -31,25 +30,25 @@ public class ModEnchantments
 
     public static void register()
     {
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("laceration"), LACERATION);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("skewering"), SKEWERING);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("unearthing"), UNEARTHING);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("phasing"), PHASING);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("overcharged"), OVERCHARGED);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("reaching"), REACHING);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("pocketed"), POCKETED);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("vein_miner"), VEIN_MINER);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("attraction"), ATTRACTION);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("meteority"), METEORITY);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("wingspan"), WINGSPAN);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("alighting"), ALIGHTING);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("telekinesis"), TELEKINESIS);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("sky_jump"), SKY_JUMP);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("long_jump"), LONG_JUMP);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("demonction"), DEMONCTION);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("skyhook"), SKYHOOK);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("reflection"), REFLECTION);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("shockwave"), SHOCKWAVE);
-        Registry.register(Registries.ENCHANTMENT, Resources.identifier("coverage"), COVERAGE);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("laceration"), LACERATION);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("skewering"), SKEWERING);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("unearthing"), UNEARTHING);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("phasing"), PHASING);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("overcharged"), OVERCHARGED);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("reaching"), REACHING);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("pocketed"), POCKETED);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("vein_miner"), VEIN_MINER);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("attraction"), ATTRACTION);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("meteority"), METEORITY);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("wingspan"), WINGSPAN);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("alighting"), ALIGHTING);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("telekinesis"), TELEKINESIS);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("sky_jump"), SKY_JUMP);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("long_jump"), LONG_JUMP);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("demonction"), DEMONCTION);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("skyhook"), SKYHOOK);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("reflection"), REFLECTION);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("shockwave"), SHOCKWAVE);
+        Registry.register(Registry.ENCHANTMENT, Resources.identifier("coverage"), COVERAGE);
     }
 }

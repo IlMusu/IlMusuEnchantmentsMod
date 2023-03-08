@@ -30,11 +30,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import org.joml.Vector3f;
+import net.minecraft.util.math.*;
 
 public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantment
 {
@@ -165,7 +161,7 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
             return new BlockHitResult(pos, result.getSide(), new BlockPos(pos), true);
         }
 
-        Vector3f offset = result.getSide().getUnitVector();
+        Vec3f offset = result.getSide().getUnitVector();
         Vec3d pos = result.getPos().add(0, -1, 0).add(new Vec3d(offset));
         return new BlockHitResult(pos, result.getSide(), new BlockPos(pos), true);
     }
