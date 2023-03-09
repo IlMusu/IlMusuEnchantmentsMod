@@ -50,8 +50,8 @@ public class SkyhookLeashMessage extends _Message
             return;
 
         if(this.isLeashed)
-            ((_IEntityPersistentNbt)leashed).get().putInt(SkyhookEnchantment.SKYHOOK_HOLDER, this.holderID);
+            ((_IEntityPersistentNbt)leashed).getPNBT().putInt(SkyhookEnchantment.SKYHOOK_HOLDER, this.holderID);
         else
-            ((_IEntityPersistentNbt)leashed).get().remove(SkyhookEnchantment.SKYHOOK_HOLDER);
+            ((_IEntityPersistentNbt)leashed).getPNBT().remove(SkyhookEnchantment.SKYHOOK_HOLDER);
     }
 }

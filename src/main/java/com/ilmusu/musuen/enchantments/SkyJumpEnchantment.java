@@ -49,7 +49,7 @@ public class SkyJumpEnchantment extends Enchantment
             if(level == 0)
                 return false;
 
-            NbtCompound tag = ((_IEntityPersistentNbt)entity).get();
+            NbtCompound tag = ((_IEntityPersistentNbt)entity).getPNBT();
             int additionalJumps = tag.getInt(SKY_JUMPS_TAG);
             if(additionalJumps >= level*2)
                 return false;
@@ -62,7 +62,7 @@ public class SkyJumpEnchantment extends Enchantment
         });
 
         PlayerLandCallback.EVENT.register(((player, fallDistance) ->
-            ((_IEntityPersistentNbt)player).get().remove(SKY_JUMPS_TAG))
+            ((_IEntityPersistentNbt)player).getPNBT().remove(SKY_JUMPS_TAG))
         );
     }
 }

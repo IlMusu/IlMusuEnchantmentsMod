@@ -4,7 +4,7 @@ import net.minecraft.nbt.NbtCompound;
 
 public interface _IEntityPersistentNbt
 {
-    NbtCompound get();
+    NbtCompound getPNBT();
 
     void clone(_IEntityPersistentNbt other);
 }
