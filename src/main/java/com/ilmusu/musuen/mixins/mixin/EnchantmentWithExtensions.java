@@ -25,13 +25,13 @@ public abstract class EnchantmentWithExtensions
     @Mixin(EnchantmentHelper.class)
     public static abstract class EnchantmentHelperModifications
     {
-        private static ItemStack stack;
-        private static Enchantment enchantment;
+        private static ItemStack stackDependantHook;
+        private static Enchantment enchantmentDependantHook;
 
         @Inject(method = "getAttackDamage", at = @At("HEAD"))
         private static void addStackDependantDamageHook(ItemStack stack, EntityGroup group, CallbackInfoReturnable<Float> cir)
         {
-            EnchantmentHelperModifications.stack = stack;
+            EnchantmentHelperModifications.stackDependantHook = stack;
         }
 
         @Inject(method = "method_8208", at = @At(
@@ -42,12 +42,14 @@ public abstract class EnchantmentWithExtensions
         private static void addStackDependantDamage(MutableFloat mutableFloat, EntityGroup entityGroup,
             Enchantment enchantment, int level, CallbackInfo ci)
         {
+            ItemStack stack = EnchantmentHelperModifications.stackDependantHook;
+            EnchantmentHelperModifications.stackDependantHook = null;
+
             if(!(enchantment instanceof _IEnchantmentExtensions enchantmentExt))
                 return;
 
             // Adding stack dependant damage to the accumulator
-            mutableFloat.add(enchantmentExt.getAdditionalAttackDamage(EnchantmentHelperModifications.stack, level, entityGroup));
-            EnchantmentHelperModifications.stack = null;
+            mutableFloat.add(enchantmentExt.getAdditionalAttackDamage(stack, level, entityGroup));
         }
 
         @Inject(method = "getPossibleEntries", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
@@ -58,8 +60,8 @@ public abstract class EnchantmentWithExtensions
             CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<?> list, Item item, boolean bl,
             Iterator<?> var6, Enchantment enchantment)
         {
-            EnchantmentHelperModifications.stack = stack;
-            EnchantmentHelperModifications.enchantment = enchantment;
+            EnchantmentHelperModifications.stackDependantHook = stack;
+            EnchantmentHelperModifications.enchantmentDependantHook = enchantment;
         }
 
         @Redirect(method = "getPossibleEntries", at = @At(
@@ -68,11 +70,11 @@ public abstract class EnchantmentWithExtensions
         )
         private static boolean fixEnchantmentExtraction(EnchantmentTarget target, Item item)
         {
-            ItemStack stack = EnchantmentHelperModifications.stack;
-            Enchantment enchantment = EnchantmentHelperModifications.enchantment;
+            ItemStack stack = EnchantmentHelperModifications.stackDependantHook;
+            Enchantment enchantment = EnchantmentHelperModifications.enchantmentDependantHook;
 
-            EnchantmentHelperModifications.stack = null;
-            EnchantmentHelperModifications.enchantment = null;
+            EnchantmentHelperModifications.stackDependantHook = null;
+            EnchantmentHelperModifications.enchantmentDependantHook = null;
 
             // Vanilla behavior, using target for checking the stack
             if(!(enchantment instanceof _IEnchantmentExtensions ext) || !ext.shouldUseStackInsteadOfTargetCheck())

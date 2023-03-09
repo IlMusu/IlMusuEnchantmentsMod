@@ -53,7 +53,7 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
 
     public static boolean onPhasingKeyBindingPress(PlayerEntity player, int modifiers)
     {
-        long lastPhaseTick = ((_IEntityPersistentNbt)player).get().getLong(PHASING_TAG);
+        long lastPhaseTick = ((_IEntityPersistentNbt)player).getPNBT().getLong(PHASING_TAG);
         if(player.world.getTime() - lastPhaseTick <= TICK_DELAY_BETWEEN_PHASING)
             return false;
 
@@ -105,7 +105,7 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
             .onEntering((ticker) ->
             {
                 // The player starts to phase, registering in the nbt
-                ((_IEntityPersistentNbt)player).get().putLong(PHASING_TAG, player.world.getTime()+fovEffectTime);
+                ((_IEntityPersistentNbt)player).getPNBT().putLong(PHASING_TAG, player.world.getTime()+fovEffectTime);
                 // Sending the message for updating the player fov
                 new PhasingSwitchMessage(true).sendToClient((ServerPlayerEntity) player);
             })
