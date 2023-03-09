@@ -14,30 +14,30 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public abstract class EntityWithPersistentNbt implements _IEntityPersistentNbt
 {
-    protected NbtCompound persistentNbt = new NbtCompound();
+    protected NbtCompound musuPersistentNBT = new NbtCompound();
 
     @Override
-    public NbtCompound get()
+    public NbtCompound getPNBT()
     {
-        return persistentNbt;
+        return musuPersistentNBT;
     }
 
     @Override
     public void clone(_IEntityPersistentNbt other)
     {
-        this.persistentNbt = other.get();
+        this.musuPersistentNBT = other.getPNBT();
     }
 
     @Inject(method = "writeNbt", at = @At("TAIL"))
-    public void writePocketsDataToNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir)
+    private void writePocketsDataToNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir)
     {
-        nbt.put(Resources.MOD_ID+".persistent_data", this.persistentNbt);
+        nbt.put(Resources.MOD_ID+".persistent_data", this.musuPersistentNBT);
     }
 
     @Inject(method = "readNbt", at = @At("TAIL"))
-    public void readPocketsDataFromNbt(NbtCompound nbt, CallbackInfo ci)
+    private void readPocketsDataFromNbt(NbtCompound nbt, CallbackInfo ci)
     {
-        this.persistentNbt = nbt.getCompound(Resources.MOD_ID+".persistent_data");
+        this.musuPersistentNBT = nbt.getCompound(Resources.MOD_ID+".persistent_data");
     }
 
     static

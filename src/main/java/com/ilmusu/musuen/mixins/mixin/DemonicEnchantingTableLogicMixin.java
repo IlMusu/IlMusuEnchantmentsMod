@@ -6,6 +6,7 @@ import com.ilmusu.musuen.mixins.MixinSharedData;
 import com.ilmusu.musuen.mixins.interfaces._IDemonicEnchantmentScreenHandler;
 import com.ilmusu.musuen.registries.ModDamageSources;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.EnchantingTableBlock;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -30,7 +31,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
@@ -49,7 +49,6 @@ public abstract class DemonicEnchantingTableLogicMixin
         @Shadow @Final public int[] enchantmentId;
 
         private final int[] demonicEnchantments = new int[3];
-        private static int slot;
 
         @Override
         public boolean hasDemonicEnchantment(int slot)
@@ -98,42 +97,34 @@ public abstract class DemonicEnchantingTableLogicMixin
         }
 
         @Inject(method = "method_17411", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
-            value = "INVOKE",
-            target = "Ljava/util/List;get(I)Ljava/lang/Object;"
+                value = "INVOKE",
+                target = "Ljava/util/List;isEmpty()Z"
         ))
-        private void addDemonicEnchantmentPropertyValueHook(ItemStack itemStack, World world, BlockPos pos, CallbackInfo ci, int i, int j)
+        private void modifyEnchantmentListForSlotDisplay(ItemStack itemStack, World world, BlockPos pos, CallbackInfo ci,
+             int i, int j, List<EnchantmentLevelEntry> list)
         {
-            // Storing the slot for which the enchantments are generated
-            DemonicEnchantmentScreenHandler.slot = j;
-        }
-
-        @SuppressWarnings("unchecked")
-        @Redirect(method = "method_17411", at = @At(
-            value = "INVOKE",
-            target = "Ljava/util/List;get(I)Ljava/lang/Object;"
-        ))
-        private <E> E addDemonicEnchantmentPropertyValue(List<EnchantmentLevelEntry> list, int i)
-        {
-            // The demonic enchantment is placed always at the first position
+            // This is a fix which prevents using the @Redirect
             EnchantmentLevelEntry entry = list.get(0);
-
-            // Storing if this slot contains a demonic enchantment
-            // Overriding the visualization of the enchantment if there is a demonic enchantment
             if(entry.enchantment instanceof _IDemonicEnchantment)
             {
-                this.demonicEnchantments[DemonicEnchantmentScreenHandler.slot] = 1;
-                return (E)entry;
+                // Marking that the enchantment in that slot is demonic
+                this.demonicEnchantments[j] = 1;
+                // Leaving only that demonic enchantment so that it will be the one displayed
+                list.clear();
+                list.add(entry);
             }
-
-            this.demonicEnchantments[DemonicEnchantmentScreenHandler.slot] = 0;
-            return (E) list.get(i);
+            else
+            {
+                // Resetting the flag if there is not a demonic enchantment
+                this.demonicEnchantments[j] = 0;
+            }
         }
 
         @Inject(method = "onButtonClick", cancellable = true, at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/screen/ScreenHandlerContext;run(Ljava/util/function/BiConsumer;)V"
         ))
-        public void takeHealthFromNearbyEntities(PlayerEntity player, int id, CallbackInfoReturnable<Boolean> cir)
+        private void takeHealthFromNearbyEntities(PlayerEntity player, int id, CallbackInfoReturnable<Boolean> cir)
         {
             this.context.run((world, pos) ->
             {
@@ -189,7 +180,7 @@ public abstract class DemonicEnchantingTableLogicMixin
     @Mixin(EnchantmentHelper.class)
     public abstract static class FixEnchantmentGenerationList
     {
-        private static int level = 0;
+        private static int playerEnchantingPowerHook = 0;
 
         @Inject(method = "generateEnchantments", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
                 value = "INVOKE",
@@ -202,7 +193,7 @@ public abstract class DemonicEnchantingTableLogicMixin
             // Removing all the demonic enchantments since the extraction is done later
             list2.removeIf(entry -> entry.enchantment instanceof _IDemonicEnchantment);
             // Storing the modified power level
-            FixEnchantmentGenerationList.level = level;
+            FixEnchantmentGenerationList.playerEnchantingPowerHook = level;
         }
 
         @Inject(method = "generateEnchantments", locals = LocalCapture.CAPTURE_FAILHARD, at = @At("TAIL"))
@@ -220,7 +211,10 @@ public abstract class DemonicEnchantingTableLogicMixin
                 return;
 
             // Getting only the demonic enchantments
-            List<EnchantmentLevelEntry> demonics = EnchantmentHelper.getPossibleEntries(FixEnchantmentGenerationList.level, stack, false);
+            int power = FixEnchantmentGenerationList.playerEnchantingPowerHook;
+            FixEnchantmentGenerationList.playerEnchantingPowerHook = 0;
+
+            List<EnchantmentLevelEntry> demonics = EnchantmentHelper.getPossibleEntries(power, stack, false);
             demonics.removeIf(entry -> !(entry.enchantment instanceof _IDemonicEnchantment));
 
             // Adding only one demonic enchantment at the beginning of the list
@@ -231,17 +225,17 @@ public abstract class DemonicEnchantingTableLogicMixin
     @Mixin(EnchantingTableBlock.class)
     public abstract static class ChangeEnchantingTableBehavior
     {
-        @Redirect(method = "canAccessBookshelf", at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/World;isAir(Lnet/minecraft/util/math/BlockPos;)Z"
-        ))
-        private static boolean fixBookshelvesAccessWithSkulls(World world, BlockPos pos)
+        @Inject(method = "canAccessBookshelf", at = @At("HEAD"), cancellable = true)
+        private static void fixBookshelvesAccessWithSkulls(World world, BlockPos tablePos, BlockPos bookshelfOffset, CallbackInfoReturnable<Boolean> cir)
         {
-            return world.isAir(pos) || _IDemonicEnchantmentScreenHandler.isValidSkull(world.getBlockState(pos));
+            // This is a fix which prevents using the @Redirect
+            BlockPos vanillaAirPos = tablePos.add(bookshelfOffset.getX()/2, bookshelfOffset.getY(), bookshelfOffset.getZ()/2);
+            if(_IDemonicEnchantmentScreenHandler.isValidSkull(world.getBlockState(vanillaAirPos)))
+                cir.setReturnValue(world.getBlockState(tablePos.add(bookshelfOffset)).isOf(Blocks.BOOKSHELF));
         }
 
         @Inject(method = "randomDisplayTick", at = @At("TAIL"))
-        public void addDemonicEnchantingGlyphParticles(BlockState state, World world, BlockPos pos, Random random, CallbackInfo ci)
+        private void addDemonicEnchantingGlyphParticles(BlockState state, World world, BlockPos pos, Random random, CallbackInfo ci)
         {
             for(BlockPos offset : _IDemonicEnchantmentScreenHandler.SKULLS_OFFSETS)
             {

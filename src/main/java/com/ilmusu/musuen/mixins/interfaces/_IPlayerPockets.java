@@ -8,7 +8,7 @@ public interface _IPlayerPockets
 {
     Inventory getPockets();
 
-    void setFirstSlotId(int id);
+    void setPocketsFirstSlotID(int id);
 
     void setPocketLevel(World world, int level);
 

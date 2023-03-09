@@ -23,7 +23,7 @@ public abstract class PlayerWithTickers implements _IPlayerTickers
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
-    public void updateTickersOnPlayerTick(CallbackInfo ci)
+    private void updateTickersOnPlayerTick(CallbackInfo ci)
     {
         for(int i=this.tickers.size()-1; i>=0; --i)
         {

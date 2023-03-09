@@ -60,7 +60,7 @@ public class SkyhookEnchantment extends Enchantment
                 return;
 
             // Starting the skyhook
-            NbtCompound nbt = ((_IEntityPersistentNbt)player).get();
+            NbtCompound nbt = ((_IEntityPersistentNbt)player).getPNBT();
             new SkyhookLeashMessage(projectile, player, true).sendToClientsTrackingAndSelf(player);
             nbt.putUuid(SKYHOOK_PROJECTILE, projectile.getUuid());
             // Removing the leash from the player inventory
@@ -105,7 +105,7 @@ public class SkyhookEnchantment extends Enchantment
         {
             EntityRendererCallback.AFTER.register(((entity, matrices, tickDelta, provider, light) ->
             {
-                NbtCompound nbt = ((_IEntityPersistentNbt)entity).get();
+                NbtCompound nbt = ((_IEntityPersistentNbt)entity).getPNBT();
                 if(!nbt.contains(SKYHOOK_HOLDER))
                     return;
 
