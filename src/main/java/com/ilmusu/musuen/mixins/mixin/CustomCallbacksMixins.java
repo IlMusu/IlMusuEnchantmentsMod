@@ -47,7 +47,7 @@ public abstract class CustomCallbacksMixins
             value = "INVOKE",
             target = "Lnet/minecraft/entity/LivingEntity;getGroup()Lnet/minecraft/entity/EntityGroup;"
         ))
-        public void beforeComputingEnchantmentDamage(EntityHitResult result, CallbackInfo ci)
+        private void beforeComputingEnchantmentDamage(EntityHitResult result, CallbackInfo ci)
         {
             TridentEntity trident = (TridentEntity)(Object)this;
             Entity owner = ((TridentEntity)(Object)this).getOwner();
@@ -59,7 +59,7 @@ public abstract class CustomCallbacksMixins
             target = "Lnet/minecraft/enchantment/EnchantmentHelper;getAttackDamage(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/EntityGroup;)F",
             shift = At.Shift.AFTER
         ))
-        public void afterComputingEnchantmentDamage(EntityHitResult result, CallbackInfo ci)
+        private void afterComputingEnchantmentDamage(EntityHitResult result, CallbackInfo ci)
         {
             TridentEntity trident = (TridentEntity)(Object)this;
             Entity owner = ((TridentEntity)(Object)this).getOwner();
@@ -75,7 +75,7 @@ public abstract class CustomCallbacksMixins
                 target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z",
                 shift = At.Shift.AFTER
         ))
-        public void afterShootingTrident(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci,
+        private void afterShootingTrident(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci,
             PlayerEntity player, int i, int j, TridentEntity projectile)
         {
             ProjectileShotCallback.AFTER.invoker().handler(user, projectile.tridentStack, projectile);
@@ -90,7 +90,7 @@ public abstract class CustomCallbacksMixins
                 target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z",
                 shift = At.Shift.AFTER
         ))
-        public void afterArrowEntityCreated(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci,
+        private void afterArrowEntityCreated(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci,
             PlayerEntity playerEntity, boolean bl, ItemStack itemStack, int i, float f, boolean bl2, ArrowItem arrowItem,
             PersistentProjectileEntity projectile)
         {
@@ -155,7 +155,7 @@ public abstract class CustomCallbacksMixins
             value = "INVOKE",
             target = "Lnet/minecraft/entity/player/PlayerEntity;getAttributeValue(Lnet/minecraft/entity/attribute/EntityAttribute;)D"
         ))
-        public void beforeComputingEnchantmentDamage(Entity target, CallbackInfo ci)
+        private void beforeComputingEnchantmentDamage(Entity target, CallbackInfo ci)
         {
             PlayerEntity player = (PlayerEntity)(Object)this;
             PlayerAttackCallback.BEFORE_ENCHANTMENT_DAMAGE.invoker().handler(player, player.getMainHandStack(), target, Hand.MAIN_HAND);
@@ -165,7 +165,7 @@ public abstract class CustomCallbacksMixins
             value = "INVOKE",
             target = "Lnet/minecraft/entity/player/PlayerEntity;getAttackCooldownProgress(F)F"
         ))
-        public void afterComputingEnchantmentDamage(Entity target, CallbackInfo ci)
+        private void afterComputingEnchantmentDamage(Entity target, CallbackInfo ci)
         {
             PlayerEntity player = (PlayerEntity)(Object)this;
             PlayerAttackCallback.AFTER_ENCHANTMENT_DAMAGE.invoker().handler(player, player.getMainHandStack(), target, Hand.MAIN_HAND);
@@ -175,7 +175,7 @@ public abstract class CustomCallbacksMixins
             value = "TAIL",
             shift = At.Shift.BEFORE
         ))
-        public float afterComputingBlockBreakingSpeed(float speed)
+        private float afterComputingBlockBreakingSpeed(float speed)
         {
             PlayerEntity player = (PlayerEntity)(Object)this;
             BlockPos pos = ModUtils.getCurrentMiningPos(player);
@@ -190,25 +190,25 @@ public abstract class CustomCallbacksMixins
         }
 
         @Inject(method = "handleFallDamage", at = @At("HEAD"))
-        public void onPlayerLandingOnBlock(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir)
+        private void onPlayerLandingOnBlock(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir)
         {
             PlayerLandCallback.EVENT.invoker().handler((PlayerEntity)(Object)this, fallDistance);
         }
 
         @Inject(method = "tick", at = @At("HEAD"))
-        public void afterPlayerTick(CallbackInfo ci)
+        private void afterPlayerTick(CallbackInfo ci)
         {
             PlayerTickCallback.BEFORE.invoker().handler((PlayerEntity)(Object)this);
         }
 
         @Inject(method = "tick", at = @At("TAIL"))
-        public void beforePlayerTick(CallbackInfo ci)
+        private void beforePlayerTick(CallbackInfo ci)
         {
             PlayerTickCallback.AFTER.invoker().handler((PlayerEntity)(Object)this);
         }
 
         @Inject(method = "equipStack", at = @At("TAIL"))
-        public void afterEquippingStack(EquipmentSlot slot, ItemStack stack, CallbackInfo ci)
+        private void afterEquippingStack(EquipmentSlot slot, ItemStack stack, CallbackInfo ci)
         {
             if(slot.getType() == EquipmentSlot.Type.ARMOR)
                 PlayerEquipCallback.ARMOR.invoker().handler((PlayerEntity) (Object) this, stack, slot);
@@ -217,7 +217,7 @@ public abstract class CustomCallbacksMixins
         }
 
         @Inject(method = "dropInventory", at = @At("TAIL"))
-        public void afterDroppingInventory(CallbackInfo ci)
+        private void afterDroppingInventory(CallbackInfo ci)
         {
             PlayerDropInventoryCallback.AFTER.invoker().handler((PlayerEntity)(Object)this);
         }
@@ -230,7 +230,7 @@ public abstract class CustomCallbacksMixins
             value = "INVOKE",
             target = "Lnet/minecraft/util/collection/DefaultedList;set(ILjava/lang/Object;)Ljava/lang/Object;"
         ))
-        public void afterSettingStackInPlayerInventory(int slot, ItemStack stack, CallbackInfo ci, DefaultedList<ItemStack> list)
+        private void afterSettingStackInPlayerInventory(int slot, ItemStack stack, CallbackInfo ci, DefaultedList<ItemStack> list)
         {
             PlayerInventory inventory = (PlayerInventory)(Object)this;
             if(list != inventory.armor)
@@ -247,7 +247,7 @@ public abstract class CustomCallbacksMixins
         @Shadow private @Nullable LivingEntity shooter;
 
         @ModifyVariable(method = "tick", at = @At("STORE"))
-        public Vec3d beforeComputingElytraVelocity(Vec3d rotation)
+        private Vec3d beforeComputingElytraVelocity(Vec3d rotation)
         {
             return FireworkElytraSpeedCallback.EVENT.invoker().handler(this.shooter, (FireworkRocketEntity)(Object)this, rotation);
         }
@@ -257,7 +257,7 @@ public abstract class CustomCallbacksMixins
     public abstract static class ProjectileEntityCallback
     {
         @Inject(method = "onCollision", at = @At("TAIL"))
-        public void afterCollision(HitResult hitResult, CallbackInfo ci)
+        private void afterCollision(HitResult hitResult, CallbackInfo ci)
         {
             ProjectileHitCallback.AFTER.invoker().handler((ProjectileEntity)(Object)this, hitResult);
         }
@@ -279,7 +279,7 @@ public abstract class CustomCallbacksMixins
             target = "Lnet/minecraft/entity/LivingEntity;setFlag(IZ)V",
             shift = At.Shift.AFTER
         ))
-        public void beforeElytraLanding(CallbackInfo ci)
+        private void beforeElytraLanding(CallbackInfo ci)
         {
             if(this.isFallFlying())
                 return;
@@ -287,7 +287,7 @@ public abstract class CustomCallbacksMixins
         }
 
         @ModifyVariable(method = "applyArmorToDamage", at = @At(value = "LOAD", ordinal = 2), argsOnly = true)
-        public float beforeApplyingProtectionToDamage(float damage, DamageSource source)
+        private float beforeApplyingProtectionToDamage(float damage, DamageSource source)
         {
             if(damage <= 0)
                 return damage;
@@ -297,7 +297,7 @@ public abstract class CustomCallbacksMixins
         }
 
         @ModifyVariable(method = "handleFallDamage", at = @At(value = "LOAD", ordinal = 0))
-        public int beforeApplyingFallDamageToLiving(int damage)
+        private int beforeApplyingFallDamageToLiving(int damage)
         {
             if(damage <= 0)
                 return damage;
@@ -312,7 +312,7 @@ public abstract class CustomCallbacksMixins
             opcode = Opcodes.GETFIELD,
             ordinal = 2
         ))
-        public boolean beforeOnGroundJumpCheck(LivingEntity instance)
+        private boolean beforeOnGroundJumpCheck(LivingEntity instance)
         {
             LivingEntityCallbacks.hasCheckedForJumpAndFailed = !instance.isOnGround();
             return instance.isOnGround();
@@ -323,7 +323,7 @@ public abstract class CustomCallbacksMixins
             target = "Lnet/minecraft/util/profiler/Profiler;pop()V",
             ordinal = 2
         ))
-        public void afterJumpCheck(CallbackInfo ci)
+        private void afterJumpCheck(CallbackInfo ci)
         {
             if(!LivingEntityCallbacks.hasCheckedForJumpAndFailed)
                 return;
@@ -341,7 +341,7 @@ public abstract class CustomCallbacksMixins
             value = "INVOKE",
             target = "Lnet/minecraft/entity/LivingEntity;isSprinting()Z")
         )
-        public void onLivingJump(CallbackInfo ci)
+        private void onLivingJump(CallbackInfo ci)
         {
             LivingEntity entity = (LivingEntity)(Object)this;
             Vec3d velocity = LivingEntityJumpCallback.EVENT.invoker().handler(entity, entity.getVelocity());
@@ -349,13 +349,13 @@ public abstract class CustomCallbacksMixins
         }
 
         @Inject(method = "blockedByShield", at = @At("HEAD"))
-        public void onShieldBlockHook(DamageSource source, CallbackInfoReturnable<Boolean> cir)
+        private void onShieldBlockHook(DamageSource source, CallbackInfoReturnable<Boolean> cir)
         {
             LivingEntityCallbacks.source = source;
         }
 
         @ModifyConstant(method = "blockedByShield", constant = @Constant(doubleValue = 0.0, ordinal = 1))
-        public double onShieldBlock(double constant)
+        private double onShieldBlock(double constant)
         {
             LivingEntityCallbacks.source = null;
             LivingEntity user = (LivingEntity)(Object)this;
@@ -375,7 +375,7 @@ public abstract class CustomCallbacksMixins
             value = "INVOKE",
             target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"
         ))
-        public void beforeEntityDropsItemStack(ItemStack stack, float yOffset, CallbackInfoReturnable<ItemEntity> cir, ItemEntity item)
+        private void beforeEntityDropsItemStack(ItemStack stack, float yOffset, CallbackInfoReturnable<ItemEntity> cir, ItemEntity item)
         {
             DamageSource source = ((_IEntityTrackableDrops)this).getDeathDamageSource();
             Entity entity = (Entity)(Object)this;
@@ -396,7 +396,7 @@ public abstract class CustomCallbacksMixins
             target = "Lnet/minecraft/item/ItemStack;areEqual(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z",
             ordinal = 0
         ))
-        public void beforeCheckingStackEquality(CallbackInfo ci)
+        private void beforeCheckingStackEquality(CallbackInfo ci)
         {
             PlayerEntity player = MinecraftClient.getInstance().player;
 
@@ -428,7 +428,7 @@ public abstract class CustomCallbacksMixins
             target = "Lnet/minecraft/client/render/entity/EntityRenderer;render(Lnet/minecraft/entity/Entity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V",
             shift = At.Shift.AFTER
         ))
-        public void afterRenderingEntity(E entity, double x, double y, double z, float yaw, float tickDelta,
+        private void afterRenderingEntity(E entity, double x, double y, double z, float yaw, float tickDelta,
                MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci)
         {
             EntityRendererCallback.AFTER.invoker().handler(entity, matrices, tickDelta, vertexConsumers, light);

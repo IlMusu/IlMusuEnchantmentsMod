@@ -29,13 +29,13 @@ public abstract class EntityWithPersistentNbt implements _IEntityPersistentNbt
     }
 
     @Inject(method = "writeNbt", at = @At("TAIL"))
-    public void writePocketsDataToNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir)
+    private void writePocketsDataToNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir)
     {
         nbt.put(Resources.MOD_ID+".persistent_data", this.persistentNbt);
     }
 
     @Inject(method = "readNbt", at = @At("TAIL"))
-    public void readPocketsDataFromNbt(NbtCompound nbt, CallbackInfo ci)
+    private void readPocketsDataFromNbt(NbtCompound nbt, CallbackInfo ci)
     {
         this.persistentNbt = nbt.getCompound(Resources.MOD_ID+".persistent_data");
     }

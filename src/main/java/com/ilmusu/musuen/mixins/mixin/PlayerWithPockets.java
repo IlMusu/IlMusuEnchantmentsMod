@@ -21,25 +21,21 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.screen.PlayerScreenHandler;
-import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArgs;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerWithPockets implements _IPlayerPockets
@@ -162,7 +158,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         value = "INVOKE",
         target = "Lnet/minecraft/entity/player/PlayerInventory;updateItems()V"
     ))
-    public void updatePocketItems(CallbackInfo ci)
+    private void updatePocketItems(CallbackInfo ci)
     {
         for(int i=0; i<this.pockets.size(); ++i)
         {
@@ -175,7 +171,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    public void writePocketsDataToNbt(NbtCompound nbt, CallbackInfo ci)
+    private void writePocketsDataToNbt(NbtCompound nbt, CallbackInfo ci)
     {
         NbtCompound pockets = new NbtCompound();
         // Writing items
@@ -200,7 +196,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    public void readPocketsDataFromNbt(NbtCompound nbt, CallbackInfo ci)
+    private void readPocketsDataFromNbt(NbtCompound nbt, CallbackInfo ci)
     {
         NbtCompound pockets = nbt.getCompound(Resources.MOD_ID+".pockets");
         if (pockets != null)
@@ -228,7 +224,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     public abstract static class AddPocketSlotsToPlayerInventory
     {
         @Inject(method = "<init>", at = @At("TAIL"))
-        public void addPocketSlotsToInventory(PlayerInventory inventory, boolean onServer, PlayerEntity owner, CallbackInfo ci)
+        private void addPocketSlotsToInventory(PlayerInventory inventory, boolean onServer, PlayerEntity owner, CallbackInfo ci)
         {
             AccessorScreenHandler handler = (AccessorScreenHandler) this;
             _IPlayerPockets player = ((_IPlayerPockets)owner);
@@ -255,7 +251,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     public abstract static class RemoveStatusEffectsRenderingWhenPocketsOpen
     {
         @Inject(method = "drawStatusEffects", at = @At("HEAD"), cancellable = true)
-        public void removeStatusEffectsRendering(MatrixStack matrices, int mouseX, int mouseY, CallbackInfo ci)
+        private void removeStatusEffectsRendering(MatrixStack matrices, int mouseX, int mouseY, CallbackInfo ci)
         {
             _IPlayerPockets pockets = ((_IPlayerPockets)MinecraftClient.getInstance().player);
             if(pockets.arePocketsOpen())
@@ -271,7 +267,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         private TexturedButtonWidget pocketsButton;
 
         @Inject(method = "init", at = @At(value = "RETURN", ordinal = 1))
-        public void initPocketsButton(CallbackInfo ci)
+        private void initPocketsButton(CallbackInfo ci)
         {
             _IPlayerPockets pockets = ((_IPlayerPockets)MinecraftClient.getInstance().player);
 
@@ -286,7 +282,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         }
 
         @Inject(method = "drawBackground", at = @At("TAIL"))
-        public void renderPocketSlots(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
+        private void renderPocketSlots(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
             // Disabling the pockets button if the pockets are not open
             _IPlayerPockets pockets = ((_IPlayerPockets)MinecraftClient.getInstance().player);
@@ -306,7 +302,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         }
 
         @SuppressWarnings("unchecked")
-        public void updatePocketsButtonPos()
+        private void updatePocketsButtonPos()
         {
             int x = ((AccessorHandledScreen<PlayerScreenHandler>)this).getX();
             int height = ((AccessorScreen)this).getHeight();
@@ -314,7 +310,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         }
 
         @Inject(method = "isClickOutsideBounds", at = @At("HEAD"), cancellable = true)
-        public void addPocketsOutsideInventoryBounds(double mouseX, double mouseY, int left, int top, int button,
+        private void addPocketsOutsideInventoryBounds(double mouseX, double mouseY, int left, int top, int button,
             CallbackInfoReturnable<Boolean> cir)
         {
             int level = ((_IPlayerPockets)MinecraftClient.getInstance().player).getPocketLevel();
@@ -329,7 +325,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         }
 
         @Inject(method = "method_19891", at = @At("TAIL"))
-        public void disablePocketsWhenRecipeBookOpen(ButtonWidget button, CallbackInfo ci)
+        private void disablePocketsWhenRecipeBookOpen(ButtonWidget button, CallbackInfo ci)
         {
             ((AccessorHandledScreen<?>)this).getHandler().slots.forEach((slot -> {
                 if(slot instanceof PocketSlot pocketSlot)
@@ -355,27 +351,15 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     @Mixin(CreativeInventoryScreen.class)
     public abstract static class DisablePocketsInCreativeInventory
     {
-        private static boolean isPocket;
-
-        @ModifyArgs(method = "setSelectedTab", at = @At(
+        @Inject(method = "setSelectedTab", at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/screen/ingame/CreativeInventoryScreen$CreativeSlot;<init>(Lnet/minecraft/screen/slot/Slot;III)V"
+            target = "Lnet/minecraft/screen/slot/Slot;<init>(Lnet/minecraft/inventory/Inventory;III)V"
         ))
-        public void disablePocketsInCreativeInventoryHook(Args args)
+        private void removeAllPocketSlots(ItemGroup group, CallbackInfo ci)
         {
-            DisablePocketsInCreativeInventory.isPocket = args.get(0) instanceof PocketSlot;
-        }
-
-        @Redirect(method = "setSelectedTab", at = @At(
-            value = "INVOKE",
-            ordinal = 2,
-            target = "Lnet/minecraft/util/collection/DefaultedList;add(Ljava/lang/Object;)Z"
-        ))
-        public boolean disablePocketsInCreativeInventory(DefaultedList<Slot> instance, Object o)
-        {
-            if(DisablePocketsInCreativeInventory.isPocket)
-                return false;
-            return instance.add((Slot)o);
+            // This is a fix which prevents using the @Redirect
+            CreativeInventoryScreen screen = (CreativeInventoryScreen)(Object)this;
+            screen.getScreenHandler().slots.removeIf((slot) -> slot instanceof PocketSlot);
         }
     }
 

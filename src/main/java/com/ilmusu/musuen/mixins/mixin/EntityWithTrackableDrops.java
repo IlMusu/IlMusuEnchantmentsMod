@@ -30,13 +30,13 @@ public abstract class EntityWithTrackableDrops implements _IEntityTrackableDrops
     public abstract static class LivingEntityTrackableDrops
     {
         @Inject(method = "drop", at = @At("HEAD"))
-        public void beforeDroppingDrops(DamageSource source, CallbackInfo ci)
+        private void beforeDroppingDrops(DamageSource source, CallbackInfo ci)
         {
             ((_IEntityTrackableDrops)this).setDeathDamageSource(source);
         }
 
         @Inject(method = "drop", at = @At("TAIL"))
-        public void afterDroppingDrops(DamageSource source, CallbackInfo ci)
+        private void afterDroppingDrops(DamageSource source, CallbackInfo ci)
         {
             ((_IEntityTrackableDrops)this).setDeathDamageSource(null);
         }

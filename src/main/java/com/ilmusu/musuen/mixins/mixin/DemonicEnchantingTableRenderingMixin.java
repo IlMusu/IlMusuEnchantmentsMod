@@ -27,7 +27,7 @@ public abstract class DemonicEnchantingTableRenderingMixin
             value = "INVOKE",
             target = "Lnet/minecraft/screen/EnchantmentScreenHandler;getLapisCount()I"
         ))
-        public void drawBackgroundEnchantmentPreHook(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
+        private void drawBackgroundEnchantmentPreHook(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
             // Resetting the slot count before entering the for-loop cycle
             this.slot = -1;
@@ -37,7 +37,7 @@ public abstract class DemonicEnchantingTableRenderingMixin
             value = "INVOKE",
             target = "Lnet/minecraft/client/gui/screen/ingame/EnchantmentScreen;setZOffset(I)V"
         ))
-        public void drawBackgroundEnchantmentHook(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
+        private void drawBackgroundEnchantmentHook(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
             // Increasing the slot count, this is called at every iteration
             this.slot += 1;
@@ -46,7 +46,7 @@ public abstract class DemonicEnchantingTableRenderingMixin
         }
 
         @ModifyVariable(method = "drawBackground", ordinal = 10, at = @At(value = "STORE"))
-        public int modifyHieroglyphLength(int size)
+        private int modifyHieroglyphLength(int size)
         {
             // Writing less letters for making space for the hearth cost
             if(!this.isDemonicEnchantment)
@@ -58,7 +58,7 @@ public abstract class DemonicEnchantingTableRenderingMixin
             value = "INVOKE",
             target = "Lnet/minecraft/client/font/TextRenderer;drawTrimmed(Lnet/minecraft/text/StringVisitable;IIII)V"
         ))
-        public int modifyHieroglyphPosition(int x)
+        private int modifyHieroglyphPosition(int x)
         {
             // Moving the letters for making space for the hearth cost
             if(!this.isDemonicEnchantment)
@@ -72,7 +72,7 @@ public abstract class DemonicEnchantingTableRenderingMixin
             ordinal = 3,
             shift = At.Shift.AFTER
         ))
-        public void addUnsaturatedHealthRequirementRendering(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
+        private void addUnsaturatedHealthRequirementRendering(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
             if(!this.isDemonicEnchantment)
                 return;
@@ -85,7 +85,7 @@ public abstract class DemonicEnchantingTableRenderingMixin
             ordinal = 6,
             shift = At.Shift.AFTER
         ))
-        public void addSaturatedHealthRequirementRendering(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
+        private void addSaturatedHealthRequirementRendering(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
             if(!this.isDemonicEnchantment)
                 return;
