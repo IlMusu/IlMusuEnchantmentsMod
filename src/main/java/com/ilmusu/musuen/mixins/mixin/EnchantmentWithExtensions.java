@@ -34,12 +34,12 @@ public abstract class EnchantmentWithExtensions
         }
 
         @Inject(method = "method_8208", at = @At(
-            value = "INVOKE",
-            target = "Lorg/apache/commons/lang3/mutable/MutableFloat;add(F)V",
-            shift = At.Shift.AFTER
+                value = "INVOKE",
+                target = "Lorg/apache/commons/lang3/mutable/MutableFloat;add(F)V",
+                shift = At.Shift.AFTER
         ))
         private static void addStackDependantDamage(MutableFloat mutableFloat, EntityGroup entityGroup,
-            Enchantment enchantment, int level, CallbackInfo ci)
+                                                    Enchantment enchantment, int level, CallbackInfo ci)
         {
             ItemStack stack = EnchantmentHelperModifications.musuen$stack;
             EnchantmentHelperModifications.musuen$stack = null;
@@ -52,22 +52,22 @@ public abstract class EnchantmentWithExtensions
         }
 
         @Inject(method = "getPossibleEntries", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/enchantment/EnchantmentTarget;isAcceptableItem(Lnet/minecraft/item/Item;)Z"
+                value = "INVOKE",
+                target = "Lnet/minecraft/enchantment/EnchantmentTarget;isAcceptableItem(Lnet/minecraft/item/Item;)Z"
         ))
         private static void fixEnchantmentExtractionHook(int power, ItemStack stack, boolean treasureAllowed,
-            CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<?> list, Item item, boolean bl,
-                Iterator<?> var6, Enchantment enchantment)
+                                                         CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<?> list, Item item, boolean bl,
+                                                         Iterator<?> var6, Enchantment enchantment)
         {
             EnchantmentHelperModifications.musuen$enchantment = enchantment;
         }
 
         @Inject(method = "getPossibleEntries", at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/enchantment/EnchantmentTarget;isAcceptableItem(Lnet/minecraft/item/Item;)Z")
+                value = "INVOKE",
+                target = "Lnet/minecraft/enchantment/EnchantmentTarget;isAcceptableItem(Lnet/minecraft/item/Item;)Z")
         )
         private static void fixEnchantmentExtraction(int power, ItemStack stack, boolean treasureAllowed,
-             CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir)
+                                                     CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir)
         {
             Enchantment enchantment = EnchantmentHelperModifications.musuen$enchantment;
             EnchantmentHelperModifications.musuen$enchantment = null;

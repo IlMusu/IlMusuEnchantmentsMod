@@ -76,7 +76,7 @@ public abstract class CustomCallbacksMixins
                 shift = At.Shift.AFTER
         ))
         private void afterShootingTrident(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci,
-              PlayerEntity player, int i, int j, TridentEntity projectile)
+                                          PlayerEntity player, int i, int j, TridentEntity projectile)
         {
             ProjectileShotCallback.AFTER.invoker().handler(user, projectile.tridentStack, projectile);
         }
@@ -91,8 +91,8 @@ public abstract class CustomCallbacksMixins
                 shift = At.Shift.AFTER
         ))
         private void afterArrowEntityCreated(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci,
-             PlayerEntity playerEntity, boolean bl, ItemStack itemStack, int i, float f,
-             boolean bl2, ArrowItem arrowItem, PersistentProjectileEntity projectile)
+                                             PlayerEntity playerEntity, boolean bl, ItemStack itemStack, int i, float f,
+                                             boolean bl2, ArrowItem arrowItem, PersistentProjectileEntity projectile)
         {
             ProjectileShotCallback.AFTER.invoker().handler(user, stack, projectile);
         }
@@ -113,8 +113,8 @@ public abstract class CustomCallbacksMixins
                 shift = At.Shift.AFTER
         ))
         private static void afterShootingProjectile(World world, LivingEntity shooter, Hand hand, ItemStack crossbow,
-            ItemStack projectile, float soundPitch, boolean creative, float speed, float divergence, float simulated,
-            CallbackInfo ci, boolean isFirework, ProjectileEntity projectileEntity)
+                                                    ItemStack projectile, float soundPitch, boolean creative, float speed, float divergence, float simulated,
+                                                    CallbackInfo ci, boolean isFirework, ProjectileEntity projectileEntity)
         {
             ProjectileShotCallback.AFTER.invoker().handler(shooter, crossbow, projectileEntity);
         }
@@ -452,9 +452,9 @@ public abstract class CustomCallbacksMixins
         }
 
         @Inject(method = "updateFovMultiplier", cancellable = true, at = @At(
-            value = "FIELD",
-            target = "Lnet/minecraft/client/render/GameRenderer;fovMultiplier:F",
-            ordinal = 4
+                value = "FIELD",
+                target = "Lnet/minecraft/client/render/GameRenderer;fovMultiplier:F",
+                ordinal = 4
         ))
         public void beforeClampingFov(CallbackInfo ci)
         {

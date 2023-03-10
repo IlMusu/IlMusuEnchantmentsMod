@@ -277,7 +277,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
             _IPlayerPockets pockets = ((_IPlayerPockets)MinecraftClient.getInstance().player);
 
             this.musuen$pocketsButton = new TexturedButtonWidget(0,0,20,18,0,0,19, Resources.POCKETS_BUTTON_TEXTURE, button ->
-                pockets.setPocketsOpen(!pockets.arePocketsOpen())
+                    pockets.setPocketsOpen(!pockets.arePocketsOpen())
             );
             this.updatePocketsButtonPos();
 
