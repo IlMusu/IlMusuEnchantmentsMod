@@ -431,6 +431,8 @@ public abstract class CustomCallbacksMixins
     @Mixin(GameRenderer.class)
     public static abstract class GameRendererCallbacks
     {
+        @Shadow private float fovMultiplier;
+        @Shadow private float lastFovMultiplier;
         private static PlayerFovMultiplierCallback.FovParams musuen$fovParams;
 
         @ModifyVariable(method = "updateFovMultiplier", index = 1, at = @At(value = "STORE", ordinal = 1))
@@ -445,10 +447,20 @@ public abstract class CustomCallbacksMixins
             return multiplier * musuen$fovParams.getAdditionalMultiplier();
         }
 
-        @ModifyConstant(method = "updateFovMultiplier", constant = @Constant(floatValue = 0.5F))
-        protected float beforeUpdatingCurrentFovMultiplier(float constant)
+        @Inject(method = "updateFovMultiplier", at = @At(
+                value = "FIELD",
+                target = "Lnet/minecraft/client/render/GameRenderer;fovMultiplier:F",
+                ordinal = 3,
+                shift = At.Shift.AFTER
+        ))
+        public void modifyUpdateSpeed(CallbackInfo ci)
         {
-            return musuen$fovParams.getUpdateVelocityOr(constant);
+            if(musuen$fovParams.shouldNotChange())
+                return;
+
+            float delta = (this.fovMultiplier - this.lastFovMultiplier) * 2;
+            float deltaSpeed = (musuen$fovParams.getUpdateVelocity() - 0.5F);
+            this.fovMultiplier += delta * deltaSpeed;
         }
 
         @Inject(method = "updateFovMultiplier", cancellable = true, at = @At(

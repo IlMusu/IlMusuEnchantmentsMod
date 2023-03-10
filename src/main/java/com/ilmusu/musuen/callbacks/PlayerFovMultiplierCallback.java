@@ -28,10 +28,10 @@ public interface PlayerFovMultiplierCallback
         // If the FOV should not be changed
         protected final boolean unchanged;
         // The multiplier for the current FOV
-        protected float additionalMultipler = 1.0F;
+        protected float additionalMultiplier = 1.0F;
         protected boolean unclamped = false;
         // The update speed for moving toward the target FOV
-        protected float updateVelocity = -1.0F;
+        protected float updateVelocity = 0.5F;
 
         protected FovParams()
         {
@@ -41,7 +41,7 @@ public interface PlayerFovMultiplierCallback
         public FovParams(float additionalMultiplier)
         {
             this.unchanged = false;
-            this.additionalMultipler = additionalMultiplier;
+            this.additionalMultiplier = additionalMultiplier;
         }
 
         public FovParams unclamped()
@@ -53,7 +53,7 @@ public interface PlayerFovMultiplierCallback
         public FovParams velocity(float velocity)
         {
             if(!this.unchanged)
-                this.updateVelocity = velocity;
+                this.updateVelocity = Math.max(0, velocity);
             return this;
         }
 
@@ -69,14 +69,12 @@ public interface PlayerFovMultiplierCallback
 
         public float getAdditionalMultiplier()
         {
-            return this.additionalMultipler;
+            return this.additionalMultiplier;
         }
 
-        public float getUpdateVelocityOr(float velocity)
+        public float getUpdateVelocity()
         {
-            if( this.updateVelocity < 0)
-                return velocity;
-            return this.updateVelocity;
+            return updateVelocity;
         }
     }
 }
