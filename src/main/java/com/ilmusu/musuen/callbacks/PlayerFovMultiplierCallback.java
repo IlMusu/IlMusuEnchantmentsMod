@@ -53,7 +53,7 @@ public interface PlayerFovMultiplierCallback
         public FovParams velocity(float velocity)
         {
             if(!this.unchanged)
-                this.updateVelocity = velocity;
+                this.updateVelocity = Math.max(0, velocity);
             return this;
         }
 
@@ -67,15 +67,13 @@ public interface PlayerFovMultiplierCallback
             return this.unclamped;
         }
 
-        public float getMultiplier()
+        public float getAdditionalMultiplier()
         {
             return this.multiplier;
         }
 
-        public float getUpdateVelocityOr(float velocity)
+        public float getUpdateVelocity()
         {
-            if( this.updateVelocity < 0)
-                return velocity;
             return this.updateVelocity;
         }
     }

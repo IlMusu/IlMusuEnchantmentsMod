@@ -13,25 +13,28 @@ import java.util.List;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerWithTickers implements _IPlayerTickers
 {
-    private final List<Ticker> tickers = new ArrayList<>();
+    private final List<Ticker> musuen$tickers = new ArrayList<>();
 
     @Override
     public void addTicker(Ticker ticker)
     {
-        this.tickers.add(ticker);
+        this.musuen$tickers.add(ticker);
         ticker.start();
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void updateTickersOnPlayerTick(CallbackInfo ci)
     {
-        for(int i=this.tickers.size()-1; i>=0; --i)
+        for(int i = this.musuen$tickers.size()-1; i>=0; --i)
         {
-            Ticker ticker = this.tickers.get(i);
+            Ticker ticker = this.musuen$tickers.get(i);
             ticker.tick();
 
             if(ticker.hasFinished())
-                this.tickers.remove(i);
+            {
+                ticker.exit();
+                this.musuen$tickers.remove(i);
+            }
         }
     }
 }

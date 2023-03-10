@@ -37,7 +37,7 @@ public class ReflectionEnchantment extends Enchantment implements _IEnchantmentE
 
     static
     {
-        ProjectileReflectionCallback.AFTER.register((hit, projectile) ->
+        ProjectileReflectionCallback.BEFORE.register((hit, projectile) ->
         {
             if(!(hit.getEntity() instanceof LivingEntity living))
                 return;

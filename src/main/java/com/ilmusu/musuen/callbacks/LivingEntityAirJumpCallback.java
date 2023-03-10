@@ -4,13 +4,13 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.LivingEntity;
 
-public interface LivingEntityJumpCheckCallback
+public interface LivingEntityAirJumpCallback
 {
-    Event<LivingEntityJumpCheckCallback> EVENT = EventFactory.createArrayBacked(LivingEntityJumpCheckCallback.class,
+    Event<LivingEntityAirJumpCallback> EVENT = EventFactory.createArrayBacked(LivingEntityAirJumpCallback.class,
             (listeners) -> (entity, jumpingCooldown) ->
             {
                 boolean shouldAllowJump = false;
-                for (LivingEntityJumpCheckCallback listener : listeners)
+                for (LivingEntityAirJumpCallback listener : listeners)
                     shouldAllowJump = listener.handler(entity, jumpingCooldown);
                 return shouldAllowJump;
             });
