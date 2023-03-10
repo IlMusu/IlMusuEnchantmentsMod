@@ -43,15 +43,16 @@ public abstract class CustomCallbacksMixins
     @Mixin(TridentEntity.class)
     public abstract static class TridentEntityCallbacks
     {
+        @Shadow private ItemStack tridentStack;
+
         @Inject(method = "onEntityHit", at = @At(
                 value = "INVOKE",
                 target = "Lnet/minecraft/entity/LivingEntity;getGroup()Lnet/minecraft/entity/EntityGroup;"
         ))
         private void beforeComputingEnchantmentDamage(EntityHitResult result, CallbackInfo ci)
         {
-            TridentEntity trident = (TridentEntity)(Object)this;
             Entity owner = ((TridentEntity)(Object)this).getOwner();
-            PlayerAttackCallback.BEFORE_ENCHANTMENT_DAMAGE.invoker().handler(owner, trident.tridentStack, result.getEntity(), Hand.MAIN_HAND);
+            PlayerAttackCallback.BEFORE_ENCHANTMENT_DAMAGE.invoker().handler(owner, this.tridentStack, result.getEntity(), Hand.MAIN_HAND);
         }
 
         @Inject(method = "onEntityHit", at = @At(
@@ -61,9 +62,8 @@ public abstract class CustomCallbacksMixins
         ))
         private void afterComputingEnchantmentDamage(EntityHitResult result, CallbackInfo ci)
         {
-            TridentEntity trident = (TridentEntity)(Object)this;
             Entity owner = ((TridentEntity)(Object)this).getOwner();
-            PlayerAttackCallback.AFTER_ENCHANTMENT_DAMAGE.invoker().handler(owner, trident.tridentStack, result.getEntity(), Hand.MAIN_HAND);
+            PlayerAttackCallback.AFTER_ENCHANTMENT_DAMAGE.invoker().handler(owner, this.tridentStack, result.getEntity(), Hand.MAIN_HAND);
         }
     }
 
@@ -78,7 +78,7 @@ public abstract class CustomCallbacksMixins
         private void afterShootingTrident(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci,
                                           PlayerEntity player, int i, int j, TridentEntity projectile)
         {
-            ProjectileShotCallback.AFTER.invoker().handler(user, projectile.tridentStack, projectile);
+            ProjectileShotCallback.AFTER.invoker().handler(user, ((AccessorTridentEntity)projectile).getTridentStack(), projectile);
         }
     }
 

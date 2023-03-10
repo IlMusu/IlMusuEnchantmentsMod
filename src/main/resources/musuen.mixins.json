@@ -4,8 +4,11 @@
   "package": "com.ilmusu.musuen.mixins.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AccessorCrossbowItem",
+    "AccessorPersistentProjectileEntity",
     "AccessorScreenHandler",
     "AccessorServerPlayerInteractionManager",
+    "AccessorTridentEntity",
     "CustomCallbacksMixins$ArrowItemCallbacks",
     "CustomCallbacksMixins$CrossbowItemCallbacks",
     "CustomCallbacksMixins$EntityCallbacks",

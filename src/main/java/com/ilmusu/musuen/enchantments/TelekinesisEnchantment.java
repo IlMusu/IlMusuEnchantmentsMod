@@ -3,6 +3,7 @@ package com.ilmusu.musuen.enchantments;
 import com.ilmusu.musuen.callbacks.EntityDropCallback;
 import com.ilmusu.musuen.client.particles.colored.ColoredParticleEffect;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
+import com.ilmusu.musuen.mixins.mixin.AccessorTridentEntity;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.minecraft.enchantment.Enchantment;
@@ -10,7 +11,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.world.ServerWorld;
@@ -50,8 +50,8 @@ public class TelekinesisEnchantment extends Enchantment implements _IEnchantment
                 return true;
 
             int level;
-            if(source.getSource() instanceof TridentEntity trident)
-                level = EnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, trident.tridentStack);
+            if(source.getSource() instanceof AccessorTridentEntity trident)
+                level = EnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, trident.getTridentStack());
             else
                 level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.TELEKINESIS, player);
 
