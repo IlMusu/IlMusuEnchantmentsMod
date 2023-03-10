@@ -13,7 +13,7 @@ public class MeteorityEnchantment extends Enchantment implements _IEnchantmentEx
 {
     public MeteorityEnchantment(Rarity weight)
     {
-        super(weight, EnchantmentTarget.WEARABLE, new EquipmentSlot[]{EquipmentSlot.CHEST});
+        super(weight, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.CHEST});
     }
 
     @Override

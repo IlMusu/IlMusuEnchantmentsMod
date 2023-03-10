@@ -20,7 +20,7 @@ public class WingspanEnchantment extends Enchantment implements _IEnchantmentExt
 {
     public WingspanEnchantment(Rarity weight)
     {
-        super(weight, EnchantmentTarget.WEARABLE, new EquipmentSlot[]{EquipmentSlot.CHEST});
+        super(weight, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.CHEST});
     }
 
     @Override

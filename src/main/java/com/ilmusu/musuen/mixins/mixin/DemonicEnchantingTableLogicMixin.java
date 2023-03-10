@@ -43,11 +43,10 @@ public abstract class DemonicEnchantingTableLogicMixin
     @Mixin(EnchantmentScreenHandler.class)
     public abstract static class DemonicEnchantmentScreenHandler implements _IDemonicEnchantmentScreenHandler
     {
-        private static final int DEMONIC_ENCHANTING_ENTITY_RADIUS = 7;
-
         @Shadow @Final private ScreenHandlerContext context;
         @Shadow @Final public int[] enchantmentId;
 
+        private static final int DEMONIC_ENCHANTING_ENTITY_RADIUS = 7;
         private final int[] demonicEnchantments = new int[3];
 
         @Override
@@ -180,7 +179,7 @@ public abstract class DemonicEnchantingTableLogicMixin
     @Mixin(EnchantmentHelper.class)
     public abstract static class FixEnchantmentGenerationList
     {
-        private static int playerEnchantingPowerHook = 0;
+        private static int musuen$enchantingPower = 0;
 
         @Inject(method = "generateEnchantments", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
                 value = "INVOKE",
@@ -193,7 +192,7 @@ public abstract class DemonicEnchantingTableLogicMixin
             // Removing all the demonic enchantments since the extraction is done later
             list2.removeIf(entry -> entry.enchantment instanceof _IDemonicEnchantment);
             // Storing the modified power level
-            FixEnchantmentGenerationList.playerEnchantingPowerHook = level;
+            FixEnchantmentGenerationList.musuen$enchantingPower = level;
         }
 
         @Inject(method = "generateEnchantments", locals = LocalCapture.CAPTURE_FAILHARD, at = @At("TAIL"))
@@ -211,8 +210,8 @@ public abstract class DemonicEnchantingTableLogicMixin
                 return;
 
             // Getting only the demonic enchantments
-            int power = FixEnchantmentGenerationList.playerEnchantingPowerHook;
-            FixEnchantmentGenerationList.playerEnchantingPowerHook = 0;
+            int power = FixEnchantmentGenerationList.musuen$enchantingPower;
+            FixEnchantmentGenerationList.musuen$enchantingPower = 0;
 
             List<EnchantmentLevelEntry> demonics = EnchantmentHelper.getPossibleEntries(power, stack, false);
             demonics.removeIf(entry -> !(entry.enchantment instanceof _IDemonicEnchantment));

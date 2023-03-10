@@ -13,7 +13,7 @@ public class AlightingEnchantment extends Enchantment implements _IEnchantmentEx
 {
     public AlightingEnchantment(Rarity weight)
     {
-        super(weight, EnchantmentTarget.WEARABLE, new EquipmentSlot[]{EquipmentSlot.CHEST});
+        super(weight, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.CHEST});
     }
 
     @Override

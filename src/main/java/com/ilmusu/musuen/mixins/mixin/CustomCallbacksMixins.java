@@ -2,8 +2,9 @@ package com.ilmusu.musuen.mixins.mixin;
 
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.*;
-import com.ilmusu.musuen.mixins.interfaces._IEntityTrackableDrops;
+import com.ilmusu.musuen.mixins.interfaces._IEntityDeathSource;
 import com.ilmusu.musuen.utils.ModUtils;
+import net.minecraft.block.FluidBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -30,7 +31,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
@@ -76,7 +76,7 @@ public abstract class CustomCallbacksMixins
                 shift = At.Shift.AFTER
         ))
         private void afterShootingTrident(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci,
-                                          PlayerEntity player, int i, int j, TridentEntity projectile)
+              PlayerEntity player, int i, int j, TridentEntity projectile)
         {
             ProjectileShotCallback.AFTER.invoker().handler(user, projectile.tridentStack, projectile);
         }
@@ -91,8 +91,8 @@ public abstract class CustomCallbacksMixins
                 shift = At.Shift.AFTER
         ))
         private void afterArrowEntityCreated(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci,
-                                             PlayerEntity playerEntity, boolean bl, ItemStack itemStack, int i, float f, boolean bl2, ArrowItem arrowItem,
-                                             PersistentProjectileEntity projectile)
+             PlayerEntity playerEntity, boolean bl, ItemStack itemStack, int i, float f,
+             boolean bl2, ArrowItem arrowItem, PersistentProjectileEntity projectile)
         {
             ProjectileShotCallback.AFTER.invoker().handler(user, stack, projectile);
         }
@@ -113,8 +113,8 @@ public abstract class CustomCallbacksMixins
                 shift = At.Shift.AFTER
         ))
         private static void afterShootingProjectile(World world, LivingEntity shooter, Hand hand, ItemStack crossbow,
-                                                    ItemStack projectile, float soundPitch, boolean creative, float speed, float divergence, float simulated,
-                                                    CallbackInfo ci, boolean isFirework, ProjectileEntity projectileEntity)
+            ItemStack projectile, float soundPitch, boolean creative, float speed, float divergence, float simulated,
+            CallbackInfo ci, boolean isFirework, ProjectileEntity projectileEntity)
         {
             ProjectileShotCallback.AFTER.invoker().handler(shooter, crossbow, projectileEntity);
         }
@@ -129,22 +129,14 @@ public abstract class CustomCallbacksMixins
     @Mixin(PersistentProjectileEntity.class)
     public abstract static class PersistentProjectileEntityCallbacks
     {
-        private static boolean isArrowReflectedHook = false;
-
-        @Inject(method = "onEntityHit", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;setFireTicks(I)V"))
-        private void afterProjectileReflectedHook(EntityHitResult entityHitResult, CallbackInfo ci)
+        @Inject(method = "onEntityHit", at = @At(
+                value = "INVOKE",
+                target = "Lnet/minecraft/entity/Entity;setFireTicks(I)V",
+                shift = At.Shift.AFTER
+        ))
+        private void beforeProjectileReflected(EntityHitResult hit, CallbackInfo ci)
         {
-            PersistentProjectileEntityCallbacks.isArrowReflectedHook = true;
-        }
-
-        @Inject(method = "onEntityHit", at = @At("TAIL"))
-        private void afterProjectileReflected(EntityHitResult hit, CallbackInfo ci)
-        {
-            if(!PersistentProjectileEntityCallbacks.isArrowReflectedHook)
-                return;
-
-            PersistentProjectileEntityCallbacks.isArrowReflectedHook = false;
-            ProjectileReflectionCallback.AFTER.invoker().handler(hit, (PersistentProjectileEntity)(Object)this);
+            ProjectileReflectionCallback.BEFORE.invoker().handler(hit, (PersistentProjectileEntity)(Object)this);
         }
     }
 
@@ -271,8 +263,8 @@ public abstract class CustomCallbacksMixins
 
         @Shadow private int jumpingCooldown;
 
-        private static boolean hasCheckedForJumpAndFailed = false;
-        private static DamageSource shieldHitDamageSourceHook;
+        @Shadow protected boolean jumping;
+        private static boolean musuen$shieldTriedToBlock;
 
         @Inject(method = "travel", at = @At(
                 value = "INVOKE",
@@ -306,18 +298,6 @@ public abstract class CustomCallbacksMixins
             return (int)LivingEntityDamageCallback.BEFORE_FALL.invoker().handler(entity, DamageSource.FALL, damage);
         }
 
-        @Redirect(method = "tickMovement", at = @At(
-                value = "FIELD",
-                target = "Lnet/minecraft/entity/LivingEntity;onGround:Z",
-                opcode = Opcodes.GETFIELD,
-                ordinal = 2
-        ))
-        private boolean beforeOnGroundJumpCheck(LivingEntity instance)
-        {
-            LivingEntityCallbacks.hasCheckedForJumpAndFailed = !instance.isOnGround();
-            return instance.isOnGround();
-        }
-
         @Inject(method = "tickMovement", at = @At(
                 value = "INVOKE",
                 target = "Lnet/minecraft/util/profiler/Profiler;pop()V",
@@ -325,12 +305,13 @@ public abstract class CustomCallbacksMixins
         ))
         private void afterJumpCheck(CallbackInfo ci)
         {
-            if(!LivingEntityCallbacks.hasCheckedForJumpAndFailed)
+            LivingEntity entity = (LivingEntity)(Object)this;
+            if(entity instanceof PlayerEntity && ((PlayerEntity) entity).getAbilities().flying)
+                return;
+            if(!this.jumping || entity.isOnGround() || entity.getBlockStateAtPos().getBlock() instanceof FluidBlock)
                 return;
 
-            LivingEntityCallbacks.hasCheckedForJumpAndFailed = false;
-            LivingEntity entity = (LivingEntity)(Object)this;
-            if(LivingEntityJumpCheckCallback.EVENT.invoker().handler(entity, this.jumpingCooldown))
+            if(LivingEntityAirJumpCallback.EVENT.invoker().handler(entity, this.jumpingCooldown))
             {
                 this.jump();
                 this.jumpingCooldown = 10;
@@ -348,24 +329,34 @@ public abstract class CustomCallbacksMixins
             entity.setVelocity(velocity);
         }
 
-        @Inject(method = "blockedByShield", at = @At("HEAD"))
-        private void onShieldBlockHook(DamageSource source, CallbackInfoReturnable<Boolean> cir)
+        @Inject(method = "blockedByShield", at = @At(value = "HEAD"))
+        private void afterShieldFailedToBlockResetHook(DamageSource source, CallbackInfoReturnable<Boolean> cir)
         {
-            LivingEntityCallbacks.shieldHitDamageSourceHook = source;
+            LivingEntityCallbacks.musuen$shieldTriedToBlock = false;
         }
 
-        @ModifyConstant(method = "blockedByShield", constant = @Constant(doubleValue = 0.0, ordinal = 1))
-        private double onShieldBlock(double constant)
+        @Inject(method = "blockedByShield", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;dotProduct(Lnet/minecraft/util/math/Vec3d;)D"))
+        private void afterShieldFailedToBlockSetHook(DamageSource source, CallbackInfoReturnable<Boolean> cir)
         {
-            DamageSource source = LivingEntityCallbacks.shieldHitDamageSourceHook;
-            LivingEntityCallbacks.shieldHitDamageSourceHook = null;
+            LivingEntityCallbacks.musuen$shieldTriedToBlock = true;
+        }
+
+        @Inject(method = "blockedByShield", at = @At("TAIL"), cancellable = true)
+        private void afterShieldFailedToBlock(DamageSource source, CallbackInfoReturnable<Boolean> cir)
+        {
+            // Check if the shield tried to block the projectile but failed because of angle
+            if(!LivingEntityCallbacks.musuen$shieldTriedToBlock)
+                return;
 
             LivingEntity user = (LivingEntity)(Object)this;
-            ItemStack stack = user.getActiveItem();
-            if(!(stack.getItem() instanceof ShieldItem))
-                return constant;
 
-            return ShieldCoverageAngleCallback.BEFORE.invoker().handler(user, stack, source);
+            Vec3d vec3d2 = user.getRotationVec(1.0f);
+            Vec3d vec3d3 = source.getPosition().relativize(user.getPos()).normalize().multiply(1, 0, 1);
+
+            // Considering the new coverage angle
+            double angle = ShieldCoverageAngleCallback.BEFORE.invoker().handler(user, user.getActiveItem(), source);
+            if (vec3d3.dotProduct(vec3d2) < angle)
+                cir.setReturnValue(true);
         }
     }
 
@@ -379,7 +370,7 @@ public abstract class CustomCallbacksMixins
         ))
         private void beforeEntityDropsItemStack(ItemStack stack, float yOffset, CallbackInfoReturnable<ItemEntity> cir, ItemEntity item)
         {
-            DamageSource source = ((_IEntityTrackableDrops)this).getDeathDamageSource();
+            DamageSource source = ((_IEntityDeathSource)this).getDeathDamageSource();
             Entity entity = (Entity)(Object)this;
             boolean shouldDrop = EntityDropCallback.EVENT.invoker().handler(entity, item, source);
             if(!shouldDrop)
@@ -440,32 +431,35 @@ public abstract class CustomCallbacksMixins
     @Mixin(GameRenderer.class)
     public static abstract class GameRendererCallbacks
     {
-        private PlayerFovMultiplierCallback.FovParams fovMultiplierParamsHook;
+        private static PlayerFovMultiplierCallback.FovParams musuen$fovParams;
 
-        @ModifyVariable(method = "updateFovMultiplier", at = @At("STORE"))
-        protected float afterComputingNewFovMultiplier(float multiplier)
+        @ModifyVariable(method = "updateFovMultiplier", index = 1, at = @At(value = "STORE", ordinal = 1))
+        protected float afterGettingCameraFovMultiplier(float multiplier)
         {
             PlayerEntity player = MinecraftClient.getInstance().player;
-            this.fovMultiplierParamsHook = PlayerFovMultiplierCallback.AFTER.invoker().handler(player);
+            musuen$fovParams = PlayerFovMultiplierCallback.AFTER.invoker().handler(player);
 
-            if(this.fovMultiplierParamsHook.shouldNotChange())
+            if(musuen$fovParams.shouldNotChange())
                 return multiplier;
 
-            return multiplier * this.fovMultiplierParamsHook.getMultiplier();
+            return multiplier * musuen$fovParams.getAdditionalMultiplier();
         }
 
         @ModifyConstant(method = "updateFovMultiplier", constant = @Constant(floatValue = 0.5F))
         protected float beforeUpdatingCurrentFovMultiplier(float constant)
         {
-            return this.fovMultiplierParamsHook.getUpdateVelocityOr(constant);
+            return musuen$fovParams.getUpdateVelocityOr(constant);
         }
 
-        @ModifyConstant(method = "updateFovMultiplier", constant = @Constant(floatValue = 1.5F))
-        protected float beforeClampingCurrentFovMultiplier(float constant)
+        @Inject(method = "updateFovMultiplier", cancellable = true, at = @At(
+            value = "FIELD",
+            target = "Lnet/minecraft/client/render/GameRenderer;fovMultiplier:F",
+            ordinal = 4
+        ))
+        public void beforeClampingFov(CallbackInfo ci)
         {
-            if(this.fovMultiplierParamsHook.isUnclamped())
-                return 2000.0F;
-            return constant;
+            if(musuen$fovParams.isUnclamped())
+                ci.cancel();
         }
     }
 }

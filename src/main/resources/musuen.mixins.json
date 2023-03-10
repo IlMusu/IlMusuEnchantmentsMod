@@ -21,9 +21,10 @@
     "DemonicEnchantingTableLogicMixin$DemonicEnchantmentScreenHandler",
     "DemonicEnchantingTableLogicMixin$FixEnchantmentGenerationList",
     "EnchantmentWithExtensions$EnchantmentHelperModifications",
+    "EnchantmentWithExtensions$EnchantmentTargetBreakableStackCheck",
+    "EntityWithDeathSource",
+    "EntityWithDeathSource$LivingEntityTrackableDrops",
     "EntityWithPersistentNbt",
-    "EntityWithTrackableDrops",
-    "EntityWithTrackableDrops$LivingEntityTrackableDrops",
     "PlayerWithPockets",
     "PlayerWithPockets$AddPocketSlotsToPlayerInventory",
     "PlayerWithTickers"

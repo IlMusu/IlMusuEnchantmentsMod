@@ -1,7 +1,7 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.Resources;
-import com.ilmusu.musuen.callbacks.LivingEntityJumpCheckCallback;
+import com.ilmusu.musuen.callbacks.LivingEntityAirJumpCallback;
 import com.ilmusu.musuen.callbacks.PlayerLandCallback;
 import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.musuen.networking.messages.SkyJumpEffectsMessage;
@@ -39,7 +39,7 @@ public class SkyJumpEnchantment extends Enchantment
 
     static
     {
-        LivingEntityJumpCheckCallback.EVENT.register((entity, jumpCooldown) ->
+        LivingEntityAirJumpCallback.EVENT.register((entity, jumpCooldown) ->
         {
             // Player must be in air for this to work
             if(!(entity instanceof PlayerEntity) || entity.isTouchingWater() || jumpCooldown > 5)

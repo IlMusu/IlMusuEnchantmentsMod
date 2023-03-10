@@ -7,7 +7,7 @@ import net.minecraft.util.hit.EntityHitResult;
 
 public interface ProjectileReflectionCallback
 {
-    Event<ProjectileReflectionCallback> AFTER = EventFactory.createArrayBacked(ProjectileReflectionCallback.class,
+    Event<ProjectileReflectionCallback> BEFORE = EventFactory.createArrayBacked(ProjectileReflectionCallback.class,
             (listeners) -> (hit, projectile) ->
             {
                 for (ProjectileReflectionCallback listener : listeners)
