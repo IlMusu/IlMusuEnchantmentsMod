@@ -54,10 +54,11 @@ public interface _IPlayerTickers
 
             // The ticker is ticking, execute the runnable
             this.onTick.accept(this);
+        }
 
-            // The ticker finished executing, execute the runnable
-            if(this.remainingTime == 0)
-                this.onExit.accept(this);
+        public void exit()
+        {
+            this.onExit.accept(this);
         }
 
         public void setFinished()

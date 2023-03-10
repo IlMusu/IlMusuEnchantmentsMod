@@ -5,6 +5,7 @@ import com.ilmusu.musuen.callbacks.EntityRendererCallback;
 import com.ilmusu.musuen.callbacks.ProjectileShotCallback;
 import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
+import com.ilmusu.musuen.mixins.mixin.AccessorPersistentProjectileEntity;
 import com.ilmusu.musuen.networking.messages.SkyhookLeashMessage;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
@@ -21,7 +22,6 @@ import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -70,7 +70,7 @@ public class SkyhookEnchantment extends Enchantment
             ((_IPlayerTickers)player).addTicker(new _IPlayerTickers.Ticker(duration)
                 .onTicking((ticker) -> {
                     // Conditions for prematurely stopping the skyhook
-                    boolean isProjectileInGround = (projectile instanceof PersistentProjectileEntity p && p.inGround);
+                    boolean isProjectileInGround = (projectile instanceof AccessorPersistentProjectileEntity p && p.inGround());
                     boolean isHoldingContainer = player.getMainHandStack() == container;
                     boolean isHooked = nbt.getUuid(SKYHOOK_PROJECTILE).equals(projectile.getUuid());
                     if(isProjectileInGround || !isHoldingContainer || !isHooked || projectile.isRemoved())

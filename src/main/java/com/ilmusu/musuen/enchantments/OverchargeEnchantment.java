@@ -1,8 +1,13 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.Resources;
-import com.ilmusu.musuen.callbacks.*;
+import com.ilmusu.musuen.callbacks.PlayerTickCallback;
+import com.ilmusu.musuen.callbacks.ProjectileHitCallback;
+import com.ilmusu.musuen.callbacks.ProjectileLoadCallback;
+import com.ilmusu.musuen.callbacks.ProjectileShotCallback;
 import com.ilmusu.musuen.entity.damage.DemonicDamageSource;
+import com.ilmusu.musuen.mixins.mixin.AccessorCrossbowItem;
+import com.ilmusu.musuen.mixins.mixin.AccessorTridentEntity;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import net.minecraft.enchantment.*;
 import net.minecraft.entity.EntityGroup;
@@ -10,7 +15,6 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ItemStack;
@@ -80,7 +84,7 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
         if(stack.getItem() instanceof BowItem)
             return BowItem.getPullProgress(player.getItemUseTime());
         if(stack.getItem() instanceof CrossbowItem)
-            return CrossbowItem.getPullProgress(player.getItemUseTime(), stack);
+            return AccessorCrossbowItem.getPullProgressAccess(player.getItemUseTime(), stack);
         if(stack.getItem() instanceof TridentItem)
             return 1.0F;
 
@@ -199,8 +203,8 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
                 return;
 
             // Removing the eventual tag of the trident after landing
-            if(projectile instanceof TridentEntity trident)
-                trident.tridentStack.removeSubNbt(OVERCHARGE_DAMAGE_TAG);
+            if(projectile instanceof AccessorTridentEntity trident)
+                trident.getTridentStack().removeSubNbt(OVERCHARGE_DAMAGE_TAG);
         }));
     }
 }

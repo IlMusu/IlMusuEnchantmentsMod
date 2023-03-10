@@ -28,7 +28,8 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
@@ -42,11 +43,10 @@ public abstract class DemonicEnchantingTableLogicMixin
     @Mixin(EnchantmentScreenHandler.class)
     public abstract static class DemonicEnchantmentScreenHandler implements _IDemonicEnchantmentScreenHandler
     {
-        private static final int DEMONIC_ENCHANTING_ENTITY_RADIUS = 7;
-
         @Shadow @Final private ScreenHandlerContext context;
         @Shadow @Final public int[] enchantmentId;
 
+        private static final int DEMONIC_ENCHANTING_ENTITY_RADIUS = 7;
         private final int[] demonicEnchantments = new int[3];
 
         @Override
@@ -77,8 +77,8 @@ public abstract class DemonicEnchantingTableLogicMixin
         }
 
         @Inject(method = "generateEnchantments", at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/enchantment/EnchantmentHelper;generateEnchantments(Ljava/util/Random;Lnet/minecraft/item/ItemStack;IZ)Ljava/util/List;"
+                value = "INVOKE",
+                target = "Lnet/minecraft/enchantment/EnchantmentHelper;generateEnchantments(Ljava/util/Random;Lnet/minecraft/item/ItemStack;IZ)Ljava/util/List;"
         ))
         private void storeGeneratingFromEnchantingTableFlag(ItemStack stack, int slot, int level, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir)
         {
@@ -86,9 +86,9 @@ public abstract class DemonicEnchantingTableLogicMixin
         }
 
         @Inject(method = "generateEnchantments", at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/enchantment/EnchantmentHelper;generateEnchantments(Ljava/util/Random;Lnet/minecraft/item/ItemStack;IZ)Ljava/util/List;",
-            shift = At.Shift.AFTER
+                value = "INVOKE",
+                target = "Lnet/minecraft/enchantment/EnchantmentHelper;generateEnchantments(Ljava/util/Random;Lnet/minecraft/item/ItemStack;IZ)Ljava/util/List;",
+                shift = At.Shift.AFTER
         ))
         private void removeGeneratingFromEnchantingTableFlag(ItemStack stack, int slot, int level, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir)
         {
@@ -96,10 +96,11 @@ public abstract class DemonicEnchantingTableLogicMixin
         }
 
         @Inject(method = "method_17411", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
-            value = "INVOKE",
-            target = "Ljava/util/List;isEmpty()Z"
+                value = "INVOKE",
+                target = "Ljava/util/List;isEmpty()Z"
         ))
-        private void modify(ItemStack itemStack, World world, BlockPos pos, CallbackInfo ci, int i, int j, List<EnchantmentLevelEntry> list)
+        private void modifyEnchantmentListForSlotDisplay(ItemStack itemStack, World world, BlockPos pos, CallbackInfo ci,
+                                                         int i, int j, List<EnchantmentLevelEntry> list)
         {
             // This is a fix which prevents using the @Redirect
             EnchantmentLevelEntry entry = list.get(0);
@@ -119,8 +120,8 @@ public abstract class DemonicEnchantingTableLogicMixin
         }
 
         @Inject(method = "onButtonClick", cancellable = true, at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/screen/ScreenHandlerContext;run(Ljava/util/function/BiConsumer;)V"
+                value = "INVOKE",
+                target = "Lnet/minecraft/screen/ScreenHandlerContext;run(Ljava/util/function/BiConsumer;)V"
         ))
         private void takeHealthFromNearbyEntities(PlayerEntity player, int id, CallbackInfoReturnable<Boolean> cir)
         {
@@ -178,7 +179,7 @@ public abstract class DemonicEnchantingTableLogicMixin
     @Mixin(EnchantmentHelper.class)
     public abstract static class FixEnchantmentGenerationList
     {
-        private static int playerEnchantingPowerHook = 0;
+        private static int musuen$enchantingPower = 0;
 
         @Inject(method = "generateEnchantments", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
                 value = "INVOKE",
@@ -186,17 +187,17 @@ public abstract class DemonicEnchantingTableLogicMixin
                 ordinal = 0
         ))
         private static void removeDemonicEnchantmentsFromExtraction(Random random, ItemStack stack, int level, boolean treasureAllowed,
-            CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<?> list, Item item, int i, float f, List<EnchantmentLevelEntry> list2)
+                                                                    CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<?> list, Item item, int i, float f, List<EnchantmentLevelEntry> list2)
         {
             // Removing all the demonic enchantments since the extraction is done later
             list2.removeIf(entry -> entry.enchantment instanceof _IDemonicEnchantment);
             // Storing the modified power level
-            FixEnchantmentGenerationList.playerEnchantingPowerHook = level;
+            FixEnchantmentGenerationList.musuen$enchantingPower = level;
         }
 
         @Inject(method = "generateEnchantments", locals = LocalCapture.CAPTURE_FAILHARD, at = @At("TAIL"))
         private static void fixEnchantmentListWithDemonicEnchantments(Random random, ItemStack stack, int level,
-            boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<EnchantmentLevelEntry> list)
+                                                                      boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<EnchantmentLevelEntry> list)
         {
             // Check if a demonic enchantment can be added to the list
             if(!MixinSharedData.isGeneratingFromEnchantingTable || MixinSharedData.skullsAroundEnchantingTable < 3)
@@ -209,8 +210,8 @@ public abstract class DemonicEnchantingTableLogicMixin
                 return;
 
             // Getting only the demonic enchantments
-            int power = FixEnchantmentGenerationList.playerEnchantingPowerHook;
-            FixEnchantmentGenerationList.playerEnchantingPowerHook = 0;
+            int power = FixEnchantmentGenerationList.musuen$enchantingPower;
+            FixEnchantmentGenerationList.musuen$enchantingPower = 0;
 
             List<EnchantmentLevelEntry> demonics = EnchantmentHelper.getPossibleEntries(power, stack, false);
             demonics.removeIf(entry -> !(entry.enchantment instanceof _IDemonicEnchantment));
