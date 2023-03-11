@@ -56,7 +56,7 @@ public class VeinMinerEnchantment extends Enchantment
             if(!(stack.getItem() instanceof MiningToolItem tool) || !tool.isSuitableFor(state))
                 return 1.0F;
 
-            VeinMinerEnchantment ench = (VeinMinerEnchantment)ModEnchantments.UNEARTHING;
+            VeinMinerEnchantment ench = (VeinMinerEnchantment)ModEnchantments.VEIN_MINER;
             int breakables = ench.getMaxBreakableBlocks(level);
             return 1 / Math.max(1, breakables*0.05F);
         }));
