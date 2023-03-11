@@ -1,31 +1,17 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.LivingEntityDamageCallback;
+import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ElytraItem;
-import net.minecraft.item.ItemStack;
 
 public class AlightingEnchantment extends Enchantment implements _IEnchantmentExtensions
 {
     public AlightingEnchantment(Rarity weight)
     {
-        super(weight, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.CHEST});
-    }
-
-    @Override
-    public boolean shouldUseStackInsteadOfTargetCheck()
-    {
-        return true;
-    }
-
-    @Override
-    public boolean isAcceptableItem(ItemStack stack)
-    {
-        return stack.getItem() instanceof ElytraItem;
+        super(weight, ModEnchantmentTargets.ELYTRA, new EquipmentSlot[]{EquipmentSlot.CHEST});
     }
 
     @Override

@@ -36,6 +36,12 @@ public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchan
     }
 
     @Override
+    public boolean isAvailableForRandomSelection()
+    {
+        return false;
+    }
+
+    @Override
     public int getMaxLevel()
     {
         return 5;

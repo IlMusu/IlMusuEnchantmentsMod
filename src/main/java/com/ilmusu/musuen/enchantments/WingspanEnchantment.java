@@ -1,17 +1,15 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.LivingEntityElytraLandCallback;
+import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.registries.ModSoundEvents;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.item.ElytraItem;
-import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -20,19 +18,7 @@ public class WingspanEnchantment extends Enchantment implements _IEnchantmentExt
 {
     public WingspanEnchantment(Rarity weight)
     {
-        super(weight, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.CHEST});
-    }
-
-    @Override
-    public boolean shouldUseStackInsteadOfTargetCheck()
-    {
-        return true;
-    }
-
-    @Override
-    public boolean isAcceptableItem(ItemStack stack)
-    {
-        return stack.getItem() instanceof ElytraItem;
+        super(weight, ModEnchantmentTargets.ELYTRA, new EquipmentSlot[]{EquipmentSlot.CHEST});
     }
 
     @Override

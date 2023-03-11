@@ -61,6 +61,12 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
     }
 
     @Override
+    public boolean isAvailableForRandomSelection()
+    {
+        return false;
+    }
+
+    @Override
     public int getMaxLevel()
     {
         return 5;

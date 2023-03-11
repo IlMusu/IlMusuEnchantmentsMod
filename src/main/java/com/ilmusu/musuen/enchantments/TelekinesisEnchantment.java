@@ -4,14 +4,13 @@ import com.ilmusu.musuen.callbacks.EntityDropCallback;
 import com.ilmusu.musuen.client.particles.colored.ColoredParticleEffect;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.musuen.mixins.mixin.AccessorTridentEntity;
+import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -24,22 +23,7 @@ public class TelekinesisEnchantment extends Enchantment implements _IEnchantment
 {
     public TelekinesisEnchantment(Rarity weight)
     {
-        super(weight, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
-    }
-
-    @Override
-    public boolean shouldUseStackInsteadOfTargetCheck()
-    {
-        return true;
-    }
-
-    @Override
-    public boolean isAcceptableItem(ItemStack stack)
-    {
-        return EnchantmentTarget.WEAPON.isAcceptableItem(stack.getItem()) ||
-               EnchantmentTarget.TRIDENT.isAcceptableItem(stack.getItem()) ||
-               EnchantmentTarget.BOW.isAcceptableItem(stack.getItem()) ||
-               EnchantmentTarget.CROSSBOW.isAcceptableItem(stack.getItem());
+        super(weight, ModEnchantmentTargets.CHARGEABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
     }
 
     static

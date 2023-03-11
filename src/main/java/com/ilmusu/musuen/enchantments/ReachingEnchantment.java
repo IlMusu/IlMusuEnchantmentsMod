@@ -1,6 +1,7 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.PlayerTickCallback;
+import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -20,27 +21,13 @@ public class ReachingEnchantment extends Enchantment implements _IEnchantmentExt
 
     public ReachingEnchantment(Rarity weight)
     {
-        super(weight, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]{ EquipmentSlot.MAINHAND });
-    }
-
-    @Override
-    public boolean shouldUseStackInsteadOfTargetCheck()
-    {
-        return true;
+        super(weight, ModEnchantmentTargets.REACHER, new EquipmentSlot[]{ EquipmentSlot.MAINHAND });
     }
 
     @Override
     public int getMaxLevel()
     {
         return 4;
-    }
-
-    @Override
-    public boolean isAcceptableItem(ItemStack stack)
-    {
-        return  EnchantmentTarget.DIGGER.isAcceptableItem(stack.getItem()) ||
-                EnchantmentTarget.WEAPON.isAcceptableItem(stack.getItem()) ||
-                EnchantmentTarget.TRIDENT.isAcceptableItem(stack.getItem());
     }
 
     public static boolean shouldIncreaseReach(ItemStack stack)

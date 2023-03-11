@@ -8,6 +8,7 @@ import com.ilmusu.musuen.callbacks.ProjectileShotCallback;
 import com.ilmusu.musuen.mixins.mixin.AccessorCrossbowItem;
 import com.ilmusu.musuen.mixins.mixin.AccessorTridentEntity;
 import com.ilmusu.musuen.registries.ModDamageSources;
+import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import net.minecraft.enchantment.*;
 import net.minecraft.entity.EntityGroup;
@@ -31,13 +32,7 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
 
     public OverchargeEnchantment(Rarity weight)
     {
-        super(weight, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
-    }
-
-    @Override
-    public boolean shouldUseStackInsteadOfTargetCheck()
-    {
-        return true;
+        super(weight, ModEnchantmentTargets.CHARGEABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
     }
 
     @Override
@@ -48,6 +43,12 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
 
     @Override
     public boolean isAvailableForEnchantedBookOffer()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isAvailableForRandomSelection()
     {
         return false;
     }
@@ -66,14 +67,6 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
                !(other instanceof DamageEnchantment) &&
                !(other instanceof ImpalingEnchantment) &&
                !(other instanceof PowerEnchantment);
-    }
-
-    @Override
-    public boolean isAcceptableItem(ItemStack stack)
-    {
-        return  EnchantmentTarget.BOW.isAcceptableItem(stack.getItem()) ||
-                EnchantmentTarget.CROSSBOW.isAcceptableItem(stack.getItem()) ||
-                EnchantmentTarget.TRIDENT.isAcceptableItem(stack.getItem());
     }
 
     private static float getPullProgress(PlayerEntity player, ItemStack stack)

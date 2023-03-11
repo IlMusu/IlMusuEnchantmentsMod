@@ -16,7 +16,7 @@ public class ModEnchantments
     public static final Enchantment REACHING = new ReachingEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment POCKETED = new PocketedEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment VEIN_MINER = new VeinMinerEnchantment(Enchantment.Rarity.RARE);
-    public static final Enchantment ATTRACTION = new AttractionEnchantment(Enchantment.Rarity.COMMON);
+    public static final Enchantment ATTRACTION = new AttractionEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment METEORITY = new MeteorityEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment WINGSPAN = new WingspanEnchantment(Enchantment.Rarity.COMMON);
     public static final Enchantment ALIGHTING = new AlightingEnchantment(Enchantment.Rarity.UNCOMMON);

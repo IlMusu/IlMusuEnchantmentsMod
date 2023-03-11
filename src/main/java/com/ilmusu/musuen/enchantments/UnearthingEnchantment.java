@@ -43,6 +43,12 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
     }
 
     @Override
+    public boolean isAvailableForRandomSelection()
+    {
+        return false;
+    }
+
+    @Override
     public int getMaxLevel()
     {
         return 5;

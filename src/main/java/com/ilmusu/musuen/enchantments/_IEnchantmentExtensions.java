@@ -9,9 +9,4 @@ public interface _IEnchantmentExtensions
     {
         return 0;
     }
-
-    default boolean shouldUseStackInsteadOfTargetCheck()
-    {
-        return false;
-    }
 }
