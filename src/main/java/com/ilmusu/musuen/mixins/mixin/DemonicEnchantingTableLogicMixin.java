@@ -16,6 +16,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.function.EnchantRandomlyLootFunction;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.screen.EnchantmentScreenHandler;
 import net.minecraft.screen.Property;
@@ -246,6 +248,21 @@ public abstract class DemonicEnchantingTableLogicMixin
                 ParticleEffect effect = new ColoredGlyphParticleEffect(new Color(107, 15, 15));
                 world.addParticle(effect, pos0.x, pos0.y, pos0.z, vel.x, vel.y, vel.z);
             }
+        }
+    }
+
+    @Mixin(EnchantRandomlyLootFunction.class)
+    public abstract static class RemoveDemonicEnchantmentsFromLoot
+    {
+        @Inject(method = "process", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
+                value = "INVOKE",
+                target = "Ljava/util/List;isEmpty()Z",
+                ordinal = 1
+        ))
+        public void removeDemonicEnchantments(ItemStack stack, LootContext context, CallbackInfoReturnable<ItemStack> cir,
+              Random random, boolean bl, List<?> list)
+        {
+            list.removeIf(enchantment -> enchantment instanceof _IDemonicEnchantment);
         }
     }
 }
