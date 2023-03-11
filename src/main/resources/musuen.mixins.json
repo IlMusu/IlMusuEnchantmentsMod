@@ -23,6 +23,7 @@
     "DemonicEnchantingTableLogicMixin$ChangeEnchantingTableBehavior",
     "DemonicEnchantingTableLogicMixin$DemonicEnchantmentScreenHandler",
     "DemonicEnchantingTableLogicMixin$FixEnchantmentGenerationList",
+    "DemonicEnchantingTableLogicMixin$RemoveDemonicEnchantmentsFromLoot",
     "EnchantmentWithExtensions$EnchantmentHelperModifications",
     "EnchantmentWithExtensions$EnchantmentTargetBreakableStackCheck",
     "EntityWithDeathSource",
