@@ -1,7 +1,8 @@
 package com.ilmusu.musuen.enchantments;
 
-import com.ilmusu.musuen.registries.ModDamageSources;
+import com.ilmusu.musuen.mixins.interfaces._IModDamageSources;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -48,7 +49,8 @@ public interface _IDemonicEnchantment
         // The health consumed leaves the player with half hearth if this is safe
         float remaining = Math.max(safe ? 1.0F : 0.0F, initialHealth-healthToConsume);
 
-        entity.damage(ModDamageSources.DEMONIC_DAMAGE, initialHealth-remaining);
+        DamageSource source = ((_IModDamageSources)entity.world.getDamageSources()).demonicDamage();
+        entity.damage(source, initialHealth-remaining);
 
         // Returning the health that would be consumed, notice that now there is the demonction
         // enchantment, therefore returning the actual health after the damage would not work

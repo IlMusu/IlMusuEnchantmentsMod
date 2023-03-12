@@ -16,6 +16,8 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageType;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.FireworkRocketEntity;
@@ -23,6 +25,7 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.*;
+import net.minecraft.registry.Registerable;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.EntityHitResult;
@@ -264,6 +267,9 @@ public abstract class CustomCallbacksMixins
         @Shadow private int jumpingCooldown;
 
         @Shadow protected boolean jumping;
+
+        @Shadow public abstract boolean damage(DamageSource source, float amount);
+
         private static boolean musuen$shieldTriedToBlock;
 
         @Inject(method = "travel", at = @At(
@@ -289,13 +295,13 @@ public abstract class CustomCallbacksMixins
         }
 
         @ModifyVariable(method = "handleFallDamage", at = @At(value = "LOAD", ordinal = 0))
-        private int beforeApplyingFallDamageToLiving(int damage)
+        private int beforeApplyingFallDamageToLiving(int damage, float fallDistance, float damageMultiplier, DamageSource damageSource)
         {
             if(damage <= 0)
                 return damage;
 
             LivingEntity entity = (LivingEntity)(Object)this;
-            return (int)LivingEntityDamageCallback.BEFORE_FALL.invoker().handler(entity, DamageSource.FALL, damage);
+            return (int)LivingEntityDamageCallback.BEFORE_FALL.invoker().handler(entity, damageSource, damage);
         }
 
         @Inject(method = "tickMovement", at = @At(
@@ -436,7 +442,7 @@ public abstract class CustomCallbacksMixins
         private static PlayerFovMultiplierCallback.FovParams musuen$fovParams;
 
         @ModifyVariable(method = "updateFovMultiplier", index = 1, at = @At(value = "STORE", ordinal = 1))
-        protected float afterGettingCameraFovMultiplier(float multiplier)
+        private float afterGettingCameraFovMultiplier(float multiplier)
         {
             PlayerEntity player = MinecraftClient.getInstance().player;
             musuen$fovParams = PlayerFovMultiplierCallback.AFTER.invoker().handler(player);
@@ -453,7 +459,7 @@ public abstract class CustomCallbacksMixins
                 ordinal = 3,
                 shift = At.Shift.AFTER
         ))
-        public void modifyUpdateSpeed(CallbackInfo ci)
+        private void modifyUpdateSpeed(CallbackInfo ci)
         {
             if(musuen$fovParams.shouldNotChange())
                 return;
@@ -468,10 +474,20 @@ public abstract class CustomCallbacksMixins
                 target = "Lnet/minecraft/client/render/GameRenderer;fovMultiplier:F",
                 ordinal = 4
         ))
-        public void beforeClampingFov(CallbackInfo ci)
+        private void beforeClampingFov(CallbackInfo ci)
         {
             if(musuen$fovParams.isUnclamped())
                 ci.cancel();
+        }
+    }
+
+    @Mixin(DamageTypes.class)
+    public static abstract class DamageTypesCallbacks
+    {
+        @Inject(method = "bootstrap", at = @At("TAIL"))
+        private static void registerDamageTypesCallback(Registerable<DamageType> registerable, CallbackInfo ci)
+        {
+            RegisterDamageTypesCallback.AFTER.invoker().handler(registerable);
         }
     }
 }

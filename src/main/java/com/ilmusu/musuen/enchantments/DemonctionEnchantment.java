@@ -22,6 +22,7 @@ public class DemonctionEnchantment extends Enchantment
         return 5;
     }
 
+    @SuppressWarnings("unused")
     public static float getDemonicProtectionAmount(int level, DamageSource source)
     {
         return level * 0.5F;

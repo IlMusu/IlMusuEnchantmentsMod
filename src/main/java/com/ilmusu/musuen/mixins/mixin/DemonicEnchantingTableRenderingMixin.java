@@ -3,6 +3,7 @@ package com.ilmusu.musuen.mixins.mixin;
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.mixins.interfaces._IDemonicEnchantmentScreenHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,7 +33,7 @@ public abstract class DemonicEnchantingTableRenderingMixin
 
         @Inject(method = "drawBackground", at = @At(
                 value = "INVOKE",
-                target = "Lnet/minecraft/client/gui/screen/ingame/EnchantmentScreen;setZOffset(I)V"
+                target = "Lnet/minecraft/client/gui/screen/ingame/EnchantingPhrases;generatePhrase(Lnet/minecraft/client/font/TextRenderer;I)Lnet/minecraft/text/StringVisitable;"
         ))
         private void drawBackgroundEnchantmentHook(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
@@ -51,9 +52,9 @@ public abstract class DemonicEnchantingTableRenderingMixin
             return size-20;
         }
 
-        @ModifyArg(method = "drawBackground", index = 1, at = @At(
+        @ModifyArg(method = "drawBackground", index = 2, at = @At(
                 value = "INVOKE",
-                target = "Lnet/minecraft/client/font/TextRenderer;drawTrimmed(Lnet/minecraft/text/StringVisitable;IIII)V"
+                target = "Lnet/minecraft/client/font/TextRenderer;drawTrimmed(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/StringVisitable;IIII)V"
         ))
         private int modifyHieroglyphPosition(int x)
         {
@@ -97,7 +98,7 @@ public abstract class DemonicEnchantingTableRenderingMixin
             int offset = saturated ? 223 : 239;
 
             RenderSystem.setShaderTexture(0, Resources.DEMONIC_ENCHANTING_TABLE_TEXTURE);
-            ((EnchantmentScreen)(Object)this).drawTexture(matrices, centerWidth+75, centerHeight+15 + 19*slot, 48+24*slot, offset, 24, 16);
+            DrawableHelper.drawTexture(matrices, centerWidth+75, centerHeight+15 + 19*slot, 48+24*slot, offset, 24, 16);
         }
 
         private _IDemonicEnchantmentScreenHandler getDemonicScreenHandler()

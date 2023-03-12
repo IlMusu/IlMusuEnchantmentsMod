@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(CrossbowItem.class)
 public interface AccessorCrossbowItem
 {
+    @SuppressWarnings("unused")
     @Invoker("getPullProgress")
     static float getPullProgressAccess(int useTicks, ItemStack stack)
     {

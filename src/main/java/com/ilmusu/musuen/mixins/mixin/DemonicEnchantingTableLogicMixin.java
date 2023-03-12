@@ -5,7 +5,7 @@ import com.ilmusu.musuen.client.particles.colored_enchant.ColoredGlyphParticleEf
 import com.ilmusu.musuen.enchantments._IDemonicEnchantment;
 import com.ilmusu.musuen.mixins.MixinSharedData;
 import com.ilmusu.musuen.mixins.interfaces._IDemonicEnchantmentScreenHandler;
-import com.ilmusu.musuen.registries.ModDamageSources;
+import com.ilmusu.musuen.mixins.interfaces._IModDamageSources;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.EnchantingTableBlock;
@@ -13,6 +13,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
@@ -141,7 +142,7 @@ public abstract class DemonicEnchantingTableLogicMixin
                 // Consuming the health of non player entities
                 List<LivingEntity> nearEntities = world.getNonSpectatingEntities(LivingEntity.class, box);
                 nearEntities.removeIf((entity) -> entity instanceof PlayerEntity);
-                healthToConsume = takeHealthFromEntitiesRandomly(world.getRandom(), nearEntities, healthToConsume);
+                healthToConsume = takeHealthFromEntitiesRandomly(world, nearEntities, healthToConsume);
 
                 if(healthToConsume <= 0)
                     return;
@@ -149,7 +150,7 @@ public abstract class DemonicEnchantingTableLogicMixin
                 // Consuming the health of player entities
                 List<PlayerEntity> players = world.getNonSpectatingEntities(PlayerEntity.class, box);
                 players.removeIf(PlayerEntity::isCreative);
-                healthToConsume = takeHealthFromEntitiesRandomly(world.getRandom(), players, healthToConsume);
+                healthToConsume = takeHealthFromEntitiesRandomly(world, players, healthToConsume);
 
                 if(healthToConsume <= 0 || player.isCreative())
                     return;
@@ -159,16 +160,17 @@ public abstract class DemonicEnchantingTableLogicMixin
             });
         }
 
-        private static float takeHealthFromEntitiesRandomly(Random rand, List<? extends LivingEntity> entities, float healthToConsume)
+        private static float takeHealthFromEntitiesRandomly(World world, List<? extends LivingEntity> entities, float healthToConsume)
         {
             while(healthToConsume > 0 && entities.size() > 0)
             {
-                int index = rand.nextInt(entities.size());
+                int index = world.getRandom().nextInt(entities.size());
                 LivingEntity entity = entities.get(index);
                 // Computing the health do remove
                 float damage = Math.min(entity.getHealth(), healthToConsume);
                 // Prevent non-attackable entities from blocking loop
-                if(!entity.damage(ModDamageSources.DEMONIC_ENCHANTING, damage) || entity.isDead())
+                DamageSource source = ((_IModDamageSources)world.getDamageSources()).demonicEnchanting();
+                if(!entity.damage(source, damage) || entity.isDead())
                     entities.remove(index);
                 // Removing the health and check for death
                 // Updating the remaining health to consume
@@ -231,7 +233,7 @@ public abstract class DemonicEnchantingTableLogicMixin
             {
                 if(!(enchantment instanceof _IDemonicEnchantment))
                     continue ;
-                if(!enchantment.type.isAcceptableItem(item) && !isBook)
+                if(!enchantment.target.isAcceptableItem(item) && !isBook)
                     continue;
 
                 for (int i = enchantment.getMaxLevel(); i > enchantment.getMinLevel() - 1; --i)

@@ -5,15 +5,16 @@ import com.ilmusu.musuen.callbacks.PlayerTickCallback;
 import com.ilmusu.musuen.callbacks.ProjectileHitCallback;
 import com.ilmusu.musuen.callbacks.ProjectileLoadCallback;
 import com.ilmusu.musuen.callbacks.ProjectileShotCallback;
+import com.ilmusu.musuen.mixins.interfaces._IModDamageSources;
 import com.ilmusu.musuen.mixins.mixin.AccessorCrossbowItem;
 import com.ilmusu.musuen.mixins.mixin.AccessorTridentEntity;
-import com.ilmusu.musuen.registries.ModDamageSources;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import net.minecraft.enchantment.*;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.BowItem;
@@ -129,7 +130,8 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
                 return;
 
             // Applying damage to the player
-            player.damage(ModDamageSources.DEMONIC_DAMAGE, 2.0F);
+            DamageSource source = ((_IModDamageSources)player.world.getDamageSources()).demonicDamage();
+            player.damage(source, 2.0F);
         }));
 
         ProjectileLoadCallback.BEFORE.register((shooter, stack) ->

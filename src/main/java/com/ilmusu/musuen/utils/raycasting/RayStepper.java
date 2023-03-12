@@ -64,7 +64,7 @@ public class RayStepper
         if(!world.getBlockCollisions(null, box).iterator().hasNext())
         {
             Vec3d center = box.getCenter();
-            return BlockHitResult.createMissed(center, Direction.UP, new BlockPos(center));
+            return BlockHitResult.createMissed(center, Direction.UP, BlockPos.ofFloored(center));
         }
 
         return null;
@@ -72,7 +72,7 @@ public class RayStepper
 
     public BlockHitResult intersectsBlock(World world, Function<Object, Boolean> filter)
     {
-        BlockPos pos = new BlockPos(this.position);
+        BlockPos pos = BlockPos.ofFloored(this.position);
         BlockState state = world.getBlockState(pos);
 
         if(state.isAir() || !filter.apply(state))
@@ -93,7 +93,7 @@ public class RayStepper
 
     public BlockHitResult intersectsFullBlock(World world, Function<Object, Boolean> filter)
     {
-        BlockPos pos = new BlockPos(this.position);
+        BlockPos pos = BlockPos.ofFloored(this.position);
         BlockState state = world.getBlockState(pos);
 
         if(state.isAir() || !filter.apply(state))
@@ -123,6 +123,6 @@ public class RayStepper
     public BlockHitResult createMissed()
     {
         Vec3d missVec = this.start.add(this.direction.multiply(this.range));
-        return BlockHitResult.createMissed(missVec, Direction.UP, new BlockPos(missVec));
+        return BlockHitResult.createMissed(missVec, Direction.UP, BlockPos.ofFloored(missVec));
     }
 }

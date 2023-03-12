@@ -11,7 +11,6 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
@@ -48,11 +47,12 @@ public class ShockwaveEnchantment extends Enchantment implements _IEnchantmentEx
             {
                 Vec3d knockbackVec = direction.multiply(-1).add(ModUtils.randomInCircle(user.getRandom()).multiply(0.2F)).normalize();
                 living.takeKnockback(ModUtils.range(living.getRandom(), 0.2F, 0.3F), knockbackVec.x, knockbackVec.z);
-                entity.damage(DamageSource.player(user), damage);
+                entity.damage(user.world.getDamageSources().playerAttack(user), damage);
             }
         }));
     }
 
+    @SuppressWarnings("unused")
     public static void onShockwaveKeyBindingPress(PlayerEntity player, int modifiers)
     {
         // The player must have a shield in its hand and be using it
@@ -87,8 +87,8 @@ public class ShockwaveEnchantment extends Enchantment implements _IEnchantmentEx
                 Vec3d pos = posAtom.get().add(direction.multiply(0.4F));
                 posAtom.set(pos);
 
-                BlockState stateDown = player.world.getBlockState(new BlockPos(pos).down());
-                BlockState state = player.world.getBlockState(new BlockPos(pos));
+                BlockState stateDown = player.world.getBlockState(BlockPos.ofFloored(pos).down());
+                BlockState state = player.world.getBlockState(BlockPos.ofFloored(pos));
                 if(!stateDown.getMaterial().blocksMovement() || state.getMaterial().blocksMovement())
                 {
                     ticker.setFinished();

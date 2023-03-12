@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
@@ -312,7 +313,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         {
             int x = ((AccessorHandledScreen<PlayerScreenHandler>)this).getX();
             int height = ((AccessorScreen)this).getHeight();
-            this.musuen$pocketsButton.setPos(x+126, height/2-22);
+            this.musuen$pocketsButton.setPosition(x+126, height/2-22);
         }
 
         @Inject(method = "isClickOutsideBounds", at = @At("HEAD"), cancellable = true)
@@ -341,7 +342,6 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
 
         private void renderPockets(MatrixStack matrices, int level, boolean left)
         {
-            InventoryScreen self = (InventoryScreen)(Object)this;
             AccessorHandledScreen<?> accessor = (AccessorHandledScreen<?>)this;
 
             int x = accessor.getX() + (left ? -55 : accessor.getBackgroundWidth()+4);
@@ -350,7 +350,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
             int v = 0;
             int sizeX = 51;
             int sizeY = 32+18*(level-1);
-            self.drawTexture(matrices, x, y, u, v, sizeX, sizeY);
+            DrawableHelper.drawTexture(matrices, x, y, u, v, sizeX, sizeY);
         }
     }
 

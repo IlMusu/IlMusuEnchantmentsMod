@@ -57,7 +57,7 @@ public class ShockwaveEffectMessage extends _Message
         // The vector perpendicular to the direction
         Vec3d side = new Vec3d(-this.direction.z, 0, this.direction.x);
         // The state under the specified position
-        BlockState state = player.world.getBlockState(new BlockPos(this.pos).down());
+        BlockState state = player.world.getBlockState(BlockPos.ofFloored(this.pos).down());
 
         for(float s=0.1F; s<=this.size; s+=0.3F)
         {

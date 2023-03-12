@@ -1,6 +1,5 @@
 package com.ilmusu.musuen.client.particles.colored_enchant;
 
-import com.ilmusu.musuen.client.particles.colored.ColoredParticleEffect;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.*;

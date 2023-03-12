@@ -50,7 +50,7 @@ dependencies {
 	include modImplementation("com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}")
 
 	// Library mod for the player reach distance
-	include modImplementation("com.jamieswhiteshirt:reach-entity-attributes:${project.reach_ea_version}")
+	//include modImplementation("com.jamieswhiteshirt:reach-entity-attributes:${project.reach_ea_version}")
 }
 
 processResources {

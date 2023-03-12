@@ -30,10 +30,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import org.joml.Vector3f;
 
 public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantment
@@ -72,6 +69,7 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
         return 5;
     }
 
+    @SuppressWarnings("unused")
     public static boolean onPhasingKeyBindingPress(PlayerEntity player, int modifiers)
     {
         long lastPhaseTick = ((_IEntityPersistentNbt)player).getPNBT().getLong(PHASING_TAG);
@@ -108,12 +106,12 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
     {
         // Modifies the target position to make it more suitable
         Vec3d target = result.getPos();
-        if(player.world.getBlockState(new BlockPos(target)).getMaterial().blocksMovement())
+        if(player.world.getBlockState(BlockPos.ofFloored(target)).getMaterial().blocksMovement())
             target = new Vec3d(target.getX(), ((int)target.getY())+1, target.getZ());
 
         // Prevents the teleport if the position is out of world
         float preDistance = (float)player.getPos().distanceTo(target);
-        if(player.world.isOutOfHeightLimit(new BlockPos(target)) || preDistance < 2.0F)
+        if(player.world.isOutOfHeightLimit(BlockPos.ofFloored(target)) || preDistance < 2.0F)
         {
             float pitch = ModUtils.range(player.world.getRandom(), 0.5F, 0.7F);
             player.world.playSoundFromEntity(null, player, SoundEvents.ENTITY_BLAZE_DEATH, SoundCategory.PLAYERS, 1.0F, pitch);
@@ -163,17 +161,17 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
         if(result.getSide() == Direction.UP)
         {
             Vec3d pos = new Vec3d(result.getPos().x, result.getBlockPos().getY()+1, result.getPos().z);
-            return new BlockHitResult(pos, result.getSide(), new BlockPos(pos), true);
+            return new BlockHitResult(pos, result.getSide(), BlockPos.ofFloored(pos), true);
         }
         if(result.getSide() == Direction.DOWN)
         {
             Vec3d pos = new Vec3d(result.getPos().x, result.getBlockPos().getY()-2.5F, result.getPos().z);
-            return new BlockHitResult(pos, result.getSide(), new BlockPos(pos), true);
+            return new BlockHitResult(pos, result.getSide(), BlockPos.ofFloored(pos), true);
         }
 
         Vector3f offset = result.getSide().getUnitVector();
         Vec3d pos = result.getPos().add(0, -1, 0).add(new Vec3d(offset));
-        return new BlockHitResult(pos, result.getSide(), new BlockPos(pos), true);
+        return new BlockHitResult(pos, result.getSide(), BlockPos.ofFloored(pos), true);
     }
 
     public static void onClientPlayerPhasing(boolean enter)

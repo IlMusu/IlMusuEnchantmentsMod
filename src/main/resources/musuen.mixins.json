@@ -27,6 +27,7 @@
     "EntityWithDeathSource",
     "EntityWithDeathSource$LivingEntityTrackableDrops",
     "EntityWithPersistentNbt",
+    "ModDamageSources",
     "PlayerWithPockets",
     "PlayerWithPockets$AddPocketSlotsToPlayerInventory",
     "PlayerWithTickers"

@@ -110,11 +110,11 @@ public class SkyhookEnchantment extends Enchantment
                     return;
 
                 Entity holder = entity.world.getEntityById(nbt.getInt(SKYHOOK_HOLDER));
-                renderLeash(entity, holder, tickDelta, matrices, provider);
+                renderLead(entity, holder, tickDelta, matrices, provider);
             }));
         }
 
-        private static void renderLeash(Entity leashed, Entity holder, float tickDelta, MatrixStack matrices, VertexConsumerProvider provider)
+        private static void renderLead(Entity leashed, Entity holder, float tickDelta, MatrixStack matrices, VertexConsumerProvider provider)
         {
             matrices.push();
             Vec3d holderLeasPos = holder.getLeashPos(tickDelta);
@@ -127,30 +127,30 @@ public class SkyhookEnchantment extends Enchantment
 
             VertexConsumer vertexConsumer = provider.getBuffer(RenderLayer.getLeash());
             Matrix4f matrix4f = matrices.peek().getPositionMatrix();
-            float n = MathHelper.fastInverseSqrt(j * j + l * l) * 0.025f / 2.0f;
+            float n = MathHelper.inverseSqrt(j * j + l * l) * 0.025f / 2.0f;
             float o = l * n;
             float p = j * n;
 
-            BlockPos blockPos = new BlockPos(leashed.getCameraPosVec(tickDelta));
-            BlockPos blockPos2 = new BlockPos(holder.getCameraPosVec(tickDelta));
+            BlockPos blockPos = BlockPos.ofFloored(leashed.getCameraPosVec(tickDelta));
+            BlockPos blockPos2 = BlockPos.ofFloored(holder.getCameraPosVec(tickDelta));
             int q = leashed.world.getLightLevel(LightType.BLOCK, blockPos);
             int r = leashed.world.getLightLevel(LightType.BLOCK, blockPos2);
             int s = leashed.world.getLightLevel(LightType.SKY, blockPos);
             int t = leashed.world.getLightLevel(LightType.SKY, blockPos2);
 
             for (int u = 0; u <= 24; ++u)
-                renderLeashPiece(vertexConsumer, matrix4f, j, k, l, q, r, s, t, 0.025f, 0.025f, o, p, u, false);
+                renderLeadPiece(vertexConsumer, matrix4f, j, k, l, q, r, s, t, 0.025f, 0.025f, o, p, u, false);
             for (int u = 24; u >= 0; --u)
-                renderLeashPiece(vertexConsumer, matrix4f, j, k, l, q, r, s, t, 0.025f, 0.0f, o, p, u, true);
+                renderLeadPiece(vertexConsumer, matrix4f, j, k, l, q, r, s, t, 0.025f, 0.0f, o, p, u, true);
 
             matrices.pop();
         }
 
-        private static void renderLeashPiece(VertexConsumer vertexConsumer, Matrix4f positionMatrix, float f, float g, float h, int leashedEntityBlockLight, int holdingEntityBlockLight, int leashedEntitySkyLight, int holdingEntitySkyLight, float i, float j, float k, float l, int pieceIndex, boolean isLeashKnot)
+        private static void renderLeadPiece(VertexConsumer vertexConsumer, Matrix4f positionMatrix, float f, float g, float h, int leashedEntityBlockLight, int holdingEntityBlockLight, int leashedEntitySkyLight, int holdingEntitySkyLight, float i, float j, float k, float l, int pieceIndex, boolean isLeashKnot)
         {
             float m = (float)pieceIndex / 24.0f;
-            int n = (int)MathHelper.lerp(m, leashedEntityBlockLight, holdingEntityBlockLight);
-            int o = (int)MathHelper.lerp(m, leashedEntitySkyLight, holdingEntitySkyLight);
+            int n = MathHelper.lerp(m, leashedEntityBlockLight, holdingEntityBlockLight);
+            int o = MathHelper.lerp(m, leashedEntitySkyLight, holdingEntitySkyLight);
             int p = LightmapTextureManager.pack(n, o);
             float q = pieceIndex % 2 == (isLeashKnot ? 1 : 0) ? 0.7f : 1.0f;
             float r = 0.5f * q;

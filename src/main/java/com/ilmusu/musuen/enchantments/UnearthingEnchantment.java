@@ -136,7 +136,7 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
 
                         Vec3d offset = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
                         offset = offset.add(forwardDir.multiply(z)).add(sideDir.multiply(x)).add(upDir.multiply(y));
-                        tryBreakBlock(world, player, stack, new BlockPos(offset.x, offset.y, offset.z));
+                        tryBreakBlock(world, player, stack, BlockPos.ofFloored(offset));
                     }
 
             return true;
