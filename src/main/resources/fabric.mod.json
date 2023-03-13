@@ -30,11 +30,6 @@
   "mixins": [
     "musuen.mixins.json"
   ],
-  "custom": {
-    "loom:injected_interfaces": {
-      "net/minecraft/class_8111": ["com/musuen/mixins/interfaces/DamageTypesCallbacks"]
-    }
-  },
 
   "depends": {
     "fabricloader": ">=0.14.11",

@@ -1,3 +1,4 @@
 accessWidener v1 named
-accessible method net/minecraft/client/particle/EnchantGlyphParticle <init> (Lnet/minecraft/client/world/ClientWorld;DDDDDD)V
 extendable class net/minecraft/enchantment/EnchantmentTarget
+accessible method net/minecraft/client/particle/EnchantGlyphParticle <init> (Lnet/minecraft/client/world/ClientWorld;DDDDDD)V
+accessible method net/minecraft/data/server/tag/TagProvider getOrCreateTagBuilder (Lnet/minecraft/registry/tag/TagKey;)Lnet/minecraft/data/server/tag/TagProvider$ProvidedTagBuilder;

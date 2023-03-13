@@ -1,21 +1,17 @@
 package com.ilmusu.musuen.registries;
 
-import com.ilmusu.musuen.callbacks.RegisterDamageTypesCallback;
+import com.ilmusu.musuen.Resources;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.registry.*;
 import net.minecraft.util.Identifier;
 
 public class ModDamageTypes
 {
-    public static final RegistryKey<DamageType> DEMONIC_ENCHANTING = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier("demonic_enchanting"));
-    public static final RegistryKey<DamageType> DEMONIC_DAMAGE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier("demonic_damage"));
+    public static final RegistryKey<DamageType> DEMONIC_ENCHANTING = ModDamageTypes.of("demonic_enchanting");
+    public static final RegistryKey<DamageType> DEMONIC_DAMAGE = ModDamageTypes.of("demonic_damage");
 
-    static
+    public static RegistryKey<DamageType> of(String identifier)
     {
-        RegisterDamageTypesCallback.AFTER.register(registerable ->
-        {
-            registerable.register(DEMONIC_ENCHANTING, new DamageType("demonicEnchanting", 0.1f));
-            registerable.register(DEMONIC_DAMAGE, new DamageType("demonicDamage", 0.1f));
-        });
+        return RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Resources.identifier(identifier));
     }
 }

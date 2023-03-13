@@ -1,7 +1,7 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.LivingEntityDamageCallback;
-import com.ilmusu.musuen.entity.damage.DemonicDamageSource;
+import com.ilmusu.musuen.registries.ModDamageTypeTags;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -32,7 +32,7 @@ public class DemonctionEnchantment extends Enchantment
     {
         LivingEntityDamageCallback.BEFORE_PROTECTION.register(((entity, source, damage) ->
         {
-            if(!(source instanceof DemonicDamageSource demonicSource) || demonicSource.bypassesDemonction())
+            if(source.isIn(ModDamageTypeTags.BYPASSES_DEMONCTION))
                 return damage;
 
             int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.DEMONCTION, entity);

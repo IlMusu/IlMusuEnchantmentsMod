@@ -22,14 +22,7 @@ repositories {
 		url 'https://jitpack.io'
 		content {
 			includeGroup "com.github.Chocohead"
-		}
-	}
-
-	// Library repository for the player reach distance
-	maven {
-		url "https://maven.jamieswhiteshirt.com/libs-release"
-		content {
-			includeGroup "com.jamieswhiteshirt"
+			includeGroup "com.github.IlMusu"
 		}
 	}
 }
@@ -50,7 +43,7 @@ dependencies {
 	include modImplementation("com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}")
 
 	// Library mod for the player reach distance
-	include modImplementation("com.jamieswhiteshirt:reach-entity-attributes:${project.reach_ea_version}")
+	include modImplementation("com.github.IlMusu:reach-entity-attributes:1.19.4-SNAPSHOT")
 }
 
 processResources {

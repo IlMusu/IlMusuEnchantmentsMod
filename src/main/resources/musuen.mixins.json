@@ -20,7 +20,6 @@
     "CustomCallbacksMixins$ProjectileEntityCallback",
     "CustomCallbacksMixins$TridentEntityCallbacks",
     "CustomCallbacksMixins$TridentItemCallbacks",
-    "CustomCallbacksMixins$VanillaDamageTypeTagProviderCallbacks",
     "DemonicEnchantingTableLogicMixin$ChangeEnchantingTableBehavior",
     "DemonicEnchantingTableLogicMixin$DemonicEnchantmentScreenHandler",
     "DemonicEnchantingTableLogicMixin$FixEnchantmentGenerationList",

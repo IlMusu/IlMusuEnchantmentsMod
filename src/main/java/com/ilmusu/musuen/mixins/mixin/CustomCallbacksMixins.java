@@ -11,17 +11,11 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.data.DataOutput;
-import net.minecraft.data.server.advancement.vanilla.VanillaAdvancementProviders;
-import net.minecraft.data.server.tag.TagProvider;
-import net.minecraft.data.server.tag.vanilla.VanillaDamageTypeTagProvider;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageType;
-import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.FireworkRocketEntity;
@@ -29,10 +23,6 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.*;
-import net.minecraft.registry.Registerable;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.EntityHitResult;
@@ -43,12 +33,12 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-
-import java.util.concurrent.CompletableFuture;
 
 public abstract class CustomCallbacksMixins
 {
@@ -487,17 +477,6 @@ public abstract class CustomCallbacksMixins
         {
             if(musuen$fovParams.isUnclamped())
                 ci.cancel();
-        }
-    }
-
-    @Mixin(VanillaDamageTypeTagProvider.class)
-    public static abstract class VanillaDamageTypeTagProviderCallbacks
-    {
-        @Inject(method = "configure", at = @At("TAIL"))
-        private void registerDamageTypesCallback(RegistryWrapper.WrapperLookup lookup, CallbackInfo ci)
-        {
-            //VanillaDamageTypeTagProvider provider = (VanillaDamageTypeTagProvider)(Object)this;
-            //RegisterDamageTypesCallback.AFTER.invoker().handler(registerable);
         }
     }
 }
