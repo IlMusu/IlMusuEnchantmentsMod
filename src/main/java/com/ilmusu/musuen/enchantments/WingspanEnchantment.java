@@ -22,9 +22,15 @@ public class WingspanEnchantment extends Enchantment implements _IEnchantmentExt
     }
 
     @Override
+    public int getMinLevel()
+    {
+        return ModEnchantments.getMinLevel(this, 0);
+    }
+
+    @Override
     public int getMaxLevel()
     {
-        return 3;
+        return ModEnchantments.getMaxLevel(this, 3);
     }
 
     public static void takeWingspanKnockback(LivingEntity winged, LivingEntity entity, double strength)

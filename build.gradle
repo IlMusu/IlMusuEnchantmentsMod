@@ -41,9 +41,6 @@ dependencies {
 
 	// Library mod for Fabric ASM
 	include modImplementation("com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}")
-
-	// Library mod for the player reach distance
-	include modImplementation("com.github.IlMusu:reach-entity-attributes:1.19.4-SNAPSHOT")
 }
 
 processResources {

@@ -283,7 +283,7 @@ public abstract class CustomCallbacksMixins
             LivingEntityElytraLandCallback.EVENT.invoker().handler((LivingEntity)(Object)this);
         }
 
-        @ModifyVariable(method = "modifyAppliedDamage", at = @At(value = "LOAD", ordinal = 4), argsOnly = true)
+        @ModifyVariable(method = "applyArmorToDamage", at = @At(value = "LOAD", ordinal = 2), argsOnly = true)
         private float beforeApplyingProtectionToDamage(float damage, DamageSource source)
         {
             if(damage <= 0)

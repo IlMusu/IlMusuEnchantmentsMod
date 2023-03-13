@@ -16,9 +16,15 @@ public class ReflectionEnchantment extends Enchantment implements _IEnchantmentE
     }
 
     @Override
+    public int getMinLevel()
+    {
+        return ModEnchantments.getMinLevel(this, 0);
+    }
+
+    @Override
     public int getMaxLevel()
     {
-        return 3;
+        return ModEnchantments.getMaxLevel(this, 3);
     }
 
     static

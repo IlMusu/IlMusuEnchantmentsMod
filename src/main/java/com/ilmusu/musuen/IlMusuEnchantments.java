@@ -15,6 +15,7 @@ public class IlMusuEnchantments implements ModInitializer, ClientModInitializer,
 	@Override
 	public void onInitialize()
 	{
+		ModConfigurations.load();
 		ModEnchantmentTargets.register();
 		ModEnchantments.register();
 		ModParticles.register();

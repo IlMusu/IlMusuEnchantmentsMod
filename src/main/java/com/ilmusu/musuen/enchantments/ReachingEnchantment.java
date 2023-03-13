@@ -2,6 +2,7 @@ package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.PlayerTickCallback;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
+import com.ilmusu.musuen.registries.ModEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
@@ -21,9 +22,15 @@ public class ReachingEnchantment extends Enchantment implements _IEnchantmentExt
     }
 
     @Override
+    public int getMinLevel()
+    {
+        return ModEnchantments.getMinLevel(this, 0);
+    }
+
+    @Override
     public int getMaxLevel()
     {
-        return 4;
+        return ModEnchantments.getMaxLevel(this, 4);
     }
 
     @SuppressWarnings("unused")

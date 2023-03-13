@@ -26,6 +26,18 @@ public class TelekinesisEnchantment extends Enchantment implements _IEnchantment
         super(weight, ModEnchantmentTargets.CHARGEABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
     }
 
+    @Override
+    public int getMinLevel()
+    {
+        return ModEnchantments.getMinLevel(this, 0);
+    }
+
+    @Override
+    public int getMaxLevel()
+    {
+        return ModEnchantments.getMaxLevel(this, 1);
+    }
+
     static
     {
         EntityDropCallback.EVENT.register(((entity, item, source) ->
