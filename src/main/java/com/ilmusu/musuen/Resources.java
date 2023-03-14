@@ -14,6 +14,7 @@ public class Resources
     public static final Identifier POCKETS_TEXTURE = identifier("textures/gui/container/pockets.png");
     public static final Identifier POCKETS_BUTTON_TEXTURE = identifier("textures/gui/pockets_button.png");
     public static final Identifier DEMONIC_ENCHANTING_TABLE_TEXTURE = identifier("textures/gui/container/enchanting_table.png");
+    public static final Identifier BERSERKER_OUTLINE_TEXTURE = identifier("textures/misc/berserker_outline2.png");
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 

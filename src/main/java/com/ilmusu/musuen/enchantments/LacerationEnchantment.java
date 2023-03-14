@@ -2,6 +2,7 @@ package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.PlayerAttackCallback;
+import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.minecraft.enchantment.DamageEnchantment;
 import net.minecraft.enchantment.Enchantment;
@@ -20,15 +21,27 @@ public class LacerationEnchantment extends DamageEnchantment implements _IDemoni
 {
     private static final String LACERATION_DAMAGE_TAG = Resources.MOD_ID+".laceration_additional_damage";
 
-    public LacerationEnchantment(Enchantment.Rarity weight, int typeIndex)
+    public LacerationEnchantment(Enchantment.Rarity weight)
     {
-        super(weight, typeIndex, EquipmentSlot.MAINHAND);
+        super(weight, 0, EquipmentSlot.MAINHAND);
     }
 
     @Override
     public Text getName(int level)
     {
         return _IDemonicEnchantment.super.getName(this.getTranslationKey(), level, this.getMaxLevel());
+    }
+
+    @Override
+    public int getMinLevel()
+    {
+        return ModEnchantments.getMinLevel(this, 0);
+    }
+
+    @Override
+    public int getMaxLevel()
+    {
+        return ModEnchantments.getMaxLevel(this, 5);
     }
 
     @Override
@@ -58,7 +71,7 @@ public class LacerationEnchantment extends DamageEnchantment implements _IDemoni
 
     public float getDamageForHealthConsumed(float health, float level)
     {
-        return (level*0.5F) + health*(2.0F+level);
+        return (level*0.2F) + health*(2.0F+level*0.2F);
     }
 
     static
@@ -83,7 +96,8 @@ public class LacerationEnchantment extends DamageEnchantment implements _IDemoni
                    continue;
 
                 // The percentage of health to consume at the current level of the enchantment
-                float percentage = new ModUtils.Linear(enchantment.getMinLevel(), 0.10F, enchantment.getMaxLevel(), 0.25F).of(level);
+                // Not using the min and max levels so that the enchantment is able to scale
+                float percentage = new ModUtils.Linear(0, 0.10F, 5, 0.25F).of(level);
                 // Getting the amount of actually consumed health and the related damage
                 float consumed = _IDemonicEnchantment.consumeHealthValue(living, percentage, true);
                 additionalDamage += ((LacerationEnchantment) enchantment).getDamageForHealthConsumed(consumed, level);

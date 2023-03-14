@@ -67,9 +67,15 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
     }
 
     @Override
+    public int getMinLevel()
+    {
+        return ModEnchantments.getMinLevel(this, 0);
+    }
+
+    @Override
     public int getMaxLevel()
     {
-        return 5;
+        return ModEnchantments.getMaxLevel(this, 5);
     }
 
     public static boolean onPhasingKeyBindingPress(PlayerEntity player, int modifiers)

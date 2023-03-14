@@ -8,6 +8,11 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.Registries;
+import org.apache.commons.lang3.mutable.MutableFloat;
 
 public class DemonctionEnchantment extends Enchantment
 {
@@ -17,29 +22,66 @@ public class DemonctionEnchantment extends Enchantment
     }
 
     @Override
-    public int getMaxLevel()
+    public int getMinLevel()
     {
-        return 5;
+        return ModEnchantments.getMinLevel(this, 0);
     }
 
-    public static float getDemonicProtectionAmount(int level, DamageSource source)
+    @Override
+    public int getMaxLevel()
     {
-        return level * 0.5F;
+        return ModEnchantments.getMaxLevel(this, 5);
+    }
+
+    public float getDemonicProtectionAmount(int level, DamageSource source)
+    {
+        return level * 0.2F;
+    }
+
+    protected static float getDemonctionAmount(Iterable<ItemStack> equipment, DamageSource source)
+    {
+        MutableFloat totalDemonction = new MutableFloat(0.0F);
+        for (ItemStack stack : equipment)
+        {
+            if (stack.isEmpty())
+                continue;
+
+            NbtList nbtList = stack.getEnchantments();
+            for(int i = 0; i < nbtList.size(); ++i)
+            {
+                NbtCompound compound = nbtList.getCompound(i);
+                Registries.ENCHANTMENT.getOrEmpty(EnchantmentHelper.getIdFromNbt(compound))
+                    .ifPresent(enchantment -> {
+                        if(enchantment instanceof DemonctionEnchantment demonction)
+                        {
+                            int level = EnchantmentHelper.getLevelFromNbt(compound);
+                            totalDemonction.add(demonction.getDemonicProtectionAmount(level, source));
+                        }
+                    });
+            }
+        }
+
+        return totalDemonction.floatValue();
     }
 
     static
     {
         LivingEntityDamageCallback.BEFORE_PROTECTION.register(((entity, source, damage) ->
         {
+            // The demonction protects until the damage is 0.5F
+            if(damage <= 0.5F)
+                return damage;
+            // Check if the source is the right one for the demonction protection
             if(!(source instanceof DemonicDamageSource demonicSource) || demonicSource.bypassesDemonction())
                 return damage;
 
-            int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.DEMONCTION, entity);
-            if(level == 0)
+            // Computes the total demonction on the armor
+            float demonctionAmount = getDemonctionAmount(entity.getArmorItems(), source);
+            if(demonctionAmount == 0.0F)
                 return damage;
 
-            damage -= DemonctionEnchantment.getDemonicProtectionAmount(level, source);
-            return Math.max(0, damage);
+            // Returns the remaining damage
+            return Math.max(0.5F, damage-demonctionAmount);
         }));
     }
 }

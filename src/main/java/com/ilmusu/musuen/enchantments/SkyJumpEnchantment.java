@@ -24,9 +24,15 @@ public class SkyJumpEnchantment extends Enchantment
     }
 
     @Override
+    public int getMinLevel()
+    {
+        return ModEnchantments.getMinLevel(this, 0);
+    }
+
+    @Override
     public int getMaxLevel()
     {
-        return 5;
+        return ModEnchantments.getMaxLevel(this, 5);
     }
 
     @Override

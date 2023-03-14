@@ -9,6 +9,8 @@
   "enchantment.musuen.phasing.desc": "Makes the user teleport over a wall but at the cost of the user's life",
   "enchantment.musuen.overcharged": "Overcharged",
   "enchantment.musuen.overcharged.desc": "Overcharges tools for increased damage but at the cost of the user's life.",
+  "enchantment.musuen.berserker": "Berserk",
+  "enchantment.musuen.berserker.desc": "Increases the damage of the weapon while the user does not stop the attacks.",
   "enchantment.musuen.reaching": "Reaching",
   "enchantment.musuen.reaching.desc": "Increases the reaching distance of the user while using a tool.",
   "enchantment.musuen.pocketed": "Pocketed",
