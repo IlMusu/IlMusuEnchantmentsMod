@@ -19,7 +19,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleEffect;
-import net.minecraft.registry.Registries;
 import net.minecraft.screen.EnchantmentScreenHandler;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -28,6 +27,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -227,7 +227,7 @@ public abstract class DemonicEnchantingTableLogicMixin
             Item item = stack.getItem();
             boolean isBook = stack.isOf(Items.BOOK);
 
-            block0: for (Enchantment enchantment : Registries.ENCHANTMENT)
+            block0: for (Enchantment enchantment : Registry.ENCHANTMENT)
             {
                 if(!(enchantment instanceof _IDemonicEnchantment))
                     continue ;

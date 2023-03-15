@@ -3,8 +3,7 @@ package com.ilmusu.musuen.registries;
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.enchantments.*;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.util.registry.Registry;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +66,7 @@ public class ModEnchantments
     {
         if(Boolean.parseBoolean(ModConfigurations.CONFIG.getOrSet(name+".enabled", true)))
         {
-            Registry.register(Registries.ENCHANTMENT, Resources.identifier(name), enchantment);
+            Registry.register(Registry.ENCHANTMENT, Resources.identifier(name), enchantment);
             enchantment.getMinLevel();
             enchantment.getMaxLevel();
         }
@@ -78,7 +77,7 @@ public class ModEnchantments
         if(MIN_LEVELS.containsKey(enchantment))
             return MIN_LEVELS.get(enchantment);
 
-        String name = Registries.ENCHANTMENT.getId(enchantment).getPath();
+        String name = Registry.ENCHANTMENT.getId(enchantment).getPath();
         String level = ModConfigurations.CONFIG.getOrSet(name+".min_level", min);
 
         try {
@@ -97,7 +96,7 @@ public class ModEnchantments
         if(MAX_LEVELS.containsKey(enchantment))
             return MAX_LEVELS.get(enchantment);
 
-        String name = Registries.ENCHANTMENT.getId(enchantment).getPath();
+        String name = Registry.ENCHANTMENT.getId(enchantment).getPath();
         String level = ModConfigurations.CONFIG.getOrSet(name+".max_level", max);
 
         try {

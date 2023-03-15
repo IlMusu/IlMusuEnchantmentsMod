@@ -11,7 +11,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.registry.Registries;
+import net.minecraft.util.registry.Registry;
 import org.apache.commons.lang3.mutable.MutableFloat;
 
 public class DemonctionEnchantment extends Enchantment
@@ -50,7 +50,7 @@ public class DemonctionEnchantment extends Enchantment
             for(int i = 0; i < nbtList.size(); ++i)
             {
                 NbtCompound compound = nbtList.getCompound(i);
-                Registries.ENCHANTMENT.getOrEmpty(EnchantmentHelper.getIdFromNbt(compound))
+                Registry.ENCHANTMENT.getOrEmpty(EnchantmentHelper.getIdFromNbt(compound))
                     .ifPresent(enchantment -> {
                         if(enchantment instanceof DemonctionEnchantment demonction)
                         {
