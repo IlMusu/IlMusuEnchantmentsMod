@@ -39,6 +39,7 @@ public class ModMessages
             registerMessage(new SkyJumpEffectsMessage());
             registerMessage(new ShockwaveEffectMessage());
             registerMessage(new SwingHandMessage());
+            registerMessage(new BerserkOverlayMessage());
         }
 
         protected static void registerMessage(_Message message)

@@ -14,7 +14,7 @@ public class ModEnchantments
     private static final Map<Enchantment, Integer> MIN_LEVELS = new HashMap<>();
     private static final Map<Enchantment, Integer> MAX_LEVELS = new HashMap<>();
 
-    public static final Enchantment LACERATION = new LacerationEnchantment(Enchantment.Rarity.RARE, 0);
+    public static final Enchantment LACERATION = new LacerationEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment SKEWERING = new SkeweringEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment UNEARTHING = new UnearthingEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment PHASING = new PhasingEnchantment(Enchantment.Rarity.VERY_RARE);

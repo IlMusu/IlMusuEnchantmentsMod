@@ -11,10 +11,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -380,6 +377,16 @@ public abstract class CustomCallbacksMixins
             boolean shouldDrop = EntityDropCallback.EVENT.invoker().handler(entity, item, source);
             if(!shouldDrop)
                 cir.setReturnValue(null);
+        }
+    }
+
+    @Mixin(ItemEntity.class)
+    public abstract static class ItemEntityCallbacks
+    {
+        @Inject(method = "setStack", at = @At("TAIL"))
+        private void onEntityCreation(ItemStack stack, CallbackInfo ci)
+        {
+            ItemEntityStackCallback.EVENT.invoker().handler((ItemEntity)(Object)this, stack);
         }
     }
 
