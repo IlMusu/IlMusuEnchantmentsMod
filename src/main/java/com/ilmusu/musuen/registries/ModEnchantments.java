@@ -19,6 +19,7 @@ public class ModEnchantments
     public static final Enchantment UNEARTHING = new UnearthingEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment PHASING = new PhasingEnchantment(Enchantment.Rarity.VERY_RARE);
     public static final Enchantment OVERCHARGED = new OverchargeEnchantment(Enchantment.Rarity.RARE);
+    public static final Enchantment BERSERKER = new BerserkerEnchantment(Enchantment.Rarity.VERY_RARE);
     public static final Enchantment REACHING = new ReachingEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment POCKETED = new PocketedEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment VEIN_MINER = new VeinMinerEnchantment(Enchantment.Rarity.RARE);
@@ -34,6 +35,7 @@ public class ModEnchantments
     public static final Enchantment REFLECTION = new ReflectionEnchantment(Enchantment.Rarity.COMMON);
     public static final Enchantment SHOCKWAVE = new ShockwaveEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment COVERAGE = new CoverageEnchantment(Enchantment.Rarity.UNCOMMON);
+    public static final Enchantment EVERLASTING = new EverlastingEnchantment(Enchantment.Rarity.UNCOMMON);
 
     public static void register()
     {
@@ -42,6 +44,7 @@ public class ModEnchantments
         registerEnchantmentIfEnabled("unearthing", UNEARTHING);
         registerEnchantmentIfEnabled("phasing", PHASING);
         registerEnchantmentIfEnabled("overcharged", OVERCHARGED);
+        registerEnchantmentIfEnabled("berserker", BERSERKER);
         registerEnchantmentIfEnabled("reaching", REACHING);
         registerEnchantmentIfEnabled("pocketed", POCKETED);
         registerEnchantmentIfEnabled("vein_miner", VEIN_MINER);
@@ -57,6 +60,7 @@ public class ModEnchantments
         registerEnchantmentIfEnabled("reflection", REFLECTION);
         registerEnchantmentIfEnabled("shockwave", SHOCKWAVE);
         registerEnchantmentIfEnabled("coverage", COVERAGE);
+        registerEnchantmentIfEnabled("everlasting", EVERLASTING);
     }
 
     public static void registerEnchantmentIfEnabled(String name, Enchantment enchantment)
