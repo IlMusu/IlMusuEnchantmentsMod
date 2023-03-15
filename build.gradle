@@ -17,11 +17,12 @@ repositories {
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
 
-	// Library mod For fabric ASM
 	maven {
 		url 'https://jitpack.io'
 		content {
+			// Library mod For fabric ASM
 			includeGroup "com.github.Chocohead"
+			// Library mod for the player reach distance
 			includeGroup "com.github.IlMusu"
 		}
 	}
@@ -38,6 +39,9 @@ dependencies {
 
 	// Library mod for Fabric ASM
 	include modImplementation("com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}")
+
+	// Library mod for the player reach distance
+	include modImplementation("com.github.IlMusu:reach-entity-attributes:${project.reach_ea_version}")
 }
 
 processResources {

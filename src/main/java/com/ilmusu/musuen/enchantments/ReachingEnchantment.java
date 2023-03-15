@@ -3,13 +3,17 @@ package com.ilmusu.musuen.enchantments;
 import com.ilmusu.musuen.callbacks.PlayerTickCallback;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
+import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import net.minecraft.item.ItemStack;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class ReachingEnchantment extends Enchantment implements _IEnchantmentExtensions
@@ -58,7 +62,6 @@ public class ReachingEnchantment extends Enchantment implements _IEnchantmentExt
 
             ItemStack stack = player.getMainHandStack();
 
-            /*
             // Removing the attributes so that can be reapplied
             EntityAttributeInstance reachAttribute = player.getAttributes().getCustomInstance(ReachEntityAttributes.REACH);
             EntityAttributeInstance rangeAttribute = player.getAttributes().getCustomInstance(ReachEntityAttributes.ATTACK_RANGE);
@@ -77,7 +80,7 @@ public class ReachingEnchantment extends Enchantment implements _IEnchantmentExt
                 reachAttribute.addTemporaryModifier(ReachingEnchantment.modifierForAdditionalReach(additionalReach));
             if(shouldIncreaseAttackRange(stack))
                 rangeAttribute.addTemporaryModifier(ReachingEnchantment.modifierForAdditionalReach(additionalReach));
-             */
+
         }));
     }
 }
