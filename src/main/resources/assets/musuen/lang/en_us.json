@@ -9,6 +9,8 @@
   "enchantment.musuen.phasing.desc": "Makes the user teleport over a wall but at the cost of the user's life",
   "enchantment.musuen.overcharged": "Overcharged",
   "enchantment.musuen.overcharged.desc": "Overcharges tools for increased damage but at the cost of the user's life.",
+  "enchantment.musuen.berserker": "Berserk",
+  "enchantment.musuen.berserker.desc": "Increases the damage of the weapon while the user does not stop the attacks.",
   "enchantment.musuen.reaching": "Reaching",
   "enchantment.musuen.reaching.desc": "Increases the reaching distance of the user while using a tool.",
   "enchantment.musuen.pocketed": "Pocketed",
@@ -39,9 +41,13 @@
   "enchantment.musuen.shockwave.desc": "Makes the shield create a shockwave on the ground for damaging and pushing away entities.",
   "enchantment.musuen.coverage": "Coverage",
   "enchantment.musuen.coverage.desc": "Increases the shield ability to protect the user by expanding the protection angle.",
+  "enchantment.musuen.everlasting": "Everlasting",
+  "enchantment.musuen.everlasting.desc": "Makes the enchanted item never despawn.",
 
   "death.attack.demonicEnchanting" : "%1$s made a bad deal with a demon",
+  "death.attack.demonicEnchanting.player" : "%1$s made a bad deal with a demon",
   "death.attack.demonicDamage" : "A demon absorbed all %1$s's life",
+  "death.attack.demonicDamage.player": "A demon absorbed all %1$s's life",
 
   "key.musuen.phasing_enchantment": "Phasing Enchantment Ability",
   "key.musuen.shockwave_enchantment": "Shockwave Enchantment Ability"

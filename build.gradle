@@ -17,6 +17,14 @@ repositories {
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
 
+	// Library mod For fabric ASM
+	maven {
+		url 'https://jitpack.io'
+		content {
+			includeGroup "com.github.Chocohead"
+		}
+	}
+
 	// Library repository for the player reach distance
 	maven {
 		url "https://maven.jamieswhiteshirt.com/libs-release"
@@ -37,6 +45,9 @@ dependencies {
 
 	// Uncomment the following line to enable the deprecated Fabric API modules. 
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
+
+	// Library mod for Fabric ASM
+	include modImplementation("com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}")
 
 	// Library mod for the player reach distance
 	include modImplementation("com.jamieswhiteshirt:reach-entity-attributes:${project.reach_ea_version}")

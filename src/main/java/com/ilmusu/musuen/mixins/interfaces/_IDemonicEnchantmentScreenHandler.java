@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface _IDemonicEnchantmentScreenHandler
 {
-    List<BlockPos> SKULLS_OFFSETS = BlockPos.stream(-1, 0, -1, 1, 1, 1).map(BlockPos::toImmutable).toList();
+    List<BlockPos> SKULLS_OFFSETS = BlockPos.stream(-1, 0, -1, 1, 0, 1).map(BlockPos::toImmutable).toList();
 
     boolean hasDemonicEnchantment(int slot);
 
