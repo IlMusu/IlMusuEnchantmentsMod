@@ -22,6 +22,9 @@
     ],
     "client": [
       "com.ilmusu.musuen.IlMusuEnchantments"
+    ],
+    "mm:early_risers": [
+      "com.ilmusu.musuen.IlMusuEnchantments"
     ]
   },
   "mixins": [

@@ -3,7 +3,7 @@ This mod adds <b>more enchantments</b> to Minecraft.
 It also includes a new mechanic, referred to as <b><span style="color:purple">Demonic Enchanting</span></b>, for making enchanting a little bit more interesting without twisting the game too much. Currently, there is no way of disabling this mechanic and I will consider making it possible based on users review.  
 
 ## DEMONIC ENCHANTING
-The demonic enchanting mechanic can be triggered by placing <b>three skulls</b>, which might be both wither or normal skeleton skulls, around the enchanting table as shown in the following images. Only after the skulls are placed correcly, red glyph particles start to move from the skulls to the enchanting table.
+The demonic enchanting mechanic can be triggered by placing <b>three skulls</b> (increasing the number of skulls increases the demonic enchantments probability), which might be both wither or normal skeleton skulls, around the enchanting table as shown in the following images. Only after the skulls are placed correcly, red glyph particles start to move from the skulls to the enchanting table.
 
 <p align="center">
 	<img width="80%" src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/skulls_positioning.png?raw=true">

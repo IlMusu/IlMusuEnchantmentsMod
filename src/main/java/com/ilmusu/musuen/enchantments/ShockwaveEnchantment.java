@@ -3,12 +3,12 @@ package com.ilmusu.musuen.enchantments;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.musuen.networking.messages.ShockwaveEffectMessage;
 import com.ilmusu.musuen.networking.messages.SwingHandMessage;
+import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -29,25 +29,19 @@ public class ShockwaveEnchantment extends Enchantment implements _IEnchantmentEx
 {
     public ShockwaveEnchantment(Rarity weight)
     {
-        super(weight, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        super(weight, ModEnchantmentTargets.SHIELD, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
     }
 
     @Override
-    public boolean shouldUseStackInsteadOfTargetCheck()
+    public int getMinLevel()
     {
-        return true;
+        return ModEnchantments.getMinLevel(this, 0);
     }
 
     @Override
     public int getMaxLevel()
     {
-        return 3;
-    }
-
-    @Override
-    public boolean isAcceptableItem(ItemStack stack)
-    {
-        return stack.getItem() instanceof ShieldItem;
+        return ModEnchantments.getMaxLevel(this, 3);
     }
 
     public static void damageEntitiesWithShockwave(PlayerEntity user, Vec3d pos, Vec3d direction, Vec3d perpendicular, float size, float damage)

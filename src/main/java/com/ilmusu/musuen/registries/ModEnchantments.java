@@ -5,17 +5,24 @@ import com.ilmusu.musuen.enchantments.*;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.registry.Registry;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ModEnchantments
 {
-    public static final Enchantment LACERATION = new LacerationEnchantment(Enchantment.Rarity.RARE, 0);
+    private static final Map<Enchantment, Integer> MIN_LEVELS = new HashMap<>();
+    private static final Map<Enchantment, Integer> MAX_LEVELS = new HashMap<>();
+
+    public static final Enchantment LACERATION = new LacerationEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment SKEWERING = new SkeweringEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment UNEARTHING = new UnearthingEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment PHASING = new PhasingEnchantment(Enchantment.Rarity.VERY_RARE);
     public static final Enchantment OVERCHARGED = new OverchargeEnchantment(Enchantment.Rarity.RARE);
+    public static final Enchantment BERSERKER = new BerserkerEnchantment(Enchantment.Rarity.VERY_RARE);
     public static final Enchantment REACHING = new ReachingEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment POCKETED = new PocketedEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment VEIN_MINER = new VeinMinerEnchantment(Enchantment.Rarity.RARE);
-    public static final Enchantment ATTRACTION = new AttractionEnchantment(Enchantment.Rarity.COMMON);
+    public static final Enchantment ATTRACTION = new AttractionEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment METEORITY = new MeteorityEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment WINGSPAN = new WingspanEnchantment(Enchantment.Rarity.COMMON);
     public static final Enchantment ALIGHTING = new AlightingEnchantment(Enchantment.Rarity.UNCOMMON);
@@ -27,28 +34,79 @@ public class ModEnchantments
     public static final Enchantment REFLECTION = new ReflectionEnchantment(Enchantment.Rarity.COMMON);
     public static final Enchantment SHOCKWAVE = new ShockwaveEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment COVERAGE = new CoverageEnchantment(Enchantment.Rarity.UNCOMMON);
+    public static final Enchantment EVERLASTING = new EverlastingEnchantment(Enchantment.Rarity.UNCOMMON);
 
     public static void register()
     {
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("laceration"), LACERATION);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("skewering"), SKEWERING);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("unearthing"), UNEARTHING);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("phasing"), PHASING);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("overcharged"), OVERCHARGED);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("reaching"), REACHING);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("pocketed"), POCKETED);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("vein_miner"), VEIN_MINER);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("attraction"), ATTRACTION);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("meteority"), METEORITY);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("wingspan"), WINGSPAN);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("alighting"), ALIGHTING);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("telekinesis"), TELEKINESIS);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("sky_jump"), SKY_JUMP);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("long_jump"), LONG_JUMP);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("demonction"), DEMONCTION);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("skyhook"), SKYHOOK);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("reflection"), REFLECTION);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("shockwave"), SHOCKWAVE);
-        Registry.register(Registry.ENCHANTMENT, Resources.identifier("coverage"), COVERAGE);
+        registerEnchantmentIfEnabled("laceration", LACERATION);
+        registerEnchantmentIfEnabled("skewering", SKEWERING);
+        registerEnchantmentIfEnabled("unearthing", UNEARTHING);
+        registerEnchantmentIfEnabled("phasing", PHASING);
+        registerEnchantmentIfEnabled("overcharged", OVERCHARGED);
+        registerEnchantmentIfEnabled("berserker", BERSERKER);
+        registerEnchantmentIfEnabled("reaching", REACHING);
+        registerEnchantmentIfEnabled("pocketed", POCKETED);
+        registerEnchantmentIfEnabled("vein_miner", VEIN_MINER);
+        registerEnchantmentIfEnabled("attraction", ATTRACTION);
+        registerEnchantmentIfEnabled("meteority", METEORITY);
+        registerEnchantmentIfEnabled("wingspan", WINGSPAN);
+        registerEnchantmentIfEnabled("alighting", ALIGHTING);
+        registerEnchantmentIfEnabled("telekinesis", TELEKINESIS);
+        registerEnchantmentIfEnabled("sky_jump", SKY_JUMP);
+        registerEnchantmentIfEnabled("long_jump", LONG_JUMP);
+        registerEnchantmentIfEnabled("demonction", DEMONCTION);
+        registerEnchantmentIfEnabled("skyhook", SKYHOOK);
+        registerEnchantmentIfEnabled("reflection", REFLECTION);
+        registerEnchantmentIfEnabled("shockwave", SHOCKWAVE);
+        registerEnchantmentIfEnabled("coverage", COVERAGE);
+        registerEnchantmentIfEnabled("everlasting", EVERLASTING);
+    }
+
+    public static void registerEnchantmentIfEnabled(String name, Enchantment enchantment)
+    {
+        if(Boolean.parseBoolean(ModConfigurations.CONFIG.getOrSet(name+".enabled", true)))
+        {
+            Registry.register(Registry.ENCHANTMENT, Resources.identifier(name), enchantment);
+            enchantment.getMinLevel();
+            enchantment.getMaxLevel();
+        }
+    }
+
+    public static int getMinLevel(Enchantment enchantment, int min)
+    {
+        if(MIN_LEVELS.containsKey(enchantment))
+            return MIN_LEVELS.get(enchantment);
+
+        String name = Registry.ENCHANTMENT.getId(enchantment).getPath();
+        String level = ModConfigurations.CONFIG.getOrSet(name+".min_level", min);
+
+        try {
+            min = Math.max(0, Integer.parseInt(level));
+        }
+        catch (NumberFormatException exception) {
+            Resources.LOGGER.error("Could not read minimum level for "+name+" enchantment! Defaulting to "+min+"!");
+        }
+
+        MIN_LEVELS.put(enchantment, min);
+        return min;
+    }
+
+    public static int getMaxLevel(Enchantment enchantment, int max)
+    {
+        if(MAX_LEVELS.containsKey(enchantment))
+            return MAX_LEVELS.get(enchantment);
+
+        String name = Registry.ENCHANTMENT.getId(enchantment).getPath();
+        String level = ModConfigurations.CONFIG.getOrSet(name+".max_level", max);
+
+        try {
+            max = Math.min(Integer.parseInt(level), 255);
+        }
+        catch (NumberFormatException exception) {
+            Resources.LOGGER.error("Could not read maximum level for "+name+" enchantment! Defaulting to "+max+"!");
+        }
+
+        MAX_LEVELS.put(enchantment, max);
+        return max;
     }
 }

@@ -1,37 +1,29 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.ShieldCoverageAngleCallback;
+import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShieldItem;
 
 public class CoverageEnchantment extends Enchantment implements _IEnchantmentExtensions
 {
     public CoverageEnchantment(Rarity weight)
     {
-        super(weight, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        super(weight, ModEnchantmentTargets.SHIELD, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
     }
 
     @Override
-    public boolean shouldUseStackInsteadOfTargetCheck()
+    public int getMinLevel()
     {
-        return true;
+        return ModEnchantments.getMinLevel(this, 0);
     }
 
     @Override
     public int getMaxLevel()
     {
-        return 5;
-    }
-
-    @Override
-    public boolean isAcceptableItem(ItemStack stack)
-    {
-        return stack.getItem() instanceof ShieldItem;
+        return ModEnchantments.getMaxLevel(this, 5);
     }
 
     static

@@ -42,9 +42,15 @@ public class SkyhookEnchantment extends Enchantment
     }
 
     @Override
+    public int getMinLevel()
+    {
+        return ModEnchantments.getMinLevel(this, 0);
+    }
+
+    @Override
     public int getMaxLevel()
     {
-        return 4;
+        return ModEnchantments.getMaxLevel(this, 4);
     }
 
     static

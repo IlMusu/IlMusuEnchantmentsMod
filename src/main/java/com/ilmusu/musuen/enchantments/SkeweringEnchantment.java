@@ -2,6 +2,7 @@ package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.PlayerAttackCallback;
+import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.minecraft.enchantment.*;
 import net.minecraft.entity.EntityGroup;
@@ -30,15 +31,27 @@ public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchan
     }
 
     @Override
+    public int getMinLevel()
+    {
+        return ModEnchantments.getMinLevel(this, 0);
+    }
+
+    @Override
+    public int getMaxLevel()
+    {
+        return ModEnchantments.getMaxLevel(this, 5);
+    }
+
+    @Override
     public boolean isAvailableForEnchantedBookOffer()
     {
         return false;
     }
 
     @Override
-    public int getMaxLevel()
+    public boolean isAvailableForRandomSelection()
     {
-        return 5;
+        return false;
     }
 
     @Override
@@ -50,13 +63,6 @@ public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchan
     }
 
     @Override
-    public float getAttackDamage(int level, EntityGroup group)
-    {
-        // The base attack damage for this enchantment is 0
-        return 0;
-    }
-
-    @Override
     public float getAdditionalAttackDamage(ItemStack stack, int level, EntityGroup group)
     {
         return stack.getOrCreateNbt().getFloat(NBT_DAMAGE_TAG);
@@ -64,7 +70,7 @@ public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchan
 
     public float getDamageForHealthConsumed(float health, float level)
     {
-        return level + health*(4.0F+level);
+        return (level*0.2F) + health*(2.0F+level*0.2F);
     }
 
     static
@@ -89,7 +95,8 @@ public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchan
                     continue;
 
                 // The percentage of health to consume at the current level of the enchantment
-                float percentage = new ModUtils.Linear(enchantment.getMinLevel(), 0.10F, enchantment.getMaxLevel(), 0.25F).of(level);
+                // Not using min and max levels so that the enchantment is able to scale
+                float percentage = new ModUtils.Linear(0, 0.10F, 5, 0.25F).of(level);
                 // Getting the amount of actually consumed health and the related damage
                 float consumed = _IDemonicEnchantment.consumeHealthValue(living, percentage, true);
                 additionalDamage += ((SkeweringEnchantment) enchantment).getDamageForHealthConsumed(consumed, level);

@@ -1,10 +1,11 @@
 package com.ilmusu.musuen.mixins.mixin;
 
+import com.google.common.collect.Lists;
 import com.ilmusu.musuen.client.particles.colored_enchant.ColoredGlyphParticleEffect;
 import com.ilmusu.musuen.enchantments._IDemonicEnchantment;
-import com.ilmusu.musuen.entity.damage.DemonicDamageSource;
 import com.ilmusu.musuen.mixins.MixinSharedData;
 import com.ilmusu.musuen.mixins.interfaces._IDemonicEnchantmentScreenHandler;
+import com.ilmusu.musuen.registries.ModDamageSources;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.EnchantingTableBlock;
@@ -16,8 +17,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.context.LootContext;
-import net.minecraft.loot.function.EnchantRandomlyLootFunction;
+import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.screen.EnchantmentScreenHandler;
 import net.minecraft.screen.Property;
@@ -26,6 +26,8 @@ import net.minecraft.util.collection.Weighting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -37,8 +39,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public abstract class DemonicEnchantingTableLogicMixin
 {
@@ -80,7 +82,7 @@ public abstract class DemonicEnchantingTableLogicMixin
 
         @Inject(method = "generateEnchantments", at = @At(
                 value = "INVOKE",
-                target = "Lnet/minecraft/enchantment/EnchantmentHelper;generateEnchantments(Ljava/util/Random;Lnet/minecraft/item/ItemStack;IZ)Ljava/util/List;"
+                target = "Lnet/minecraft/enchantment/EnchantmentHelper;generateEnchantments(Lnet/minecraft/util/math/random/Random;Lnet/minecraft/item/ItemStack;IZ)Ljava/util/List;"
         ))
         private void storeGeneratingFromEnchantingTableFlag(ItemStack stack, int slot, int level, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir)
         {
@@ -89,7 +91,7 @@ public abstract class DemonicEnchantingTableLogicMixin
 
         @Inject(method = "generateEnchantments", at = @At(
                 value = "INVOKE",
-                target = "Lnet/minecraft/enchantment/EnchantmentHelper;generateEnchantments(Ljava/util/Random;Lnet/minecraft/item/ItemStack;IZ)Ljava/util/List;",
+                target = "Lnet/minecraft/enchantment/EnchantmentHelper;generateEnchantments(Lnet/minecraft/util/math/random/Random;Lnet/minecraft/item/ItemStack;IZ)Ljava/util/List;",
                 shift = At.Shift.AFTER
         ))
         private void removeGeneratingFromEnchantingTableFlag(ItemStack stack, int slot, int level, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir)
@@ -166,7 +168,7 @@ public abstract class DemonicEnchantingTableLogicMixin
                 // Computing the health do remove
                 float damage = Math.min(entity.getHealth(), healthToConsume);
                 // Prevent non-attackable entities from blocking loop
-                if(!entity.damage(DemonicDamageSource.DEMONIC_ENCHANTING, damage) || entity.isDead())
+                if(!entity.damage(ModDamageSources.DEMONIC_ENCHANTING, damage) || entity.isDead())
                     entities.remove(index);
                 // Removing the health and check for death
                 // Updating the remaining health to consume
@@ -189,17 +191,15 @@ public abstract class DemonicEnchantingTableLogicMixin
                 ordinal = 0
         ))
         private static void removeDemonicEnchantmentsFromExtraction(Random random, ItemStack stack, int level, boolean treasureAllowed,
-                                                                    CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<?> list, Item item, int i, float f, List<EnchantmentLevelEntry> list2)
+            CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<?> list, Item item, int i, float f, List<EnchantmentLevelEntry> list2)
         {
-            // Removing all the demonic enchantments since the extraction is done later
-            list2.removeIf(entry -> entry.enchantment instanceof _IDemonicEnchantment);
             // Storing the modified power level
             FixEnchantmentGenerationList.musuen$enchantingPower = level;
         }
 
         @Inject(method = "generateEnchantments", locals = LocalCapture.CAPTURE_FAILHARD, at = @At("TAIL"))
         private static void fixEnchantmentListWithDemonicEnchantments(Random random, ItemStack stack, int level,
-                                                                      boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<EnchantmentLevelEntry> list)
+            boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<EnchantmentLevelEntry> list)
         {
             // Check if a demonic enchantment can be added to the list
             if(!MixinSharedData.isGeneratingFromEnchantingTable || MixinSharedData.skullsAroundEnchantingTable < 3)
@@ -215,11 +215,35 @@ public abstract class DemonicEnchantingTableLogicMixin
             int power = FixEnchantmentGenerationList.musuen$enchantingPower;
             FixEnchantmentGenerationList.musuen$enchantingPower = 0;
 
-            List<EnchantmentLevelEntry> demonics = EnchantmentHelper.getPossibleEntries(power, stack, false);
-            demonics.removeIf(entry -> !(entry.enchantment instanceof _IDemonicEnchantment));
-
             // Adding only one demonic enchantment at the beginning of the list
+            List<EnchantmentLevelEntry> demonics = getPossibleDemonicEntries(power, stack);
             Weighting.getRandom(random, demonics).ifPresent((entry -> list.add(0, entry)));
+        }
+
+        // Copied and modified from the EnchantmentHelper
+        private static List<EnchantmentLevelEntry> getPossibleDemonicEntries(int power, ItemStack stack)
+        {
+            ArrayList<EnchantmentLevelEntry> list = Lists.newArrayList();
+            Item item = stack.getItem();
+            boolean isBook = stack.isOf(Items.BOOK);
+
+            block0: for (Enchantment enchantment : Registry.ENCHANTMENT)
+            {
+                if(!(enchantment instanceof _IDemonicEnchantment))
+                    continue ;
+                if(!enchantment.type.isAcceptableItem(item) && !isBook)
+                    continue;
+
+                for (int i = enchantment.getMaxLevel(); i > enchantment.getMinLevel() - 1; --i)
+                {
+                    if (power < enchantment.getMinPower(i) || power > enchantment.getMaxPower(i))
+                        continue;
+
+                    list.add(new EnchantmentLevelEntry(enchantment, i));
+                    continue block0;
+                }
+            }
+            return list;
         }
     }
 
@@ -248,21 +272,6 @@ public abstract class DemonicEnchantingTableLogicMixin
                 ParticleEffect effect = new ColoredGlyphParticleEffect(new Color(107, 15, 15));
                 world.addParticle(effect, pos0.x, pos0.y, pos0.z, vel.x, vel.y, vel.z);
             }
-        }
-    }
-
-    @Mixin(EnchantRandomlyLootFunction.class)
-    public abstract static class RemoveDemonicEnchantmentsFromLoot
-    {
-        @Inject(method = "process", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
-                value = "INVOKE",
-                target = "Ljava/util/List;isEmpty()Z",
-                ordinal = 1
-        ))
-        public void removeDemonicEnchantments(ItemStack stack, LootContext context, CallbackInfoReturnable<ItemStack> cir,
-              Random random, boolean bl, List<?> list)
-        {
-            list.removeIf(enchantment -> enchantment instanceof _IDemonicEnchantment);
         }
     }
 }

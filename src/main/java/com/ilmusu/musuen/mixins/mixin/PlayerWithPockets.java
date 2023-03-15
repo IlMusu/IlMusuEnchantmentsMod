@@ -371,6 +371,16 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
 
     static
     {
+        ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, isEndTeleport) ->
+        {
+            if(!isEndTeleport)
+                return;
+
+            // Copying the pockets from the old player to the new player
+            // Only if this is not death (end portal teleport)
+            ((_IPlayerPockets)newPlayer).clone((_IPlayerPockets)oldPlayer);
+        });
+
         ServerPlayConnectionEvents.JOIN.register(((handler, sender, server) ->
         {
             new PocketsLevelMessage(handler.player).sendToClient(handler.player);
@@ -383,18 +393,9 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
             new PocketsToggleMessage(player).sendToClient(player);
         }));
 
-        ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, isEndTeleport) ->
-        {
-            if(!isEndTeleport)
-                return;
-
-            // Copying the pockets from the old player to the new player
-            // Only if this is not death (end portal teleport)
-            ((_IPlayerPockets)newPlayer).clone((_IPlayerPockets)oldPlayer);
-        });
-
         ServerPlayerEvents.AFTER_RESPAWN.register(((oldPlayer, newPlayer, isEndTeleport) ->
         {
+            // The pockets are not copied after death
             new PocketsLevelMessage(newPlayer).sendToClient(newPlayer);
             new PocketsToggleMessage(newPlayer).sendToClient(newPlayer);
         }));
