@@ -378,6 +378,16 @@ public abstract class CustomCallbacksMixins
         }
     }
 
+    @Mixin(ItemEntity.class)
+    public abstract static class ItemEntityCallbacks
+    {
+        @Inject(method = "setStack", at = @At("TAIL"))
+        private void onEntityCreation(ItemStack stack, CallbackInfo ci)
+        {
+            ItemEntityStackCallback.EVENT.invoker().handler((ItemEntity)(Object)this, stack);
+        }
+    }
+
     @Mixin(HeldItemRenderer.class)
     public abstract static class HeldItemRendererMixins
     {
