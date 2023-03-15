@@ -35,6 +35,7 @@ public class ModEnchantments
     public static final Enchantment REFLECTION = new ReflectionEnchantment(Enchantment.Rarity.COMMON);
     public static final Enchantment SHOCKWAVE = new ShockwaveEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment COVERAGE = new CoverageEnchantment(Enchantment.Rarity.UNCOMMON);
+    public static final Enchantment EVERLASTING = new EverlastingEnchantment(Enchantment.Rarity.UNCOMMON);
 
     public static void register()
     {
@@ -59,6 +60,7 @@ public class ModEnchantments
         registerEnchantmentIfEnabled("reflection", REFLECTION);
         registerEnchantmentIfEnabled("shockwave", SHOCKWAVE);
         registerEnchantmentIfEnabled("coverage", COVERAGE);
+        registerEnchantmentIfEnabled("everlasting", EVERLASTING);
     }
 
     public static void registerEnchantmentIfEnabled(String name, Enchantment enchantment)
