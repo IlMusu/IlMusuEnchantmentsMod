@@ -510,3 +510,5 @@ The everlasting enchantment makes an item never despawn but it is still possible
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/everlasting.gif?raw=true">
 </p>
 </details>
+This enchantment <b>can be applied to</b>:
+1. Any breakable item
