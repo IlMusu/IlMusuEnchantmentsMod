@@ -30,16 +30,16 @@ If the health requirement is satisfied, you will obtain the <b><span style="colo
 </p>
 
 ## LACERATION ENCHANTMENT (V)
-The <b><span style="color:purple">Laceration Enchantment</span></b> provides additional damage for weapon tools. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level, it provides +37.5 additional damage and consumes 25% of the player maxium health.  
+The <b><span style="color:purple">Laceration Enchantment</span></b> provides additional damage for weapon tools. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level, it provides +16.0 additional damage and consumes 25% of the player maxium health.  
 
 <details>
 <summary><b>Details here</b></summary>
 This enchantment produces more damage the more the health it can consume from the player: <br />
-At level 1, it consumes 10.00% of the player health and produces +6.5 additional damage. <br />
-At level 2, it consumes 13.75% of the player health and produces +12.0 additional damage.  <br />
-At level 3, it consumes 17.50% of the player health and produces +19.0 additional damage. <br />
-At level 4, it consumes 21.25% of the player health and produces +27.5 additional damage. <br />
-At level 5, it consumes 25.00% of the player health and produces +37.5 additional damage. <br />
+At level 1, it consumes 10.00% of the max health and produces +4.6 additional damage. <br />
+At level 2, it consumes 13.75% of the max health and produces +7.0 additional damage.  <br />
+At level 3, it consumes 17.50% of the max health and produces +9.7 additional damage. <br />
+At level 4, it consumes 21.25% of the max health and produces +12.7 additional damage. <br />
+At level 5, it consumes 25.00% of the max health and produces +16.0 additional damage. <br />
 An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
 <br />
 <p align="center">
@@ -53,18 +53,19 @@ This enchantment <b>can be applied to</b>:
 
 This enchantment <b>is not compatible</b> with:
 1. Sharpness Enchantment
+2. Berserker Enchantment
 
 ## SKEWERING ENCHANTMENT (V)
-The <b><span style="color:purple">Skewering Enchantment</span></b> provides additional damage for the trident both in the case of melee attack and ranged attack. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level, it provides +37.5 additional damage and consumes 25% of the player maxium health.  
+The <b><span style="color:purple">Skewering Enchantment</span></b> provides additional damage for the trident both in the case of melee attack and ranged attack. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level, it provides +16.0 additional damage and consumes 25% of the player maxium health.  
 
 <details>
 <summary><b>Details here</b></summary>
 This enchantment produces more damage the more the health it can consume from the player: <br />
-At level 1, it consumes 10.00% of the player health and produces +6.5 additional damage. <br />
-At level 2, it consumes 13.75% of the player health and produces +12.0 additional damage.  <br />
-At level 3, it consumes 17.50% of the player health and produces +19.0 additional damage. <br />
-At level 4, it consumes 21.25% of the player health and produces +27.5 additional damage. <br />
-At level 5, it consumes 25.00% of the player health and produces +37.5 additional damage. <br />
+At level 1, it consumes 10.00% of the max health and produces +4.6 additional damage. <br />
+At level 2, it consumes 13.75% of the max health and produces +7.0 additional damage.  <br />
+At level 3, it consumes 17.50% of the max health and produces +9.7 additional damage. <br />
+At level 4, it consumes 21.25% of the max health and produces +12.7 additional damage. <br />
+At level 5, it consumes 25.00% of the max health and produces +16.0 additional damage. <br />
 An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
 <br />
 <p align="center">
@@ -79,17 +80,42 @@ This enchantment <b>is not compatible</b> with:
 1. Impaling Enchantment
 2. Overcharge Enchantment
 
+## BERSERKER ENCHANTMENT (V)
+The <b><span style="color:purple">Berserker Enchantment</span></b> provides additional damage for weapon tools. When the player performs successive attacks, he fills a "rage" indicator that provides more damage. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level and at the max rage, it provides +25.0 additional damage and consumes 10% of the player maxium health per attack.
+<details>
+<summary><b>Details here</b></summary>
+This enchantment produces more damage the more the health it can consume from the player: <br />
+At level 1, it consumes 5.00% of the max health, takes 4 attacks to reach full rage, and produces +5.0 additional damage. <br />
+At level 2, it consumes 6.25% of the max health, takes 6 attacks to reach full rage, and produces +10.0 additional damage.  <br />
+At level 3, it consumes 7.50% of the max health, takes 7 attakcs to reach full rage, and produces +15.0 additional damage. <br />
+At level 4, it consumes 8.75% of the max health, takes 8 attacks to reach full rage, and produces +20.0 additional damage. <br />
+At level 5, it consumes 10.00% of the max health, takes 9 attakcs to reach full rage, and produces +25.0 additional damage. <br />
+An important notice is that <b>this kills the player if he does not have enough health!</b> <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/berserker.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Axe Item
+2. Sword Item
+
+This enchantment <b>is not compatible</b> with:
+1. Sharpness Enchantment
+2. Laceration Enchantment
+
 ## UNEARTHING ENCHANTMENT (V)
 The <b><span style="color:purple">Unearthing Enchantment</span></b> makes a digger tool dig tunnels with the depth and area depending on the level of the enchantments. Since it is a demonic enchantment, digging with an item containing this enchantment <b>damages also the player</b>: the tunnel will be complete only if the player has enough life.  
 
 <details>
 <summary><b>Details here</b></summary>
 This enchantment creates a bigger tunnel the more the health it can consume from the player: 
-At level 1, it consumes 20.0% of the player health and the tunnel will be of 3x3 blocks and 1 blocks depth. <br />
-At level 2, it consumes 22.5% of the player health and the tunnel will be of 3x3 blocks and 3 blocks depth. <br />
-At level 3, it consumes 25.0% of the player health and the tunnel will be of 3x3 blocks and 4 blocks depth. <br />
-At level 4, it consumes 27.5% of the player health and the tunnel will be of 3x3 blocks and 6 blocks depth. <br />
-At level 5, it consumes 30.0% of the player health and the tunnel will be of 5x5 blocks and 7 blocks depth. <br />
+At level 1, it consumes 20.0% of the max health and the tunnel will be of 3x3 blocks and 1 blocks depth. <br />
+At level 2, it consumes 22.5% of the max health and the tunnel will be of 3x3 blocks and 3 blocks depth. <br />
+At level 3, it consumes 25.0% of the max health and the tunnel will be of 3x3 blocks and 4 blocks depth. <br />
+At level 4, it consumes 27.5% of the max health and the tunnel will be of 3x3 blocks and 6 blocks depth. <br />
+At level 5, it consumes 30.0% of the max health and the tunnel will be of 5x5 blocks and 7 blocks depth. <br />
 An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
 <br />
 <p align="center">
@@ -117,7 +143,7 @@ The projectile will make additional damage depending on the level of the enchant
 additional_damage = player_endured_damage*(0.3 + enchantment_level * 0.2)
 ```
 
-An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
+An important notice is that <b>this kills the player if he does not have enough health!</b>  <br />
 <br />
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/overcharged.gif?raw=true">
@@ -144,7 +170,7 @@ The <b><span style="color:purple">Phasing Enchantment</span></b> makes the playe
 <summary><b>Details here</b></summary>
 When the ability is activated, the logic performs a raycasting in the direction the player is looking at and, if a wall is found, it tries to teleport the player behind that wall. Instead, if a wall is not found, the player is teleported in the direction he was looking at with a distance depending on the current level of the enchantment.
 
-An important notice is that <b>this kills the player if he does not have enough health!</b> <br />
+An important notice is that <b>this kills the player if he does not have enough health!</b>  <br />
 <br />
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/phasing.gif?raw=true">
@@ -341,10 +367,9 @@ The range of this enchantment is unlimited, which means that every drop will be 
 </details>
 
 This enchantment <b>can be applied to</b>:
-1. Sword Item
-2. Trident Item
-3. Bow Item
-4. Crossbow Item
+1. Trident Item
+2. Bow Item
+3. Crossbow Item
 
 ## SKY JUMP ENCHANTMENT (V)
 The <b>Sky Jump Enchantment</b> allows the player to perform multiple jumps while already in mid-air: the number of jumps increases with the level of the enchantment and a Leaping Effect can be used to perform higher jumps: at the maximum level, it allows the player to perform 10 mir-air jumps.  
@@ -473,3 +498,15 @@ At level 5, the shield covers angles from -180° to +180° from the user look di
 
 This enchantment <b>can be applied to</b>:
 1. Shield Item
+
+## EVERLASTING ENCHANTMENT (I)
+The <b>Everlasting Enchantment</b>makes the enchanted item never despawn.
+
+<details>
+<summary><b>Details here</b></summary>
+The everlasting enchantment makes an item never despawn but it is still possible that the item might be destroyed in other ways (lava). <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/everlasting.gif?raw=true">
+</p>
+</details>
