@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 public class ModDamageTypeTags
 {
     public static final TagKey<DamageType> BYPASSES_DEMONCTION = ModDamageTypeTags.of("bypasses_demonction");
+    public static final TagKey<DamageType> IS_DEMONIC = ModDamageTypeTags.of("is_demonic");
 
     private static TagKey<DamageType> of(String identifier)
     {
