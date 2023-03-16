@@ -39,6 +39,7 @@
     "CustomCallbacksMixins$EntityRenderDispatcherCallbacks",
     "CustomCallbacksMixins$GameRendererCallbacks",
     "CustomCallbacksMixins$HeldItemRendererMixins",
+    "CustomCallbacksMixins$InGameHudCallbacks",
     "DemonicEnchantingTableRenderingMixin$HeartRequirementsRendering",
     "PlayerWithPockets$DisablePocketsInCreativeInventory",
     "PlayerWithPockets$RemoveStatusEffectsRenderingWhenPocketsOpen",

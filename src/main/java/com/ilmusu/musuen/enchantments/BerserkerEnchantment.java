@@ -1,12 +1,12 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.Resources;
+import com.ilmusu.musuen.callbacks.HudRenderCallback;
 import com.ilmusu.musuen.callbacks.PlayerAttackCallback;
 import com.ilmusu.musuen.networking.messages.BerserkOverlayMessage;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.enchantment.DamageEnchantment;
@@ -18,8 +18,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 
 public class BerserkerEnchantment extends DamageEnchantment implements _IDemonicEnchantment, _IEnchantmentExtensions
 {
@@ -82,7 +85,7 @@ public class BerserkerEnchantment extends DamageEnchantment implements _IDemonic
 
     public float getDamageForHealthConsumed(float health, float level)
     {
-        return health;
+        return health + level*0.2F;
     }
 
     static
@@ -99,24 +102,23 @@ public class BerserkerEnchantment extends DamageEnchantment implements _IDemonic
             NbtCompound nbt = stack.getOrCreateSubNbt(BERSERK_TAG);
             long time = nbt.getLong(BERSERK_TIME_TAG);
             long dTime = living.world.getTime() - time;
-            long maxDTime = (long) (20*(1+level*0.2));
+            long maxDTime = (long) (20*(2+level*0.5));
 
             // The base additional damage is the previous one if not much time has passed
             float additionalDamage = (dTime > 0 && dTime < maxDTime) ? nbt.getFloat(BERSERK_DAMAGE_TAG) : 0.0F;
             float maxAdditionalDamage = 5.0F*level;
-            additionalDamage = Math.min(additionalDamage, maxAdditionalDamage);
 
             // The percentage of health to consume at the current level of the enchantment
             // Not using the min and max levels so that the enchantment is able to scale
             float percentage = new ModUtils.Linear(0, 0.05F, 5, 0.10F).of(level);
             // Getting the amount of actually consumed health and the related damage
-            float consumed = _IDemonicEnchantment.consumeHealthValue(living, percentage, true);
+            float consumed = _IDemonicEnchantment.consumeHealthValue(living, percentage, false);
             additionalDamage += ((BerserkerEnchantment)ModEnchantments.BERSERKER).getDamageForHealthConsumed(consumed, level);
+            additionalDamage = Math.min(additionalDamage, maxAdditionalDamage);
 
             // Sending the message for the overlay
             if(living instanceof PlayerEntity player)
-                new BerserkOverlayMessage((int)maxAdditionalDamage).sendToClient((ServerPlayerEntity)player);
-
+                new BerserkOverlayMessage((int)maxDTime).sendToClient((ServerPlayerEntity)player);
 
             // Setting the additional damage before attacking the entity
             nbt.putLong(BERSERK_TIME_TAG, living.world.getTime());
@@ -124,7 +126,7 @@ public class BerserkerEnchantment extends DamageEnchantment implements _IDemonic
             stack.getOrCreateNbt().put(BERSERK_TAG, nbt);
         });
 
-        HudRenderCallback.EVENT.register(((matrixStack, tickDelta) ->
+        HudRenderCallback.AFTER_OVERLAYS.register(((matrixStack, tickDelta) ->
         {
             if(berserkOverlayTime <= 0)
                 return;
@@ -135,12 +137,21 @@ public class BerserkerEnchantment extends DamageEnchantment implements _IDemonic
 
             // Rendering outline with the opacity
             renderBerserkOverlay(Resources.BERSERKER_OUTLINE_TEXTURE, opacity);
+
+            if(berserkOverlayTime <= 0)
+            {
+                // Playing a sound when the berserker effect expires
+                PlayerEntity player = MinecraftClient.getInstance().player;
+                Vec3d pos = player.getPos();
+                float pitch = ModUtils.range(player.getRandom(), 0.6F, 0.8F);
+                player.world.playSound(pos.x, pos.y, pos.z, SoundEvents.ENTITY_IRON_GOLEM_DEATH, SoundCategory.NEUTRAL, 0.6F, pitch, false);
+            }
         }));
     }
 
     public static void setBerserkOverlay(int duration)
     {
-        berserkOverlay = new ModUtils.Linear(0, 0.0F, duration, 0.7F);
+        berserkOverlay = new ModUtils.Linear(0, 0.1F, duration, 0.7F);
         berserkOverlayTime = duration+10.0F;
     }
 

@@ -141,7 +141,7 @@ public abstract class DemonicEnchantingTableLogicMixin
                 // Consuming the health of non player entities
                 List<LivingEntity> nearEntities = world.getNonSpectatingEntities(LivingEntity.class, box);
                 nearEntities.removeIf((entity) -> entity instanceof PlayerEntity);
-                healthToConsume = takeHealthFromEntitiesRandomly(world.getRandom(), nearEntities, healthToConsume);
+                healthToConsume = takeHealthFromEntitiesRandomly(world, nearEntities, healthToConsume);
 
                 if(healthToConsume <= 0)
                     return;
@@ -149,7 +149,7 @@ public abstract class DemonicEnchantingTableLogicMixin
                 // Consuming the health of player entities
                 List<PlayerEntity> players = world.getNonSpectatingEntities(PlayerEntity.class, box);
                 players.removeIf(PlayerEntity::isCreative);
-                healthToConsume = takeHealthFromEntitiesRandomly(world.getRandom(), players, healthToConsume);
+                healthToConsume = takeHealthFromEntitiesRandomly(world, players, healthToConsume);
 
                 if(healthToConsume <= 0 || player.isCreative())
                     return;
@@ -159,11 +159,11 @@ public abstract class DemonicEnchantingTableLogicMixin
             });
         }
 
-        private static float takeHealthFromEntitiesRandomly(Random rand, List<? extends LivingEntity> entities, float healthToConsume)
+        private static float takeHealthFromEntitiesRandomly(World world, List<? extends LivingEntity> entities, float healthToConsume)
         {
             while(healthToConsume > 0 && entities.size() > 0)
             {
-                int index = rand.nextInt(entities.size());
+                int index = world.getRandom().nextInt(entities.size());
                 LivingEntity entity = entities.get(index);
                 // Computing the health do remove
                 float damage = Math.min(entity.getHealth(), healthToConsume);

@@ -42,18 +42,6 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
     }
 
     @Override
-    public boolean isAvailableForEnchantedBookOffer()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean isAvailableForRandomSelection()
-    {
-        return false;
-    }
-
-    @Override
     public int getMinLevel()
     {
         return ModEnchantments.getMinLevel(this, 0);
@@ -63,6 +51,18 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
     public int getMaxLevel()
     {
         return ModEnchantments.getMaxLevel(this, 5);
+    }
+
+    @Override
+    public boolean isAvailableForEnchantedBookOffer()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isAvailableForRandomSelection()
+    {
+        return false;
     }
 
     @Override

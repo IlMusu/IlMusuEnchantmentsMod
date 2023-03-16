@@ -6,6 +6,7 @@ import com.ilmusu.musuen.mixins.interfaces._IEntityDeathSource;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
@@ -289,13 +290,13 @@ public abstract class CustomCallbacksMixins
         }
 
         @ModifyVariable(method = "handleFallDamage", at = @At(value = "LOAD", ordinal = 0))
-        private int beforeApplyingFallDamageToLiving(int damage)
+        private int beforeApplyingFallDamageToLiving(int damage, float fallDistance, float damageMultiplier, DamageSource damageSource)
         {
             if(damage <= 0)
                 return damage;
 
             LivingEntity entity = (LivingEntity)(Object)this;
-            return (int)LivingEntityDamageCallback.BEFORE_FALL.invoker().handler(entity, DamageSource.FALL, damage);
+            return (int)LivingEntityDamageCallback.BEFORE_FALL.invoker().handler(entity, damageSource, damage);
         }
 
         @Inject(method = "tickMovement", at = @At(
@@ -446,7 +447,7 @@ public abstract class CustomCallbacksMixins
         private static PlayerFovMultiplierCallback.FovParams musuen$fovParams;
 
         @ModifyVariable(method = "updateFovMultiplier", index = 1, at = @At(value = "STORE", ordinal = 1))
-        protected float afterGettingCameraFovMultiplier(float multiplier)
+        private float afterGettingCameraFovMultiplier(float multiplier)
         {
             PlayerEntity player = MinecraftClient.getInstance().player;
             musuen$fovParams = PlayerFovMultiplierCallback.AFTER.invoker().handler(player);
@@ -463,7 +464,7 @@ public abstract class CustomCallbacksMixins
                 ordinal = 3,
                 shift = At.Shift.AFTER
         ))
-        public void modifyUpdateSpeed(CallbackInfo ci)
+        private void modifyUpdateSpeed(CallbackInfo ci)
         {
             if(musuen$fovParams.shouldNotChange())
                 return;
@@ -478,10 +479,23 @@ public abstract class CustomCallbacksMixins
                 target = "Lnet/minecraft/client/render/GameRenderer;fovMultiplier:F",
                 ordinal = 4
         ))
-        public void beforeClampingFov(CallbackInfo ci)
+        private void beforeClampingFov(CallbackInfo ci)
         {
             if(musuen$fovParams.isUnclamped())
                 ci.cancel();
+        }
+    }
+
+    @Mixin(InGameHud.class)
+    public static abstract class InGameHudCallbacks
+    {
+        @Inject(method = "render", at = @At(
+                value = "INVOKE",
+                target = "Lnet/minecraft/client/network/ClientPlayerEntity;getFrozenTicks()I"
+        ))
+        private void afterRenderingOverlays(MatrixStack matrices, float tickDelta, CallbackInfo ci)
+        {
+            HudRenderCallback.AFTER_OVERLAYS.invoker().handler(matrices, tickDelta);
         }
     }
 }
