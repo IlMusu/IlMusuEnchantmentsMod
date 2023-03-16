@@ -171,7 +171,7 @@ public class BerserkerEnchantment extends DamageEnchantment implements _IDemonic
             RenderSystem.disableDepthTest();
             RenderSystem.depthMask(false);
             RenderSystem.defaultBlendFunc();
-            RenderSystem.setShader(GameRenderer::getPositionTexProgram);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, opacity);
             RenderSystem.setShaderTexture(0, texture);
             Tessellator tessellator = Tessellator.getInstance();
