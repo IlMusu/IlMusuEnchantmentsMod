@@ -15,7 +15,7 @@ public class ModMessages
         {
             registerMessage(new PhasingKeyBindingMessage());
             registerMessage(new ShockwaveKeyBindingMessage());
-            registerMessage(new SkyJumpEffectsMessage());
+            registerMessage(new SkyJumpEffectMessage());
             registerMessage(new PocketsToggleMessage());
         }
 
@@ -36,7 +36,7 @@ public class ModMessages
             registerMessage(new PocketsToggleMessage());
             registerMessage(new PhasingSwitchMessage());
             registerMessage(new SkyhookLeashMessage());
-            registerMessage(new SkyJumpEffectsMessage());
+            registerMessage(new SkyJumpEffectMessage());
             registerMessage(new ShockwaveEffectMessage());
             registerMessage(new SwingHandMessage());
             registerMessage(new BerserkOverlayMessage());

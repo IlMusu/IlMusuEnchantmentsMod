@@ -1,5 +1,6 @@
 package com.ilmusu.musuen.enchantments;
 
+import com.ilmusu.musuen.client.particles.eblock.BlockParticleEffect;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.musuen.networking.messages.ShockwaveEffectMessage;
 import com.ilmusu.musuen.networking.messages.SwingHandMessage;
@@ -22,7 +23,10 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.World;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ShockwaveEnchantment extends Enchantment implements _IEnchantmentExtensions
@@ -59,6 +63,7 @@ public class ShockwaveEnchantment extends Enchantment implements _IEnchantmentEx
         }));
     }
 
+    @SuppressWarnings("unused")
     public static void onShockwaveKeyBindingPress(PlayerEntity player, int modifiers)
     {
         // The player must have a shield in its hand and be using it
@@ -111,5 +116,39 @@ public class ShockwaveEnchantment extends Enchantment implements _IEnchantmentEx
         stack.damage(5, player, e -> e.sendToolBreakStatus(Hand.MAIN_HAND));
         // Disabling the shield for some time
         player.getItemCooldownManager().set(stack.getItem(), 20);
+    }
+
+    public static void spawnShockwaveEffects(World world, Random rand, Vec3d pos, float size, Vec3d direction)
+    {
+        // The vector perpendicular to the direction
+        Vec3d side = new Vec3d(-direction.z, 0, direction.x);
+        // The state under the specified position
+        BlockState state = world.getBlockState(new BlockPos(pos).down());
+
+        for(float s=0.1F; s<=size; s+=0.3F)
+        {
+            for(float s1 : List.of(-s, s))
+            {
+                float parabola = -0.2F*s1*s1;
+                Vec3d regression = direction.multiply(parabola);
+                Vec3d pos1 = pos.add(side.multiply(s1)).add(regression).add(ModUtils.randomInCircle(rand).multiply(0.5F));
+                Vec3d vel = ModUtils.randomInCircle(rand).multiply(0.1F);
+
+                int life = ModUtils.range(rand, 5, 8);
+                float size0 = ModUtils.range(rand, 0.10F, 0.20F);
+                float height = ModUtils.range(rand, 0.10F, 0.3F);
+
+                // Spawning particles
+                for(int i=0; i<3; ++i)
+                {
+                    BlockParticleEffect particle = new BlockParticleEffect(state).life(life).size(size0).gravity(0.25F);
+                    world.addParticle(particle, pos1.x, pos1.y+height, pos1.z, vel.x, vel.y, vel.z);
+                }
+            }
+        }
+
+        // Playing the block sound
+        float pitch = ModUtils.range(rand, 0.8F, 1.2F);
+        world.playSound(pos.x, pos.y, pos.z, state.getSoundGroup().getBreakSound(), SoundCategory.BLOCKS, 0.6F, pitch, false);
     }
 }
