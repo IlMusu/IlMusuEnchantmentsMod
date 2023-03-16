@@ -12,7 +12,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
+import net.minecraft.util.Pair;
 import org.apache.commons.lang3.mutable.MutableFloat;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DemonctionEnchantment extends Enchantment
 {
@@ -33,14 +36,21 @@ public class DemonctionEnchantment extends Enchantment
         return ModEnchantments.getMaxLevel(this, 5);
     }
 
+    @SuppressWarnings("unused")
     public float getDemonicProtectionAmount(int level, DamageSource source)
     {
         return level * 0.2F;
     }
 
-    protected static float getDemonctionAmount(Iterable<ItemStack> equipment, DamageSource source)
+    public static float getDemonctionGranularity(int level)
+    {
+        return 0.5F - level/15.0F;
+    }
+
+    protected static Pair<Float, Integer> getDemonctionAmount(Iterable<ItemStack> equipment, DamageSource source)
     {
         MutableFloat totalDemonction = new MutableFloat(0.0F);
+        AtomicInteger maxLevel = new AtomicInteger(0);
         for (ItemStack stack : equipment)
         {
             if (stack.isEmpty())
@@ -55,33 +65,33 @@ public class DemonctionEnchantment extends Enchantment
                         if(enchantment instanceof DemonctionEnchantment demonction)
                         {
                             int level = EnchantmentHelper.getLevelFromNbt(compound);
+                            maxLevel.set(Math.max(maxLevel.get(), level));
                             totalDemonction.add(demonction.getDemonicProtectionAmount(level, source));
                         }
                     });
             }
         }
 
-        return totalDemonction.floatValue();
+        return new Pair<>(totalDemonction.floatValue(), maxLevel.get());
     }
 
     static
     {
         LivingEntityDamageCallback.BEFORE_PROTECTION.register(((entity, source, damage) ->
         {
-            // The demonction protects until the damage is 0.5F
-            if(damage <= 0.5F)
-                return damage;
             // Check if the source is the right one for the demonction protection
             if(!(source instanceof DemonicDamageSource demonicSource) || demonicSource.bypassesDemonction())
                 return damage;
 
             // Computes the total demonction on the armor
-            float demonctionAmount = getDemonctionAmount(entity.getArmorItems(), source);
+            Pair<Float, Integer> demonction = getDemonctionAmount(entity.getArmorItems(), source);
+            float demonctionAmount = demonction.getLeft();
             if(demonctionAmount == 0.0F)
                 return damage;
 
             // Returns the remaining damage
-            return Math.max(0.5F, damage-demonctionAmount);
+            int level = demonction.getRight();
+            return Math.max(getDemonctionGranularity(level), damage-demonctionAmount);
         }));
     }
 }

@@ -63,6 +63,7 @@ public class ShockwaveEnchantment extends Enchantment implements _IEnchantmentEx
         }));
     }
 
+    @SuppressWarnings("unused")
     public static void onShockwaveKeyBindingPress(PlayerEntity player, int modifiers)
     {
         // The player must have a shield in its hand and be using it

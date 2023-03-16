@@ -78,6 +78,7 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
         return false;
     }
 
+    @SuppressWarnings("unused")
     public static boolean onPhasingKeyBindingPress(PlayerEntity player, int modifiers)
     {
         long lastPhaseTick = ((_IEntityPersistentNbt)player).getPNBT().getLong(PHASING_TAG);
