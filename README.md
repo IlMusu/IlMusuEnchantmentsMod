@@ -85,11 +85,11 @@ The <b><span style="color:purple">Berserker Enchantment</span></b> provides addi
 <details>
 <summary><b>Details here</b></summary>
 This enchantment produces more damage the more the health it can consume from the player: <br />
-At level 1, it consumes 5.00% of the max health, takes 4 attacks to reach full rage, and produces +5.0 additional damage. <br />
-At level 2, it consumes 6.25% of the max health, takes 6 attacks to reach full rage, and produces +10.0 additional damage.  <br />
-At level 3, it consumes 7.50% of the max health, takes 7 attakcs to reach full rage, and produces +15.0 additional damage. <br />
-At level 4, it consumes 8.75% of the max health, takes 8 attacks to reach full rage, and produces +20.0 additional damage. <br />
-At level 5, it consumes 10.00% of the max health, takes 9 attakcs to reach full rage, and produces +25.0 additional damage. <br />
+At level 1, it consumes 5.00% of the max health, 4 attacks for full rage, and produces +5.0 additional damage. <br />
+At level 2, it consumes 6.25% of the max health, 6 attacks for full rage, and produces +10.0 additional damage.  <br />
+At level 3, it consumes 7.50% of the max health, 7 attakcs for full rage, and produces +15.0 additional damage. <br />
+At level 4, it consumes 8.75% of the max health, 8 attacks for full rage, and produces +20.0 additional damage. <br />
+At level 5, it consumes 10.00% of the max health, 9 attakcs for full rage, and produces +25.0 additional damage. <br />
 An important notice is that <b>this kills the player if he does not have enough health!</b> <br />
 <br />
 <p align="center">
