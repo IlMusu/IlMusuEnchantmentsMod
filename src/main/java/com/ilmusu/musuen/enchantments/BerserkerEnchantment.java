@@ -7,6 +7,8 @@ import com.ilmusu.musuen.networking.messages.BerserkOverlayMessage;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.enchantment.DamageEnchantment;
@@ -125,58 +127,64 @@ public class BerserkerEnchantment extends DamageEnchantment implements _IDemonic
             nbt.putFloat(BERSERK_DAMAGE_TAG, additionalDamage);
             stack.getOrCreateNbt().put(BERSERK_TAG, nbt);
         });
+    }
 
-        HudRenderCallback.AFTER_OVERLAYS.register(((matrixStack, tickDelta) ->
+    @Environment(EnvType.CLIENT)
+    public static class BerserkerOverlayRendering
+    {
+        public static void register()
         {
-            if(berserkOverlayTime <= 0)
-                return;
-
-            // Getting the new opacity and decreasing time
-            float opacity = berserkOverlay.of(berserkOverlayTime);
-            berserkOverlayTime -= tickDelta;
-
-            // Rendering outline with the opacity
-            renderBerserkOverlay(Resources.BERSERKER_OUTLINE_TEXTURE, opacity);
-
-            if(berserkOverlayTime <= 0)
+            HudRenderCallback.AFTER_OVERLAYS.register(((matrixStack, tickDelta) ->
             {
-                // Playing a sound when the berserker effect expires
-                PlayerEntity player = MinecraftClient.getInstance().player;
-                Vec3d pos = player.getPos();
-                float pitch = ModUtils.range(player.getRandom(), 0.6F, 0.8F);
-                player.world.playSound(pos.x, pos.y, pos.z, SoundEvents.ENTITY_IRON_GOLEM_DEATH, SoundCategory.NEUTRAL, 0.6F, pitch, false);
-            }
-        }));
+                if(berserkOverlayTime <= 0)
+                    return;
+
+                // Getting the new opacity and decreasing time
+                float opacity = berserkOverlay.of(berserkOverlayTime);
+                berserkOverlayTime -= tickDelta;
+
+                // Rendering outline with the opacity
+                renderBerserkOverlay(Resources.BERSERKER_OUTLINE_TEXTURE, opacity);
+
+                if(berserkOverlayTime <= 0)
+                {
+                    // Playing a sound when the berserker effect expires
+                    PlayerEntity player = MinecraftClient.getInstance().player;
+                    Vec3d pos = player.getPos();
+                    float pitch = ModUtils.range(player.getRandom(), 0.6F, 0.8F);
+                    player.world.playSound(pos.x, pos.y, pos.z, SoundEvents.ENTITY_IRON_GOLEM_DEATH, SoundCategory.NEUTRAL, 0.6F, pitch, false);
+                }
+            }));
+        }
+
+        public static void setBerserkOverlay(int duration)
+        {
+            berserkOverlay = new ModUtils.Linear(0, 0.1F, duration, 0.7F);
+            berserkOverlayTime = duration+10.0F;
+        }
+
+        private static void renderBerserkOverlay(Identifier texture, float opacity)
+        {
+            float scaledHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
+            float scaledWidth = MinecraftClient.getInstance().getWindow().getScaledWidth();
+
+            RenderSystem.disableDepthTest();
+            RenderSystem.depthMask(false);
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.setShader(GameRenderer::getPositionTexProgram);
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, opacity);
+            RenderSystem.setShaderTexture(0, texture);
+            Tessellator tessellator = Tessellator.getInstance();
+            BufferBuilder bufferBuilder = tessellator.getBuffer();
+            bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
+            bufferBuilder.vertex(0.0, scaledHeight, -90.0).texture(0.0f, 1.0f).next();
+            bufferBuilder.vertex(scaledWidth, scaledHeight, -90.0).texture(1.0f, 1.0f).next();
+            bufferBuilder.vertex(scaledWidth, 0.0, -90.0).texture(1.0f, 0.0f).next();
+            bufferBuilder.vertex(0.0, 0.0, -90.0).texture(0.0f, 0.0f).next();
+            tessellator.draw();
+            RenderSystem.depthMask(true);
+            RenderSystem.enableDepthTest();
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        }
     }
-
-    public static void setBerserkOverlay(int duration)
-    {
-        berserkOverlay = new ModUtils.Linear(0, 0.1F, duration, 0.7F);
-        berserkOverlayTime = duration+10.0F;
-    }
-
-    private static void renderBerserkOverlay(Identifier texture, float opacity)
-    {
-        float scaledHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
-        float scaledWidth = MinecraftClient.getInstance().getWindow().getScaledWidth();
-
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, opacity);
-        RenderSystem.setShaderTexture(0, texture);
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.getBuffer();
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-        bufferBuilder.vertex(0.0, scaledHeight, -90.0).texture(0.0f, 1.0f).next();
-        bufferBuilder.vertex(scaledWidth, scaledHeight, -90.0).texture(1.0f, 1.0f).next();
-        bufferBuilder.vertex(scaledWidth, 0.0, -90.0).texture(1.0f, 0.0f).next();
-        bufferBuilder.vertex(0.0, 0.0, -90.0).texture(0.0f, 0.0f).next();
-        tessellator.draw();
-        RenderSystem.depthMask(true);
-        RenderSystem.enableDepthTest();
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-    }
-
 }
