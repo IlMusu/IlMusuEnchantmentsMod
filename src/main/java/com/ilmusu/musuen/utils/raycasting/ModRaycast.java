@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 
 import java.util.function.Function;
 
+@SuppressWarnings("unused")
 public class ModRaycast
 {
     public static HitResult raycast(World world, Vec3d start, Vec3d direction, float range, Function<Object, Boolean> filter)

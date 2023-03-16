@@ -55,18 +55,6 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
     }
 
     @Override
-    public boolean isAvailableForEnchantedBookOffer()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean isAvailableForRandomSelection()
-    {
-        return false;
-    }
-
-    @Override
     public int getMinLevel()
     {
         return ModEnchantments.getMinLevel(this, 0);
@@ -76,6 +64,18 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
     public int getMaxLevel()
     {
         return ModEnchantments.getMaxLevel(this, 5);
+    }
+
+    @Override
+    public boolean isAvailableForEnchantedBookOffer()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isAvailableForRandomSelection()
+    {
+        return false;
     }
 
     public static boolean onPhasingKeyBindingPress(PlayerEntity player, int modifiers)

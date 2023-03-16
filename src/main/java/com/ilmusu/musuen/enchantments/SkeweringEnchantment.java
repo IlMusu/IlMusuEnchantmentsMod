@@ -96,7 +96,7 @@ public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchan
 
                 // The percentage of health to consume at the current level of the enchantment
                 // Not using min and max levels so that the enchantment is able to scale
-                float percentage = new ModUtils.Linear(0, 0.10F, 5, 0.25F).of(level);
+                float percentage = new ModUtils.Linear(1, 0.10F, 5, 0.25F).of(level);
                 // Getting the amount of actually consumed health and the related damage
                 float consumed = _IDemonicEnchantment.consumeHealthValue(living, percentage, true);
                 additionalDamage += ((SkeweringEnchantment) enchantment).getDamageForHealthConsumed(consumed, level);

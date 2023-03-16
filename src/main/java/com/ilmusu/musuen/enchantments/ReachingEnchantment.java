@@ -37,6 +37,7 @@ public class ReachingEnchantment extends Enchantment implements _IEnchantmentExt
         return ModEnchantments.getMaxLevel(this, 4);
     }
 
+    @SuppressWarnings("unused")
     public static boolean shouldIncreaseReach(ItemStack stack)
     {
         return true;
@@ -79,6 +80,7 @@ public class ReachingEnchantment extends Enchantment implements _IEnchantmentExt
                 reachAttribute.addTemporaryModifier(ReachingEnchantment.modifierForAdditionalReach(additionalReach));
             if(shouldIncreaseAttackRange(stack))
                 rangeAttribute.addTemporaryModifier(ReachingEnchantment.modifierForAdditionalReach(additionalReach));
+
         }));
     }
 }
