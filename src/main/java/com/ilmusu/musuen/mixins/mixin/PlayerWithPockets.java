@@ -272,7 +272,11 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
 
         private TexturedButtonWidget musuen$pocketsButton;
 
-        @Inject(method = "init", at = @At(value = "RETURN", ordinal = 1))
+        @Inject(method = "init", at = @At(
+                value = "INVOKE",
+                target = "Lnet/minecraft/client/gui/screen/recipebook/RecipeBookWidget;initialize(IILnet/minecraft/client/MinecraftClient;ZLnet/minecraft/screen/AbstractRecipeScreenHandler;)V",
+                shift = At.Shift.AFTER
+        ))
         private void initPocketsButton(CallbackInfo ci)
         {
             _IPlayerPockets pockets = ((_IPlayerPockets)MinecraftClient.getInstance().player);
@@ -292,8 +296,11 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         {
             // Disabling the pockets button if the pockets are not open
             _IPlayerPockets pockets = ((_IPlayerPockets)MinecraftClient.getInstance().player);
-            this.musuen$pocketsButton.visible = pockets.getPocketLevel() > 0;
-            this.updatePocketsButtonPos();
+            if(this.musuen$pocketsButton != null)
+            {
+                this.musuen$pocketsButton.visible = pockets.getPocketLevel() > 0;
+                this.updatePocketsButtonPos();
+            }
 
             // Do not render pockets if recipe book is open
             if(this.recipeBook.isOpen())

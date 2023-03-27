@@ -39,7 +39,7 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
     @Override
     public int getMinLevel()
     {
-        return ModEnchantments.getMinLevel(this, 0);
+        return ModEnchantments.getMinLevel(this, 1);
     }
 
     @Override

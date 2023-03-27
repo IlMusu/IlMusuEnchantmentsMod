@@ -65,7 +65,8 @@ public class ModEnchantments
 
     public static void registerEnchantmentIfEnabled(String name, Enchantment enchantment)
     {
-        if(Boolean.parseBoolean(ModConfigurations.CONFIG.getOrSet(name+".enabled", true)))
+        String enabledKey = getKey(name, ModConfigurations.ENCHANTMENTS_CONFIGS.ENABLED);
+        if(Boolean.parseBoolean(ModConfigurations.ENCHANTMENTS.getOrSet(enabledKey, true)))
         {
             Registry.register(Registries.ENCHANTMENT, Resources.identifier(name), enchantment);
             enchantment.getMinLevel();
@@ -79,16 +80,18 @@ public class ModEnchantments
             return MIN_LEVELS.get(enchantment);
 
         String name = Registries.ENCHANTMENT.getId(enchantment).getPath();
-        String level = ModConfigurations.CONFIG.getOrSet(name+".min_level", min);
+        String key = getKey(name, ModConfigurations.ENCHANTMENTS_CONFIGS.MIN_LEVEL);
+        String level = ModConfigurations.ENCHANTMENTS.getOrSet(key, min);
 
         try {
-            min = Math.max(0, Integer.parseInt(level));
+            min = Math.max(1, Integer.parseInt(level));
         }
         catch (NumberFormatException exception) {
             Resources.LOGGER.error("Could not read minimum level for "+name+" enchantment! Defaulting to "+min+"!");
         }
 
         MIN_LEVELS.put(enchantment, min);
+        ModConfigurations.ENCHANTMENTS.set(key, min);
         return min;
     }
 
@@ -98,7 +101,8 @@ public class ModEnchantments
             return MAX_LEVELS.get(enchantment);
 
         String name = Registries.ENCHANTMENT.getId(enchantment).getPath();
-        String level = ModConfigurations.CONFIG.getOrSet(name+".max_level", max);
+        String key = getKey(name, ModConfigurations.ENCHANTMENTS_CONFIGS.MAX_LEVEL);
+        String level = ModConfigurations.ENCHANTMENTS.getOrSet(key, max);
 
         try {
             max = Math.min(Integer.parseInt(level), 255);
@@ -108,6 +112,12 @@ public class ModEnchantments
         }
 
         MAX_LEVELS.put(enchantment, max);
+        ModConfigurations.ENCHANTMENTS.set(key, max);
         return max;
+    }
+
+    private static String getKey(String name, ModConfigurations.ENCHANTMENTS_CONFIGS config)
+    {
+        return name+"."+config.name().toLowerCase();
     }
 }

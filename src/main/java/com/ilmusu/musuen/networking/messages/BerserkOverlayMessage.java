@@ -35,6 +35,6 @@ public class BerserkOverlayMessage extends _Message
     @Override
     public void handle(PlayerEntity player)
     {
-        BerserkerEnchantment.setBerserkOverlay(this.duration);
+        BerserkerEnchantment.BerserkerOverlayRendering.setBerserkOverlay(this.duration);
     }
 }

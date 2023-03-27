@@ -36,7 +36,7 @@ public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchan
     @Override
     public int getMinLevel()
     {
-        return ModEnchantments.getMinLevel(this, 0);
+        return ModEnchantments.getMinLevel(this, 1);
     }
 
     @Override
