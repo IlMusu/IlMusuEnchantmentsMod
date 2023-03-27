@@ -30,10 +30,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import org.joml.Vector3f;
 
 public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantment
@@ -57,7 +54,7 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
     @Override
     public int getMinLevel()
     {
-        return ModEnchantments.getMinLevel(this, 0);
+        return ModEnchantments.getMinLevel(this, 1);
     }
 
     @Override

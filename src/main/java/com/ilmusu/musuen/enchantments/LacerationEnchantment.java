@@ -35,7 +35,7 @@ public class LacerationEnchantment extends DamageEnchantment implements _IDemoni
     @Override
     public int getMinLevel()
     {
-        return ModEnchantments.getMinLevel(this, 0);
+        return ModEnchantments.getMinLevel(this, 1);
     }
 
     @Override

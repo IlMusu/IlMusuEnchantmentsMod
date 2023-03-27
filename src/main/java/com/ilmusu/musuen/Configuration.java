@@ -129,6 +129,15 @@ public class Configuration
     {
         // The name and the value are trimmed just to be sure
         name = name.trim();
+        // Setting the configuration
+        this.configuration.put(name, value.toString());
+        this.writeConfigurationFile();
+    }
+
+    public void setIfAbsent(String name, Object value)
+    {
+        // The name and the value are trimmed just to be sure
+        name = name.trim();
         // Do not set it if already exists
         if(this.configuration.containsKey(name))
             return;
@@ -143,7 +152,7 @@ public class Configuration
         // The name and the value are trimmed just to be sure
         name = name.trim();
         // Setting the value if it does not exist
-        this.set(name, value);
+        this.setIfAbsent(name, value);
         // Return the value contained in the configuration
         return this.configuration.get(name);
     }
