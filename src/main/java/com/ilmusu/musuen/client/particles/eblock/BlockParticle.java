@@ -60,6 +60,7 @@ public class BlockParticle extends SpriteBillboardParticle
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public int getBrightness(float tint)
     {
         int i = super.getBrightness(tint);
@@ -71,6 +72,7 @@ public class BlockParticle extends SpriteBillboardParticle
 
     public static class Factory implements ParticleFactory<BlockParticleEffect>
     {
+        @SuppressWarnings("unused")
         public Factory(SpriteProvider sprite)
         {
         }
