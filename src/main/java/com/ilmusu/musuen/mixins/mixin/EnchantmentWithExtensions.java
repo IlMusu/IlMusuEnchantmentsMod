@@ -36,7 +36,8 @@ public abstract class EnchantmentWithExtensions
             ItemStack stack = EnchantmentHelperModifications.musuen$stack;
             EnchantmentHelperModifications.musuen$stack = null;
 
-            if(!(enchantment instanceof _IEnchantmentExtensions enchantmentExt))
+            // The stack should not be null to add stack dependant damage
+            if(stack == null || !(enchantment instanceof _IEnchantmentExtensions enchantmentExt))
                 return;
 
             // Adding stack dependant damage to the accumulator
