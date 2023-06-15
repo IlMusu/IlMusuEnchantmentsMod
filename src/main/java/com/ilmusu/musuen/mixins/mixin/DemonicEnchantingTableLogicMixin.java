@@ -63,6 +63,7 @@ public abstract class DemonicEnchantingTableLogicMixin
         @Inject(method = "<init>(ILnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/screen/ScreenHandlerContext;)V", at = @At("TAIL"))
         private void addDemonicEnchantmentProperty(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context, CallbackInfo ci)
         {
+            // Adding properties to the screen handler so that this data is synced between client and server
             AccessorScreenHandler self = (AccessorScreenHandler)this;
             self.addPropertyAccess(Property.create(this.demonicEnchantments, 0));
             self.addPropertyAccess(Property.create(this.demonicEnchantments, 1));
