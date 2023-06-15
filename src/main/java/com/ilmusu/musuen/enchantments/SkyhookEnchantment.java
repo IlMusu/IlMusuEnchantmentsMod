@@ -57,7 +57,7 @@ public class SkyhookEnchantment extends Enchantment
     {
         ProjectileShotCallback.AFTER.register((shooter, container, projectile) ->
         {
-            if(!(shooter instanceof PlayerEntity player) || shooter.world.isClient)
+            if(!(shooter instanceof PlayerEntity player) || shooter.getWorld().isClient)
                 return;
 
             int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.SKYHOOK, shooter);
@@ -115,7 +115,7 @@ public class SkyhookEnchantment extends Enchantment
                 if(!nbt.contains(SKYHOOK_HOLDER))
                     return;
 
-                Entity holder = entity.world.getEntityById(nbt.getInt(SKYHOOK_HOLDER));
+                Entity holder = entity.getWorld().getEntityById(nbt.getInt(SKYHOOK_HOLDER));
                 renderLead(entity, holder, tickDelta, matrices, provider);
             }));
         }
@@ -139,10 +139,10 @@ public class SkyhookEnchantment extends Enchantment
 
             BlockPos blockPos = BlockPos.ofFloored(leashed.getCameraPosVec(tickDelta));
             BlockPos blockPos2 = BlockPos.ofFloored(holder.getCameraPosVec(tickDelta));
-            int q = leashed.world.getLightLevel(LightType.BLOCK, blockPos);
-            int r = leashed.world.getLightLevel(LightType.BLOCK, blockPos2);
-            int s = leashed.world.getLightLevel(LightType.SKY, blockPos);
-            int t = leashed.world.getLightLevel(LightType.SKY, blockPos2);
+            int q = leashed.getWorld().getLightLevel(LightType.BLOCK, blockPos);
+            int r = leashed.getWorld().getLightLevel(LightType.BLOCK, blockPos2);
+            int s = leashed.getWorld().getLightLevel(LightType.SKY, blockPos);
+            int t = leashed.getWorld().getLightLevel(LightType.SKY, blockPos2);
 
             for (int u = 0; u <= 24; ++u)
                 renderLeadPiece(vertexConsumer, matrix4f, j, k, l, q, r, s, t, 0.025f, 0.025f, o, p, u, false);

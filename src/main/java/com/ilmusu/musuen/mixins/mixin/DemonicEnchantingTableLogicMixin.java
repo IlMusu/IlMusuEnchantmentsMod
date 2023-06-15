@@ -267,7 +267,7 @@ public abstract class DemonicEnchantingTableLogicMixin
     @Mixin(EnchantingTableBlock.class)
     public abstract static class ChangeEnchantingTableBehavior
     {
-        @Inject(method = "canAccessBookshelf", at = @At("HEAD"), cancellable = true)
+        @Inject(method = "canAccessPowerProvider", at = @At("HEAD"), cancellable = true)
         private static void fixBookshelvesAccessWithSkulls(World world, BlockPos tablePos, BlockPos bookshelfOffset, CallbackInfoReturnable<Boolean> cir)
         {
             // This is a fix which prevents using the @Redirect

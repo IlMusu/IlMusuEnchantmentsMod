@@ -48,6 +48,6 @@ public class ShockwaveEffectMessage extends _Message
     @Override
     public void handle(PlayerEntity player)
     {
-        ShockwaveEnchantment.spawnShockwaveEffects(player.world, player.getRandom(), this.pos, this.size, this.direction);
+        ShockwaveEnchantment.spawnShockwaveEffects(player.getWorld(), player.getRandom(), this.pos, this.size, this.direction);
     }
 }

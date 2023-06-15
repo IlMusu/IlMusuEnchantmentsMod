@@ -32,7 +32,7 @@ public class ModRaycast
 
     public static HitResult raycast(LivingEntity entity, float range, Function<Object, Boolean> filter)
     {
-        return raycast(entity.world, computeStart(entity), entity.getRotationVector(), range, filter);
+        return raycast(entity.getWorld(), computeStart(entity), entity.getRotationVector(), range, filter);
     }
 
     public static BlockHitResult raycastBlock(World world, Vec3d start, Vec3d direction, float range, Function<Object, Boolean> filter)
@@ -54,8 +54,8 @@ public class ModRaycast
         Vec3d direction = entity.getRotationVector();
         Vec3d start = computeStart(entity).add(direction.multiply(from));
         // The selector for the block
-        Function<Object, Boolean> filter = (state) -> ((BlockState)state).getMaterial().blocksMovement();
-        return raycastBlock(entity.world, start, direction, range, filter);
+        Function<Object, Boolean> filter = (state) -> ((BlockState)state).blocksMovement();
+        return raycastBlock(entity.getWorld(), start, direction, range, filter);
     }
 
     public static BlockHitResult raycastFullBlock(World world, Vec3d start, Vec3d direction, float range, Function<Object, Boolean> filter)
@@ -77,8 +77,8 @@ public class ModRaycast
         Vec3d direction = entity.getRotationVector();
         Vec3d start = computeStart(entity).add(direction.multiply(from));
         // The selector for the block
-        Function<Object, Boolean> filter = (state) -> ((BlockState)state).getMaterial().blocksMovement();
-        return raycastFullBlock(entity.world, start, direction, range, filter);
+        Function<Object, Boolean> filter = (state) -> ((BlockState)state).blocksMovement();
+        return raycastFullBlock(entity.getWorld(), start, direction, range, filter);
     }
 
     public static HitResult raycastBox(World word, Vec3d start, Vec3d direction, float range, Box box)
@@ -101,7 +101,7 @@ public class ModRaycast
         Vec3d start = computeStart(entity).add(direction.multiply(from));
         // The selector for the block
         box = box.offset(0, -entity.getEyeHeight(entity.getPose()), 0);
-        return raycastBox(entity.world, start, direction, range, box);
+        return raycastBox(entity.getWorld(), start, direction, range, box);
     }
 
     public static Vec3d computeStart(LivingEntity entity)

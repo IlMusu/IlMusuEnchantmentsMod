@@ -58,12 +58,12 @@ public class WingspanEnchantment extends Enchantment implements _IEnchantmentExt
             float power = (level*0.25F) + Math.min(3.0F, (float)entity.getVelocity().length()*1.4F);
 
             Box box = Box.from(entity.getPos()).expand(radius);
-            entity.world.getOtherEntities(entity, box, (other -> other instanceof LivingEntity))
+            entity.getWorld().getOtherEntities(entity, box, (other -> other instanceof LivingEntity))
                 .forEach((living) -> takeWingspanKnockback(entity, (LivingEntity)living, power));
 
             float volume = Math.min(0.5F, power*0.35F);
-            float pitch = ModUtils.range(entity.world.getRandom(), 1.2F, 1.6F);
-            entity.world.playSoundFromEntity(null, entity, ModSoundEvents.LIVING_ELYTRA_WING_FLAP, SoundCategory.PLAYERS, volume, pitch);
+            float pitch = ModUtils.range(entity.getWorld().getRandom(), 1.2F, 1.6F);
+            entity.getWorld().playSoundFromEntity(null, entity, ModSoundEvents.LIVING_ELYTRA_WING_FLAP, SoundCategory.PLAYERS, volume, pitch);
         }));
     }
 }

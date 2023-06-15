@@ -5,19 +5,17 @@ import com.ilmusu.musuen.callbacks.PlayerDropInventoryCallback;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerPockets;
 import com.ilmusu.musuen.networking.messages.PocketsLevelMessage;
 import com.ilmusu.musuen.networking.messages.PocketsToggleMessage;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -89,7 +87,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
             this.musuen$slots.get(i).arePocketsOpen = this.musuen$arePocketsOpen;
 
         PlayerEntity player = (PlayerEntity)(Object)this;
-        if(player.world.isClient)
+        if(player.getWorld().isClient)
             new PocketsToggleMessage(player).sendToServer();
     }
 
@@ -168,7 +166,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
 
             PlayerEntity player = (PlayerEntity)(Object)this;
             PocketSlot slot = this.musuen$slots.get(i);
-            slot.getStack().inventoryTick(player.world, player, slot.getIndex(), false);
+            slot.getStack().inventoryTick(player.getWorld(), player, slot.getIndex(), false);
         }
     }
 
@@ -257,7 +255,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     public abstract static class RemoveStatusEffectsRenderingWhenPocketsOpen
     {
         @Inject(method = "drawStatusEffects", at = @At("HEAD"), cancellable = true)
-        private void removeStatusEffectsRendering(MatrixStack matrices, int mouseX, int mouseY, CallbackInfo ci)
+        private void removeStatusEffectsRendering(DrawContext context, int mouseX, int mouseY, CallbackInfo ci)
         {
             _IPlayerPockets pockets = ((_IPlayerPockets)MinecraftClient.getInstance().player);
             if(pockets.arePocketsOpen())
@@ -292,7 +290,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         }
 
         @Inject(method = "drawBackground", at = @At("TAIL"))
-        private void renderPocketSlots(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
+        private void renderPocketSlots(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
             // Disabling the pockets button if the pockets are not open
             _IPlayerPockets pockets = ((_IPlayerPockets)MinecraftClient.getInstance().player);
@@ -309,9 +307,8 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
             if(pockets.getPocketLevel() == 0 || !pockets.arePocketsOpen())
                 return;
 
-            RenderSystem.setShaderTexture(0, Resources.POCKETS_TEXTURE);
-            renderPockets(matrices, pockets.getPocketLevel(), true);
-            renderPockets(matrices, pockets.getPocketLevel(), false);
+            renderPockets(context, pockets.getPocketLevel(), true);
+            renderPockets(context, pockets.getPocketLevel(), false);
         }
 
 
@@ -347,7 +344,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
             }));
         }
 
-        private void renderPockets(MatrixStack matrices, int level, boolean left)
+        private void renderPockets(DrawContext context, int level, boolean left)
         {
             AccessorHandledScreen<?> accessor = (AccessorHandledScreen<?>)this;
 
@@ -357,7 +354,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
             int v = 0;
             int sizeX = 51;
             int sizeY = 32+18*(level-1);
-            DrawableHelper.drawTexture(matrices, x, y, u, v, sizeX, sizeY);
+            context.drawTexture(Resources.POCKETS_TEXTURE, x, y, u, v, sizeX, sizeY);
         }
     }
 

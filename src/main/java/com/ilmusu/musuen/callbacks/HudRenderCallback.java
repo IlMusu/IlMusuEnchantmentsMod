@@ -2,7 +2,7 @@ package com.ilmusu.musuen.callbacks;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 
 public interface HudRenderCallback
 {
@@ -13,5 +13,5 @@ public interface HudRenderCallback
                     listener.handler(matrices, tickDelta);
             });
 
-    void handler(MatrixStack matrices, float tickDelta);
+    void handler(DrawContext context, float tickDelta);
 }

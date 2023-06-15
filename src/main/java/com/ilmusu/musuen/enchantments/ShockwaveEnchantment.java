@@ -51,13 +51,13 @@ public class ShockwaveEnchantment extends Enchantment implements _IEnchantmentEx
     {
         Vec3d sideVec = perpendicular.multiply(size);
         Box box = new Box(pos, pos).expand(sideVec.x, 0.5F, sideVec.z);
-        user.world.getOtherEntities(user, box).forEach((entity ->
+        user.getWorld().getOtherEntities(user, box).forEach((entity ->
         {
             if(entity instanceof LivingEntity living && living.isAlive())
             {
                 Vec3d knockbackVec = direction.multiply(-1).add(ModUtils.randomInCircle(user.getRandom()).multiply(0.2F)).normalize();
                 living.takeKnockback(ModUtils.range(living.getRandom(), 0.2F, 0.3F), knockbackVec.x, knockbackVec.z);
-                entity.damage(user.world.getDamageSources().playerAttack(user), damage);
+                entity.damage(user.getWorld().getDamageSources().playerAttack(user), damage);
             }
         }));
     }
@@ -87,8 +87,8 @@ public class ShockwaveEnchantment extends Enchantment implements _IEnchantmentEx
         // Swinging player hand
         new SwingHandMessage().sendToClient((ServerPlayerEntity)player);
         // Playing shield hit sound
-        float pitch = ModUtils.range(player.world.getRandom(), 0.6F, 0.8F);
-        player.world.playSoundFromEntity(null, player, SoundEvents.ITEM_SHIELD_BLOCK, SoundCategory.PLAYERS, 1.0F, pitch);
+        float pitch = ModUtils.range(player.getWorld().getRandom(), 0.6F, 0.8F);
+        player.getWorld().playSoundFromEntity(null, player, SoundEvents.ITEM_SHIELD_BLOCK, SoundCategory.PLAYERS, 1.0F, pitch);
 
         ((_IPlayerTickers)player).addTicker(new _IPlayerTickers.Ticker(duration)
             .onTicking(ticker ->
@@ -97,9 +97,9 @@ public class ShockwaveEnchantment extends Enchantment implements _IEnchantmentEx
                 Vec3d pos = posAtom.get().add(direction.multiply(0.4F));
                 posAtom.set(pos);
 
-                BlockState stateDown = player.world.getBlockState(BlockPos.ofFloored(pos).down());
-                BlockState state = player.world.getBlockState(BlockPos.ofFloored(pos));
-                if(!stateDown.getMaterial().blocksMovement() || state.getMaterial().blocksMovement())
+                BlockState stateDown = player.getWorld().getBlockState(BlockPos.ofFloored(pos).down());
+                BlockState state = player.getWorld().getBlockState(BlockPos.ofFloored(pos));
+                if(!stateDown.blocksMovement() || state.blocksMovement())
                 {
                     ticker.setFinished();
                     return;

@@ -42,7 +42,7 @@ public class TelekinesisEnchantment extends Enchantment implements _IEnchantment
     {
         EntityDropCallback.EVENT.register(((entity, item, source) ->
         {
-            if(source == null || entity.world.isClient || !(source.getAttacker() instanceof PlayerEntity player))
+            if(source == null || entity.getWorld().isClient || !(source.getAttacker() instanceof PlayerEntity player))
                 return true;
 
             int level;
@@ -63,11 +63,11 @@ public class TelekinesisEnchantment extends Enchantment implements _IEnchantment
                     // Spawning effect particle
                     int count = ModUtils.range(player.getRandom(), 10, 20);
                     ParticleEffect particle = new ColoredParticleEffect(new Color(113, 50, 168)).life(20).size(0.2F);
-                    ((ServerWorld)item.world).spawnParticles(particle, item.getX(), item.getY()+0.25F, item.getZ(), count, 0, 0, 0, 0.02F);
+                    ((ServerWorld)item.getWorld()).spawnParticles(particle, item.getX(), item.getY()+0.25F, item.getZ(), count, 0, 0, 0, 0.02F);
                     // Playing teleport sound
                     Vec3d pos = item.getPos();
-                    float pitch = ModUtils.range(player.world.getRandom(), 1.0F, 1.2F);
-                    item.world.playSound(null, pos.x, pos.y, pos.z, SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT, SoundCategory.AMBIENT, 0.8F, pitch);
+                    float pitch = ModUtils.range(player.getWorld().getRandom(), 1.0F, 1.2F);
+                    item.getWorld().playSound(null, pos.x, pos.y, pos.z, SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT, SoundCategory.AMBIENT, 0.8F, pitch);
 
                     // Teleporting the stack to the player
                     item.setPosition(player.getPos());

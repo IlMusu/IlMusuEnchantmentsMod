@@ -83,7 +83,7 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
     public static boolean onPhasingKeyBindingPress(PlayerEntity player, int modifiers)
     {
         long lastPhaseTick = ((_IEntityPersistentNbt)player).getPNBT().getLong(PHASING_TAG);
-        if(player.world.getTime() - lastPhaseTick <= TICK_DELAY_BETWEEN_PHASING)
+        if(player.getWorld().getTime() - lastPhaseTick <= TICK_DELAY_BETWEEN_PHASING)
             return false;
 
         // The phasing enchantment must be present on the legs
@@ -116,15 +116,15 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
     {
         // Modifies the target position to make it more suitable
         Vec3d target = result.getPos();
-        if(player.world.getBlockState(BlockPos.ofFloored(target)).getMaterial().blocksMovement())
+        if(player.getWorld().getBlockState(BlockPos.ofFloored(target)).blocksMovement())
             target = new Vec3d(target.getX(), ((int)target.getY())+1, target.getZ());
 
         // Prevents the teleport if the position is out of world
         float preDistance = (float)player.getPos().distanceTo(target);
-        if(player.world.isOutOfHeightLimit(BlockPos.ofFloored(target)) || preDistance < 2.0F)
+        if(player.getWorld().isOutOfHeightLimit(BlockPos.ofFloored(target)) || preDistance < 2.0F)
         {
-            float pitch = ModUtils.range(player.world.getRandom(), 0.5F, 0.7F);
-            player.world.playSoundFromEntity(null, player, SoundEvents.ENTITY_BLAZE_DEATH, SoundCategory.PLAYERS, 1.0F, pitch);
+            float pitch = ModUtils.range(player.getWorld().getRandom(), 0.5F, 0.7F);
+            player.getWorld().playSoundFromEntity(null, player, SoundEvents.ENTITY_BLAZE_DEATH, SoundCategory.PLAYERS, 1.0F, pitch);
             return false;
         }
         
@@ -134,7 +134,7 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
             .onEntering((ticker) ->
             {
                 // The player starts to phase, registering in the nbt
-                ((_IEntityPersistentNbt)player).getPNBT().putLong(PHASING_TAG, player.world.getTime()+fovEffectTime);
+                ((_IEntityPersistentNbt)player).getPNBT().putLong(PHASING_TAG, player.getWorld().getTime()+fovEffectTime);
                 // Sending the message for updating the player fov
                 new PhasingSwitchMessage(true).sendToClient((ServerPlayerEntity) player);
 
@@ -144,15 +144,15 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
                 for(float i=0; i<distance; i+=ModUtils.range(player.getRandom(), 0.7F, 1.1F))
                 {
                     Vec3d pos = start.add(direction.multiply(i));
-                    ((ServerWorld)player.world).spawnParticles(ParticleTypes.SONIC_BOOM, pos.x, pos.y, pos.z, 1, 0.0, 0.0, 0.0, 0.0);
+                    ((ServerWorld)player.getWorld()).spawnParticles(ParticleTypes.SONIC_BOOM, pos.x, pos.y, pos.z, 1, 0.0, 0.0, 0.0, 0.0);
                 }
             })
             .onExiting((ticker) ->
             {
                 // Teleporting player
                 player.requestTeleport(finalTarget.x, finalTarget.getY(), finalTarget.getZ());
-                float pitch = ModUtils.range(player.world.getRandom(), 0.8F, 1.2F);
-                player.world.playSoundFromEntity(null, player, SoundEvents.ENTITY_WARDEN_SONIC_BOOM, SoundCategory.PLAYERS, 1.0F, pitch);
+                float pitch = ModUtils.range(player.getWorld().getRandom(), 0.8F, 1.2F);
+                player.getWorld().playSoundFromEntity(null, player, SoundEvents.ENTITY_WARDEN_SONIC_BOOM, SoundCategory.PLAYERS, 1.0F, pitch);
 
                 // Sending the message for updating the player fov
                 new PhasingSwitchMessage(false).sendToClient((ServerPlayerEntity) player);

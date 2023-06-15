@@ -95,7 +95,7 @@ public class BerserkerEnchantment extends DamageEnchantment implements _IDemonic
     {
         PlayerAttackCallback.BEFORE_ENCHANTMENT_DAMAGE.register((entity, stack, attacked, hand) ->
         {
-            if (!(entity instanceof LivingEntity living) || entity.world.isClient)
+            if (!(entity instanceof LivingEntity living) || entity.getWorld().isClient)
                 return;
 
             int level = EnchantmentHelper.getLevel(ModEnchantments.BERSERKER, stack);
@@ -104,7 +104,7 @@ public class BerserkerEnchantment extends DamageEnchantment implements _IDemonic
 
             NbtCompound nbt = stack.getOrCreateSubNbt(BERSERK_TAG);
             long time = nbt.getLong(BERSERK_TIME_TAG);
-            long dTime = living.world.getTime() - time;
+            long dTime = living.getWorld().getTime() - time;
             long maxDTime = (long) (20*(2+level*0.5));
 
             // The base additional damage is the previous one if not much time has passed
@@ -124,7 +124,7 @@ public class BerserkerEnchantment extends DamageEnchantment implements _IDemonic
                 new BerserkOverlayMessage((int)maxDTime).sendToClient((ServerPlayerEntity)player);
 
             // Setting the additional damage before attacking the entity
-            nbt.putLong(BERSERK_TIME_TAG, living.world.getTime());
+            nbt.putLong(BERSERK_TIME_TAG, living.getWorld().getTime());
             nbt.putFloat(BERSERK_DAMAGE_TAG, additionalDamage);
             stack.getOrCreateNbt().put(BERSERK_TAG, nbt);
         });
@@ -153,7 +153,7 @@ public class BerserkerEnchantment extends DamageEnchantment implements _IDemonic
                     PlayerEntity player = MinecraftClient.getInstance().player;
                     Vec3d pos = player.getPos();
                     float pitch = ModUtils.range(player.getRandom(), 0.6F, 0.8F);
-                    player.world.playSound(pos.x, pos.y, pos.z, SoundEvents.ENTITY_IRON_GOLEM_DEATH, SoundCategory.NEUTRAL, 0.6F, pitch, false);
+                    player.getWorld().playSound(pos.x, pos.y, pos.z, SoundEvents.ENTITY_IRON_GOLEM_DEATH, SoundCategory.NEUTRAL, 0.6F, pitch, false);
                 }
             }));
         }

@@ -39,12 +39,12 @@ public class SkyJumpEffectMessage extends _Message
     @Override
     public void handle(PlayerEntity player)
     {
-        if(!player.world.isClient)
+        if(!player.getWorld().isClient)
         {
             this.sendToClientsTrackingAndSelf(player);
             return;
         }
 
-        SkyJumpEnchantment.spawnSkyJumpEffects(player.world, this.pos, player.getRandom());
+        SkyJumpEnchantment.spawnSkyJumpEffects(player.getWorld(), this.pos, player.getRandom());
     }
 }

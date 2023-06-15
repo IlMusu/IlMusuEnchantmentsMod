@@ -89,7 +89,7 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
                 return 1.0F;
 
             // Check if the state the player is trying the break is suitable for the tool
-            BlockState state = player.world.getBlockState(pos);
+            BlockState state = player.getWorld().getBlockState(pos);
             if(!(stack.getItem() instanceof MiningToolItem tool) || !tool.isSuitableFor(state))
                 return 1.0F;
 

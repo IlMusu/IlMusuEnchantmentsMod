@@ -91,7 +91,7 @@ public class ModUtils
 
     public static BlockPos getCurrentMiningPos(PlayerEntity player)
     {
-        if(player.world.isClient)
+        if(player.getWorld().isClient)
             return getCurrentMiningPosClient();
         return getCurrentMiningPosServer((ServerPlayerEntity) player);
     }

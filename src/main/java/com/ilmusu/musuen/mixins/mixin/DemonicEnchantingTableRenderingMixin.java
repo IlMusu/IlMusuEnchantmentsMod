@@ -2,10 +2,8 @@ package com.ilmusu.musuen.mixins.mixin;
 
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.mixins.interfaces._IDemonicEnchantmentScreenHandler;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
-import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,7 +23,7 @@ public abstract class DemonicEnchantingTableRenderingMixin
                 value = "INVOKE",
                 target = "Lnet/minecraft/screen/EnchantmentScreenHandler;getLapisCount()I"
         ))
-        private void drawBackgroundEnchantmentPreHook(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
+        private void drawBackgroundEnchantmentPreHook(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
             // Resetting the slot count before entering the for-loop cycle
             this.musuen$slot = -1;
@@ -35,7 +33,7 @@ public abstract class DemonicEnchantingTableRenderingMixin
                 value = "INVOKE",
                 target = "Lnet/minecraft/client/gui/screen/ingame/EnchantingPhrases;generatePhrase(Lnet/minecraft/client/font/TextRenderer;I)Lnet/minecraft/text/StringVisitable;"
         ))
-        private void drawBackgroundEnchantmentHook(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
+        private void drawBackgroundEnchantmentHook(DrawContext matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
             // Increasing the slot count, this is called at every iteration
             this.musuen$slot += 1;
@@ -54,7 +52,7 @@ public abstract class DemonicEnchantingTableRenderingMixin
 
         @ModifyArg(method = "drawBackground", index = 2, at = @At(
                 value = "INVOKE",
-                target = "Lnet/minecraft/client/font/TextRenderer;drawTrimmed(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/StringVisitable;IIII)V"
+                target = "Lnet/minecraft/client/gui/DrawContext;drawTextWrapped(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/StringVisitable;IIII)V"
         ))
         private int modifyHieroglyphPosition(int x)
         {
@@ -66,39 +64,38 @@ public abstract class DemonicEnchantingTableRenderingMixin
 
         @Inject(method = "drawBackground", at = @At(
                 value = "INVOKE",
-                target = "Lnet/minecraft/client/gui/screen/ingame/EnchantmentScreen;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V",
+                target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V",
                 ordinal = 3,
                 shift = At.Shift.AFTER
         ))
-        private void addUnsaturatedHealthRequirementRendering(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
+        private void addUnsaturatedHealthRequirementRendering(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
             if(!this.musuen$isDemonicEnchantment)
                 return;
-            drawHeartRequirement(matrices, this.musuen$slot, false);
+            drawHeartRequirement(context, this.musuen$slot, false);
         }
 
         @Inject(method = "drawBackground", at = @At(
                 value = "INVOKE",
-                target = "Lnet/minecraft/client/gui/screen/ingame/EnchantmentScreen;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V",
+                target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V",
                 ordinal = 6,
                 shift = At.Shift.AFTER
         ))
-        private void addSaturatedHealthRequirementRendering(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
+        private void addSaturatedHealthRequirementRendering(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
             if(!this.musuen$isDemonicEnchantment)
                 return;
-            drawHeartRequirement(matrices, this.musuen$slot, true);
+            drawHeartRequirement(context, this.musuen$slot, true);
         }
 
-        private void drawHeartRequirement(MatrixStack matrices, int slot, boolean saturated)
+        private void drawHeartRequirement(DrawContext context, int slot, boolean saturated)
         {
             EnchantmentScreen self = (EnchantmentScreen)(Object)this;
             int centerWidth = (self.width - 176) / 2;
             int centerHeight = (self.height - 166) / 2;
             int offset = saturated ? 223 : 239;
 
-            RenderSystem.setShaderTexture(0, Resources.DEMONIC_ENCHANTING_TABLE_TEXTURE);
-            DrawableHelper.drawTexture(matrices, centerWidth+75, centerHeight+15 + 19*slot, 48+24*slot, offset, 24, 16);
+            context.drawTexture(Resources.DEMONIC_ENCHANTING_TABLE_TEXTURE, centerWidth+75, centerHeight+15 + 19*slot, 48+24*slot, offset, 24, 16);
         }
 
         private _IDemonicEnchantmentScreenHandler getDemonicScreenHandler()

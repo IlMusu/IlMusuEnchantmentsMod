@@ -81,7 +81,7 @@ public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchan
     {
         PlayerAttackCallback.BEFORE_ENCHANTMENT_DAMAGE.register((player, stack, entity, hand) ->
         {
-            if (!(player instanceof LivingEntity living) || player.world.isClient)
+            if (!(player instanceof LivingEntity living) || player.getWorld().isClient)
                 return;
 
             Map<Enchantment, Integer> allEnchantments = EnchantmentHelper.get(stack);

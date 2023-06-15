@@ -31,11 +31,11 @@ public class PocketedEnchantment extends Enchantment
     {
         PlayerEquipCallback.ARMOR.register(((player, stack, slot) ->
         {
-            if(player.world.isClient || slot != EquipmentSlot.LEGS)
+            if(player.getWorld().isClient || slot != EquipmentSlot.LEGS)
                 return;
 
             int level = EnchantmentHelper.getLevel(ModEnchantments.POCKETED, stack);
-            ((_IPlayerPockets)player).setPocketLevel(player.world, level);
+            ((_IPlayerPockets)player).setPocketLevel(player.getWorld(), level);
         }));
     }
 }

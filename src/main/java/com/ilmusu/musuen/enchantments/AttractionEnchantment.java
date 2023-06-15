@@ -37,7 +37,7 @@ public class AttractionEnchantment extends Enchantment
     {
         PlayerTickCallback.AFTER.register((player ->
         {
-            if(player.world.isClient)
+            if(player.getWorld().isClient)
                 return;
 
             int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.ATTRACTION, player);
@@ -50,8 +50,8 @@ public class AttractionEnchantment extends Enchantment
 
             // Getting item and experience orb entities to attract them toward the player
             List<Entity> entities = new ArrayList<>();
-            entities.addAll(player.world.getEntitiesByType(EntityType.ITEM, box, item -> true));
-            entities.addAll(player.world.getEntitiesByType(EntityType.EXPERIENCE_ORB, box, item -> true));
+            entities.addAll(player.getWorld().getEntitiesByType(EntityType.ITEM, box, item -> true));
+            entities.addAll(player.getWorld().getEntitiesByType(EntityType.EXPERIENCE_ORB, box, item -> true));
 
             // Attracting the entities toward the player
             entities.forEach(item ->

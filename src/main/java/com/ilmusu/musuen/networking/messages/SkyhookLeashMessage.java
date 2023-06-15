@@ -45,7 +45,7 @@ public class SkyhookLeashMessage extends _Message
     @Override
     public void handle(PlayerEntity player)
     {
-        Entity leashed = player.world.getEntityById(this.leashedID);
+        Entity leashed = player.getWorld().getEntityById(this.leashedID);
         if(leashed == null)
             return;
 

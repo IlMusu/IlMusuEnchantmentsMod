@@ -49,7 +49,7 @@ public interface _IDemonicEnchantment
         // The health consumed leaves the player with half hearth if this is safe
         float remaining = Math.max(safe ? 1.0F : 0.0F, initialHealth-healthToConsume);
 
-        DamageSource source = ((_IModDamageSources)entity.world.getDamageSources()).demonicDamage();
+        DamageSource source = ((_IModDamageSources)entity.getWorld().getDamageSources()).demonicDamage();
         entity.damage(source, initialHealth-remaining);
 
         // Returning the health that would be consumed, notice that now there is the demonction

@@ -115,7 +115,7 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
     {
         PlayerTickCallback.AFTER.register((player ->
         {
-            if(player.world.isClient || !player.isUsingItem())
+            if(player.getWorld().isClient || !player.isUsingItem())
                 return;
 
             // The item must be chargeable
@@ -137,7 +137,7 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
                 return;
 
             // Applying damage to the player
-            DamageSource source = ((_IModDamageSources)player.world.getDamageSources()).demonicDamage();
+            DamageSource source = ((_IModDamageSources)player.getWorld().getDamageSources()).demonicDamage();
             player.damage(source, 2.0F);
         }));
 
@@ -201,7 +201,7 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
 
         ProjectileHitCallback.AFTER.register(((projectile, result) ->
         {
-            if(projectile.world.isClient || result.getType() == HitResult.Type.MISS)
+            if(projectile.getWorld().isClient || result.getType() == HitResult.Type.MISS)
                 return;
 
             // Removing the eventual tag of the trident after landing

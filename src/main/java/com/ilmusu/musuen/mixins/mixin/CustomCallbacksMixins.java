@@ -6,6 +6,7 @@ import com.ilmusu.musuen.mixins.interfaces._IEntityDeathSource;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -490,9 +491,9 @@ public abstract class CustomCallbacksMixins
                 value = "INVOKE",
                 target = "Lnet/minecraft/client/network/ClientPlayerEntity;getFrozenTicks()I"
         ))
-        private void afterRenderingOverlays(MatrixStack matrices, float tickDelta, CallbackInfo ci)
+        private void afterRenderingOverlays(DrawContext context, float tickDelta, CallbackInfo ci)
         {
-            HudRenderCallback.AFTER_OVERLAYS.invoker().handler(matrices, tickDelta);
+            HudRenderCallback.AFTER_OVERLAYS.invoker().handler(context, tickDelta);
         }
     }
 }
