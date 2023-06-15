@@ -64,7 +64,7 @@ public class ModEnchantments
 
     public static void registerEnchantmentIfEnabled(String name, Enchantment enchantment)
     {
-        String enabledKey = getKey(name, ModConfigurations.ENCHANTMENTS_CONFIGS.ENABLED);
+        String enabledKey = getEnchantmentConfigKey(name, ModConfigurations.EnchantmentsConfig.ENABLED);
         if(Boolean.parseBoolean(ModConfigurations.ENCHANTMENTS.getOrSet(enabledKey, true)))
         {
             Registry.register(Registry.ENCHANTMENT, Resources.identifier(name), enchantment);
@@ -79,7 +79,7 @@ public class ModEnchantments
             return MIN_LEVELS.get(enchantment);
 
         String name = Registry.ENCHANTMENT.getId(enchantment).getPath();
-        String key = getKey(name, ModConfigurations.ENCHANTMENTS_CONFIGS.MIN_LEVEL);
+        String key = getEnchantmentConfigKey(name, ModConfigurations.EnchantmentsConfig.MIN_LEVEL);
         String level = ModConfigurations.ENCHANTMENTS.getOrSet(key, min);
 
         try {
@@ -100,7 +100,7 @@ public class ModEnchantments
             return MAX_LEVELS.get(enchantment);
 
         String name = Registry.ENCHANTMENT.getId(enchantment).getPath();
-        String key = getKey(name, ModConfigurations.ENCHANTMENTS_CONFIGS.MAX_LEVEL);
+        String key = getEnchantmentConfigKey(name, ModConfigurations.EnchantmentsConfig.MAX_LEVEL);
         String level = ModConfigurations.ENCHANTMENTS.getOrSet(key, max);
 
         try {
@@ -115,8 +115,8 @@ public class ModEnchantments
         return max;
     }
 
-    private static String getKey(String name, ModConfigurations.ENCHANTMENTS_CONFIGS config)
+    private static String getEnchantmentConfigKey(String name, String config)
     {
-        return name+"."+config.name().toLowerCase();
+        return name+"."+config.toLowerCase();
     }
 }

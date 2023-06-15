@@ -5,6 +5,7 @@ import com.ilmusu.musuen.client.particles.colored_enchant.ColoredGlyphParticleEf
 import com.ilmusu.musuen.enchantments._IDemonicEnchantment;
 import com.ilmusu.musuen.mixins.MixinSharedData;
 import com.ilmusu.musuen.mixins.interfaces._IDemonicEnchantmentScreenHandler;
+import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModDamageSources;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -106,6 +107,10 @@ public abstract class DemonicEnchantingTableLogicMixin
         private void modifyEnchantmentListForSlotDisplay(ItemStack itemStack, World world, BlockPos pos, CallbackInfo ci,
                                                          int i, int j, List<EnchantmentLevelEntry> list)
         {
+            // Demonic enchanting should be enabled
+            if(!ModConfigurations.isDemonicEnchantingEnabled())
+                return;
+
             // This is a fix which prevents using the @Redirect
             EnchantmentLevelEntry entry = list.get(0);
             if(entry.enchantment instanceof _IDemonicEnchantment)
@@ -129,6 +134,10 @@ public abstract class DemonicEnchantingTableLogicMixin
         ))
         private void takeHealthFromNearbyEntities(PlayerEntity player, int id, CallbackInfoReturnable<Boolean> cir)
         {
+            // Demonic enchanting should be enabled
+            if(!ModConfigurations.isDemonicEnchantingEnabled())
+                return;
+
             this.context.run((world, pos) ->
             {
                 Enchantment enchantment = Enchantment.byRawId(this.enchantmentId[id]);
@@ -190,8 +199,9 @@ public abstract class DemonicEnchantingTableLogicMixin
                 target = "Ljava/util/List;isEmpty()Z",
                 ordinal = 0
         ))
-        private static void removeDemonicEnchantmentsFromExtraction(Random random, ItemStack stack, int level, boolean treasureAllowed,
-            CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<?> list, Item item, int i, float f, List<EnchantmentLevelEntry> list2)
+        private static void storeEnchantingPower(Random random, ItemStack stack, int level, boolean treasureAllowed,
+                                                 CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<?> list,
+                                                 Item item, int i, float f, List<EnchantmentLevelEntry> list2)
         {
             // Storing the modified power level
             FixEnchantmentGenerationList.musuen$enchantingPower = level;
@@ -201,6 +211,10 @@ public abstract class DemonicEnchantingTableLogicMixin
         private static void fixEnchantmentListWithDemonicEnchantments(Random random, ItemStack stack, int level,
             boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<EnchantmentLevelEntry> list)
         {
+            // Demonic enchanting should be enabled for demonic enchantments to be added manually
+            if(!ModConfigurations.isDemonicEnchantingEnabled())
+                return;
+
             // Check if a demonic enchantment can be added to the list
             if(!MixinSharedData.isGeneratingFromEnchantingTable || MixinSharedData.skullsAroundEnchantingTable < 3)
                 return;
@@ -262,6 +276,10 @@ public abstract class DemonicEnchantingTableLogicMixin
         @Inject(method = "randomDisplayTick", at = @At("TAIL"))
         private void addDemonicEnchantingGlyphParticles(BlockState state, World world, BlockPos pos, Random random, CallbackInfo ci)
         {
+            // Demonic enchanting should be enabled for particles to spawn
+            if(!ModConfigurations.isDemonicEnchantingEnabled())
+                return;
+
             for(BlockPos offset : _IDemonicEnchantmentScreenHandler.SKULLS_OFFSETS)
             {
                 if(random.nextInt(8) != 0 || !_IDemonicEnchantmentScreenHandler.isValidSkull(world.getBlockState(pos.add(offset))))
