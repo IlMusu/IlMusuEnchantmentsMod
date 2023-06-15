@@ -5,6 +5,7 @@ import com.ilmusu.musuen.callbacks.PlayerFovMultiplierCallback;
 import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.musuen.networking.messages.PhasingSwitchMessage;
+import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import com.ilmusu.musuen.utils.raycasting.ModRaycast;
@@ -72,7 +73,7 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
     @Override
     public boolean isAvailableForRandomSelection()
     {
-        return false;
+        return !ModConfigurations.isDemonicEnchantingEnabled();
     }
 
     @SuppressWarnings("unused")
