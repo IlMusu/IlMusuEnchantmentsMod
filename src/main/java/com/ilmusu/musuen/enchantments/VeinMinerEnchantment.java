@@ -1,6 +1,7 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.PlayerBreakSpeedCallback;
+import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.block.BlockState;
@@ -52,6 +53,10 @@ public class VeinMinerEnchantment extends Enchantment
         // Reduce the player break speed when using the vein miner enchantment
         PlayerBreakSpeedCallback.AFTER.register(((player, stack, pos) ->
         {
+            // Disable the enchantment is player is sneaking and config is set to it
+            if(player.isSneaking() && ModConfigurations.shouldDisableVeinMiningWhileSneaking())
+                return 1.0F;
+
             // Check if there is a tunneling enchantment on the stack
             int level = EnchantmentHelper.getLevel(ModEnchantments.VEIN_MINER, stack);
             if(level <= 0)
@@ -69,6 +74,10 @@ public class VeinMinerEnchantment extends Enchantment
 
         PlayerBlockBreakEvents.BEFORE.register(((world, player, pos, state, blockEntity) ->
         {
+            // Disable the enchantment is player is sneaking and config is set to it
+            if(player.isSneaking() && ModConfigurations.shouldDisableVeinMiningWhileSneaking())
+                return true;
+
             // To activate the vein mining, the tool must be suitable for the state
             ItemStack stack = player.getMainHandStack();
             if(!(stack.getItem() instanceof MiningToolItem tool) || !tool.isSuitableFor(state))

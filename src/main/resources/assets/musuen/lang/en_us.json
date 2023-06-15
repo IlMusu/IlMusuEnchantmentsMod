@@ -50,5 +50,7 @@
   "death.attack.demonicDamage.player": "A demon absorbed all %1$s's life",
 
   "key.musuen.phasing_enchantment": "Phasing Enchantment Ability",
-  "key.musuen.shockwave_enchantment": "Shockwave Enchantment Ability"
+  "key.musuen.shockwave_enchantment": "Shockwave Enchantment Ability",
+
+  "musuen.subtitle.entity.living.elytra_wing_flap": "Elytra wing flap"
 }

@@ -1,6 +1,7 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.PlayerBreakSpeedCallback;
+import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
@@ -57,7 +58,7 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
     @Override
     public boolean isAvailableForRandomSelection()
     {
-        return false;
+        return !ModConfigurations.isDemonicEnchantingEnabled();
     }
 
     @Override
