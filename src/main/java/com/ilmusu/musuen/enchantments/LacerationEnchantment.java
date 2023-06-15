@@ -2,6 +2,7 @@ package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.PlayerAttackCallback;
+import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.minecraft.enchantment.DamageEnchantment;
@@ -53,7 +54,7 @@ public class LacerationEnchantment extends DamageEnchantment implements _IDemoni
     @Override
     public boolean isAvailableForRandomSelection()
     {
-        return false;
+        return !ModConfigurations.isDemonicEnchantingEnabled();
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.HudRenderCallback;
 import com.ilmusu.musuen.callbacks.PlayerAttackCallback;
 import com.ilmusu.musuen.networking.messages.BerserkOverlayMessage;
+import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -67,7 +68,7 @@ public class BerserkerEnchantment extends DamageEnchantment implements _IDemonic
     @Override
     public boolean isAvailableForRandomSelection()
     {
-        return false;
+        return !ModConfigurations.isDemonicEnchantingEnabled();
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.ilmusu.musuen.callbacks.ProjectileLoadCallback;
 import com.ilmusu.musuen.callbacks.ProjectileShotCallback;
 import com.ilmusu.musuen.mixins.mixin.AccessorCrossbowItem;
 import com.ilmusu.musuen.mixins.mixin.AccessorTridentEntity;
+import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModDamageSources;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
@@ -62,7 +63,7 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
     @Override
     public boolean isAvailableForRandomSelection()
     {
-        return false;
+        return !ModConfigurations.isDemonicEnchantingEnabled();
     }
 
     @Override
