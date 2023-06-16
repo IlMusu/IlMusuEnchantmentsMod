@@ -1,6 +1,6 @@
 # ILMUSU'S ENCHANTMENTS MOD
 This mod adds <b>more enchantments</b> to Minecraft.  
-It also includes a new mechanic, referred to as <b><span style="color:purple">Demonic Enchanting</span></b>, for making enchanting a little bit more interesting without twisting the game too much. Currently, there is no way of disabling this mechanic and I will consider making it possible based on users review.  
+It also includes a new mechanic, referred to as <b><span style="color:purple">Demonic Enchanting</span></b>, for making enchanting a little bit more interesting without twisting the game too much.
 
 There is configuration for the mod at the following path:
 ```bash
