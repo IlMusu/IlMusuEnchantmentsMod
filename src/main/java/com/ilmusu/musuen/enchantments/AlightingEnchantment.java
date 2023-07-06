@@ -8,7 +8,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
 
-public class AlightingEnchantment extends Enchantment implements _IEnchantmentExtensions
+public class AlightingEnchantment extends Enchantment
 {
     public AlightingEnchantment(Rarity weight)
     {

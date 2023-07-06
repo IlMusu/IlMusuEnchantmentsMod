@@ -1,5 +1,6 @@
 package com.ilmusu.musuen.mixins.asm;
 
+import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.item.*;
 
 public class EnumExtensionEnchantmentTarget
@@ -10,6 +11,15 @@ public class EnumExtensionEnchantmentTarget
         public boolean isAcceptableItem(Item item)
         {
             return item instanceof BowItem || item instanceof CrossbowItem || item instanceof TridentItem;
+        }
+    }
+
+    public static class ArrowShooter extends EnchantmentTargetExtensible
+    {
+        @Override
+        public boolean isAcceptableItem(Item item)
+        {
+            return item instanceof BowItem || item instanceof CrossbowItem;
         }
     }
 

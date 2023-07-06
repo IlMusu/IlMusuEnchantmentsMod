@@ -22,6 +22,8 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.*;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.EntityHitResult;
@@ -29,7 +31,9 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.spawner.PhantomSpawner;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
@@ -356,6 +360,26 @@ public abstract class CustomCallbacksMixins
             double angle = ShieldCoverageAngleCallback.BEFORE.invoker().handler(user, user.getActiveItem(), source);
             if (vec3d3.dotProduct(vec3d2) < angle)
                 cir.setReturnValue(true);
+        }
+    }
+
+    @Debug(export = true)
+    @Mixin(PhantomSpawner.class)
+    public abstract static class PhantomSpawnerCallbacks
+    {
+        private static ServerPlayerEntity player;
+
+        @ModifyVariable(method = "spawn", at = @At(value = "LOAD", ordinal = 0))
+        private ServerPlayerEntity beforeSpawningPhantom(ServerPlayerEntity player)
+        {
+            PhantomSpawnerCallbacks.player = player;
+            return player;
+        }
+
+        @ModifyVariable(method = "spawn", ordinal = 1, at = @At(value = "STORE"))
+        private int beforeSpawningPhantom(int insomniaAmount)
+        {
+            return PlayerPhantomSpawnCallback.BEFORE.invoker().handler(PhantomSpawnerCallbacks.player, insomniaAmount);
         }
     }
 

@@ -182,6 +182,9 @@ public class Configuration
     {
         // The name and the value are trimmed just to be sure
         key = key.trim();
+        // Check if the config exists, otherwise already return null
+        if(!this.configuration.containsKey(key))
+            return null;
         return this.configuration.get(key).dataValue;
     }
 }
