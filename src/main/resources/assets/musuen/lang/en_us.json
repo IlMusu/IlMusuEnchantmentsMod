@@ -43,6 +43,10 @@
   "enchantment.musuen.coverage.desc": "Increases the shield ability to protect the user by expanding the protection angle.",
   "enchantment.musuen.everlasting": "Everlasting",
   "enchantment.musuen.everlasting.desc": "Makes the enchanted item never despawn.",
+  "enchantment.musuen.zero_gravity": "Zero Gravity",
+  "enchantment.musuen.zero_gravity.desc": "Makes the shot projectiles have no gravity an fly into a straight line.",
+  "enchantment.musuen.dreamlike" : "Dreamlike",
+  "enchantment.musuen.dreamlike.desc": "Decreases the probability of Phantoms spawning because of insomnia.",
 
   "death.attack.demonicEnchanting" : "%1$s made a bad deal with a demon",
   "death.attack.demonicEnchanting.player" : "%1$s made a bad deal with a demon",
