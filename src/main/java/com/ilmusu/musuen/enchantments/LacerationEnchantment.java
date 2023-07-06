@@ -3,7 +3,6 @@ package com.ilmusu.musuen.enchantments;
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.PlayerAttackCallback;
 import com.ilmusu.musuen.registries.ModConfigurations;
-import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.minecraft.enchantment.DamageEnchantment;
 import net.minecraft.enchantment.Enchantment;
@@ -36,13 +35,13 @@ public class LacerationEnchantment extends DamageEnchantment implements _IDemoni
     @Override
     public int getMinLevel()
     {
-        return ModEnchantments.getMinLevel(this, 1);
+        return ModConfigurations.getEnchantmentMinLevel(this, 1);
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModEnchantments.getMaxLevel(this, 5);
+        return ModConfigurations.getEnchantmentMaxLevel(this, 5);
     }
 
     @Override

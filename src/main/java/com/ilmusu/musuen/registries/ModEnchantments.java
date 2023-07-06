@@ -11,9 +11,6 @@ import java.util.Map;
 
 public class ModEnchantments
 {
-    private static final Map<Enchantment, Integer> MIN_LEVELS = new HashMap<>();
-    private static final Map<Enchantment, Integer> MAX_LEVELS = new HashMap<>();
-
     public static final Enchantment LACERATION = new LacerationEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment SKEWERING = new SkeweringEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment UNEARTHING = new UnearthingEnchantment(Enchantment.Rarity.RARE);
@@ -65,59 +62,12 @@ public class ModEnchantments
 
     public static void registerEnchantmentIfEnabled(String name, Enchantment enchantment)
     {
-        String enabledKey = getEnchantmentConfigKey(name, ModConfigurations.EnchantmentsConfig.ENABLED);
-        if(Boolean.parseBoolean(ModConfigurations.ENCHANTMENTS.getOrSet(enabledKey, true)))
-        {
-            Registry.register(Registries.ENCHANTMENT, Resources.identifier(name), enchantment);
-            enchantment.getMinLevel();
-            enchantment.getMaxLevel();
-        }
-    }
+        if(!ModConfigurations.isEnchantmentEnabled(name))
+            return;
 
-    public static int getMinLevel(Enchantment enchantment, int min)
-    {
-        if(MIN_LEVELS.containsKey(enchantment))
-            return MIN_LEVELS.get(enchantment);
-
-        String name = Registries.ENCHANTMENT.getId(enchantment).getPath();
-        String key = getEnchantmentConfigKey(name, ModConfigurations.EnchantmentsConfig.MIN_LEVEL);
-        String level = ModConfigurations.ENCHANTMENTS.getOrSet(key, min);
-
-        try {
-            min = Math.max(1, Integer.parseInt(level));
-        }
-        catch (NumberFormatException exception) {
-            Resources.LOGGER.error("Could not read minimum level for "+name+" enchantment! Defaulting to "+min+"!");
-        }
-
-        MIN_LEVELS.put(enchantment, min);
-        ModConfigurations.ENCHANTMENTS.set(key, min);
-        return min;
-    }
-
-    public static int getMaxLevel(Enchantment enchantment, int max)
-    {
-        if(MAX_LEVELS.containsKey(enchantment))
-            return MAX_LEVELS.get(enchantment);
-
-        String name = Registries.ENCHANTMENT.getId(enchantment).getPath();
-        String key = getEnchantmentConfigKey(name, ModConfigurations.EnchantmentsConfig.MAX_LEVEL);
-        String level = ModConfigurations.ENCHANTMENTS.getOrSet(key, max);
-
-        try {
-            max = Math.min(Integer.parseInt(level), 255);
-        }
-        catch (NumberFormatException exception) {
-            Resources.LOGGER.error("Could not read maximum level for "+name+" enchantment! Defaulting to "+max+"!");
-        }
-
-        MAX_LEVELS.put(enchantment, max);
-        ModConfigurations.ENCHANTMENTS.set(key, max);
-        return max;
-    }
-
-    private static String getEnchantmentConfigKey(String name, String config)
-    {
-        return name+"."+config.toLowerCase();
+        // Registering the enchantment and forcing the registration of the levels
+        Registry.register(Registries.ENCHANTMENT, Resources.identifier(name), enchantment);
+        enchantment.getMinLevel();
+        enchantment.getMaxLevel();
     }
 }

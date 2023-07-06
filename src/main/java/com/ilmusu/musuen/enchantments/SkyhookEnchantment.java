@@ -7,6 +7,7 @@ import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.musuen.mixins.mixin.AccessorPersistentProjectileEntity;
 import com.ilmusu.musuen.networking.messages.SkyhookLeashMessage;
+import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.fabricmc.api.EnvType;
@@ -44,13 +45,13 @@ public class SkyhookEnchantment extends Enchantment
     @Override
     public int getMinLevel()
     {
-        return ModEnchantments.getMinLevel(this, 1);
+        return ModConfigurations.getEnchantmentMinLevel(this, 1);
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModEnchantments.getMaxLevel(this, 4);
+        return ModConfigurations.getEnchantmentMaxLevel(this, 4);
     }
 
     static

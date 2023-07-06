@@ -4,6 +4,7 @@ import com.ilmusu.musuen.callbacks.EntityDropCallback;
 import com.ilmusu.musuen.client.particles.colored.ColoredParticleEffect;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.musuen.mixins.mixin.AccessorTridentEntity;
+import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
@@ -29,13 +30,13 @@ public class TelekinesisEnchantment extends Enchantment implements _IEnchantment
     @Override
     public int getMinLevel()
     {
-        return ModEnchantments.getMinLevel(this, 1);
+        return ModConfigurations.getEnchantmentMinLevel(this, 1);
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModEnchantments.getMaxLevel(this, 1);
+        return ModConfigurations.getEnchantmentMaxLevel(this, 1);
     }
 
     static

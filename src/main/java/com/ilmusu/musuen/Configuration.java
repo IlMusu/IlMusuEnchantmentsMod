@@ -11,14 +11,26 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class Configuration
 {
+    public static class ConfigData
+    {
+        protected String dataString;
+        protected Object dataValue;
+        protected String description = "";
+
+        public ConfigData()
+        {
+        }
+    }
+
     // The configuration File related to this configuration
     private final String configurationFileName;
     private final File configurationFile;
     // The data that has been currently parsed from the configuration File
-    private final HashMap<String, String> configuration = new LinkedHashMap<>();
+    private final HashMap<String, ConfigData> configuration = new LinkedHashMap<>();
     // A fixer for making data compatible with different versions
     private final BiFunction<String, String, String> fixer;
 
@@ -64,7 +76,7 @@ public class Configuration
         }
     }
 
-    private void writeConfigurationFile()
+    public void writeConfigurationFile()
     {
         if(!this.configurationFile.exists())
             return;
@@ -76,7 +88,12 @@ public class Configuration
             writer.write("");
             // Setting all the current configurations
             for(String key : this.configuration.keySet())
-                writer.append(key).append("=").append(this.configuration.get(key)).append("\n");
+            {
+                ConfigData data = this.configuration.get(key);
+                if(!data.description.isEmpty())
+                    writer.append(data.description).append("\n");
+                writer.append(key).append("=").append(data.dataString).append("\n\n");
+            }
             // Closing the file because there is noting more to do
             writer.close();
         }
@@ -120,40 +137,51 @@ public class Configuration
             return;
         }
 
-        String name = parts[0].trim();
-        String value = this.fixer.apply(name, parts[1].trim());
-        this.configuration.put(name, value);
+        String key = parts[0].trim();
+        ConfigData data = new ConfigData();
+        data.dataString = this.fixer.apply(key, parts[1].trim());
+        this.configuration.put(key, data);
     }
 
-    public void set(String name, Object value)
+    private void setConfig(String key, Object value, String description, Function<Object, String> writer)
     {
         // The name and the value are trimmed just to be sure
-        name = name.trim();
-        // Setting the configuration
-        this.configuration.put(name, value.toString());
-        this.writeConfigurationFile();
+        key = key.trim();
+        // Setting the new configuration
+        ConfigData config = this.configuration.getOrDefault(key, new ConfigData());
+        config.description = description;
+        config.dataString = writer.apply(value);
+        config.dataValue = value;
+        this.configuration.put(key, config);
     }
 
-    public void setIfAbsent(String name, Object value)
+    public void setConfigIfAbsent(String key, Object value, Function<Object, String> writer, Function<String, Object> reader)
+    {
+        setConfigIfAbsent(key, value, "", writer, reader);
+    }
+
+    public void setConfigIfAbsent(String key, Object value, String description, Function<Object, String> writer, Function<String, Object> reader)
     {
         // The name and the value are trimmed just to be sure
-        name = name.trim();
-        // Do not set it if already exists
-        if(this.configuration.containsKey(name))
+        key = key.trim();
+        // Getting the existing configuration data
+        ConfigData data = this.configuration.get(key);
+        // If different from null, updating only the description
+        if(data != null)
+        {
+            // Updating description and value
+            data.description = description;
+            data.dataValue = reader.apply(data.dataString);
             return;
-
-        // Setting the configuration
-        this.configuration.put(name, value.toString());
-        this.writeConfigurationFile();
+        }
+        // Otherwise setting the configuration
+        setConfig(key, value, description, writer);
     }
 
-    public String getOrSet(String name, Object value)
+    public Object getConfigValue(String key)
     {
         // The name and the value are trimmed just to be sure
-        name = name.trim();
-        // Setting the value if it does not exist
-        this.setIfAbsent(name, value);
-        // Return the value contained in the configuration
-        return this.configuration.get(name);
+        key = key.trim();
+        return this.configuration.get(key).dataValue;
     }
 }

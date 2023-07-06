@@ -21,6 +21,7 @@ public class IlMusuEnchantments implements ModInitializer, ClientModInitializer,
 		ModParticles.register();
 		ModSoundEvents.register();
 		ModMessages.ServerHandlers.register();
+		ModConfigurations.write();
 	}
 
 	@Override

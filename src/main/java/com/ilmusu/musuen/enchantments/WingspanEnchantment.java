@@ -1,6 +1,7 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.LivingEntityElytraLandCallback;
+import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.registries.ModSoundEvents;
@@ -24,13 +25,13 @@ public class WingspanEnchantment extends Enchantment implements _IEnchantmentExt
     @Override
     public int getMinLevel()
     {
-        return ModEnchantments.getMinLevel(this, 1);
+        return ModConfigurations.getEnchantmentMinLevel(this, 1);
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModEnchantments.getMaxLevel(this, 3);
+        return ModConfigurations.getEnchantmentMaxLevel(this, 3);
     }
 
     public static void takeWingspanKnockback(LivingEntity winged, LivingEntity entity, double strength)

@@ -9,6 +9,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MiningToolItem;
 import net.minecraft.util.math.BlockPos;
@@ -27,13 +28,13 @@ public class VeinMinerEnchantment extends Enchantment
     @Override
     public int getMinLevel()
     {
-        return ModEnchantments.getMinLevel(this, 1);
+        return ModConfigurations.getEnchantmentMinLevel(this, 1);
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModEnchantments.getMaxLevel(this, 5);
+        return ModConfigurations.getEnchantmentMaxLevel(this, 5);
     }
 
     public int getMaxBreakableBlocks(int level)
@@ -48,22 +49,31 @@ public class VeinMinerEnchantment extends Enchantment
                !(other instanceof UnearthingEnchantment);
     }
 
+    protected static boolean canUseVeinMining(PlayerEntity player, BlockState state)
+    {
+        if(player.isSneaking() && !ModConfigurations.shouldEnableVeinMiningWhileSneaking())
+            return false;
+        if(!ModConfigurations.isBlockVeinMiningWhiteListed(state))
+            return false;
+        return true;
+    }
+
     static
     {
         // Reduce the player break speed when using the vein miner enchantment
         PlayerBreakSpeedCallback.AFTER.register(((player, stack, pos) ->
         {
-            // Disable the enchantment is player is sneaking and config is set to it
-            if(player.isSneaking() && ModConfigurations.shouldDisableVeinMiningWhileSneaking())
-                return 1.0F;
-
             // Check if there is a tunneling enchantment on the stack
             int level = EnchantmentHelper.getLevel(ModEnchantments.VEIN_MINER, stack);
             if(level <= 0)
                 return 1.0F;
 
-            // Check if the state the player is trying the break is suitable for the tool
+            // Disable the enchantment if the player cannot use it now
             BlockState state = player.getWorld().getBlockState(pos);
+            if(!canUseVeinMining(player, state))
+                return 1.0F;
+
+            // Check if the state the player is trying the break is suitable for the tool
             if(!(stack.getItem() instanceof MiningToolItem tool) || !tool.isSuitableFor(state))
                 return 1.0F;
 
@@ -74,8 +84,8 @@ public class VeinMinerEnchantment extends Enchantment
 
         PlayerBlockBreakEvents.BEFORE.register(((world, player, pos, state, blockEntity) ->
         {
-            // Disable the enchantment is player is sneaking and config is set to it
-            if(player.isSneaking() && ModConfigurations.shouldDisableVeinMiningWhileSneaking())
+            // Disable the enchantment if the player cannot use it now
+            if(!canUseVeinMining(player, state))
                 return true;
 
             // To activate the vein mining, the tool must be suitable for the state
