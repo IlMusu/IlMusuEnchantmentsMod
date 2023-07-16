@@ -47,6 +47,10 @@
   "enchantment.musuen.zero_gravity.desc": "Makes the shot projectiles have no gravity an fly into a straight line.",
   "enchantment.musuen.dreamlike" : "Dreamlike",
   "enchantment.musuen.dreamlike.desc": "Decreases the probability of Phantoms spawning because of insomnia.",
+  "enchantment.musuen.gluttony" : "Gluttony",
+  "enchantment.musuen.gluttony.desc": "Automatically eats food from the inventory. Makes a stomach rumbling sound if no food is available.",
+  "enchantment.musuen.multi_arrow": "Multi Arrow",
+  "enchantment.musuen.multi_arrow.desc": "Makes the bow fire multiple arrows in the same shot. The player must have the other arrows in the inventory.",
 
   "death.attack.demonicEnchanting" : "%1$s made a bad deal with a demon",
   "death.attack.demonicEnchanting.player" : "%1$s made a bad deal with a demon",
@@ -56,5 +60,6 @@
   "key.musuen.phasing_enchantment": "Phasing Enchantment Ability",
   "key.musuen.shockwave_enchantment": "Shockwave Enchantment Ability",
 
-  "musuen.subtitle.entity.living.elytra_wing_flap": "Elytra wing flap"
+  "musuen.subtitle.entity.living.elytra_wing_flap": "Elytra wing flap",
+  "musuen.subtitle.entity.living.stomach_rumble": "Stomach rumble"
 }

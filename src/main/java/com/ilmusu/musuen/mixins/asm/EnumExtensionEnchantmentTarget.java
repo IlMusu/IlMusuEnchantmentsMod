@@ -1,6 +1,5 @@
 package com.ilmusu.musuen.mixins.asm;
 
-import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.item.*;
 
 public class EnumExtensionEnchantmentTarget

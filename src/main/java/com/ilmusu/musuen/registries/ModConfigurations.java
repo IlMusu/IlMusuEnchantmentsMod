@@ -59,8 +59,8 @@ public class ModConfigurations
             "# is enabled. The blocks must be written inside the square brackets, separated by commas and with no \n" +
             "# blank spaces: the blocks ids can be found in game using the F3+H \"Advanced Tooltips\" .\n" +
             "# An example is the following: [minecraft:stone,minecraft:dirt,minecraft:coal_ore]",
-            ModConfigurations::listOfBlocksToString,
-            ModConfigurations::stringToListOfBlocks
+            ModConfigurations::listOfIdentifiesToString,
+            ModConfigurations::stringToListOfIdentifiers
         );
         // Loading the configuration for the enchantments from file
         ENCHANTMENTS.load();
@@ -150,18 +150,18 @@ public class ModConfigurations
         return max;
     }
 
-    public static String listOfBlocksToString(Object blocksList)
+    public static String listOfIdentifiesToString(Object identifierList)
     {
-        List<Identifier> blocks = (List<Identifier>)blocksList;
-        List<String> list = blocks.stream().map(Identifier::toString).toList();
+        List<Identifier> identifiers = (List<Identifier>)identifierList;
+        List<String> list = identifiers.stream().map(Identifier::toString).toList();
         return list.toString();
     }
 
-    public static List<Identifier> stringToListOfBlocks(String string)
+    public static List<Identifier> stringToListOfIdentifiers(String string)
     {
         string = string.trim();
         string = string.substring(1, string.length()-1);
         List<String> list = List.of(string.split(","));
-        return list.stream().map(Identifier::new).toList();
+        return list.stream().map((str) -> new Identifier(str.strip())).toList();
     }
 }
