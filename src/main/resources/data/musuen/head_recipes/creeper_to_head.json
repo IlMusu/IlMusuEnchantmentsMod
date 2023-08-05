@@ -1,0 +1,6 @@
+{
+  "mob": "minecraft:creeper",
+  "head_items": [
+    "minecraft:creeper_head"
+  ]
+}

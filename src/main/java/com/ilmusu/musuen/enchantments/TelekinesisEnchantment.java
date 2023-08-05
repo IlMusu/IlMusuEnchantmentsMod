@@ -1,6 +1,6 @@
 package com.ilmusu.musuen.enchantments;
 
-import com.ilmusu.musuen.callbacks.EntityDropCallback;
+import com.ilmusu.musuen.callbacks.EntityItemDropCallback;
 import com.ilmusu.musuen.client.particles.colored.ColoredParticleEffect;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.musuen.mixins.mixin.AccessorTridentEntity;
@@ -41,7 +41,7 @@ public class TelekinesisEnchantment extends Enchantment implements _IEnchantment
 
     static
     {
-        EntityDropCallback.EVENT.register(((entity, item, source) ->
+        EntityItemDropCallback.BEFORE.register(((entity, item, source) ->
         {
             if(source == null || entity.getWorld().isClient || !(source.getAttacker() instanceof PlayerEntity player))
                 return true;

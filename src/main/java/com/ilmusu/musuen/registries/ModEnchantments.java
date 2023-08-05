@@ -34,6 +34,7 @@ public class ModEnchantments
     public static final Enchantment DREAMLIKE = new DreamlikeEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment GLUTTONY = new GluttonyEnchantment(Enchantment.Rarity.VERY_RARE);
     public static final Enchantment MULTI_ARROW = new MultiArrowEnchantment(Enchantment.Rarity.VERY_RARE);
+    public static final Enchantment GUILLOTINING = new GuillotiningEnchantment(Enchantment.Rarity.VERY_RARE);
 
     public static void register()
     {
@@ -63,6 +64,7 @@ public class ModEnchantments
         registerEnchantmentIfEnabled("dreamlike", DREAMLIKE);
         registerEnchantmentIfEnabled("gluttony", GLUTTONY);
         registerEnchantmentIfEnabled("multi_arrow", MULTI_ARROW);
+        registerEnchantmentIfEnabled("guillotining", GUILLOTINING);
     }
 
     public static void registerEnchantmentIfEnabled(String name, Enchantment enchantment)
