@@ -37,6 +37,9 @@ public class ModCustomRecipes
             @Override
             public void reload(ResourceManager manager)
             {
+                // We are realoding, clearing the previous set recipes
+                HEAD_RECIPES.clear();
+
                 // Getting all the files that end with .json in the specified folder and subfolders of other mobs
                 Map<Identifier, Resource> resources = manager.findResources("head_recipes",
                         path -> path.toString().endsWith(".json"));

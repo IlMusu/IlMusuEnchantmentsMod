@@ -85,7 +85,7 @@ public class LacerationEnchantment extends DamageEnchantment implements _IDemoni
             List<Enchantment> lacerationEnchantments = new ArrayList<>(allEnchantments.keySet());
             lacerationEnchantments.removeIf((enchantment -> !(enchantment instanceof LacerationEnchantment)));
 
-            if(lacerationEnchantments.size() == 0)
+            if(lacerationEnchantments.isEmpty())
                 return;
 
             float additionalDamage = 0.0F;

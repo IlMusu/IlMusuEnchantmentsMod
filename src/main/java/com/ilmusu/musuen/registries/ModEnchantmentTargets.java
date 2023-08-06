@@ -3,7 +3,6 @@ package com.ilmusu.musuen.registries;
 import com.chocohead.mm.api.ClassTinkerers;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 
 public class ModEnchantmentTargets
@@ -13,6 +12,7 @@ public class ModEnchantmentTargets
     public static EnchantmentTarget REACHER;
     public static EnchantmentTarget CHARGEABLE;
     public static EnchantmentTarget ARROW_SHOOTER;
+    public static EnchantmentTarget HOE;
 
     public static void initialize()
     {
@@ -28,6 +28,8 @@ public class ModEnchantmentTargets
                 .addEnumSubclass("MUSUEN$CHARGEABLE", "com.ilmusu.musuen.mixins.asm.EnumExtensionEnchantmentTarget$Chargeable").build();
         ClassTinkerers.enumBuilder(enchantmentTarget)
                 .addEnumSubclass("MUSUEN$ARROW_SHOOTER", "com.ilmusu.musuen.mixins.asm.EnumExtensionEnchantmentTarget$ArrowShooter").build();
+        ClassTinkerers.enumBuilder(enchantmentTarget)
+                .addEnumSubclass("MUSUEN$HOE", "com.ilmusu.musuen.mixins.asm.EnumExtensionEnchantmentTarget$Hoe").build();
     }
 
     public static void register()
@@ -37,5 +39,6 @@ public class ModEnchantmentTargets
         REACHER = ClassTinkerers.getEnum(EnchantmentTarget.class, "MUSUEN$REACHER");
         CHARGEABLE = ClassTinkerers.getEnum(EnchantmentTarget.class, "MUSUEN$CHARGEABLE");
         ARROW_SHOOTER = ClassTinkerers.getEnum(EnchantmentTarget.class,"MUSUEN$ARROW_SHOOTER");
+        HOE = ClassTinkerers.getEnum(EnchantmentTarget.class, "MUSUEN$HOE");
     }
 }

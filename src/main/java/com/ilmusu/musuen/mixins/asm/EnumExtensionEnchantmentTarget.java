@@ -48,4 +48,13 @@ public class EnumExtensionEnchantmentTarget
             return item instanceof ShieldItem;
         }
     }
+
+    public static class Hoe extends EnchantmentTargetExtensible
+    {
+        @Override
+        public boolean isAcceptableItem(Item item)
+        {
+            return item instanceof HoeItem;
+        }
+    }
 }

@@ -1,8 +1,10 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.PlayerBreakSpeedCallback;
+import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantments;
+import com.ilmusu.musuen.utils.ModUtils;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
@@ -12,6 +14,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MiningToolItem;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
@@ -20,6 +23,8 @@ import java.util.Map;
 
 public class VeinMinerEnchantment extends Enchantment
 {
+    private static final String LABEL = "is_veinmining";
+
     public VeinMinerEnchantment(Rarity rarity)
     {
         super(rarity, EnchantmentTarget.DIGGER, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
@@ -53,9 +58,7 @@ public class VeinMinerEnchantment extends Enchantment
     {
         if(player.isSneaking() && !ModConfigurations.shouldEnableVeinMiningWhileSneaking())
             return false;
-        if(!ModConfigurations.isBlockVeinMiningWhiteListed(state))
-            return false;
-        return true;
+        return ModConfigurations.isBlockVeinMiningWhiteListed(state);
     }
 
     static
@@ -88,6 +91,11 @@ public class VeinMinerEnchantment extends Enchantment
             if(!canUseVeinMining(player, state))
                 return true;
 
+            // If the player is currently vein mining, ignore this event
+            NbtCompound nbt = ((_IEntityPersistentNbt)player).getPNBT();
+            if(nbt.contains(LABEL) && Math.abs(nbt.getInt(LABEL)-player.age) < 5)
+                return true;
+
             // To activate the vein mining, the tool must be suitable for the state
             ItemStack stack = player.getMainHandStack();
             if(!(stack.getItem() instanceof MiningToolItem tool) || !tool.isSuitableFor(state))
@@ -103,10 +111,13 @@ public class VeinMinerEnchantment extends Enchantment
             if(remainingBlocksToBreak <= 0)
                 return true;
 
+            // Marking the player as using vein mining
+            nbt.putInt(LABEL, player.age);
+
             List<BlockPos> posesToCheck = new ArrayList<>();
             posesToCheck.add(pos);
 
-            outer_loop: while(posesToCheck.size() > 0)
+            outer_loop: while(!posesToCheck.isEmpty())
             {
                 BlockPos cachedPos = posesToCheck.remove(0);
 
@@ -123,13 +134,16 @@ public class VeinMinerEnchantment extends Enchantment
                             {
                                 posesToCheck.add(newPos);
                                 // Block is removed immediately to avoid storing the same position
-                                UnearthingEnchantment.tryBreakBlock(world, player, stack, newPos);
+                                ModUtils.tryBreakBlockIfSuitable(world, player, stack, newPos);
                                 // Check is done here so that no useless poses are added to the list
                                 if(remainingBlocksToBreak-- <= 0)
                                     break outer_loop;
                             }
                         }
             }
+
+            // Unmarking the player as using vein mining
+            nbt.remove(LABEL);
             return true;
         }));
     }

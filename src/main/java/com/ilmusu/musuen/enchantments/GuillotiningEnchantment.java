@@ -67,7 +67,7 @@ public class GuillotiningEnchantment extends Enchantment implements _IDemonicEnc
                 return;
 
             // Consumes a bit of the player health since this is demonic
-            _IDemonicEnchantment.consumeHealthValue(living, 0.2F, false);
+            _IDemonicEnchantment.consumeHealthValue(living, 0.1F, false);
 
             int idx = entity.getWorld().random.nextInt(recipe.getHeads().size());
             Identifier headIdentifier = recipe.getHeads().get(idx);
