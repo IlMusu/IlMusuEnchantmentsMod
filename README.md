@@ -548,7 +548,7 @@ The <b>Zero Gravity Enchantment</b> makes the shot projectiles have no gravity. 
 
 <details>
 <summary><b>Details here</b></summary>
-Since the shot projectile has no gravity, they fly in a straight line allowing for more accuracy. Notice that Minecraft adds a bit of randomized inaccuracy to the shot projectiles which is the reason why they might not land exactly where the player is looking at.
+Since the shot projectile has no gravity, they fly in a straight line allowing for more accuracy. Notice that Minecraft adds a bit of randomized inaccuracy to the shot projectiles which is the reason why they might not land exactly where the player is looking at. <br />
 <br />
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/zero_gravity.gif?raw=true">
