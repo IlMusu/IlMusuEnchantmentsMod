@@ -35,7 +35,6 @@ public abstract class EnchantmentWithExtensions
                                                     Enchantment enchantment, int level, CallbackInfo ci)
         {
             ItemStack stack = EnchantmentHelperModifications.stack;
-            EnchantmentHelperModifications.stack = null;
 
             // The stack should not be null to add stack dependant damage
             if(stack == null || !(enchantment instanceof _IEnchantmentExtensions enchantmentExt))
