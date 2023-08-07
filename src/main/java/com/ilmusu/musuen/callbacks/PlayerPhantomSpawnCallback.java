@@ -3,8 +3,6 @@ package com.ilmusu.musuen.callbacks;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 
 public interface PlayerPhantomSpawnCallback
 {

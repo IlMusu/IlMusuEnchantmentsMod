@@ -70,9 +70,9 @@ public class BlockParticle extends SpriteBillboardParticle
         return i;
     }
 
+    @SuppressWarnings("unused")
     public static class Factory implements ParticleFactory<BlockParticleEffect>
     {
-        @SuppressWarnings("unused")
         public Factory(SpriteProvider sprite)
         {
         }

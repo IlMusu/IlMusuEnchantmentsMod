@@ -87,7 +87,7 @@ public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchan
             List<Enchantment> skeweringEnchantments = new ArrayList<>(allEnchantments.keySet());
             skeweringEnchantments.removeIf((enchantment -> !(enchantment instanceof SkeweringEnchantment)));
 
-            if(skeweringEnchantments.size() == 0)
+            if(skeweringEnchantments.isEmpty())
                 return;
 
             float additionalDamage = 0.0F;

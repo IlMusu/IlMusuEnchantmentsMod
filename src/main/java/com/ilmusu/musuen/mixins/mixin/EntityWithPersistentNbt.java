@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -14,30 +15,30 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public abstract class EntityWithPersistentNbt implements _IEntityPersistentNbt
 {
-    protected NbtCompound musuen$nbt = new NbtCompound();
+    @Unique protected NbtCompound pnbt = new NbtCompound();
 
     @Override
     public NbtCompound getPNBT()
     {
-        return musuen$nbt;
+        return pnbt;
     }
 
     @Override
     public void clone(_IEntityPersistentNbt other)
     {
-        this.musuen$nbt = other.getPNBT();
+        this.pnbt = other.getPNBT();
     }
 
     @Inject(method = "writeNbt", at = @At("TAIL"))
     public void writePocketsDataToNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir)
     {
-        nbt.put(Resources.MOD_ID+".persistent_data", this.musuen$nbt);
+        nbt.put(Resources.MOD_ID+".persistent_data", this.pnbt);
     }
 
     @Inject(method = "readNbt", at = @At("TAIL"))
     public void readPocketsDataFromNbt(NbtCompound nbt, CallbackInfo ci)
     {
-        this.musuen$nbt = nbt.getCompound(Resources.MOD_ID+".persistent_data");
+        this.pnbt = nbt.getCompound(Resources.MOD_ID+".persistent_data");
     }
 
     static
