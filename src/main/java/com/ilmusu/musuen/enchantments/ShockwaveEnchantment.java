@@ -4,6 +4,7 @@ import com.ilmusu.musuen.client.particles.eblock.BlockParticleEffect;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.musuen.networking.messages.ShockwaveEffectMessage;
 import com.ilmusu.musuen.networking.messages.SwingHandMessage;
+import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
@@ -39,13 +40,13 @@ public class ShockwaveEnchantment extends Enchantment implements _IEnchantmentEx
     @Override
     public int getMinLevel()
     {
-        return ModEnchantments.getMinLevel(this, 1);
+        return ModConfigurations.getEnchantmentMinLevel(this, 1);
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModEnchantments.getMaxLevel(this, 3);
+        return ModConfigurations.getEnchantmentMaxLevel(this, 3);
     }
 
     public static void damageEntitiesWithShockwave(PlayerEntity user, Vec3d pos, Vec3d direction, Vec3d perpendicular, float size, float damage)
@@ -63,6 +64,7 @@ public class ShockwaveEnchantment extends Enchantment implements _IEnchantmentEx
         }));
     }
 
+    @SuppressWarnings("unused")
     public static void onShockwaveKeyBindingPress(PlayerEntity player, int modifiers)
     {
         // The player must have a shield in its hand and be using it

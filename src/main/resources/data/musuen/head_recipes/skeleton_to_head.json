@@ -1,0 +1,6 @@
+{
+  "mob": "minecraft:skeleton",
+  "head_items": [
+    "minecraft:skeleton_skull"
+  ]
+}

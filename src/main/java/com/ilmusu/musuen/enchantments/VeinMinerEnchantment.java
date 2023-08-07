@@ -1,16 +1,20 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.PlayerBreakSpeedCallback;
+import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantments;
+import com.ilmusu.musuen.utils.ModUtils;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MiningToolItem;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
@@ -19,6 +23,8 @@ import java.util.Map;
 
 public class VeinMinerEnchantment extends Enchantment
 {
+    private static final String LABEL = "is_veinmining";
+
     public VeinMinerEnchantment(Rarity rarity)
     {
         super(rarity, EnchantmentTarget.DIGGER, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
@@ -27,13 +33,13 @@ public class VeinMinerEnchantment extends Enchantment
     @Override
     public int getMinLevel()
     {
-        return ModEnchantments.getMinLevel(this, 1);
+        return ModConfigurations.getEnchantmentMinLevel(this, 1);
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModEnchantments.getMaxLevel(this, 5);
+        return ModConfigurations.getEnchantmentMaxLevel(this, 5);
     }
 
     public int getMaxBreakableBlocks(int level)
@@ -48,22 +54,29 @@ public class VeinMinerEnchantment extends Enchantment
                !(other instanceof UnearthingEnchantment);
     }
 
+    protected static boolean canUseVeinMining(PlayerEntity player, BlockState state)
+    {
+        if(player.isSneaking() && !ModConfigurations.shouldEnableVeinMiningWhileSneaking())
+            return false;
+        return ModConfigurations.isBlockVeinMiningWhiteListed(state);
+    }
+
     static
     {
         // Reduce the player break speed when using the vein miner enchantment
         PlayerBreakSpeedCallback.AFTER.register(((player, stack, pos) ->
         {
-            // Disable the enchantment is player is sneaking and config is set to it
-            if(player.isSneaking() && ModConfigurations.shouldDisableVeinMiningWhileSneaking())
-                return 1.0F;
-
             // Check if there is a tunneling enchantment on the stack
             int level = EnchantmentHelper.getLevel(ModEnchantments.VEIN_MINER, stack);
             if(level <= 0)
                 return 1.0F;
 
+            // Disable the enchantment if the player cannot use it now
+            BlockState state = player.getWorld().getBlockState(pos);
+            if(!canUseVeinMining(player, state))
+                return 1.0F;
+
             // Check if the state the player is trying the break is suitable for the tool
-            BlockState state = player.world.getBlockState(pos);
             if(!(stack.getItem() instanceof MiningToolItem tool) || !tool.isSuitableFor(state))
                 return 1.0F;
 
@@ -74,8 +87,13 @@ public class VeinMinerEnchantment extends Enchantment
 
         PlayerBlockBreakEvents.BEFORE.register(((world, player, pos, state, blockEntity) ->
         {
-            // Disable the enchantment is player is sneaking and config is set to it
-            if(player.isSneaking() && ModConfigurations.shouldDisableVeinMiningWhileSneaking())
+            // Disable the enchantment if the player cannot use it now
+            if(!canUseVeinMining(player, state))
+                return true;
+
+            // If the player is currently vein mining, ignore this event
+            NbtCompound nbt = ((_IEntityPersistentNbt)player).getPNBT();
+            if(nbt.contains(LABEL) && Math.abs(nbt.getInt(LABEL)-player.age) < 5)
                 return true;
 
             // To activate the vein mining, the tool must be suitable for the state
@@ -93,10 +111,13 @@ public class VeinMinerEnchantment extends Enchantment
             if(remainingBlocksToBreak <= 0)
                 return true;
 
+            // Marking the player as using vein mining
+            nbt.putInt(LABEL, player.age);
+
             List<BlockPos> posesToCheck = new ArrayList<>();
             posesToCheck.add(pos);
 
-            outer_loop: while(posesToCheck.size() > 0)
+            outer_loop: while(!posesToCheck.isEmpty())
             {
                 BlockPos cachedPos = posesToCheck.remove(0);
 
@@ -113,13 +134,16 @@ public class VeinMinerEnchantment extends Enchantment
                             {
                                 posesToCheck.add(newPos);
                                 // Block is removed immediately to avoid storing the same position
-                                UnearthingEnchantment.tryBreakBlock(world, player, stack, newPos);
+                                ModUtils.tryBreakBlockIfSuitable(world, player, stack, newPos);
                                 // Check is done here so that no useless poses are added to the list
                                 if(remainingBlocksToBreak-- <= 0)
                                     break outer_loop;
                             }
                         }
             }
+
+            // Unmarking the player as using vein mining
+            nbt.remove(LABEL);
             return true;
         }));
     }

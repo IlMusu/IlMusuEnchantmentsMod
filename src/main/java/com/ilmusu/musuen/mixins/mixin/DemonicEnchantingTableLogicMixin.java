@@ -32,6 +32,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -51,8 +52,8 @@ public abstract class DemonicEnchantingTableLogicMixin
         @Shadow @Final private ScreenHandlerContext context;
         @Shadow @Final public int[] enchantmentId;
 
-        private static final int DEMONIC_ENCHANTING_ENTITY_RADIUS = 7;
-        private final int[] demonicEnchantments = new int[3];
+        @Unique private static final int DEMONIC_ENCHANTING_ENTITY_RADIUS = 7;
+        @Unique private final int[] demonicEnchantments = new int[3];
 
         @Override
         public boolean hasDemonicEnchantment(int slot)
@@ -169,9 +170,10 @@ public abstract class DemonicEnchantingTableLogicMixin
             });
         }
 
+        @Unique
         private static float takeHealthFromEntitiesRandomly(World world, List<? extends LivingEntity> entities, float healthToConsume)
         {
-            while(healthToConsume > 0 && entities.size() > 0)
+            while(healthToConsume > 0 && !entities.isEmpty())
             {
                 int index = world.getRandom().nextInt(entities.size());
                 LivingEntity entity = entities.get(index);
@@ -193,7 +195,7 @@ public abstract class DemonicEnchantingTableLogicMixin
     @Mixin(EnchantmentHelper.class)
     public abstract static class FixEnchantmentGenerationList
     {
-        private static int musuen$enchantingPower = 0;
+        @Unique private static int enchantingPower = 0;
 
         @Inject(method = "generateEnchantments", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(
                 value = "INVOKE",
@@ -201,10 +203,11 @@ public abstract class DemonicEnchantingTableLogicMixin
                 ordinal = 0
         ))
         private static void storeEnchantingPower(Random random, ItemStack stack, int level, boolean treasureAllowed,
-            CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<?> list, Item item, int i, float f, List<EnchantmentLevelEntry> list2)
+                                                 CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir, List<?> list,
+                                                 Item item, int i, float f, List<EnchantmentLevelEntry> list2)
         {
             // Storing the modified power level
-            FixEnchantmentGenerationList.musuen$enchantingPower = level;
+            FixEnchantmentGenerationList.enchantingPower = level;
         }
 
         @Inject(method = "generateEnchantments", locals = LocalCapture.CAPTURE_FAILHARD, at = @At("TAIL"))
@@ -226,8 +229,8 @@ public abstract class DemonicEnchantingTableLogicMixin
                 return;
 
             // Getting only the demonic enchantments
-            int power = FixEnchantmentGenerationList.musuen$enchantingPower;
-            FixEnchantmentGenerationList.musuen$enchantingPower = 0;
+            int power = FixEnchantmentGenerationList.enchantingPower;
+            FixEnchantmentGenerationList.enchantingPower = 0;
 
             // Adding only one demonic enchantment at the beginning of the list
             List<EnchantmentLevelEntry> demonics = getPossibleDemonicEntries(power, stack);
@@ -235,6 +238,7 @@ public abstract class DemonicEnchantingTableLogicMixin
         }
 
         // Copied and modified from the EnchantmentHelper
+        @Unique
         private static List<EnchantmentLevelEntry> getPossibleDemonicEntries(int power, ItemStack stack)
         {
             ArrayList<EnchantmentLevelEntry> list = Lists.newArrayList();

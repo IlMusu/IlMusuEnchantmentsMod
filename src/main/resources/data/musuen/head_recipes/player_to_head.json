@@ -1,0 +1,6 @@
+{
+  "mob": "minecraft:player",
+  "head_items": [
+    "minecraft:player_head"
+  ]
+}
