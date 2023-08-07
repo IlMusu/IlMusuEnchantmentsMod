@@ -595,7 +595,7 @@ At level 2, the probability is 10.0%. <br />
 At level 3, the probability is 15.0%. <br />
 <br />
 <p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/guillotining?raw=true">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/guillotining.gif?raw=true">
 </p>
 </details>
 
