@@ -608,9 +608,9 @@ The <b>Scything Enchantment</b> makes the enchanted tool break crops in a square
 <details>
 <summary><b>Details here</b></summary>
 The side of the square increases with the level of the enchantment: <br />
-At level 1, the side is 3 blocks. <br />
-At level 2, the side is 5 blocks. <br />
-At level 3, the side is 7 blocks. <br />
+At level 1, the side of the square is 3 blocks. <br />
+At level 2, the side of the square is 5 blocks. <br />
+At level 3, the side of the square is 7 blocks. <br />
 <br />
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/scything.gif?raw=true">
