@@ -511,7 +511,7 @@ This enchantment <b>can be applied to</b>:
 1. Shield Item
 
 ## EVERLASTING ENCHANTMENT (I)
-The <b>Everlasting Enchantment</b>makes the enchanted item never despawn.
+The <b>Everlasting Enchantment</b> makes the enchanted item never despawn.
 
 <details>
 <summary><b>Details here</b></summary>
@@ -524,3 +524,41 @@ The everlasting enchantment makes an item never despawn but it is still possible
 
 This enchantment <b>can be applied to</b>:
 1. Any breakable item
+
+## DREAMLIKE ENCHANTMENT (III)
+The <b>Dreamlike Enchantment</b> decreases the probability of Phantoms spawning because of player insomnia.
+
+<details>
+<summary><b>Details here</b></summary>
+The insomnia amount decreases with the level of the enchantment. <br />
+At the maximum level, the reduction is total and the Phantoms cannot spawn: <br />
+At level 1, the insomnia reduction amount is 33.3%. <br />
+At level 2, the insomnia reduction amount is 66.6%. <br />
+At level 3, the insomnia reduction amount is 100.0%. <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/dreamlike.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Helmet item
+
+## GLUTTONY ENCHANTMENT (III)
+The <b>Gluttony Enchantment</b> makes the player automatically eat food from the inventory when hungry. When food is not available, it makes a stomach rumbling sound to inform the player.</br>
+
+<details>
+<summary><b>Details here</b></summary>
+When the level of the enchantment is not the maximum, the food amount obtained by the food item is reduced. <br />
+This means that is the food would give 10 food level, at the level 1, it will provide only 7 food level. <br />
+At level 1, the food amount obtained is 70.0%. <br />
+At level 2, the food amount obtained is 85.0%. <br />
+At level 3, the food amount obtained is 100.0%. <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/gluttony.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Helmet item
