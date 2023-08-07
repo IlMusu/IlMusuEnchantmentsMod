@@ -16,11 +16,13 @@ public class IlMusuEnchantments implements ModInitializer, ClientModInitializer,
 	public void onInitialize()
 	{
 		ModConfigurations.load();
+		ModCustomRecipes.register();
 		ModEnchantmentTargets.register();
 		ModEnchantments.register();
 		ModParticles.register();
 		ModSoundEvents.register();
 		ModMessages.ServerHandlers.register();
+		ModConfigurations.write();
 	}
 
 	@Override

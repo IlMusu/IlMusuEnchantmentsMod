@@ -16,10 +16,10 @@ import java.util.function.Function;
 
 public class RayStepper
 {
-    protected Vec3d start;
-    protected Vec3d direction;
-    protected float step;
-    protected float range;
+    protected final Vec3d start;
+    protected final Vec3d direction;
+    protected final float step;
+    protected final float range;
 
     protected  Vec3d position;
     protected float current;

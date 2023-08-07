@@ -15,30 +15,30 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public abstract class EntityWithPersistentNbt implements _IEntityPersistentNbt
 {
-    @Unique protected NbtCompound slot = new NbtCompound();
+    @Unique protected NbtCompound pnbt = new NbtCompound();
 
     @Override
     public NbtCompound getPNBT()
     {
-        return slot;
+        return pnbt;
     }
 
     @Override
     public void clone(_IEntityPersistentNbt other)
     {
-        this.slot = other.getPNBT();
+        this.pnbt = other.getPNBT();
     }
 
     @Inject(method = "writeNbt", at = @At("TAIL"))
     public void writePocketsDataToNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir)
     {
-        nbt.put(Resources.MOD_ID+".persistent_data", this.slot);
+        nbt.put(Resources.MOD_ID+".persistent_data", this.pnbt);
     }
 
     @Inject(method = "readNbt", at = @At("TAIL"))
     public void readPocketsDataFromNbt(NbtCompound nbt, CallbackInfo ci)
     {
-        this.slot = nbt.getCompound(Resources.MOD_ID+".persistent_data");
+        this.pnbt = nbt.getCompound(Resources.MOD_ID+".persistent_data");
     }
 
     static
