@@ -618,4 +618,4 @@ At level 3, the side is 7 blocks. <br />
 </details>
 
 This enchantment <b>can be applied to</b>:
-1. Sword item
+1. Hoe item
