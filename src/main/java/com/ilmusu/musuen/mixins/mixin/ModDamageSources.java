@@ -29,11 +29,13 @@ public abstract class ModDamageSources implements _IModDamageSources
         this.demonicDamage = this.create(ModDamageTypes.DEMONIC_DAMAGE);
     }
 
+    @Override
     public DamageSource demonicEnchanting()
     {
         return this.demonicEnchanting;
     }
 
+    @Override
     public DamageSource demonicDamage()
     {
         return this.demonicDamage;
