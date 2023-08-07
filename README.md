@@ -543,6 +543,21 @@ The everlasting enchantment makes an item never despawn but it is still possible
 This enchantment <b>can be applied to</b>:
 1. Any breakable item
 
+## ZERO GRAVITY ENCHANTMENT (I)
+The <b>Zero Gravity Enchantment</b> makes the shot projectiles have no gravity. </br>
+
+<details>
+<summary><b>Details here</b></summary>
+Since the shot projectile has no gravity, they fly in a straight line allowing for more accuracy. Notice that Minecraft adds a bit of randomized inaccuracy to the shot projectiles which is the reason why they might not land exactly where the player is looking at.
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/zero_gravity.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Hoe item
+
 ## DREAMLIKE ENCHANTMENT (III)
 The <b>Dreamlike Enchantment</b> decreases the probability of Phantoms spawning because of player insomnia: the insomnia reduction increases with the level of the enchantments and at the maximum level prevents completely the spawning of Phantoms.
 
