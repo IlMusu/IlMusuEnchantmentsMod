@@ -50,7 +50,7 @@
   "enchantment.musuen.gluttony" : "Gluttony",
   "enchantment.musuen.gluttony.desc": "Automatically eats food from the inventory. Makes a stomach rumbling sound if no food is available.",
   "enchantment.musuen.multi_arrow": "Multi Arrow",
-  "enchantment.musuen.multi_arrow.desc": "Makes the bow fire multiple arrows in the same shot. The player must have the other arrows in the inventory.",
+  "enchantment.musuen.multi_arrow.desc": "Makes the bow fire multiple arrows in the same shot. The player must have the additional arrows in the inventory.",
   "enchantment.musuen.guillotining": "Guillotining",
   "enchantment.musuen.guillotining.desc": "Adds a small probability of dropping the head of the killed mob.",
   "enchantment.musuen.scything": "Scything",

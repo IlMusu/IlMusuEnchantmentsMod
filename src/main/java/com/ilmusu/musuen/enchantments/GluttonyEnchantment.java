@@ -48,8 +48,7 @@ public class GluttonyEnchantment extends Enchantment
                 return;
 
             // To avoid useless checks at each tick, this is done at most every two second
-            int checkTicks = 40 + (ModEnchantments.GLUTTONY.getMaxLevel()-level) * 20*10;
-            if(player.age % checkTicks != 0)
+            if(player.age % 40 != 0)
                 return;
 
             // Getting food from the player inventory
@@ -65,14 +64,19 @@ public class GluttonyEnchantment extends Enchantment
             }
 
             // Getting the missing food
-            float missingFood = 20.0F - player.getHungerManager().getFoodLevel();
-            float restorableFood = stack.getItem().getFoodComponent().getHunger();
+            int foodLevel = player.getHungerManager().getFoodLevel();
+            int restorableFood = stack.getItem().getFoodComponent().getHunger();
             // Avoiding wasting too much food
-            if(missingFood < restorableFood*0.8)
+            if((20.0 - foodLevel) < restorableFood*0.8)
                 return;
 
             // Eating food if existing
             player.eatFood(player.getWorld(), stack);
+            // Inefficiency when the enchantment is not at max level
+            float inefficiencyAmount = new ModUtils.Linear(1, 0.7F, 3, 1.0F).of(level);
+            int newRestorableFood = Math.min((int)(restorableFood*inefficiencyAmount), 1);
+            int newFoodLevel = Math.min(foodLevel + newRestorableFood, 20);
+            player.getHungerManager().setFoodLevel(newFoodLevel);
         });
     }
 
