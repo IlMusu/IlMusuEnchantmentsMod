@@ -2,11 +2,8 @@ package com.ilmusu.musuen.registries;
 
 import com.ilmusu.musuen.Resources;
 import net.minecraft.entity.damage.DamageType;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
 
 public class ModDamageTypeTags
 {

@@ -16,18 +16,18 @@ This mod provides a configuration file for the enchantments located at the follo
 ## DEMONIC ENCHANTING
 The demonic enchanting mechanic can be triggered by placing <b>three skulls</b> (increasing the number of skulls increases the demonic enchantments probability), which might be both wither or normal skeleton skulls, around the enchanting table as shown in the following images. Only after the skulls are placed correctly, red glyph particles start to move from the skulls to the enchanting table.
 
-<p align="center">
-	<img width="80%" src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/skulls_positioning.png?raw=true">
+<p>
+	<img width="80%" src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/skulls_positioning.png?raw=true" alt="">
 	<br>
-	<img width="80%" src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/skulls_red_glyph.png?raw=true">
+	<img width="80%" src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/skulls_red_glyph.png?raw=true" alt="">
 </p>
 
 Then, you might discover <b><span style="color:purple">demonic enchantments</span></b> while enchanting items or books: 
 
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/demonic_enchanting_1.png?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/demonic_enchanting_1.png?raw=true" alt="">
 	<br>
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/demonic_enchanting_2.png?raw=true">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/demonic_enchanting_2.png?raw=true" alt="">
 </p>
 
 These enchantments require, not only experience levels and lapislazuli, but also a <b><span style="color:red">sacrifice</span></b> in health: around the Enchanting Table, in a radius of 7 blocks, there should be enough living entities to drawn the health requested by the enchantment. <br />
@@ -36,8 +36,8 @@ Notice that when there are not enough living entities around the enchanting tabl
 <br />
 If the health requirement is satisfied, you will obtain the <b><span style="color:purple">demonic enchantment</span></b>: <br />
 
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/book_with_demonic_enchantment.png?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/book_with_demonic_enchantment.png?raw=true" alt="">
 </p>
 
 ## LACERATION ENCHANTMENT (V)
@@ -53,8 +53,8 @@ At level 4, it consumes 21.25% of the max health and produces +12.7 additional d
 At level 5, it consumes 25.00% of the max health and produces +16.0 additional damage. <br />
 An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/laceration.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/laceration.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -79,8 +79,8 @@ At level 4, it consumes 21.25% of the max health and produces +12.7 additional d
 At level 5, it consumes 25.00% of the max health and produces +16.0 additional damage. <br />
 An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/skewering.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/skewering.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -103,8 +103,8 @@ At level 4, it consumes 8.75% of the max health, 8 attacks for full rage, and pr
 At level 5, it consumes 10.00% of the max health, 9 attacks for full rage, and produces +25.0 additional damage. <br />
 An important notice is that <b>this kills the player if he does not have enough health!</b> <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/berserker.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/berserker.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -129,8 +129,8 @@ At level 4, it consumes 27.5% of the max health and the tunnel will be of 3x3 bl
 At level 5, it consumes 30.0% of the max health and the tunnel will be of 5x5 blocks and 7 blocks depth. <br />
 An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/unearthing.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/unearthing.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -156,8 +156,8 @@ additional_damage = player_endured_damage*(0.3 + enchantment_level * 0.2)
 
 An important notice is that <b>this kills the player if he does not have enough health!</b>  <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/overcharged.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/overcharged.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -182,8 +182,8 @@ The <b><span style="color:purple">Phasing Enchantment</span></b> makes the playe
 When the ability is activated, the logic performs a raycasting in the direction the player is looking at and, if a wall is found, it tries to teleport the player behind that wall. Instead, if a wall is not found, the player is teleported in the direction he was looking at with a distance depending on the current level of the enchantment. <br />
 An important notice is that <b>this kills the player if he does not have enough health!</b> <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/phasing.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/phasing.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -201,8 +201,8 @@ At level 1, the probability is 5.0%. <br />
 At level 2, the probability is 10.0%. <br />
 At level 3, the probability is 15.0%. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/guillotining.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/guillotining.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -221,8 +221,8 @@ At level 3, the damage reduction is 0.75 hearts. <br />
 At level 4, the damage reduction is 1.00 hearts. <br />
 At level 5, the damage reduction is 1.25 hearts. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/demonction.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/demonction.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -243,8 +243,8 @@ At level 2, the reach distance is 5 blocks. <br />
 At level 3, the reach distance is 6 blocks. <br />
 At level 4, the reach distance is 7 blocks. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/reaching.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/reaching.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -268,8 +268,8 @@ At level 3, the pockets provide 12 slots. <br />
 At level 4, the pockets provide 16 slots. <br />
 At level 5, the pockets provide 24 slots. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/pocketed.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/pocketed.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -288,8 +288,8 @@ At level 3, the enchantment will break 46 additional blocks. <br />
 At level 4, the enchantment will break 74 additional blocks. <br />
 At level 5, the enchantment will break 110 additional blocks. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/vein_miner.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/vein_miner.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -312,8 +312,8 @@ At level 1, the attraction reach is 2 blocks. <br />
 At level 2, the attraction reach is 4 blocks. <br />
 At level 3, the attraction reach is 8 blocks. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/attraction.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/attraction.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -331,8 +331,8 @@ At level 1, the maximum speed is 1.7 m/s. <br />
 At level 2, the masimum speed is 2.4 m/s. <br />
 At level 3, the maximum speed is 3.1 m/s. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/meteority.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/meteority.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -354,8 +354,8 @@ The force of knockback increases with the level of the enchantment and the speed
 power = (level * 0.25) + min(3.0, player_speed * 1.4)
 ```
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/wingspan.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/wingspan.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -375,8 +375,8 @@ At level 3, the damage reduction is 4.5 half-hearts. <br />
 At level 4, the damage reduction is 6.0 half-hearts. <br />
 At level 5, the damage reduction completely cancels the damage. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/alighting.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/alighting.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -390,8 +390,8 @@ The <b>Telekinesis Enchantment</b> teleports the loot dropped by entities at the
 <summary><b>Details here</b></summary>
 The range of this enchantment is unlimited, which means that every drop will be teleported at the player position. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/telekinesis.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/telekinesis.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -412,8 +412,8 @@ At level 3, the player can perform 6 mid-air jumps. <br />
 At level 4, the player can perform 8 mid-air jumps. <br />
 At level 5, the player can perform 10 mid-air jumps. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/moon_jump.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/moon_jump.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -436,8 +436,8 @@ strength = level*0.2
 player_velocity.add(normal_jump_velocity * strength)  
 ```
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/long_jump.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/long_jump.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -459,8 +459,8 @@ At level 2, the player is attached to the arrow for 4 seconds. <br />
 At level 3, the player is attached to the arrow for 6 seconds. <br />
 At level 4, the player is attached to the arrow for 8 seconds. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/skyhook.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/skyhook.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -477,8 +477,8 @@ At level 1, the reflection force is 3 times the default one. <br />
 At level 2, the reflection force is 6 times the default one. <br />
 At level 3, the reflection force is 9 times the default one. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/reflection.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/reflection.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -499,8 +499,8 @@ damage = (1.0+level*0.7) [half-hearts]
 duration = (1+level) [seconds]
 ```
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/shockwave.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/shockwave.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -520,8 +520,8 @@ At level 3, the shield covers angles from -144° to +144° from the user's look 
 At level 4, the shield covers angles from -162° to +162° from the user's look direction. <br />
 At level 5, the shield covers angles from -180° to +180° from the user's look direction. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/coverage.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/coverage.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -535,8 +535,8 @@ The <b>Everlasting Enchantment</b> makes the enchanted item never despawn.
 <summary><b>Details here</b></summary>
 The everlasting enchantment makes an item never despawn but it is still possible that the item might be destroyed in other ways (lava). <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/everlasting.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/everlasting.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -550,8 +550,8 @@ The <b>Zero Gravity Enchantment</b> makes the shot projectiles have no gravity. 
 <summary><b>Details here</b></summary>
 Since the shot projectile has no gravity, they fly in a straight line allowing for more accuracy. Notice that Minecraft adds a bit of randomized inaccuracy to the shot projectiles which is the reason why they might not land exactly where the player is looking at. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/zero_gravity.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/zero_gravity.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -569,8 +569,8 @@ At level 1, the insomnia reduction amount is 33.3%. <br />
 At level 2, the insomnia reduction amount is 66.6%. <br />
 At level 3, the insomnia reduction amount is 100.0%. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/dreamlike.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/dreamlike.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -588,8 +588,8 @@ At level 1, the food amount obtained is 70.0%. <br />
 At level 2, the food amount obtained is 85.0%. <br />
 At level 3, the food amount obtained is 100.0%. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/gluttony.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/gluttony.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -608,8 +608,8 @@ At level 3, there are 3 additional arrows. <br />
 At level 4, there are 4 additional arrows. <br />
 At level 5, there are 5 additional arrows. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/multi_arrow.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/multi_arrow.gif?raw=true" alt="">
 </p>
 </details>
 
@@ -626,8 +626,8 @@ At level 1, the side of the square is 3 blocks. <br />
 At level 2, the side of the square is 5 blocks. <br />
 At level 3, the side of the square is 7 blocks. <br />
 <br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/scything.gif?raw=true">
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/scything.gif?raw=true" alt="">
 </p>
 </details>
 

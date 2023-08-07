@@ -7,6 +7,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -18,8 +19,8 @@ public abstract class DemonicEnchantingTableRenderingMixin
     @Mixin(EnchantmentScreen.class)
     public abstract static class HeartRequirementsRendering
     {
-        private int musuen$slot = 0;
-        private boolean musuen$isDemonicEnchantment = false;
+        @Unique private int slot = 0;
+        @Unique private boolean isDemonicEnchantment = false;
 
         @Inject(method = "drawBackground", at = @At(
                 value = "INVOKE",
@@ -28,7 +29,7 @@ public abstract class DemonicEnchantingTableRenderingMixin
         private void drawBackgroundEnchantmentPreHook(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
             // Resetting the slot count before entering the for-loop cycle
-            this.musuen$slot = -1;
+            this.slot = -1;
         }
 
         @Inject(method = "drawBackground", at = @At(
@@ -38,16 +39,16 @@ public abstract class DemonicEnchantingTableRenderingMixin
         private void drawBackgroundEnchantmentHook(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
             // Increasing the slot count, this is called at every iteration
-            this.musuen$slot += 1;
+            this.slot += 1;
             // Storing if the enchantment for slot is demonic so that this is done only once
-            this.musuen$isDemonicEnchantment = getDemonicScreenHandler().hasDemonicEnchantment(this.musuen$slot);
+            this.isDemonicEnchantment = getDemonicScreenHandler().hasDemonicEnchantment(this.slot);
         }
 
         @ModifyVariable(method = "drawBackground", ordinal = 10, at = @At(value = "STORE"))
         private int modifyHieroglyphLength(int size)
         {
             // Writing less letters for making space for the hearth cost
-            if(!this.musuen$isDemonicEnchantment)
+            if(!this.isDemonicEnchantment)
                 return size;
             return size-20;
         }
@@ -59,7 +60,7 @@ public abstract class DemonicEnchantingTableRenderingMixin
         private int modifyHieroglyphPosition(int x)
         {
             // Moving the letters for making space for the hearth cost
-            if(!this.musuen$isDemonicEnchantment)
+            if(!this.isDemonicEnchantment)
                 return x;
             return x+22;
         }
@@ -72,9 +73,9 @@ public abstract class DemonicEnchantingTableRenderingMixin
         ))
         private void addUnsaturatedHealthRequirementRendering(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
-            if(!this.musuen$isDemonicEnchantment)
+            if(!this.isDemonicEnchantment)
                 return;
-            drawHeartRequirement(matrices, this.musuen$slot, false);
+            drawHeartRequirement(matrices, this.slot, false);
         }
 
         @Inject(method = "drawBackground", at = @At(
@@ -85,11 +86,12 @@ public abstract class DemonicEnchantingTableRenderingMixin
         ))
         private void addSaturatedHealthRequirementRendering(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
         {
-            if(!this.musuen$isDemonicEnchantment)
+            if(!this.isDemonicEnchantment)
                 return;
-            drawHeartRequirement(matrices, this.musuen$slot, true);
+            drawHeartRequirement(matrices, this.slot, true);
         }
 
+        @Unique
         private void drawHeartRequirement(MatrixStack matrices, int slot, boolean saturated)
         {
             EnchantmentScreen self = (EnchantmentScreen)(Object)this;
@@ -101,6 +103,7 @@ public abstract class DemonicEnchantingTableRenderingMixin
             DrawableHelper.drawTexture(matrices, centerWidth+75, centerHeight+15 + 19*slot, 48+24*slot, offset, 24, 16);
         }
 
+        @Unique
         private _IDemonicEnchantmentScreenHandler getDemonicScreenHandler()
         {
             return ((_IDemonicEnchantmentScreenHandler)((EnchantmentScreen)(Object)this).getScreenHandler());

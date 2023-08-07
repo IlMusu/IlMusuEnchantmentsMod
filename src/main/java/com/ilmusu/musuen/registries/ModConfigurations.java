@@ -35,30 +35,30 @@ public class ModConfigurations
         // Loading the configuration for the mod from file
         MOD.load();
         MOD.setConfigIfAbsent(
-            ModConfig.DEMONIC_ENCHANTING_ENABLED, true,
-            "# The demonic enchanting is the mechanic that allows the enchanting table to take hearts from nearby\n" +
-            "# entities to provide demonic enchantments. Setting this flag as \"false\" disables this mechanic and\n" +
-            "# the demonic enchantments will be obtained thought the enchanting table as vanilla enchantments.",
+            ModConfig.DEMONIC_ENCHANTING_ENABLED, true, """
+            # The demonic enchanting is the mechanic that allows the enchanting table to take hearts from nearby
+            # entities to provide demonic enchantments. Setting this flag as "false" disables this mechanic and
+            # the demonic enchantments will be obtained thought the enchanting table as vanilla enchantments.""",
             Object::toString,
             Boolean::parseBoolean);
         MOD.setConfigIfAbsent(
-            ModConfig.VEIN_MINING_ENABLED_WHILE_SNEAKING, true,
-            "# Normally, the vein mining enchantment is always enabled. Setting this flag as \"false\" allows the vein\n" +
-            "# mining enchantment logic to be disabled when the player is sneaking and be active otherwise.",
+            ModConfig.VEIN_MINING_ENABLED_WHILE_SNEAKING, true, """
+            # Normally, the vein mining enchantment is always enabled. Setting this flag as "false" allows the vein
+            # mining enchantment logic to be disabled when the player is sneaking and be active otherwise.""",
             Object::toString,
             Boolean::parseBoolean);
         MOD.setConfigIfAbsent(
-            ModConfig.VEIN_MINING_HAS_WHITE_LIST, false,
-            "# Normally, the vein mining enchantment digs any block that suited for the enchanted tool. Setting this \n" +
-            "# flag as \"false\" makes the dig logic work only on the white list of blocks defined on the next config.",
+            ModConfig.VEIN_MINING_HAS_WHITE_LIST, false,"""
+            # Normally, the vein mining enchantment digs any block that suited for the enchanted tool. Setting this
+            # flag as "false" makes the dig logic work only on the white list of blocks defined on the next config.""",
             Object::toString,
             Boolean::parseBoolean);
         MOD.setConfigIfAbsent(
-            ModConfig.VEIN_MINING_WHITE_LIST, List.of(),
-            "# This is the white list of items that is allowed for the vein mining enchantment when the white list \n" +
-            "# is enabled. The blocks must be written inside the square brackets, separated by commas and with no \n" +
-            "# blank spaces: the blocks ids can be found in game using the F3+H \"Advanced Tooltips\" .\n" +
-            "# An example is the following: [minecraft:stone,minecraft:dirt,minecraft:coal_ore]",
+            ModConfig.VEIN_MINING_WHITE_LIST, List.of(), """
+            # This is the white list of items that is allowed for the vein mining enchantment when the white list
+            # is enabled. The blocks must be written inside the square brackets, separated by commas and with no
+            # blank spaces: the blocks ids can be found in game using the F3+H "Advanced Tooltips".
+            # An example is the following: [minecraft:stone,minecraft:dirt,minecraft:coal_ore]""",
             ModConfigurations::listOfIdentifiesToString,
             ModConfigurations::stringToListOfIdentifiers
         );
@@ -87,6 +87,7 @@ public class ModConfigurations
         return (boolean) MOD.getConfigValue(ModConfig.VEIN_MINING_HAS_WHITE_LIST);
     }
 
+    @SuppressWarnings("unchecked")
     public static boolean isBlockVeinMiningWhiteListed(BlockState state)
     {
         if(!isVeinMiningEnchantmentWhiteListed())
@@ -150,6 +151,7 @@ public class ModConfigurations
         return max;
     }
 
+    @SuppressWarnings("unchecked")
     public static String listOfIdentifiesToString(Object identifierList)
     {
         List<Identifier> identifiers = (List<Identifier>)identifierList;

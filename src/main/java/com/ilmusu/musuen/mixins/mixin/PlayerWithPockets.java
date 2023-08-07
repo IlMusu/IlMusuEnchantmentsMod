@@ -33,6 +33,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -45,48 +46,48 @@ import java.util.List;
 public abstract class PlayerWithPockets implements _IPlayerPockets
 {
     // The inventory containing the items in the pockets
-    private final SimpleInventory musuen$pockets = new SimpleInventory(20);
+    @Unique private final SimpleInventory pockets = new SimpleInventory(20);
     // The slots in the player inventory, they need to be stored because the indexes might change
-    private final List<PocketSlot> musuen$slots = new ArrayList<>(20);
+    @Unique private final List<PocketSlot> slots = new ArrayList<>(20);
 
     // If the pockets are currently open
-    private boolean musuen$arePocketsOpen = false;
+    @Unique private boolean arePocketsOpen = false;
     // The current level of the pockets, which changes the amount of available slots
-    private int musuen$pocketsLevel = 0;
+    @Unique private int pocketsLevel = 0;
 
     @Override
     public Inventory getPockets()
     {
-        return this.musuen$pockets;
+        return this.pockets;
     }
 
     @Override
     public boolean arePocketsOpen()
     {
-        return this.musuen$arePocketsOpen;
+        return this.arePocketsOpen;
     }
 
     @Override
     public int getPocketLevel()
     {
-        return this.musuen$pocketsLevel;
+        return this.pocketsLevel;
     }
 
     @Override
     public void updatePocketSlot(PocketSlot slot)
     {
-        this.musuen$slots.add(slot.id, slot);
+        this.slots.add(slot.id, slot);
     }
 
     @Override
     public void setPocketsOpen(boolean open)
     {
         // Storing the current state of the pockets
-        this.musuen$arePocketsOpen = open;
+        this.arePocketsOpen = open;
 
         // Setting the correct state for the pockets
-        for(int i = 0; i<this.musuen$pocketsLevel*4; ++i)
-            this.musuen$slots.get(i).arePocketsOpen = this.musuen$arePocketsOpen;
+        for(int i = 0; i<this.pocketsLevel *4; ++i)
+            this.slots.get(i).arePocketsOpen = this.arePocketsOpen;
 
         PlayerEntity player = (PlayerEntity)(Object)this;
         if(player.world.isClient)
@@ -97,26 +98,27 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     public void setPocketLevel(World world, int pocketLevel)
     {
         // Storing the current level of the pockets
-        this.musuen$pocketsLevel = pocketLevel;
+        this.pocketsLevel = pocketLevel;
 
         // Enabling all the slots up to the correct one
         for(int i=0; i<pocketLevel*4; ++i)
-            this.musuen$slots.get(i).enabled = true;
+            this.slots.get(i).enabled = true;
 
         // Disabling all the other slots
         for(int i=pocketLevel*4; i<20; ++i)
-            this.musuen$slots.get(i).enabled = false;
+            this.slots.get(i).enabled = false;
 
         if(!world.isClient)
         {
             // Dropping the stacks in the pockets if the number of slots is decreased
-            this.dropPocketsContents(this.musuen$pocketsLevel*4);
+            this.dropPocketsContents(this.pocketsLevel *4);
             // Syncing the client with the current level of the pockets
             ServerPlayerEntity player = (ServerPlayerEntity)(Object)this;
             new PocketsLevelMessage(player).sendToClient(player);
         }
     }
 
+    @Unique
     private void dropPocketsContents(int startIndex)
     {
         // Dropping the stacks in the pockets if the number of slots is decreased
@@ -137,8 +139,8 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     {
         for (int i = 0; i < this.getPockets().size(); ++i)
             this.getPockets().setStack(i, other.getPockets().getStack(i));
-        this.musuen$pocketsLevel = other.getPocketLevel();
-        this.musuen$arePocketsOpen = other.arePocketsOpen();
+        this.pocketsLevel = other.getPocketLevel();
+        this.arePocketsOpen = other.arePocketsOpen();
     }
 
     static
@@ -167,7 +169,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
                 continue;
 
             PlayerEntity player = (PlayerEntity)(Object)this;
-            PocketSlot slot = this.musuen$slots.get(i);
+            PocketSlot slot = this.slots.get(i);
             slot.getStack().inventoryTick(player.world, player, slot.getIndex(), false);
         }
     }
@@ -190,9 +192,9 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         }
         pockets.put("items", list);
         // Writing level
-        pockets.putInt("level", this.musuen$pocketsLevel);
+        pockets.putInt("level", this.pocketsLevel);
         // Writing state
-        pockets.putBoolean("open", this.musuen$arePocketsOpen);
+        pockets.putBoolean("open", this.arePocketsOpen);
 
         nbt.put(Resources.MOD_ID+".pockets", pockets);
     }
@@ -216,9 +218,9 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
                 this.getPockets().setStack(slot, itemStack);
             }
             // Reading level
-            this.musuen$pocketsLevel = pockets.getInt("level");
+            this.pocketsLevel = pockets.getInt("level");
             // Reading state
-            this.musuen$arePocketsOpen = pockets.getBoolean("open");
+            this.arePocketsOpen = pockets.getBoolean("open");
         }
     }
 
@@ -270,7 +272,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     {
         @Shadow @Final private RecipeBookWidget recipeBook;
 
-        private TexturedButtonWidget musuen$pocketsButton;
+        @Unique private TexturedButtonWidget pocketsButton;
 
         @Inject(method = "init", at = @At(
                 value = "INVOKE",
@@ -281,14 +283,13 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         {
             _IPlayerPockets pockets = ((_IPlayerPockets)MinecraftClient.getInstance().player);
 
-            this.musuen$pocketsButton = new TexturedButtonWidget(0,0,20,18,0,0,19, Resources.POCKETS_BUTTON_TEXTURE, button ->
-                    pockets.setPocketsOpen(!pockets.arePocketsOpen())
-            );
+            this.pocketsButton = new TexturedButtonWidget(0,0,20,18,0,0,19,
+                    Resources.POCKETS_BUTTON_TEXTURE, button -> pockets.setPocketsOpen(!pockets.arePocketsOpen()));
             this.updatePocketsButtonPos();
 
-            ((AccessorScreen)this).getDrawables().add(this.musuen$pocketsButton);
-            ((AccessorScreen)this).getChildren().add(this.musuen$pocketsButton);
-            ((AccessorScreen)this).getSelectables().add(this.musuen$pocketsButton);
+            ((AccessorScreen)this).getDrawables().add(this.pocketsButton);
+            ((AccessorScreen)this).getChildren().add(this.pocketsButton);
+            ((AccessorScreen)this).getSelectables().add(this.pocketsButton);
         }
 
         @Inject(method = "drawBackground", at = @At("TAIL"))
@@ -296,9 +297,9 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         {
             // Disabling the pockets button if the pockets are not open
             _IPlayerPockets pockets = ((_IPlayerPockets)MinecraftClient.getInstance().player);
-            if(this.musuen$pocketsButton != null)
+            if(this.pocketsButton != null)
             {
-                this.musuen$pocketsButton.visible = pockets.getPocketLevel() > 0;
+                this.pocketsButton.visible = pockets.getPocketLevel() > 0;
                 this.updatePocketsButtonPos();
             }
 
@@ -315,12 +316,13 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         }
 
 
+        @Unique
         @SuppressWarnings("unchecked")
         public void updatePocketsButtonPos()
         {
             int x = ((AccessorHandledScreen<PlayerScreenHandler>)this).getX();
             int height = ((AccessorScreen)this).getHeight();
-            this.musuen$pocketsButton.setPosition(x+126, height/2-22);
+            this.pocketsButton.setPosition(x+126, height/2-22);
         }
 
         @Inject(method = "isClickOutsideBounds", at = @At("HEAD"), cancellable = true)
@@ -347,6 +349,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
             }));
         }
 
+        @Unique
         private void renderPockets(MatrixStack matrices, int level, boolean left)
         {
             AccessorHandledScreen<?> accessor = (AccessorHandledScreen<?>)this;
