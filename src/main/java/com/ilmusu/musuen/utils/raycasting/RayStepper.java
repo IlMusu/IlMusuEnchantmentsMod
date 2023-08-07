@@ -114,7 +114,7 @@ public class RayStepper
         List<Entity> list = world.getNonSpectatingEntities(Entity.class, aabb);
         list.removeIf((entity) -> !filter.apply(entity));
 
-        if(list.size() == 0)
+        if(list.isEmpty())
             return null;
 
         return new EntityHitResult(list.get(0), this.position);

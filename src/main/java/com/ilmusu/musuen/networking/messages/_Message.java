@@ -45,7 +45,7 @@ public abstract class _Message
 				message.handle(player);
 			});
 		}
-		catch (InstantiationException | IllegalAccessException | InvocationTargetException |NoSuchMethodException e)
+		catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e)
 		{
 			e.printStackTrace();
 		}

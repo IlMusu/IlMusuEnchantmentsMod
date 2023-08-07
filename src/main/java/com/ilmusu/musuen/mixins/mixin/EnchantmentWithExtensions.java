@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityGroup;
 import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.mutable.MutableFloat;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -17,12 +18,12 @@ public abstract class EnchantmentWithExtensions
     @Mixin(EnchantmentHelper.class)
     public static abstract class EnchantmentHelperModifications
     {
-        private static ItemStack musuen$stack;
+        @Unique private static ItemStack stack;
 
         @Inject(method = "getAttackDamage", at = @At("HEAD"))
         private static void addStackDependantDamageHook(ItemStack stack, EntityGroup group, CallbackInfoReturnable<Float> cir)
         {
-            EnchantmentHelperModifications.musuen$stack = stack;
+            EnchantmentHelperModifications.stack = stack;
         }
 
         @Inject(method = "method_8208", at = @At(
@@ -33,8 +34,8 @@ public abstract class EnchantmentWithExtensions
         private static void addStackDependantDamage(MutableFloat mutableFloat, EntityGroup entityGroup,
                                                     Enchantment enchantment, int level, CallbackInfo ci)
         {
-            ItemStack stack = EnchantmentHelperModifications.musuen$stack;
-            EnchantmentHelperModifications.musuen$stack = null;
+            ItemStack stack = EnchantmentHelperModifications.stack;
+            EnchantmentHelperModifications.stack = null;
 
             // The stack should not be null to add stack dependant damage
             if(stack == null || !(enchantment instanceof _IEnchantmentExtensions enchantmentExt))

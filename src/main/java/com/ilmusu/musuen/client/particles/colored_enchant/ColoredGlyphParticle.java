@@ -20,12 +20,6 @@ public class ColoredGlyphParticle extends EnchantGlyphParticle
 		this.alpha = options.getAlpha();
 	}
 
-	@Override
-	public ParticleTextureSheet getType()
-	{
-		return ParticleTextureSheet.PARTICLE_SHEET_OPAQUE;
-	}
-
 	public static class Factory implements ParticleFactory<ColoredGlyphParticleEffect>
 	{
 		private final SpriteProvider sprites;

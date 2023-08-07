@@ -13,6 +13,15 @@ public class EnumExtensionEnchantmentTarget
         }
     }
 
+    public static class ArrowShooter extends EnchantmentTargetExtensible
+    {
+        @Override
+        public boolean isAcceptableItem(Item item)
+        {
+            return item instanceof BowItem || item instanceof CrossbowItem;
+        }
+    }
+
     public static class Elytra extends EnchantmentTargetExtensible
     {
         @Override
@@ -37,6 +46,15 @@ public class EnumExtensionEnchantmentTarget
         public boolean isAcceptableItem(Item item)
         {
             return item instanceof ShieldItem;
+        }
+    }
+
+    public static class Hoe extends EnchantmentTargetExtensible
+    {
+        @Override
+        public boolean isAcceptableItem(Item item)
+        {
+            return item instanceof HoeItem;
         }
     }
 }

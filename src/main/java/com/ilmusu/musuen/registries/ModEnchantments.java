@@ -6,14 +6,8 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ModEnchantments
 {
-    private static final Map<Enchantment, Integer> MIN_LEVELS = new HashMap<>();
-    private static final Map<Enchantment, Integer> MAX_LEVELS = new HashMap<>();
-
     public static final Enchantment LACERATION = new LacerationEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment SKEWERING = new SkeweringEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment UNEARTHING = new UnearthingEnchantment(Enchantment.Rarity.RARE);
@@ -36,6 +30,12 @@ public class ModEnchantments
     public static final Enchantment SHOCKWAVE = new ShockwaveEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment COVERAGE = new CoverageEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment EVERLASTING = new EverlastingEnchantment(Enchantment.Rarity.UNCOMMON);
+    public static final Enchantment ZERO_GRAVITY = new ZeroGravityEnchantment(Enchantment.Rarity.UNCOMMON);
+    public static final Enchantment DREAMLIKE = new DreamlikeEnchantment(Enchantment.Rarity.RARE);
+    public static final Enchantment GLUTTONY = new GluttonyEnchantment(Enchantment.Rarity.VERY_RARE);
+    public static final Enchantment MULTI_ARROW = new MultiArrowEnchantment(Enchantment.Rarity.VERY_RARE);
+    public static final Enchantment GUILLOTINING = new GuillotiningEnchantment(Enchantment.Rarity.VERY_RARE);
+    public static final Enchantment SCYTHING = new ScythingEnchantment(Enchantment.Rarity.RARE);
 
     public static void register()
     {
@@ -61,63 +61,22 @@ public class ModEnchantments
         registerEnchantmentIfEnabled("shockwave", SHOCKWAVE);
         registerEnchantmentIfEnabled("coverage", COVERAGE);
         registerEnchantmentIfEnabled("everlasting", EVERLASTING);
+        registerEnchantmentIfEnabled("zero_gravity", ZERO_GRAVITY);
+        registerEnchantmentIfEnabled("dreamlike", DREAMLIKE);
+        registerEnchantmentIfEnabled("gluttony", GLUTTONY);
+        registerEnchantmentIfEnabled("multi_arrow", MULTI_ARROW);
+        registerEnchantmentIfEnabled("guillotining", GUILLOTINING);
+        registerEnchantmentIfEnabled("scything", SCYTHING);
     }
 
     public static void registerEnchantmentIfEnabled(String name, Enchantment enchantment)
     {
-        String enabledKey = getEnchantmentConfigKey(name, ModConfigurations.EnchantmentsConfig.ENABLED);
-        if(Boolean.parseBoolean(ModConfigurations.ENCHANTMENTS.getOrSet(enabledKey, true)))
-        {
-            Registry.register(Registries.ENCHANTMENT, Resources.identifier(name), enchantment);
-            enchantment.getMinLevel();
-            enchantment.getMaxLevel();
-        }
-    }
+        if(!ModConfigurations.isEnchantmentEnabled(name))
+            return;
 
-    public static int getMinLevel(Enchantment enchantment, int min)
-    {
-        if(MIN_LEVELS.containsKey(enchantment))
-            return MIN_LEVELS.get(enchantment);
-
-        String name = Registries.ENCHANTMENT.getId(enchantment).getPath();
-        String key = getEnchantmentConfigKey(name, ModConfigurations.EnchantmentsConfig.MIN_LEVEL);
-        String level = ModConfigurations.ENCHANTMENTS.getOrSet(key, min);
-
-        try {
-            min = Math.max(1, Integer.parseInt(level));
-        }
-        catch (NumberFormatException exception) {
-            Resources.LOGGER.error("Could not read minimum level for "+name+" enchantment! Defaulting to "+min+"!");
-        }
-
-        MIN_LEVELS.put(enchantment, min);
-        ModConfigurations.ENCHANTMENTS.set(key, min);
-        return min;
-    }
-
-    public static int getMaxLevel(Enchantment enchantment, int max)
-    {
-        if(MAX_LEVELS.containsKey(enchantment))
-            return MAX_LEVELS.get(enchantment);
-
-        String name = Registries.ENCHANTMENT.getId(enchantment).getPath();
-        String key = getEnchantmentConfigKey(name, ModConfigurations.EnchantmentsConfig.MAX_LEVEL);
-        String level = ModConfigurations.ENCHANTMENTS.getOrSet(key, max);
-
-        try {
-            max = Math.min(Integer.parseInt(level), 255);
-        }
-        catch (NumberFormatException exception) {
-            Resources.LOGGER.error("Could not read maximum level for "+name+" enchantment! Defaulting to "+max+"!");
-        }
-
-        MAX_LEVELS.put(enchantment, max);
-        ModConfigurations.ENCHANTMENTS.set(key, max);
-        return max;
-    }
-
-    private static String getEnchantmentConfigKey(String name, String config)
-    {
-        return name+"."+config.toLowerCase();
+        // Registering the enchantment and forcing the registration of the levels
+        Registry.register(Registries.ENCHANTMENT, Resources.identifier(name), enchantment);
+        enchantment.getMinLevel();
+        enchantment.getMaxLevel();
     }
 }

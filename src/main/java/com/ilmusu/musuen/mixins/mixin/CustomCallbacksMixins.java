@@ -21,6 +21,7 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.*;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.EntityHitResult;
@@ -28,9 +29,12 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.spawner.PhantomSpawner;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -262,7 +266,8 @@ public abstract class CustomCallbacksMixins
         @Shadow private int jumpingCooldown;
 
         @Shadow protected boolean jumping;
-        private static boolean musuen$shieldTriedToBlock;
+
+        @Unique private static boolean musuen$shieldTriedToBlock;
 
         @Inject(method = "travel", at = @At(
                 value = "INVOKE",
@@ -356,6 +361,34 @@ public abstract class CustomCallbacksMixins
             if (vec3d3.dotProduct(vec3d2) < angle)
                 cir.setReturnValue(true);
         }
+
+        @Inject(method = "dropEquipment", at = @At("HEAD"))
+        private void onDroppingEquipment(DamageSource source, int lootingMultiplier, boolean allowDrops, CallbackInfo ci)
+        {
+            LivingEntity dropper = (LivingEntity)(Object)this;
+            EntityEquipmentDropCallback.EVENT.invoker().handler(dropper, source, lootingMultiplier, allowDrops);
+        }
+    }
+
+    @Debug(export = true)
+    @Mixin(PhantomSpawner.class)
+    public abstract static class PhantomSpawnerCallbacks
+    {
+        @Unique private static ServerPlayerEntity player;
+
+        @ModifyVariable(method = "spawn", at = @At(value = "LOAD", ordinal = 0))
+        private PlayerEntity beforeSpawningPhantom(PlayerEntity player)
+        {
+            PhantomSpawnerCallbacks.player = (ServerPlayerEntity) player;
+            return player;
+        }
+
+
+        @ModifyVariable(method = "spawn", ordinal = 1, at = @At(value = "STORE"))
+        private int beforeSpawningPhantom(int insomniaAmount)
+        {
+            return PlayerPhantomSpawnCallback.BEFORE.invoker().handler(PhantomSpawnerCallbacks.player, insomniaAmount);
+        }
     }
 
     @Mixin(Entity.class)
@@ -370,7 +403,7 @@ public abstract class CustomCallbacksMixins
         {
             DamageSource source = ((_IEntityDeathSource)this).getDeathDamageSource();
             Entity entity = (Entity)(Object)this;
-            boolean shouldDrop = EntityDropCallback.EVENT.invoker().handler(entity, item, source);
+            boolean shouldDrop = EntityItemDropCallback.BEFORE.invoker().handler(entity, item, source);
             if(!shouldDrop)
                 cir.setReturnValue(null);
         }
@@ -414,6 +447,7 @@ public abstract class CustomCallbacksMixins
                     this.offHand = newOffHand;
         }
 
+        @Unique
         private static boolean shouldPreventNbtChangeAnimation(ItemStack prevStack, ItemStack newStack)
         {
             return  (newStack.hasNbt() && newStack.getNbt().getBoolean(Resources.DONT_ANIMATE_TAG)) ||
@@ -441,7 +475,7 @@ public abstract class CustomCallbacksMixins
     {
         @Shadow private float fovMultiplier;
         @Shadow private float lastFovMultiplier;
-        private static PlayerFovMultiplierCallback.FovParams musuen$fovParams;
+        @Unique private static PlayerFovMultiplierCallback.FovParams musuen$fovParams;
 
         @ModifyVariable(method = "updateFovMultiplier", index = 1, at = @At(value = "STORE", ordinal = 1))
         private float afterGettingCameraFovMultiplier(float multiplier)
