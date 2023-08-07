@@ -30,18 +30,18 @@ Then, you might discover <b><span style="color:purple">demonic enchantments</spa
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/demonic_enchanting_2.png?raw=true">
 </p>
 
-These enchantments require, not only experience levels and lapislazuli, but also a <b><span style="color:red">sacrifice</span></b> in health: around the Enchanting Table, in a radius of 7 blocks, there should be enough living entities to drawn the health requested by the enchantment.  
-For example in the second image, 40 hearts needs to be consumed and a sheep has only 4 hearts, this means that 10 sheep are necessary to apply the <b><span style="color:purple">demonic enchantment</span></b> on the item.  
-Notice that when there are not enough living entities around the enchanting table, <b>the health is drawn from the player</b> who might also get killed!  
-  
-If the health requirement is satisfied, you will obtain the <b><span style="color:purple">demonic enchantment</span></b>:  
+These enchantments require, not only experience levels and lapislazuli, but also a <b><span style="color:red">sacrifice</span></b> in health: around the Enchanting Table, in a radius of 7 blocks, there should be enough living entities to drawn the health requested by the enchantment. <br />
+For example in the second image, 40 hearts needs to be consumed and a sheep has only 4 hearts, this means that 10 sheep are necessary to apply the <b><span style="color:purple">demonic enchantment</span></b> on the item. <br />
+Notice that when there are not enough living entities around the enchanting table, <b>the health is drawn from the player</b> who might also get killed! <br />
+<br />
+If the health requirement is satisfied, you will obtain the <b><span style="color:purple">demonic enchantment</span></b>: <br />
 
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/book_with_demonic_enchantment.png?raw=true">
 </p>
 
 ## LACERATION ENCHANTMENT (V)
-The <b><span style="color:purple">Laceration Enchantment</span></b> provides additional damage for weapon tools. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level, it provides +16.0 additional damage and consumes 25% of the player maximum health.  
+The <b><span style="color:purple">Laceration Enchantment</span></b> provides additional damage for weapon tools. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level, it provides +16.0 additional damage and consumes 25% of the player maximum health. <br />
 
 <details>
 <summary><b>Details here</b></summary>
@@ -67,11 +67,11 @@ This enchantment <b>is not compatible</b> with:
 2. Berserker Enchantment
 
 ## SKEWERING ENCHANTMENT (V)
-The <b><span style="color:purple">Skewering Enchantment</span></b> provides additional damage for the trident both in the case of melee attack and ranged attack. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level, it provides +16.0 additional damage and consumes 25% of the player maximum health.  
+The <b><span style="color:purple">Skewering Enchantment</span></b> provides additional damage for the trident both in the case of melee attack and ranged attack. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level, it provides +16.0 additional damage and consumes 25% of the player maximum health. <br />
 
 <details>
 <summary><b>Details here</b></summary>
-This enchantment produces more damage the more the health it can consume from the player: <br />
+This enchantment produces more damage the more health it can consume from the player: <br />
 At level 1, it consumes 10.00% of the max health and produces +4.6 additional damage. <br />
 At level 2, it consumes 13.75% of the max health and produces +7.0 additional damage.  <br />
 At level 3, it consumes 17.50% of the max health and produces +9.7 additional damage. <br />
@@ -117,11 +117,11 @@ This enchantment <b>is not compatible</b> with:
 2. Laceration Enchantment
 
 ## UNEARTHING ENCHANTMENT (V)
-The <b><span style="color:purple">Unearthing Enchantment</span></b> makes a digger tool dig tunnels with depth and area depending on the level of the enchantments. Since it is a demonic enchantment, digging with an item containing this enchantment <b>damages also the player</b>: the tunnel will be complete only if the player has enough life.  
+The <b><span style="color:purple">Unearthing Enchantment</span></b> makes a digger tool dig tunnels with depth and area depending on the level of the enchantments. Since it is a demonic enchantment, digging with an item containing this enchantment <b>damages also the player</b>: the tunnel will be complete only if the player has enough life. <br />
 
 <details>
 <summary><b>Details here</b></summary>
-This enchantment creates a bigger tunnel the more health it can consume from the player: 
+This enchantment creates a bigger tunnel the more health it can consume from the player: <br />
 At level 1, it consumes 20.0% of the max health and the tunnel will be of 3x3 blocks and 1 blocks depth. <br />
 At level 2, it consumes 22.5% of the max health and the tunnel will be of 3x3 blocks and 3 blocks depth. <br />
 At level 3, it consumes 25.0% of the max health and the tunnel will be of 3x3 blocks and 4 blocks depth. <br />
@@ -144,7 +144,7 @@ This enchantment <b>is not compatible</b> with:
 1. Veinminer Enchantment
 
 ## OVERCHARGED ENCHANTMENT (V)
-The <b><span style="color:purple">Overcharged Enchantment</span></b> makes the chargeable items to be overchargable and perform additional damage. Since it is a demonic enchantment, overcharging an item containing this enchantment <b>damages also the player</b>: after the item is normally charged, the player starts to take damage every 0.5 seconds and the projectile makes additional damage depending on the total health absorbed by the player.
+The <b><span style="color:purple">Overcharged Enchantment</span></b> makes the chargeable items to be overchargable and perform additional damage. Since it is a demonic enchantment, overcharging an item containing this enchantment <b>damages also the player</b>: after the item is normally charged, the player starts to take damage every 0.5 seconds and the projectile makes additional damage depending on the total health absorbed by the player. <br />
 
 <details>
 <summary><b>Details here</b></summary>
@@ -174,14 +174,13 @@ This enchantment <b>is not compatible</b> with:
 5. Damage Enchantments
 
 ## PHASING ENCHANTMENT (V)
-The <b><span style="color:purple">Phasing Enchantment</span></b> makes the player able to teleport: it provides the ability of both teleporting where the player is looking at and teleporting behind walls.  Since it is a demonic enchantment, activating this ability <b>damages also the player</b>.  
-<b>The phasing enchantment ability is activated through the related keybinding.</b>  
+The <b><span style="color:purple">Phasing Enchantment</span></b> makes the player able to teleport: it provides the ability of both teleporting where the player is looking at and teleporting behind walls. Since it is a demonic enchantment, activating this ability <b>damages also the player</b>. <br />
+<b>The phasing enchantment ability is activated through the related keybinding.</b> <br />
 
 <details>
 <summary><b>Details here</b></summary>
-When the ability is activated, the logic performs a raycasting in the direction the player is looking at and, if a wall is found, it tries to teleport the player behind that wall. Instead, if a wall is not found, the player is teleported in the direction he was looking at with a distance depending on the current level of the enchantment.
-
-An important notice is that <b>this kills the player if he does not have enough health!</b>  <br />
+When the ability is activated, the logic performs a raycasting in the direction the player is looking at and, if a wall is found, it tries to teleport the player behind that wall. Instead, if a wall is not found, the player is teleported in the direction he was looking at with a distance depending on the current level of the enchantment. <br />
+An important notice is that <b>this kills the player if he does not have enough health!</b> <br />
 <br />
 <p align="center">
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/phasing.gif?raw=true">
@@ -190,6 +189,25 @@ An important notice is that <b>this kills the player if he does not have enough 
 
 This enchantment <b>can be applied to</b>:
 1. Leggings Item
+
+## GUILLOTINING ENCHANTMENT (III)
+The <b><span style="color:purple">Guillotining Enchantment</span></b> adds a small probability of dropping a head when killing a mob or a player. Since it is a demonic enchantment, when a mob head is dropped, this enchantment <b>damages the player</b>. </br>
+It is possible to add a custom head for a mob using data packs. Examples can be found [here](https://github.com/IlMusu/IlMusuEnchantmentsMod/tree/fabric_1.20.1/src/main/resources/data/musuen/head_recipes). </br>
+
+<details>
+<summary><b>Details here</b></summary>
+The probability of dropping a head increases with the level of the enchantment: <br />
+At level 1, the probability is 5.0%. <br />
+At level 2, the probability is 10.0%. <br />
+At level 3, the probability is 15.0%. <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/guillotining.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Sword item
 
 ## DEMONCTION ENCHANTMENT (V)
 The <b>Demonction Enchantment</b> is the only enchantment that is able to protect the user against demonic damage: this applies only to the demonic damage inflicted by the enchantments and not by demonic enchanting.
@@ -582,25 +600,6 @@ At level 5, there are 5 additional arrows. <br />
 
 This enchantment <b>can be applied to</b>:
 1. Bow item
-
-## GUILLOTINING ENCHANTMENT (III)
-The <b>Guillotining Enchantment</b> adds a small probability of dropping a head when killing a mob or a player. </br>
-It is possible to add a custom head for a mob using data packs. Examples can be found [here](https://github.com/IlMusu/IlMusuEnchantmentsMod/tree/fabric_1.20.1/src/main/resources/data/musuen/head_recipes). </br>
-
-<details>
-<summary><b>Details here</b></summary>
-The probability of dropping a head increases with the level of the enchantment: <br />
-At level 1, the probability is 5.0%. <br />
-At level 2, the probability is 10.0%. <br />
-At level 3, the probability is 15.0%. <br />
-<br />
-<p align="center">
-	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/guillotining.gif?raw=true">
-</p>
-</details>
-
-This enchantment <b>can be applied to</b>:
-1. Sword item
 
 ## SCYTHING ENCHANTMENT (III)
 The <b>Scything Enchantment</b> makes the enchanted tool break crops in a square: the side of the square increases with the level of the enchantment. </br>
