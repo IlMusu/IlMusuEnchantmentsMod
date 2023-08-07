@@ -1,0 +1,6 @@
+{
+  "mob": "minecraft:zombie",
+  "head_items": [
+    "minecraft:zombie_head"
+  ]
+}

@@ -7,12 +7,12 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
 import org.jetbrains.annotations.Nullable;
 
-public interface EntityDropCallback
+public interface EntityItemDropCallback
 {
-    Event<EntityDropCallback> EVENT = EventFactory.createArrayBacked(EntityDropCallback.class,
+    Event<EntityItemDropCallback> BEFORE = EventFactory.createArrayBacked(EntityItemDropCallback.class,
             (listeners) -> (entity, item, source) ->
             {
-                for (EntityDropCallback listener : listeners)
+                for (EntityItemDropCallback listener : listeners)
                     if(!listener.handler(entity, item, source))
                         return false;
                 return true;

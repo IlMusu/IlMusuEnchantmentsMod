@@ -1,6 +1,7 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.ProjectileReflectionCallback;
+import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import net.minecraft.enchantment.Enchantment;
@@ -18,13 +19,13 @@ public class ReflectionEnchantment extends Enchantment implements _IEnchantmentE
     @Override
     public int getMinLevel()
     {
-        return ModEnchantments.getMinLevel(this, 1);
+        return ModConfigurations.getEnchantmentMinLevel(this, 1);
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModEnchantments.getMaxLevel(this, 3);
+        return ModConfigurations.getEnchantmentMaxLevel(this, 3);
     }
 
     static

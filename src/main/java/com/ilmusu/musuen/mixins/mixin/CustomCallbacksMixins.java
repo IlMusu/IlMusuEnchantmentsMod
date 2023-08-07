@@ -21,6 +21,7 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.*;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.EntityHitResult;
@@ -28,9 +29,12 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.spawner.PhantomSpawner;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -260,9 +264,9 @@ public abstract class CustomCallbacksMixins
         @Shadow protected abstract void jump();
 
         @Shadow private int jumpingCooldown;
-
         @Shadow protected boolean jumping;
-        private static boolean musuen$shieldTriedToBlock;
+
+        @Unique private static boolean shieldTriedToBlock;
 
         @Inject(method = "travel", at = @At(
                 value = "INVOKE",
@@ -330,20 +334,20 @@ public abstract class CustomCallbacksMixins
         @Inject(method = "blockedByShield", at = @At(value = "HEAD"))
         private void afterShieldFailedToBlockResetHook(DamageSource source, CallbackInfoReturnable<Boolean> cir)
         {
-            LivingEntityCallbacks.musuen$shieldTriedToBlock = false;
+            LivingEntityCallbacks.shieldTriedToBlock = false;
         }
 
         @Inject(method = "blockedByShield", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;dotProduct(Lnet/minecraft/util/math/Vec3d;)D"))
         private void afterShieldFailedToBlockSetHook(DamageSource source, CallbackInfoReturnable<Boolean> cir)
         {
-            LivingEntityCallbacks.musuen$shieldTriedToBlock = true;
+            LivingEntityCallbacks.shieldTriedToBlock = true;
         }
 
         @Inject(method = "blockedByShield", at = @At("TAIL"), cancellable = true)
         private void afterShieldFailedToBlock(DamageSource source, CallbackInfoReturnable<Boolean> cir)
         {
             // Check if the shield tried to block the projectile but failed because of angle
-            if(!LivingEntityCallbacks.musuen$shieldTriedToBlock)
+            if(!LivingEntityCallbacks.shieldTriedToBlock)
                 return;
 
             LivingEntity user = (LivingEntity)(Object)this;
@@ -355,6 +359,34 @@ public abstract class CustomCallbacksMixins
             double angle = ShieldCoverageAngleCallback.BEFORE.invoker().handler(user, user.getActiveItem(), source);
             if (vec3d3.dotProduct(vec3d2) < angle)
                 cir.setReturnValue(true);
+        }
+
+        @Inject(method = "dropEquipment", at = @At("HEAD"))
+        private void onDroppingEquipment(DamageSource source, int lootingMultiplier, boolean allowDrops, CallbackInfo ci)
+        {
+            LivingEntity dropper = (LivingEntity)(Object)this;
+            EntityEquipmentDropCallback.EVENT.invoker().handler(dropper, source, lootingMultiplier, allowDrops);
+        }
+    }
+
+    @Debug(export = true)
+    @Mixin(PhantomSpawner.class)
+    public abstract static class PhantomSpawnerCallbacks
+    {
+        @Unique private static ServerPlayerEntity player;
+
+        @ModifyVariable(method = "spawn", at = @At(value = "LOAD", ordinal = 0))
+        private PlayerEntity beforeSpawningPhantom(PlayerEntity player)
+        {
+            PhantomSpawnerCallbacks.player = (ServerPlayerEntity) player;
+            return player;
+        }
+
+
+        @ModifyVariable(method = "spawn", ordinal = 1, at = @At(value = "STORE"))
+        private int beforeSpawningPhantom(int insomniaAmount)
+        {
+            return PlayerPhantomSpawnCallback.BEFORE.invoker().handler(PhantomSpawnerCallbacks.player, insomniaAmount);
         }
     }
 
@@ -370,7 +402,7 @@ public abstract class CustomCallbacksMixins
         {
             DamageSource source = ((_IEntityDeathSource)this).getDeathDamageSource();
             Entity entity = (Entity)(Object)this;
-            boolean shouldDrop = EntityDropCallback.EVENT.invoker().handler(entity, item, source);
+            boolean shouldDrop = EntityItemDropCallback.BEFORE.invoker().handler(entity, item, source);
             if(!shouldDrop)
                 cir.setReturnValue(null);
         }
@@ -414,6 +446,7 @@ public abstract class CustomCallbacksMixins
                     this.offHand = newOffHand;
         }
 
+        @Unique
         private static boolean shouldPreventNbtChangeAnimation(ItemStack prevStack, ItemStack newStack)
         {
             return  (newStack.hasNbt() && newStack.getNbt().getBoolean(Resources.DONT_ANIMATE_TAG)) ||
@@ -441,18 +474,18 @@ public abstract class CustomCallbacksMixins
     {
         @Shadow private float fovMultiplier;
         @Shadow private float lastFovMultiplier;
-        private static PlayerFovMultiplierCallback.FovParams musuen$fovParams;
+        @Unique private static PlayerFovMultiplierCallback.FovParams fovParams;
 
         @ModifyVariable(method = "updateFovMultiplier", index = 1, at = @At(value = "STORE", ordinal = 1))
         private float afterGettingCameraFovMultiplier(float multiplier)
         {
             PlayerEntity player = MinecraftClient.getInstance().player;
-            musuen$fovParams = PlayerFovMultiplierCallback.AFTER.invoker().handler(player);
+            fovParams = PlayerFovMultiplierCallback.AFTER.invoker().handler(player);
 
-            if(musuen$fovParams.shouldNotChange())
+            if(fovParams.shouldNotChange())
                 return multiplier;
 
-            return multiplier * musuen$fovParams.getAdditionalMultiplier();
+            return multiplier * fovParams.getAdditionalMultiplier();
         }
 
         @Inject(method = "updateFovMultiplier", at = @At(
@@ -463,11 +496,11 @@ public abstract class CustomCallbacksMixins
         ))
         private void modifyUpdateSpeed(CallbackInfo ci)
         {
-            if(musuen$fovParams.shouldNotChange())
+            if(fovParams.shouldNotChange())
                 return;
 
             float delta = (this.fovMultiplier - this.lastFovMultiplier) * 2;
-            float deltaSpeed = (musuen$fovParams.getUpdateVelocity() - 0.5F);
+            float deltaSpeed = (fovParams.getUpdateVelocity() - 0.5F);
             this.fovMultiplier += delta * deltaSpeed;
         }
 
@@ -478,7 +511,7 @@ public abstract class CustomCallbacksMixins
         ))
         private void beforeClampingFov(CallbackInfo ci)
         {
-            if(musuen$fovParams.isUnclamped())
+            if(fovParams.isUnclamped())
                 ci.cancel();
         }
     }

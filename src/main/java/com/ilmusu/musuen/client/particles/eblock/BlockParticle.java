@@ -64,15 +64,15 @@ public class BlockParticle extends SpriteBillboardParticle
     public int getBrightness(float tint)
     {
         int i = super.getBrightness(tint);
-        BlockPos pos = new BlockPos(this.x, this.y, this.z);
+        BlockPos pos = new BlockPos((int)this.x, (int)this.y, (int)this.z);
         if (i == 0 && this.world.isChunkLoaded(pos))
             return WorldRenderer.getLightmapCoordinates(this.world, pos);
         return i;
     }
 
+    @SuppressWarnings("unused")
     public static class Factory implements ParticleFactory<BlockParticleEffect>
     {
-        @SuppressWarnings("unused")
         public Factory(SpriteProvider sprite)
         {
         }
