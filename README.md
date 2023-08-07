@@ -550,7 +550,7 @@ The <b>Gluttony Enchantment</b> makes the player automatically eat food from the
 <details>
 <summary><b>Details here</b></summary>
 When the level of the enchantment is not the maximum, the food amount obtained by the food item is reduced. <br />
-This means that is the food would give 10 food level, at the level 1, it will provide only 7 food level. <br />
+This means that if the food would give 10 food levels, at the level 1, it will provide only 7 food levels. <br />
 At level 1, the food amount obtained is 70.0%. <br />
 At level 2, the food amount obtained is 85.0%. <br />
 At level 3, the food amount obtained is 100.0%. <br />
@@ -562,3 +562,42 @@ At level 3, the food amount obtained is 100.0%. <br />
 
 This enchantment <b>can be applied to</b>:
 1. Helmet item
+
+## MULTI ARROW ENCHANTMENT (V)
+The <b>Multi Arrow Enchantment</b> makes the bow fire multiple arrows in the same shot. The player must have the adidditional arrows in the inventory.</br>
+
+<details>
+<summary><b>Details here</b></summary>
+The number of arrows per shot increases with the level of the enchantment: <br />
+At level 1, there are 1 additional arrows. <br />
+At level 2, there are 2 additional arrows. <br />
+At level 3, there are 3 additional arrows. <br />
+At level 4, there are 4 additional arrows. <br />
+At level 5, there are 5 additional arrows. <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/multi_arrow.gif?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Bow item
+
+## GUILLOTINING ENCHANTMENT (III)
+The <b>Guillotining Enchantment</b> adds a small probability of dropping a head when killing a mob or a player. </br>
+It is possibile to add a custom head for a mob using datapacks. Examples can be found [here](https://github.com/IlMusu/IlMusuEnchantmentsMod/tree/fabric_1.20.1/src/main/resources/data/musuen/head_recipes). </br>
+
+<details>
+<summary><b>Details here</b></summary>
+The probability of dropping a head increases with the level of the enchantment: <br />
+At level 1, the probability is 5.0%. <br />
+At level 2, the probability is 10.0%. <br />
+At level 3, the probability is 15.0%. <br />
+<br />
+<p align="center">
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/guillotining?raw=true">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Sword item
