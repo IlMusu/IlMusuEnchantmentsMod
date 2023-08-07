@@ -3,7 +3,6 @@ package com.ilmusu.musuen.enchantments;
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.PlayerAttackCallback;
 import com.ilmusu.musuen.registries.ModConfigurations;
-import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -37,13 +36,13 @@ public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchan
     @Override
     public int getMinLevel()
     {
-        return ModEnchantments.getMinLevel(this, 1);
+        return ModConfigurations.getEnchantmentMinLevel(this, 1);
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModEnchantments.getMaxLevel(this, 5);
+        return ModConfigurations.getEnchantmentMaxLevel(this, 5);
     }
 
     @Override
@@ -88,7 +87,7 @@ public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchan
             List<Enchantment> skeweringEnchantments = new ArrayList<>(allEnchantments.keySet());
             skeweringEnchantments.removeIf((enchantment -> !(enchantment instanceof SkeweringEnchantment)));
 
-            if(skeweringEnchantments.size() == 0)
+            if(skeweringEnchantments.isEmpty())
                 return;
 
             float additionalDamage = 0.0F;

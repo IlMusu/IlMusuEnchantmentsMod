@@ -16,6 +16,7 @@
     "CustomCallbacksMixins$ItemEntityCallbacks",
     "CustomCallbacksMixins$LivingEntityCallbacks",
     "CustomCallbacksMixins$PersistentProjectileEntityCallbacks",
+    "CustomCallbacksMixins$PhantomSpawnerCallbacks",
     "CustomCallbacksMixins$PlayerCallbacks",
     "CustomCallbacksMixins$PlayerInventoryCallbacks",
     "CustomCallbacksMixins$ProjectileEntityCallback",

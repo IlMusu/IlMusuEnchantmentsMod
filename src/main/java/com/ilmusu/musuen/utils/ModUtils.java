@@ -4,14 +4,17 @@ import com.ilmusu.musuen.mixins.mixin.AccessorClientPlayerInteractionManager;
 import com.ilmusu.musuen.mixins.mixin.AccessorServerPlayerInteractionManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.World;
 
 import java.awt.*;
 
@@ -117,5 +120,15 @@ public class ModUtils
             if(player.getInventory().getStack(i).getItem() == item)
                 return i;
         return -1;
+    }
+
+    public static void tryBreakBlockIfSuitable(World world, PlayerEntity player, ItemStack tool, BlockPos pos)
+    {
+        BlockState blockState = world.getBlockState(pos);
+        if(!tool.isSuitableFor(blockState))
+            return;
+
+        // Using the minecraft logic for breaking the item
+        ((ServerPlayerEntity)player).interactionManager.tryBreakBlock(pos);
     }
 }

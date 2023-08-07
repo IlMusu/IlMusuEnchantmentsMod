@@ -43,6 +43,18 @@
   "enchantment.musuen.coverage.desc": "Increases the shield ability to protect the user by expanding the protection angle.",
   "enchantment.musuen.everlasting": "Everlasting",
   "enchantment.musuen.everlasting.desc": "Makes the enchanted item never despawn.",
+  "enchantment.musuen.zero_gravity": "Zero Gravity",
+  "enchantment.musuen.zero_gravity.desc": "Makes the shot projectiles have no gravity an fly into a straight line.",
+  "enchantment.musuen.dreamlike" : "Dreamlike",
+  "enchantment.musuen.dreamlike.desc": "Decreases the probability of Phantoms spawning because of insomnia.",
+  "enchantment.musuen.gluttony" : "Gluttony",
+  "enchantment.musuen.gluttony.desc": "Automatically eats food from the inventory. Makes a stomach rumbling sound if no food is available.",
+  "enchantment.musuen.multi_arrow": "Multi Arrow",
+  "enchantment.musuen.multi_arrow.desc": "Makes the bow fire multiple arrows in the same shot. The player must have the additional arrows in the inventory.",
+  "enchantment.musuen.guillotining": "Guillotining",
+  "enchantment.musuen.guillotining.desc": "Adds a small probability of dropping the head of the killed mob.",
+  "enchantment.musuen.scything": "Scything",
+  "enchantment.musuen.scything.desc": "Destroys also the nearby crops when this tool is used to break a crop.",
 
   "death.attack.demonicEnchanting" : "%1$s made a bad deal with a demon",
   "death.attack.demonicEnchanting.player" : "%1$s made a bad deal with a demon",
@@ -52,5 +64,6 @@
   "key.musuen.phasing_enchantment": "Phasing Enchantment Ability",
   "key.musuen.shockwave_enchantment": "Shockwave Enchantment Ability",
 
-  "musuen.subtitle.entity.living.elytra_wing_flap": "Elytra wing flap"
+  "musuen.subtitle.entity.living.elytra_wing_flap": "Elytra wing flap",
+  "musuen.subtitle.entity.living.stomach_rumble": "Stomach rumble"
 }

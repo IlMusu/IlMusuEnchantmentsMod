@@ -1,31 +1,29 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.PlayerBreakSpeedCallback;
+import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.OperatorBlock;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MiningToolItem;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
 public class UnearthingEnchantment extends Enchantment implements _IDemonicEnchantment
 {
+    private static final String LABEL = "is_unearthing";
+
     public UnearthingEnchantment(Rarity weight)
     {
         super(weight, EnchantmentTarget.DIGGER, new EquipmentSlot[]{ EquipmentSlot.MAINHAND });
@@ -40,13 +38,13 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
     @Override
     public int getMinLevel()
     {
-        return ModEnchantments.getMinLevel(this, 1);
+        return ModConfigurations.getEnchantmentMinLevel(this, 1);
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModEnchantments.getMaxLevel(this, 5);
+        return ModConfigurations.getEnchantmentMaxLevel(this, 5);
     }
 
     @Override
@@ -101,8 +99,14 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
         }));
 
         // The break logic of the unearthing enchantment
+        // Notice that it must be true otherwise cannot retrieve facing from raycast
         PlayerBlockBreakEvents.BEFORE.register(((world, player, pos, state, blockEntity) ->
         {
+            // If the player is currently unearthing, ignore this event
+            NbtCompound nbt = ((_IEntityPersistentNbt)player).getPNBT();
+            if(nbt.contains(LABEL) && Math.abs(nbt.getInt(LABEL)-player.age) < 5)
+                return true;
+
             // Check if there is a tunneling enchantment on the stack
             int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.UNEARTHING, player);
             if(level <= 0)
@@ -129,6 +133,9 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
             int amount = (int) ((1+2*side)*(1+2*side)*(1+forward) * consumedPercentage);
             int counter = 0;
 
+            // Marking the player as using unearthing
+            nbt.putInt(LABEL, player.age);
+
             // Computing the directions for digging the tunnel
             Vec3d forwardDir = new Vec3d(blockHit.getSide().getOpposite().getUnitVector());
             Vec3d sideDir = new Vec3d(forwardDir.y, forwardDir.z, forwardDir.x);
@@ -143,51 +150,12 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
 
                         Vec3d offset = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
                         offset = offset.add(forwardDir.multiply(z)).add(sideDir.multiply(x)).add(upDir.multiply(y));
-                        tryBreakBlock(world, player, stack, BlockPos.ofFloored(offset));
+                        ModUtils.tryBreakBlockIfSuitable(world, player, stack, BlockPos.ofFloored(offset));
                     }
 
+            // Unmarking the player as using unearthing
+            nbt.remove(LABEL);
             return true;
         }));
-    }
-
-    // Copied and modified from the ServerPlayerInteractionManager function
-    public static void tryBreakBlock(World world, PlayerEntity player, ItemStack tool, BlockPos pos)
-    {
-        BlockState blockState = world.getBlockState(pos);
-        if(!tool.isSuitableFor(blockState))
-            return;
-        // Avoid breaking bedrock or air
-        if(blockState.getBlock().getHardness() < 0 || blockState.isAir())
-            return;
-
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        Block block = blockState.getBlock();
-
-        if (block instanceof OperatorBlock && !player.isCreativeLevelTwoOp())
-        {
-            world.updateListeners(pos, blockState, blockState, Block.NOTIFY_ALL);
-            return;
-        }
-
-        if (player.isBlockBreakingRestricted(world, pos, ((ServerPlayerEntity)player).interactionManager.getGameMode()))
-            return;
-
-        // Called before the player actually breaks the block
-        block.onBreak(world, pos, blockState, player);
-        // Actually breaking the block and related logic
-        boolean isBlockRemoved = world.removeBlock(pos, false);
-        if (isBlockRemoved)
-            block.onBroken(world, pos, blockState);
-
-        if (((ServerPlayerEntity)player).interactionManager.isCreative())
-            return;
-
-        ItemStack itemStack = player.getMainHandStack();
-        ItemStack itemStack2 = itemStack.copy();
-        itemStack.postMine(world, blockState, pos, player);
-        // This makes the block drops its item stacks
-        if (isBlockRemoved && player.canHarvest(blockState))
-            block.afterBreak(world, player, pos, blockState, blockEntity, itemStack2);
-
     }
 }

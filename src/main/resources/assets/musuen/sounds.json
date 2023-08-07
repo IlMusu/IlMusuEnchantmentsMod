@@ -3,5 +3,10 @@
 	{
 		"subtitle": "musuen.subtitle.entity.living.elytra_wing_flap",
 		"sounds": [ "musuen:entity.living.elytra_wing_flap" ]
+	},
+	"entity.living.stomach_rumble":
+	{
+		"subtitle": "musuen.subtitle.entity.living.stomach_rumble",
+		"sounds": [ "musuen:entity.living.stomach_rumble" ]
 	}
 }

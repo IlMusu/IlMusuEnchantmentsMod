@@ -1,8 +1,8 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.PlayerTickCallback;
+import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
-import com.ilmusu.musuen.registries.ModEnchantments;
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -28,13 +28,13 @@ public class ReachingEnchantment extends Enchantment implements _IEnchantmentExt
     @Override
     public int getMinLevel()
     {
-        return ModEnchantments.getMinLevel(this, 1);
+        return ModConfigurations.getEnchantmentMinLevel(this, 1);
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModEnchantments.getMaxLevel(this, 4);
+        return ModConfigurations.getEnchantmentMaxLevel(this, 4);
     }
 
     @SuppressWarnings("unused")
