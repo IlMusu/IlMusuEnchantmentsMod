@@ -62,7 +62,11 @@ public class ScythingEnchantment extends Enchantment
                     if(!(block.getBlock() instanceof CropBlock))
                         continue;
 
-                    ((ServerPlayerEntity)player).interactionManager.tryBreakBlock(nearPos);
+                    if(!(((ServerPlayerEntity)player).interactionManager.tryBreakBlock(nearPos)))
+                        continue;
+
+                    // Damaging the stack a bit
+                    player.getMainHandStack().damage(1, player.getRandom(), (ServerPlayerEntity) player);
                 }
 
             // Unmarking the player as using scything
