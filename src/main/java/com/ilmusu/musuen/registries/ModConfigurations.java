@@ -21,6 +21,8 @@ public class ModConfigurations
     public static class ModConfig
     {
         public static final String DEMONIC_ENCHANTING_ENABLED = "demonic_enchanting_enabled";
+        public static final String DEMONIC_DAMAGE_DEFAULT_CAMERA_TILT_DUMPER = "demonic_damage_default_camera_tilt_dumper";
+        public static final String DEMONIC_DAMAGE_DEMONCTION_CAMERA_TILT_DUMPER = "demonic_damage_demonction_camera_tilt_dumper";
         public static final String VEIN_MINING_ENABLED_WHILE_SNEAKING = "vein_mining_enabled_while_sneaking";
         public static final String VEIN_MINING_HAS_WHITE_LIST = "vein_mining_has_white_list";
         public static final String VEIN_MINING_WHITE_LIST = "vein_mining_white_list";
@@ -42,6 +44,20 @@ public class ModConfigurations
             Object::toString,
             Boolean::parseBoolean);
         MOD.setConfigIfAbsent(
+            ModConfig.DEMONIC_DAMAGE_DEFAULT_CAMERA_TILT_DUMPER, 0.5F, """
+            # When using Demonic Enchantments, the player is inflicted Demonic Damage and can be distracting because
+            # the camera tilts with great amplitude and frequency. This value can be used to soften that effect.
+            # Making this value smaller means that the camera tilt is dumped more.""",
+            Object::toString,
+            Float::parseFloat);
+        MOD.setConfigIfAbsent(
+            ModConfig.DEMONIC_DAMAGE_DEMONCTION_CAMERA_TILT_DUMPER, 0.8F, """
+            # Same concept of the previous config. This value is used to soften the camera tilt even only when the user
+            # is equipped with an armor having the Demonction Enchantment and the damage is Demonic Damage.
+            # Making this value smaller means that the camera tilt is dumped more.""",
+            Object::toString,
+            Float::parseFloat);
+        MOD.setConfigIfAbsent(
             ModConfig.VEIN_MINING_ENABLED_WHILE_SNEAKING, true, """
             # Normally, the vein mining enchantment is always enabled. Setting this flag as "false" allows the vein
             # mining enchantment logic to be disabled when the player is sneaking and be active otherwise.""",
@@ -50,7 +66,7 @@ public class ModConfigurations
         MOD.setConfigIfAbsent(
             ModConfig.VEIN_MINING_HAS_WHITE_LIST, false,"""
             # Normally, the vein mining enchantment digs any block that suited for the enchanted tool. Setting this
-            # flag as "false" makes the dig logic work only on the white list of blocks defined on the next config.""",
+            # flag as "true" makes the dig logic work only on the white list of blocks defined on the next config.""",
             Object::toString,
             Boolean::parseBoolean);
         MOD.setConfigIfAbsent(
@@ -75,6 +91,16 @@ public class ModConfigurations
     public static boolean isDemonicEnchantingEnabled()
     {
         return (boolean) MOD.getConfigValue(ModConfig.DEMONIC_ENCHANTING_ENABLED);
+    }
+
+    public static float getDemonicDamageDefaultCameraDumping()
+    {
+        return (float) MOD.getConfigValue(ModConfig.DEMONIC_DAMAGE_DEFAULT_CAMERA_TILT_DUMPER);
+    }
+
+    public static float getDemonicDamageDemonctionCameraDumping()
+    {
+        return (float) MOD.getConfigValue(ModConfig.DEMONIC_DAMAGE_DEMONCTION_CAMERA_TILT_DUMPER);
     }
 
     public static boolean shouldEnableVeinMiningWhileSneaking()
@@ -152,14 +178,14 @@ public class ModConfigurations
     }
 
     @SuppressWarnings("unchecked")
-    public static String listOfIdentifiesToString(Object identifierList)
+    protected static String listOfIdentifiesToString(Object identifierList)
     {
         List<Identifier> identifiers = (List<Identifier>)identifierList;
         List<String> list = identifiers.stream().map(Identifier::toString).toList();
         return list.toString();
     }
 
-    public static List<Identifier> stringToListOfIdentifiers(String string)
+    protected static List<Identifier> stringToListOfIdentifiers(String string)
     {
         string = string.trim();
         string = string.substring(1, string.length()-1);

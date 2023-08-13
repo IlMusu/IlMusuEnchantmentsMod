@@ -9,12 +9,12 @@ import net.minecraft.util.math.Vec3d;
 public interface FireworkElytraSpeedCallback
 {
     Event<FireworkElytraSpeedCallback> EVENT = EventFactory.createArrayBacked(FireworkElytraSpeedCallback.class,
-            (listeners) -> (player, firework, rotation) ->
+            (listeners) -> (player, firework, velocity) ->
             {
                 for (FireworkElytraSpeedCallback listener : listeners)
-                    rotation = listener.handler(player, firework, rotation);
-                return rotation;
+                    velocity = listener.handler(player, firework, velocity);
+                return velocity;
             });
 
-    Vec3d handler(LivingEntity shooter, FireworkRocketEntity firework, Vec3d rotation);
+    Vec3d handler(LivingEntity shooter, FireworkRocketEntity firework, Vec3d velocity);
 }

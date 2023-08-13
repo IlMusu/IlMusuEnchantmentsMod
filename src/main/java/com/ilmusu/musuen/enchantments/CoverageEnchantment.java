@@ -1,6 +1,6 @@
 package com.ilmusu.musuen.enchantments;
 
-import com.ilmusu.musuen.callbacks.ShieldCoverageAngleCallback;
+import com.ilmusu.musuen.callbacks.ShieldCoverageCallback;
 import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
@@ -29,7 +29,7 @@ public class CoverageEnchantment extends Enchantment implements _IEnchantmentExt
 
     static
     {
-        ShieldCoverageAngleCallback.BEFORE.register(((user, shield, source) ->
+        ShieldCoverageCallback.BEFORE.register(((user, shield, source) ->
         {
             int level = EnchantmentHelper.getLevel(ModEnchantments.COVERAGE, shield);
             if(level == 0)

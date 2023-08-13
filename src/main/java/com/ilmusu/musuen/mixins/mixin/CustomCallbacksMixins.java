@@ -31,7 +31,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.spawner.PhantomSpawner;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -357,7 +356,7 @@ public abstract class CustomCallbacksMixins
             Vec3d vec3d3 = source.getPosition().relativize(user.getPos()).normalize().multiply(1, 0, 1);
 
             // Considering the new coverage angle
-            double angle = ShieldCoverageAngleCallback.BEFORE.invoker().handler(user, user.getActiveItem(), source);
+            double angle = ShieldCoverageCallback.BEFORE.invoker().handler(user, user.getActiveItem(), source);
             if (vec3d3.dotProduct(vec3d2) < angle)
                 cir.setReturnValue(true);
         }
@@ -370,7 +369,6 @@ public abstract class CustomCallbacksMixins
         }
     }
 
-    @Debug(export = true)
     @Mixin(PhantomSpawner.class)
     public abstract static class PhantomSpawnerCallbacks
     {
@@ -383,11 +381,10 @@ public abstract class CustomCallbacksMixins
             return player;
         }
 
-
         @ModifyVariable(method = "spawn", ordinal = 1, at = @At(value = "STORE"))
         private int beforeSpawningPhantom(int insomniaAmount)
         {
-            return PlayerPhantomSpawnCallback.BEFORE.invoker().handler(PhantomSpawnerCallbacks.player, insomniaAmount);
+            return (int) PlayerPhantomSpawnCallback.BEFORE.invoker().handler(PhantomSpawnerCallbacks.player, insomniaAmount);
         }
     }
 
@@ -476,6 +473,7 @@ public abstract class CustomCallbacksMixins
         @Shadow private float fovMultiplier;
         @Shadow private float lastFovMultiplier;
         @Unique private static PlayerFovMultiplierCallback.FovParams musuen$fovParams;
+        @Unique private static float hurtTiltDumper = 1.0F;
 
         @ModifyVariable(method = "updateFovMultiplier", index = 1, at = @At(value = "STORE", ordinal = 1))
         private float afterGettingCameraFovMultiplier(float multiplier)
@@ -514,6 +512,26 @@ public abstract class CustomCallbacksMixins
         {
             if(musuen$fovParams.isUnclamped())
                 ci.cancel();
+        }
+
+        @Inject(method = "tiltViewWhenHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;sin(F)F"))
+        private void retrieveHurtTiltDumper(MatrixStack matrices, float tickDelta, CallbackInfo ci)
+        {
+            GameRendererCallbacks.hurtTiltDumper = PlayerHurtTiltCallback.EVENT.invoker().handler(MinecraftClient.getInstance().player);
+        }
+
+        @SuppressWarnings("InvalidInjectorMethodSignature")
+        @ModifyVariable(method = "tiltViewWhenHurt", index = 5, at = @At(value = "STORE", ordinal = 1))
+        private float changeHurtTiltingAmountYaw(float tiltYaw)
+        {
+            return tiltYaw * GameRendererCallbacks.hurtTiltDumper;
+        }
+
+        @SuppressWarnings("InvalidInjectorMethodSignature")
+        @ModifyVariable(method = "tiltViewWhenHurt", index = 6, at = @At(value = "STORE"))
+        private float changeHurtTiltingAmountPitch(float tiltYaw)
+        {
+            return tiltYaw * GameRendererCallbacks.hurtTiltDumper;
         }
     }
 
