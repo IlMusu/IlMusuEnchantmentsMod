@@ -117,11 +117,11 @@ public class SkyhookEnchantment extends Enchantment
                     return;
 
                 Entity holder = entity.world.getEntityById(nbt.getInt(SKYHOOK_HOLDER));
-                renderLeash(entity, holder, tickDelta, matrices, provider);
+                renderLead(entity, holder, tickDelta, matrices, provider);
             }));
         }
 
-        private static void renderLeash(Entity leashed, Entity holder, float tickDelta, MatrixStack matrices, VertexConsumerProvider provider)
+        private static void renderLead(Entity leashed, Entity holder, float tickDelta, MatrixStack matrices, VertexConsumerProvider provider)
         {
             matrices.push();
             Vec3d holderLeasPos = holder.getLeashPos(tickDelta);
@@ -146,14 +146,14 @@ public class SkyhookEnchantment extends Enchantment
             int t = leashed.world.getLightLevel(LightType.SKY, blockPos2);
 
             for (int u = 0; u <= 24; ++u)
-                renderLeashPiece(vertexConsumer, matrix4f, j, k, l, q, r, s, t, 0.025f, 0.025f, o, p, u, false);
+                renderLeadPiece(vertexConsumer, matrix4f, j, k, l, q, r, s, t, 0.025f, 0.025f, o, p, u, false);
             for (int u = 24; u >= 0; --u)
-                renderLeashPiece(vertexConsumer, matrix4f, j, k, l, q, r, s, t, 0.025f, 0.0f, o, p, u, true);
+                renderLeadPiece(vertexConsumer, matrix4f, j, k, l, q, r, s, t, 0.025f, 0.0f, o, p, u, true);
 
             matrices.pop();
         }
 
-        private static void renderLeashPiece(VertexConsumer vertexConsumer, Matrix4f positionMatrix, float f, float g, float h, int leashedEntityBlockLight, int holdingEntityBlockLight, int leashedEntitySkyLight, int holdingEntitySkyLight, float i, float j, float k, float l, int pieceIndex, boolean isLeashKnot)
+        private static void renderLeadPiece(VertexConsumer vertexConsumer, Matrix4f positionMatrix, float f, float g, float h, int leashedEntityBlockLight, int holdingEntityBlockLight, int leashedEntitySkyLight, int holdingEntitySkyLight, float i, float j, float k, float l, int pieceIndex, boolean isLeashKnot)
         {
             float m = (float)pieceIndex / 24.0f;
             int n = (int)MathHelper.lerp(m, leashedEntityBlockLight, holdingEntityBlockLight);

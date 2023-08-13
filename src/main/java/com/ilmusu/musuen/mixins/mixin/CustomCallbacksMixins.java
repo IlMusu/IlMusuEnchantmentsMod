@@ -3,6 +3,8 @@ package com.ilmusu.musuen.mixins.mixin;
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.*;
 import com.ilmusu.musuen.mixins.interfaces._IEntityDeathSource;
+import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
+import com.ilmusu.musuen.registries.ModDamageSources;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.MinecraftClient;
@@ -12,7 +14,10 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -21,6 +26,7 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.*;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
@@ -35,7 +41,9 @@ import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
@@ -357,7 +365,7 @@ public abstract class CustomCallbacksMixins
             Vec3d vec3d3 = source.getPosition().relativize(user.getPos()).normalize().multiply(1, 0, 1);
 
             // Considering the new coverage angle
-            double angle = ShieldCoverageAngleCallback.BEFORE.invoker().handler(user, user.getActiveItem(), source);
+            double angle = ShieldCoverageCallback.BEFORE.invoker().handler(user, user.getActiveItem(), source);
             if (vec3d3.dotProduct(vec3d2) < angle)
                 cir.setReturnValue(true);
         }
@@ -370,7 +378,28 @@ public abstract class CustomCallbacksMixins
         }
     }
 
+    @Mixin(LivingEntity.class)
     @Debug(export = true)
+    public abstract static class ClientLivingEntityCallbacks
+    {
+        @Shadow private @Nullable DamageSource lastDamageSource;
+
+        @Inject(method = "handleStatus", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getTime()J"))
+        private void overrideDamageSourceWhenDemonic(byte status, CallbackInfo ci)
+        {
+            LivingEntity user = (LivingEntity)(Object)this;
+            if(user != MinecraftClient.getInstance().player)
+                return;
+
+            NbtCompound nbt = ((_IEntityPersistentNbt)user).getPNBT();
+            if(!nbt.contains("was_damage_demonic"))
+                return;
+
+            this.lastDamageSource = ModDamageSources.DEMONIC_DAMAGE;
+            nbt.remove("was_damage_demonic");
+        }
+    }
+
     @Mixin(PhantomSpawner.class)
     public abstract static class PhantomSpawnerCallbacks
     {
@@ -383,11 +412,10 @@ public abstract class CustomCallbacksMixins
             return player;
         }
 
-
         @ModifyVariable(method = "spawn", ordinal = 1, at = @At(value = "STORE"))
         private int beforeSpawningPhantom(int insomniaAmount)
         {
-            return PlayerPhantomSpawnCallback.BEFORE.invoker().handler(PhantomSpawnerCallbacks.player, insomniaAmount);
+            return (int) PlayerPhantomSpawnCallback.BEFORE.invoker().handler(PhantomSpawnerCallbacks.player, insomniaAmount);
         }
     }
 
@@ -476,6 +504,7 @@ public abstract class CustomCallbacksMixins
         @Shadow private float fovMultiplier;
         @Shadow private float lastFovMultiplier;
         @Unique private static PlayerFovMultiplierCallback.FovParams musuen$fovParams;
+        @Unique private static float hurtTiltDumper = 1.0F;
 
         @ModifyVariable(method = "updateFovMultiplier", index = 1, at = @At(value = "STORE", ordinal = 1))
         private float afterGettingCameraFovMultiplier(float multiplier)
@@ -514,6 +543,25 @@ public abstract class CustomCallbacksMixins
         {
             if(musuen$fovParams.isUnclamped())
                 ci.cancel();
+        }
+
+        @Inject(method = "bobViewWhenHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;sin(F)F"))
+        private void retrieveHurtTiltDumper(MatrixStack matrices, float tickDelta, CallbackInfo ci)
+        {
+            GameRendererCallbacks.hurtTiltDumper = PlayerHurtTiltCallback.EVENT.invoker().handler(MinecraftClient.getInstance().player);
+        }
+
+        @SuppressWarnings("InvalidInjectorMethodSignature")
+        @ModifyVariable(method = "bobViewWhenHurt", index = 5, at = @At(value = "STORE", ordinal = 1))
+        private float changeHurtTiltingAmountYaw(float tiltYaw)
+        {
+            return tiltYaw * GameRendererCallbacks.hurtTiltDumper;
+        }
+
+        @ModifyVariable(method = "bobViewWhenHurt", index = 4, at = @At(value = "STORE", ordinal = 2))
+        private float changeHurtTiltingAmountPitch(float tiltYaw)
+        {
+            return tiltYaw * GameRendererCallbacks.hurtTiltDumper;
         }
     }
 
