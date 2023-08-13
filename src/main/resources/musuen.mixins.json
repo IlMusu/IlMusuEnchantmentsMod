@@ -37,6 +37,7 @@
     "AccessorClientPlayerInteractionManager",
     "AccessorHandledScreen",
     "AccessorScreen",
+    "CustomCallbacksMixins$ClientLivingEntityCallbacks",
     "CustomCallbacksMixins$EntityRenderDispatcherCallbacks",
     "CustomCallbacksMixins$GameRendererCallbacks",
     "CustomCallbacksMixins$HeldItemRendererMixins",
