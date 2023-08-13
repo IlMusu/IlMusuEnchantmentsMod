@@ -272,10 +272,9 @@ public abstract class CustomCallbacksMixins
         @Shadow protected abstract void jump();
 
         @Shadow private int jumpingCooldown;
-
         @Shadow protected boolean jumping;
 
-        @Unique private static boolean musuen$shieldTriedToBlock;
+        @Unique private static boolean shieldTriedToBlock;
 
         @Inject(method = "travel", at = @At(
                 value = "INVOKE",
@@ -343,20 +342,20 @@ public abstract class CustomCallbacksMixins
         @Inject(method = "blockedByShield", at = @At(value = "HEAD"))
         private void afterShieldFailedToBlockResetHook(DamageSource source, CallbackInfoReturnable<Boolean> cir)
         {
-            LivingEntityCallbacks.musuen$shieldTriedToBlock = false;
+            LivingEntityCallbacks.shieldTriedToBlock = false;
         }
 
         @Inject(method = "blockedByShield", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;dotProduct(Lnet/minecraft/util/math/Vec3d;)D"))
         private void afterShieldFailedToBlockSetHook(DamageSource source, CallbackInfoReturnable<Boolean> cir)
         {
-            LivingEntityCallbacks.musuen$shieldTriedToBlock = true;
+            LivingEntityCallbacks.shieldTriedToBlock = true;
         }
 
         @Inject(method = "blockedByShield", at = @At("TAIL"), cancellable = true)
         private void afterShieldFailedToBlock(DamageSource source, CallbackInfoReturnable<Boolean> cir)
         {
             // Check if the shield tried to block the projectile but failed because of angle
-            if(!LivingEntityCallbacks.musuen$shieldTriedToBlock)
+            if(!LivingEntityCallbacks.shieldTriedToBlock)
                 return;
 
             LivingEntity user = (LivingEntity)(Object)this;
@@ -503,19 +502,20 @@ public abstract class CustomCallbacksMixins
     {
         @Shadow private float fovMultiplier;
         @Shadow private float lastFovMultiplier;
-        @Unique private static PlayerFovMultiplierCallback.FovParams musuen$fovParams;
+        @Unique private static PlayerFovMultiplierCallback.FovParams fovParams;
+
         @Unique private static float hurtTiltDumper = 1.0F;
 
         @ModifyVariable(method = "updateFovMultiplier", index = 1, at = @At(value = "STORE", ordinal = 1))
         private float afterGettingCameraFovMultiplier(float multiplier)
         {
             PlayerEntity player = MinecraftClient.getInstance().player;
-            musuen$fovParams = PlayerFovMultiplierCallback.AFTER.invoker().handler(player);
+            fovParams = PlayerFovMultiplierCallback.AFTER.invoker().handler(player);
 
-            if(musuen$fovParams.shouldNotChange())
+            if(fovParams.shouldNotChange())
                 return multiplier;
 
-            return multiplier * musuen$fovParams.getAdditionalMultiplier();
+            return multiplier * fovParams.getAdditionalMultiplier();
         }
 
         @Inject(method = "updateFovMultiplier", at = @At(
@@ -526,11 +526,11 @@ public abstract class CustomCallbacksMixins
         ))
         private void modifyUpdateSpeed(CallbackInfo ci)
         {
-            if(musuen$fovParams.shouldNotChange())
+            if(fovParams.shouldNotChange())
                 return;
 
             float delta = (this.fovMultiplier - this.lastFovMultiplier) * 2;
-            float deltaSpeed = (musuen$fovParams.getUpdateVelocity() - 0.5F);
+            float deltaSpeed = (fovParams.getUpdateVelocity() - 0.5F);
             this.fovMultiplier += delta * deltaSpeed;
         }
 
@@ -541,7 +541,7 @@ public abstract class CustomCallbacksMixins
         ))
         private void beforeClampingFov(CallbackInfo ci)
         {
-            if(musuen$fovParams.isUnclamped())
+            if(fovParams.isUnclamped())
                 ci.cancel();
         }
 
