@@ -37,7 +37,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.spawner.PhantomSpawner;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -378,7 +377,6 @@ public abstract class CustomCallbacksMixins
     }
 
     @Mixin(LivingEntity.class)
-    @Debug(export = true)
     public abstract static class ClientLivingEntityCallbacks
     {
         @Shadow private @Nullable DamageSource lastDamageSource;
