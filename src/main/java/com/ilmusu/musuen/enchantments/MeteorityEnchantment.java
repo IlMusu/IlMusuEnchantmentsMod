@@ -29,14 +29,14 @@ public class MeteorityEnchantment extends Enchantment implements _IEnchantmentEx
 
     static
     {
-        FireworkElytraSpeedCallback.EVENT.register(((shooter, firework, rotation) ->
+        FireworkElytraSpeedCallback.EVENT.register(((shooter, firework, velocity) ->
         {
             int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.METEORITY, shooter);
             if(level == 0)
-                return rotation;
+                return velocity;
 
             float speedBonus = 1.0F + level * 0.7F;
-            return rotation.multiply(speedBonus);
+            return velocity.multiply(speedBonus);
         }));
     }
 }

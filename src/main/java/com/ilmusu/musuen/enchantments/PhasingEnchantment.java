@@ -152,7 +152,7 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
                 // Teleporting player
                 player.requestTeleport(finalTarget.x, finalTarget.getY(), finalTarget.getZ());
                 float pitch = ModUtils.range(player.getWorld().getRandom(), 0.8F, 1.2F);
-                player.getWorld().playSoundFromEntity(null, player, SoundEvents.ENTITY_WARDEN_SONIC_BOOM, SoundCategory.PLAYERS, 1.0F, pitch);
+                player.getWorld().playSoundFromEntity(null, player, SoundEvents.ENTITY_WARDEN_SONIC_BOOM, SoundCategory.PLAYERS, 0.5F, pitch);
 
                 // Sending the message for updating the player fov
                 new PhasingSwitchMessage(false).sendToClient((ServerPlayerEntity) player);
