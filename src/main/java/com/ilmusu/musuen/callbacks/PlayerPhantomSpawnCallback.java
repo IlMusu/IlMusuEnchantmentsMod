@@ -14,5 +14,5 @@ public interface PlayerPhantomSpawnCallback
                 return insomniaAmount;
             });
 
-    int handler(PlayerEntity player, int insomniaAmount);
+    float handler(PlayerEntity player, float insomniaAmount);
 }

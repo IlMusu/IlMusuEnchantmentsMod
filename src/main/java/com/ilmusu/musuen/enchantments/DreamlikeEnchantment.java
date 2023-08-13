@@ -34,12 +34,11 @@ public class DreamlikeEnchantment extends Enchantment
         {
             int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.DREAMLIKE, player);
             if(level == 0)
-                return insomniaAmount;
+                return 1.0F;
 
             // Reducing the insomnia amount with a percentage at a given level
-            int maxLevel = ModEnchantments.ALIGHTING.getMaxLevel();
-            float insomniaReduction = new ModUtils.Linear(0.0F, 1.0F, maxLevel, 0.0F).of(level);
-            return (int) (insomniaAmount * insomniaReduction);
+            int maxLevel = ModEnchantments.DREAMLIKE.getMaxLevel();
+            return new ModUtils.Linear(0.0F, 1.0F, maxLevel, 0.0F).of(level);
         });
     }
 }

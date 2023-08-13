@@ -40,7 +40,7 @@ public class RayStepper
         // Computing the new position of the ray
         this.current += this.step;
         this.updatePosition();
-        // Return true if this is complete
+        // Return true if this is not complete
         return this.current < this.range;
     }
 

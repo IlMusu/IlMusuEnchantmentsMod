@@ -16,7 +16,7 @@ public class ModRaycast
     public static HitResult raycast(World world, Vec3d start, Vec3d direction, float range, Function<Object, Boolean> filter)
     {
         RayStepper stepper = new RayStepper(start, direction, 0.1F, range);
-        while(!stepper.stepForward())
+        while(stepper.stepForward())
         {
             HitResult resultEntity = stepper.intersectsEntity(world, filter);
             if(resultEntity != null)
