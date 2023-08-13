@@ -40,6 +40,7 @@ public class ModMessages
             registerMessage(new ShockwaveEffectMessage());
             registerMessage(new SwingHandMessage());
             registerMessage(new BerserkOverlayMessage());
+            registerMessage(new PlayerDemonicDamageMessage());
         }
 
         protected static void registerMessage(_Message message)

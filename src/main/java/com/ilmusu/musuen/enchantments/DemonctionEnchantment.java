@@ -1,8 +1,10 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.LivingEntityDamageCallback;
+import com.ilmusu.musuen.callbacks.PlayerHurtTiltCallback;
 import com.ilmusu.musuen.entity.damage.DemonicDamageSource;
 import com.ilmusu.musuen.registries.ModConfigurations;
+import com.ilmusu.musuen.registries.ModEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
@@ -93,5 +95,23 @@ public class DemonctionEnchantment extends Enchantment
             int level = demonction.getRight();
             return Math.max(getDemonctionGranularity(level), damage-demonctionAmount);
         }));
+
+        PlayerHurtTiltCallback.EVENT.register((player) ->
+        {
+            DamageSource lastDamage = player.getRecentDamageSource();
+            if(lastDamage == null)
+                return 1.0F;
+
+            if(!(lastDamage instanceof DemonicDamageSource))
+                return 1.0F;
+
+            float defaultDumper = ModConfigurations.getDemonicDamageDefaultCameraDumping();
+            int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.DEMONCTION, player);
+            if(level == 0)
+                return defaultDumper;
+
+            float demonctionDumper = ModConfigurations.getDemonicDamageDemonctionCameraDumping();
+            return defaultDumper * demonctionDumper;
+        });
     }
 }
