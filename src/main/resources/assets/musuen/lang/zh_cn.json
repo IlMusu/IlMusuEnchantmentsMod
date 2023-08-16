@@ -1,4 +1,15 @@
 {
+  "enchantment.level.11": "XI",
+  "enchantment.level.12": "XII",
+  "enchantment.level.13": "XIII",
+  "enchantment.level.14": "XIV",
+  "enchantment.level.15": "XV",
+  "enchantment.level.16": "XVI",
+  "enchantment.level.17": "XVII",
+  "enchantment.level.18": "XVIII",
+  "enchantment.level.19": "XIX",
+  "enchantment.level.20": "XX",
+
   "enchantment.musuen.laceration": "撕裂",
   "enchantment.musuen.laceration.desc": "以使用者的生命为代价提升武器伤害",
   "enchantment.musuen.skewering": "贯刺",
