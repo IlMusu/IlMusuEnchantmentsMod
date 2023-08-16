@@ -82,6 +82,18 @@ public class ModConfigurations
         ENCHANTMENTS.load();
     }
 
+    public static boolean registerEnchantmentConfig(String name)
+    {
+        // Registering the enabled config
+        boolean isEnabled = isEnchantmentEnabled(name);
+        // Creating the group
+        String enabledKey = getEnchantmentConfigKey(name, EnchantmentsConfig.ENABLED);
+        String minLevelKey = getEnchantmentConfigKey(name, EnchantmentsConfig.MIN_LEVEL);
+        String maxLevelKey = getEnchantmentConfigKey(name, EnchantmentsConfig.MAX_LEVEL);
+        ENCHANTMENTS.createConfigGroup(enabledKey, List.of(minLevelKey, maxLevelKey));
+        return isEnabled;
+    }
+
     public static void write()
     {
         MOD.writeConfigurationFile();
@@ -90,27 +102,27 @@ public class ModConfigurations
 
     public static boolean isDemonicEnchantingEnabled()
     {
-        return (boolean) MOD.getConfigValue(ModConfig.DEMONIC_ENCHANTING_ENABLED);
+        return (boolean) MOD.getConfigValue(ModConfig.DEMONIC_ENCHANTING_ENABLED, null);
     }
 
     public static float getDemonicDamageDefaultCameraDumping()
     {
-        return (float) MOD.getConfigValue(ModConfig.DEMONIC_DAMAGE_DEFAULT_CAMERA_TILT_DUMPER);
+        return (float) MOD.getConfigValue(ModConfig.DEMONIC_DAMAGE_DEFAULT_CAMERA_TILT_DUMPER, null);
     }
 
     public static float getDemonicDamageDemonctionCameraDumping()
     {
-        return (float) MOD.getConfigValue(ModConfig.DEMONIC_DAMAGE_DEMONCTION_CAMERA_TILT_DUMPER);
+        return (float) MOD.getConfigValue(ModConfig.DEMONIC_DAMAGE_DEMONCTION_CAMERA_TILT_DUMPER, null);
     }
 
     public static boolean shouldEnableVeinMiningWhileSneaking()
     {
-        return (boolean) MOD.getConfigValue(ModConfig.VEIN_MINING_ENABLED_WHILE_SNEAKING);
+        return (boolean) MOD.getConfigValue(ModConfig.VEIN_MINING_ENABLED_WHILE_SNEAKING, null);
     }
 
     public static boolean isVeinMiningEnchantmentWhiteListed()
     {
-        return (boolean) MOD.getConfigValue(ModConfig.VEIN_MINING_HAS_WHITE_LIST);
+        return (boolean) MOD.getConfigValue(ModConfig.VEIN_MINING_HAS_WHITE_LIST, null);
     }
 
     @SuppressWarnings("unchecked")
@@ -119,7 +131,7 @@ public class ModConfigurations
         if(!isVeinMiningEnchantmentWhiteListed())
             return true;
 
-        List<Identifier> whiteList = (List<Identifier>) MOD.getConfigValue(ModConfig.VEIN_MINING_WHITE_LIST);
+        List<Identifier> whiteList = (List<Identifier>) MOD.getConfigValue(ModConfig.VEIN_MINING_WHITE_LIST, null);
         return whiteList.contains(Registry.BLOCK.getId(state.getBlock()));
     }
 
@@ -128,10 +140,10 @@ public class ModConfigurations
         return name+"."+config.toLowerCase();
     }
 
-    public static boolean isEnchantmentEnabled(String name)
+    private static boolean isEnchantmentEnabled(String name)
     {
         String enabledKey = getEnchantmentConfigKey(name, EnchantmentsConfig.ENABLED);
-        Object configValue = ENCHANTMENTS.getConfigValue(enabledKey);
+        Object configValue = ENCHANTMENTS.getConfigValue(enabledKey, Boolean::parseBoolean);
         if(configValue != null)
             return (boolean) configValue;
 
@@ -143,13 +155,13 @@ public class ModConfigurations
     {
         String name = Registry.ENCHANTMENT.getId(enchantment).getPath();
         String key = getEnchantmentConfigKey(name, EnchantmentsConfig.MIN_LEVEL);
-        Object configValue = ENCHANTMENTS.getConfigValue(key);
+        Object configValue = ENCHANTMENTS.getConfigValue(key, Integer::parseInt);
         if(configValue != null)
             return (int) configValue;
 
         try {
             ENCHANTMENTS.setConfigIfAbsent(key, min, Object::toString, Integer::parseInt);
-            min = Math.max(1, (int) ENCHANTMENTS.getConfigValue(key));
+            min = Math.max(1, (int) ENCHANTMENTS.getConfigValue(key, null));
         }
         catch (NumberFormatException exception) {
             Resources.LOGGER.error("Could not read minimum level for "+name+" enchantment! Defaulting to "+min+"!");
@@ -162,13 +174,13 @@ public class ModConfigurations
     {
         String name = Registry.ENCHANTMENT.getId(enchantment).getPath();
         String key = getEnchantmentConfigKey(name, EnchantmentsConfig.MAX_LEVEL);
-        Object configValue = ENCHANTMENTS.getConfigValue(key);
+        Object configValue = ENCHANTMENTS.getConfigValue(key, Integer::parseInt);
         if(configValue != null)
             return (int) configValue;
 
         try {
             ENCHANTMENTS.setConfigIfAbsent(key, max, Object::toString, Integer::parseInt);
-            max = Math.min((int) ENCHANTMENTS.getConfigValue(key), 255);
+            max = Math.min((int) ENCHANTMENTS.getConfigValue(key, null), 255);
         }
         catch (NumberFormatException exception) {
             Resources.LOGGER.error("Could not read maximum level for "+name+" enchantment! Defaulting to "+max+"!");
