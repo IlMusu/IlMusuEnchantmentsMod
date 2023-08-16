@@ -7,9 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -17,9 +15,13 @@ public class Configuration
 {
     public static class ConfigData
     {
+        // The data necessary for the configuration
         protected String dataString;
         protected Object dataValue;
         protected String description = "";
+
+        // A list to define sub configs
+        protected List<String> subConfigs = new LinkedList<>();
 
         public ConfigData()
         {
@@ -59,6 +61,7 @@ public class Configuration
         this.writeConfigurationFile();
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void createConfigurationFile()
     {
         if(this.configurationFile.exists())
@@ -87,12 +90,21 @@ public class Configuration
             // Resetting the file to an empty file
             writer.write("");
             // Setting all the current configurations
-            for(String key : this.configuration.keySet())
+            List<String> keys = new ArrayList<>(this.configuration.keySet());
+            while(!keys.isEmpty())
             {
+                String key = keys.remove(0);
                 ConfigData data = this.configuration.get(key);
-                if(!data.description.isEmpty())
-                    writer.append(data.description).append("\n");
-                writer.append(key).append("=").append(data.dataString).append("\n\n");
+                writeConfigurationValue(writer, key, data);
+                for(String subKey : data.subConfigs)
+                {
+                    if(!this.configuration.containsKey(subKey))
+                        continue;
+                    ConfigData subData = this.configuration.get(subKey);
+                    writeConfigurationValue(writer, subKey, subData);
+                    keys.remove(subKey);
+                }
+                writer.append("\n");
             }
             // Closing the file because there is noting more to do
             writer.close();
@@ -102,6 +114,13 @@ public class Configuration
             Resources.LOGGER.error("Could not write configuration file ("+configurationFileName+") !");
             Resources.LOGGER.error(exception.getLocalizedMessage());
         }
+    }
+
+    private void writeConfigurationValue(FileWriter writer, String key, ConfigData data) throws IOException
+    {
+        if(!data.description.isEmpty())
+            writer.append(data.description).append("\n");
+        writer.append(key).append("=").append(data.dataString).append("\n");
     }
 
     private void reloadConfigurationFromFile()
@@ -178,13 +197,38 @@ public class Configuration
         setConfig(key, value, description, writer);
     }
 
-    public Object getConfigValue(String key)
+    public Object getConfigValue(String key, Function<String, Object> reader)
     {
         // The name and the value are trimmed just to be sure
         key = key.trim();
         // Check if the config exists, otherwise already return null
         if(!this.configuration.containsKey(key))
             return null;
-        return this.configuration.get(key).dataValue;
+        // Check if the data has already been parsed
+        ConfigData data = this.configuration.get(key);
+        if(data.dataValue != null)
+            return data.dataValue;
+        // Parsing the data if not already parsed
+        if(reader != null)
+        {
+            data.dataValue = reader.apply(data.dataString);
+            return data.dataValue;
+        }
+        // Error when not able to parse data
+        Resources.LOGGER.error("Config data value not set for key \""+key+"\".");
+        return null;
+    }
+
+    public void createConfigGroup(String mainKey, List<String> subKeys)
+    {
+        // The name and the value are trimmed just to be sure
+        mainKey = mainKey.trim();
+        ConfigData mainData = this.configuration.get(mainKey);
+        // Adding the sub configurations
+        for(String subKey : subKeys)
+        {
+            subKey = subKey.trim();
+            mainData.subConfigs.add(subKey);
+        }
     }
 }

@@ -44,6 +44,7 @@ public class ModEnchantments
         registerEnchantmentIfEnabled("phasing", PHASING);
         registerEnchantmentIfEnabled("overcharged", OVERCHARGED);
         registerEnchantmentIfEnabled("berserker", BERSERKER);
+        registerEnchantmentIfEnabled("guillotining", GUILLOTINING);
         registerEnchantmentIfEnabled("reaching", REACHING);
         registerEnchantmentIfEnabled("pocketed", POCKETED);
         registerEnchantmentIfEnabled("vein_miner", VEIN_MINER);
@@ -64,17 +65,17 @@ public class ModEnchantments
         registerEnchantmentIfEnabled("dreamlike", DREAMLIKE);
         registerEnchantmentIfEnabled("gluttony", GLUTTONY);
         registerEnchantmentIfEnabled("multi_arrow", MULTI_ARROW);
-        registerEnchantmentIfEnabled("guillotining", GUILLOTINING);
         registerEnchantmentIfEnabled("scything", SCYTHING);
     }
 
     public static void registerEnchantmentIfEnabled(String name, Enchantment enchantment)
     {
-        if(!ModConfigurations.isEnchantmentEnabled(name))
+        // Registering the configs and checking if enabled
+        if(!ModConfigurations.registerEnchantmentConfig(name))
             return;
-
         // Registering the enchantment and forcing the registration of the levels
         Registry.register(Registry.ENCHANTMENT, Resources.identifier(name), enchantment);
+        // Registering the min and max levels for the enchantment
         enchantment.getMinLevel();
         enchantment.getMaxLevel();
     }

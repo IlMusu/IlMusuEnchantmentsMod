@@ -1,4 +1,15 @@
 {
+  "enchantment.level.11": "XI",
+  "enchantment.level.12": "XII",
+  "enchantment.level.13": "XIII",
+  "enchantment.level.14": "XIV",
+  "enchantment.level.15": "XV",
+  "enchantment.level.16": "XVI",
+  "enchantment.level.17": "XVII",
+  "enchantment.level.18": "XVIII",
+  "enchantment.level.19": "XIX",
+  "enchantment.level.20": "XX",
+
   "enchantment.musuen.laceration": "Laceration",
   "enchantment.musuen.laceration.desc": "Aumenta el daño del arma, pero a costa de la vida del usuario.",
   "enchantment.musuen.skewering": "Skewering",
