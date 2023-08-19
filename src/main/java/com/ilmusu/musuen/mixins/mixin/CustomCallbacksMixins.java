@@ -410,9 +410,10 @@ public abstract class CustomCallbacksMixins
         }
 
         @ModifyVariable(method = "spawn", ordinal = 1, at = @At(value = "STORE"))
-        private int beforeSpawningPhantom(int insomniaAmount)
+        private int beforeSpawningPhantom(int insomnia)
         {
-            return (int) PlayerPhantomSpawnCallback.BEFORE.invoker().handler(PhantomSpawnerCallbacks.player, insomniaAmount);
+            insomnia = (int) PlayerPhantomSpawnCallback.BEFORE.invoker().handler(PhantomSpawnerCallbacks.player, insomnia);
+            return Math.max(1, insomnia);
         }
     }
 
