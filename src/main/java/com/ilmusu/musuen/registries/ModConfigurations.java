@@ -4,6 +4,7 @@ import com.ilmusu.musuen.Configuration;
 import com.ilmusu.musuen.Resources;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
@@ -24,6 +25,7 @@ public class ModConfigurations
         public static final String DEMONIC_DAMAGE_DEFAULT_CAMERA_TILT_DUMPER = "demonic_damage_default_camera_tilt_dumper";
         public static final String DEMONIC_DAMAGE_DEMONCTION_CAMERA_TILT_DUMPER = "demonic_damage_demonction_camera_tilt_dumper";
         public static final String VEIN_MINING_ENABLED_WHILE_SNEAKING = "vein_mining_enabled_while_sneaking";
+        public static final String VEIN_MINING_ENABLED_WHILE_NOT_SNEAKING = "vein_mining_enabled_while_not_sneaking";
         public static final String VEIN_MINING_HAS_WHITE_LIST = "vein_mining_has_white_list";
         public static final String VEIN_MINING_WHITE_LIST = "vein_mining_white_list";
     }
@@ -34,8 +36,9 @@ public class ModConfigurations
 
     public static void load()
     {
-        // Loading the configuration for the mod from file
+        // Loading the existing mod configuration
         MOD.load();
+        // Creating the configuration for the mod
         MOD.setConfigIfAbsent(
             ModConfig.DEMONIC_ENCHANTING_ENABLED, true, """
             # The demonic enchanting is the mechanic that allows the enchanting table to take hearts from nearby
@@ -59,8 +62,14 @@ public class ModConfigurations
             Float::parseFloat);
         MOD.setConfigIfAbsent(
             ModConfig.VEIN_MINING_ENABLED_WHILE_SNEAKING, true, """
-            # Normally, the vein mining enchantment is always enabled. Setting this flag as "false" allows the vein
-            # mining enchantment logic to be disabled when the player is sneaking and be active otherwise.""",
+            # The union of this config flag and the next config flag define when the vein mining enchantment is
+            # enabled. Setting this flag as "false" makes the vein mining work also when the player is sneaking.""",
+            Object::toString,
+            Boolean::parseBoolean);
+        MOD.setConfigIfAbsent(
+            ModConfig.VEIN_MINING_ENABLED_WHILE_NOT_SNEAKING, true, """
+            # The union of this config flag and the previous config flag define when the vein mining enchantment is
+            # enabled. Setting this flag as "false" makes the vein mining work also when the player is not sneaking.""",
             Object::toString,
             Boolean::parseBoolean);
         MOD.setConfigIfAbsent(
@@ -78,6 +87,7 @@ public class ModConfigurations
             ModConfigurations::listOfIdentifiesToString,
             ModConfigurations::stringToListOfIdentifiers
         );
+
         // Loading the configuration for the enchantments from file
         ENCHANTMENTS.load();
     }
@@ -115,9 +125,12 @@ public class ModConfigurations
         return (float) MOD.getConfigValue(ModConfig.DEMONIC_DAMAGE_DEMONCTION_CAMERA_TILT_DUMPER, null);
     }
 
-    public static boolean shouldEnableVeinMiningWhileSneaking()
+    public static boolean shouldEnableVeinMining(PlayerEntity player)
     {
-        return (boolean) MOD.getConfigValue(ModConfig.VEIN_MINING_ENABLED_WHILE_SNEAKING, null);
+        boolean isEnabledWhileSneaking = (boolean) MOD.getConfigValue(ModConfig.VEIN_MINING_ENABLED_WHILE_SNEAKING, null);
+        boolean isEnabledWhileNotSneaking = (boolean) MOD.getConfigValue(ModConfig.VEIN_MINING_ENABLED_WHILE_NOT_SNEAKING, null);
+        boolean isSneaking = player.isSneaking();
+        return (isEnabledWhileSneaking && isSneaking) || (isEnabledWhileNotSneaking && !isSneaking);
     }
 
     public static boolean isVeinMiningEnchantmentWhiteListed()

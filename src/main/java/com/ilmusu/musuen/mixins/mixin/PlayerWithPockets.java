@@ -48,10 +48,10 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     // The slots in the player inventory, they need to be stored because the indexes might change
     @Unique private final List<PocketSlot> slots = new ArrayList<>(20);
 
+    // The current level of pockets
+    @Unique private int pocketsLevel = 0;
     // If the pockets are currently open
     @Unique private boolean arePocketsOpen = false;
-    // The current level of the pockets, which changes the amount of available slots
-    @Unique private int pocketsLevel = 0;
 
     @Override
     public Inventory getPockets()
@@ -74,7 +74,7 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     @Override
     public void updatePocketSlot(PocketSlot slot)
     {
-        this.slots.add(slot.id, slot);
+        this.slots.add(slot.getIndex(), slot);
     }
 
     @Override
@@ -84,8 +84,8 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         this.arePocketsOpen = open;
 
         // Setting the correct state for the pockets
-        for(int i = 0; i<this.pocketsLevel *4; ++i)
-            this.slots.get(i).arePocketsOpen = this.arePocketsOpen;
+        for(PocketSlot slot : this.slots)
+            slot.arePocketsOpen = this.arePocketsOpen;
 
         PlayerEntity player = (PlayerEntity)(Object)this;
         if(player.getWorld().isClient)
@@ -93,23 +93,23 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     }
 
     @Override
-    public void setPocketLevel(World world, int pocketLevel)
+    public void updatePocketsLevel(World world, int pocketsLevel)
     {
         // Storing the current level of the pockets
-        this.pocketsLevel = pocketLevel;
+        this.pocketsLevel = pocketsLevel;
 
         // Enabling all the slots up to the correct one
-        for(int i=0; i<pocketLevel*4; ++i)
+        for(int i=0; i<pocketsLevel*4; ++i)
             this.slots.get(i).enabled = true;
 
         // Disabling all the other slots
-        for(int i=pocketLevel*4; i<20; ++i)
+        for(int i=pocketsLevel*4; i<20; ++i)
             this.slots.get(i).enabled = false;
 
         if(!world.isClient)
         {
             // Dropping the stacks in the pockets if the number of slots is decreased
-            this.dropPocketsContents(this.pocketsLevel *4);
+            this.dropPocketsContents(pocketsLevel *4);
             // Syncing the client with the current level of the pockets
             ServerPlayerEntity player = (ServerPlayerEntity)(Object)this;
             new PocketsLevelMessage(player).sendToClient(player);
@@ -137,7 +137,6 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
     {
         for (int i = 0; i < this.getPockets().size(); ++i)
             this.getPockets().setStack(i, other.getPockets().getStack(i));
-        this.pocketsLevel = other.getPocketLevel();
         this.arePocketsOpen = other.arePocketsOpen();
     }
 
@@ -189,8 +188,6 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
             list.add(stack.writeNbt(compound));
         }
         pockets.put("items", list);
-        // Writing level
-        pockets.putInt("level", this.pocketsLevel);
         // Writing state
         pockets.putBoolean("open", this.arePocketsOpen);
 
@@ -215,8 +212,6 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
 
                 this.getPockets().setStack(slot, itemStack);
             }
-            // Reading level
-            this.pocketsLevel = pockets.getInt("level");
             // Reading state
             this.arePocketsOpen = pockets.getBoolean("open");
         }
@@ -233,6 +228,8 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
             Inventory pockets = player.getPockets();
 
             int id = 0;
+            // The slots need to be always present but activated and visible only when necessary
+            // Otherwise this might cause problems with iterating in the arrays
             for(int y=0; y<5; ++y)
             {
                 // Adding pocket on the right
@@ -384,13 +381,12 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
                 return;
 
             // Copying the pockets from the old player to the new player
-            // Only if this is not death (end portal teleport)
+            // Only if this is the end teleportation since when dying the player does not preserve the items
             ((_IPlayerPockets)newPlayer).clone((_IPlayerPockets)oldPlayer);
         });
 
         ServerPlayConnectionEvents.JOIN.register(((handler, sender, server) ->
         {
-            new PocketsLevelMessage(handler.player).sendToClient(handler.player);
             new PocketsToggleMessage(handler.player).sendToClient(handler.player);
         }));
 
@@ -402,9 +398,9 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
 
         ServerPlayerEvents.AFTER_RESPAWN.register(((oldPlayer, newPlayer, isEndTeleport) ->
         {
-            // The pockets are not copied after death
+            // The pockets contents are not copied after death because are dropped
             new PocketsLevelMessage(newPlayer).sendToClient(newPlayer);
-            new PocketsToggleMessage(newPlayer).sendToClient(newPlayer);
+            new PocketsToggleMessage(oldPlayer).sendToClient(newPlayer);
         }));
     }
 }

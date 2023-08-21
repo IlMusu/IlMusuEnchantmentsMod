@@ -114,6 +114,13 @@ public abstract class DemonicEnchantingTableLogicMixin
             if(!ModConfigurations.isDemonicEnchantingEnabled())
                 return;
 
+            // It is possibile that no enchantments are generated for a level
+            if(list.isEmpty())
+            {
+                this.demonicEnchantments[j] = 0;
+                return;
+            }
+
             // This is a fix which prevents using the @Redirect
             EnchantmentLevelEntry entry = list.get(0);
             if(entry.enchantment instanceof _IDemonicEnchantment)

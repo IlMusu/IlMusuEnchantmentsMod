@@ -4,17 +4,16 @@ import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.mixins.interfaces._IDemonicEnchantmentScreenHandler;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public abstract class DemonicEnchantingTableRenderingMixin
 {
     @Mixin(EnchantmentScreen.class)
+    @Debug(export = true)
     public abstract static class HeartRequirementsRendering
     {
         @Unique private int slot = 0;
@@ -30,19 +29,17 @@ public abstract class DemonicEnchantingTableRenderingMixin
             this.slot = -1;
         }
 
-        @Inject(method = "drawBackground", at = @At(
-                value = "INVOKE",
-                target = "Lnet/minecraft/client/gui/screen/ingame/EnchantingPhrases;generatePhrase(Lnet/minecraft/client/font/TextRenderer;I)Lnet/minecraft/text/StringVisitable;"
-        ))
-        private void drawBackgroundEnchantmentHook(DrawContext matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
+        @ModifyVariable(method = "drawBackground", ordinal = 8, at = @At(value = "STORE"))
+        private int drawBackgroundEnchantmentHook(int constant)
         {
             // Increasing the slot count, this is called at every iteration
             this.slot += 1;
             // Storing if the enchantment for slot is demonic so that this is done only once
             this.isDemonicEnchantment = getDemonicScreenHandler().hasDemonicEnchantment(this.slot);
+            return constant;
         }
 
-        @ModifyVariable(method = "drawBackground", ordinal = 10, at = @At(value = "STORE"))
+        @ModifyVariable(method = "drawBackground", ordinal = 9, at = @At(value = "STORE"))
         private int modifyHieroglyphLength(int size)
         {
             // Writing less letters for making space for the hearth cost
