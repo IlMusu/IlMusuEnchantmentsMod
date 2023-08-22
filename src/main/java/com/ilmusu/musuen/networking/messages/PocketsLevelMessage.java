@@ -35,6 +35,6 @@ public class PocketsLevelMessage extends _Message
     @Override
     public void handle(PlayerEntity player)
     {
-        ((_IPlayerPockets)player).setPocketLevel(player.world, this.level);
+        ((_IPlayerPockets)player).updatePocketsLevel(player.getWorld(), this.level);
     }
 }
