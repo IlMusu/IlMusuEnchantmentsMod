@@ -56,7 +56,7 @@ public class VeinMinerEnchantment extends Enchantment
 
     protected static boolean canUseVeinMining(PlayerEntity player, BlockState state)
     {
-        if(player.isSneaking() && !ModConfigurations.shouldEnableVeinMiningWhileSneaking())
+        if(!ModConfigurations.shouldEnableVeinMining(player))
             return false;
         return ModConfigurations.isBlockVeinMiningWhiteListed(state);
     }
