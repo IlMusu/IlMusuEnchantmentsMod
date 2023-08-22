@@ -8,8 +8,6 @@ public interface _IPlayerPockets
 {
     Inventory getPockets();
 
-    void setPocketLevel(World world, int level);
-
     int getPocketLevel();
 
     void setPocketsOpen(boolean open);
@@ -17,6 +15,8 @@ public interface _IPlayerPockets
     boolean arePocketsOpen();
 
     void clone(_IPlayerPockets other);
+
+    void updatePocketsLevel(World world, int pocketsLevel);
 
     void updatePocketSlot(PocketSlot slot);
 

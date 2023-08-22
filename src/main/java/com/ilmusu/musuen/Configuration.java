@@ -57,8 +57,6 @@ public class Configuration
         this.createConfigurationFile();
         // Loads the current file configuration on the memory
         this.reloadConfigurationFromFile();
-        // Rewrite the file in case the fixed applied changes
-        this.writeConfigurationFile();
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -156,8 +154,10 @@ public class Configuration
             return;
         }
 
+        // The data must be already existing to be able to modify it
         String key = parts[0].trim();
-        ConfigData data = new ConfigData();
+        // Modifying the default configuration
+        ConfigData data = this.configuration.getOrDefault(key, new ConfigData());
         data.dataString = this.fixer.apply(key, parts[1].trim());
         this.configuration.put(key, data);
     }
@@ -186,11 +186,14 @@ public class Configuration
         // Getting the existing configuration data
         ConfigData data = this.configuration.get(key);
         // If different from null, updating only the description
+        // And resetting it so that the order is preserved
         if(data != null)
         {
-            // Updating description and value
+            // Updating description just in case
             data.description = description;
             data.dataValue = reader.apply(data.dataString);
+            this.configuration.remove(key);
+            this.configuration.put(key, data);
             return;
         }
         // Otherwise setting the configuration
