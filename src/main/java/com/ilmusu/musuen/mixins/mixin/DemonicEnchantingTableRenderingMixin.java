@@ -31,16 +31,14 @@ public abstract class DemonicEnchantingTableRenderingMixin
             this.slot = -1;
         }
 
-        @Inject(method = "drawBackground", at = @At(
-                value = "INVOKE",
-                target = "Lnet/minecraft/client/gui/screen/ingame/EnchantmentScreen;setZOffset(I)V"
-        ))
-        private void drawBackgroundEnchantmentHook(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci)
+        @ModifyVariable(method = "drawBackground", ordinal = 8, at = @At(value = "STORE"))
+        private int drawBackgroundEnchantmentHook(int constant)
         {
             // Increasing the slot count, this is called at every iteration
             this.slot += 1;
             // Storing if the enchantment for slot is demonic so that this is done only once
             this.isDemonicEnchantment = getDemonicScreenHandler().hasDemonicEnchantment(this.slot);
+            return constant;
         }
 
         @ModifyVariable(method = "drawBackground", ordinal = 10, at = @At(value = "STORE"))
