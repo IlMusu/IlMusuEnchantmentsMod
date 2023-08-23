@@ -3,6 +3,7 @@ package com.ilmusu.musuen.mixins.mixin;
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.*;
 import com.ilmusu.musuen.mixins.interfaces._IEntityDeathSource;
+import com.ilmusu.musuen.networking.messages.PlayerJumpMessage;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.MinecraftClient;
@@ -320,8 +321,13 @@ public abstract class CustomCallbacksMixins
 
             if(LivingEntityAirJumpCallback.EVENT.invoker().handler(entity, this.jumpingCooldown))
             {
+                // Making the player perform another jump
                 this.jump();
+                new PlayerJumpMessage().sendToServer();
+                // The jump cooldown needs to be set correctly
                 this.jumpingCooldown = 10;
+                // Also resetting the fall distance
+                entity.fallDistance = 0.0F;
             }
         }
 

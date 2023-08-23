@@ -9,6 +9,7 @@ import com.ilmusu.musuen.networking.messages.SkyJumpEffectMessage;
 import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
+import net.fabricmc.fabric.api.entity.event.v1.EntityElytraEvents;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
@@ -27,7 +28,7 @@ import java.awt.*;
 
 public class SkyJumpEnchantment extends Enchantment
 {
-    private static final String SKY_JUMPS_TAG = Resources.MOD_ID+".is_phasing";
+    private static final String SKY_JUMPS_TAG = Resources.MOD_ID+".count";
 
     public SkyJumpEnchantment(Rarity weight)
     {
@@ -54,25 +55,32 @@ public class SkyJumpEnchantment extends Enchantment
                !(other == Enchantments.FEATHER_FALLING);
     }
 
+    protected static boolean canPerformAnotherSkyJump(PlayerEntity player)
+    {
+        int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.SKY_JUMP, player);
+        if(level == 0)
+            return false;
+
+        NbtCompound tag = ((_IEntityPersistentNbt)player).getPNBT();
+        int additionalJumps = tag.getInt(SKY_JUMPS_TAG);
+        return additionalJumps < level*2;
+    }
+
     static
     {
         LivingEntityAirJumpCallback.EVENT.register((entity, jumpCooldown) ->
         {
             // Player must be in air for this to work
-            if(!(entity instanceof PlayerEntity) || entity.isTouchingWater() || jumpCooldown > 5)
+            if(!(entity instanceof PlayerEntity player) || entity.isTouchingWater() || jumpCooldown > 5)
                 return false;
 
-            int level = EnchantmentHelper.getEquipmentLevel(ModEnchantments.SKY_JUMP, entity);
-            if(level == 0)
+            if(!canPerformAnotherSkyJump(player))
                 return false;
 
-            NbtCompound tag = ((_IEntityPersistentNbt)entity).getPNBT();
-            int additionalJumps = tag.getInt(SKY_JUMPS_TAG);
-            if(additionalJumps >= level*2)
-                return false;
-
+            // Increasing the number of performed jumps
             entity.fallDistance = 0.0F;
-            tag.putInt(SKY_JUMPS_TAG, additionalJumps+1);
+            NbtCompound tag = ((_IEntityPersistentNbt)player).getPNBT();
+            tag.putInt(SKY_JUMPS_TAG, tag.getInt(SKY_JUMPS_TAG)+1);
 
             new SkyJumpEffectMessage(entity).sendToServer();
             return true;
@@ -81,6 +89,15 @@ public class SkyJumpEnchantment extends Enchantment
         PlayerLandCallback.EVENT.register(((player, fallDistance) ->
             ((_IEntityPersistentNbt)player).getPNBT().remove(SKY_JUMPS_TAG))
         );
+
+        EntityElytraEvents.ALLOW.register(entity ->
+        {
+            if(!entity.getWorld().isClient)
+                return true;
+            if(!(entity instanceof PlayerEntity player))
+                return true;
+            return !canPerformAnotherSkyJump(player);
+        });
     }
 
     public static void spawnSkyJumpEffects(World world, Vec3d pos, Random random)

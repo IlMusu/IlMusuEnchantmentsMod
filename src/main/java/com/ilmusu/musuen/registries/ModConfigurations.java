@@ -85,8 +85,7 @@ public class ModConfigurations
             # blank spaces: the blocks ids can be found in game using the F3+H "Advanced Tooltips".
             # An example is the following: [minecraft:stone,minecraft:dirt,minecraft:coal_ore]""",
             ModConfigurations::listOfIdentifiesToString,
-            ModConfigurations::stringToListOfIdentifiers
-        );
+            ModConfigurations::stringToListOfIdentifiers);
 
         // Loading the configuration for the enchantments from file
         ENCHANTMENTS.load();
