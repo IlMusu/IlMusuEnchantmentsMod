@@ -14,7 +14,7 @@ This mod provides a configuration file for the enchantments located at the follo
 ```
 
 ## DEMONIC ENCHANTING
-The demonic enchanting mechanic can be triggered by placing <b>three skulls</b> (increasing the number of skulls increases the demonic enchantments probability), which might be both wither or normal skeleton skulls, around the enchanting table as shown in the following images. Only after the skulls are placed correctly, red glyph particles start to move from the skulls to the enchanting table.
+The demonic enchanting mechanic can be triggered by placing <b>three Wither Skeleton Skulls</b> (increasing the number of skulls increases the demonic enchantments probability), around the enchanting table as shown in the following images. Only after the skulls are placed correctly, red glyph particles start to move from the skulls to the enchanting table.
 
 <p>
 	<img width="80%" src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/skulls_positioning.png?raw=true" alt="">
