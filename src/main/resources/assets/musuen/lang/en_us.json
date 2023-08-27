@@ -76,5 +76,10 @@
   "key.musuen.shockwave_enchantment": "Shockwave Enchantment Ability",
 
   "musuen.subtitle.entity.living.elytra_wing_flap": "Elytra wing flap",
-  "musuen.subtitle.entity.living.stomach_rumble": "Stomach rumble"
+  "musuen.subtitle.entity.living.stomach_rumble": "Stomach rumble",
+
+  "advancements.musuen.ilmusu_enchantments.title": "IlMusu's Enchantments",
+  "advancements.musuen.ilmusu_enchantments.description": "The Enchanting Table can absorb demonic influences from Wither Skeleton Skulls placed around it. But be very careful, you might get killed!",
+  "advancements.musuen.demonic_enchanting.title": "Deals with demons",
+  "advancements.musuen.demonic_enchanting.description": "Obtain a demonic enchantment through the Enchanting Table"
 }

@@ -1,0 +1,29 @@
+{
+  "parent": "minecraft:story/enchant_item",
+  "display": {
+    "frame": "task",
+    "hidden": true,
+    "icon": {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    "description": {
+      "translate": "advancements.musuen.ilmusu_enchantments.description"
+    },
+    "title": {
+      "translate": "advancements.musuen.ilmusu_enchantments.title"
+    },
+    "announce_to_chat": false,
+    "show_toast": true
+  },
+  "criteria": {
+    "enchanted_item": {
+      "conditions": {},
+      "trigger": "minecraft:enchanted_item"
+    }
+  },
+  "requirements": [
+    [
+      "enchanted_item"
+    ]
+  ]
+}

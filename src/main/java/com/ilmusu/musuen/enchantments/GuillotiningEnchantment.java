@@ -62,7 +62,7 @@ public class GuillotiningEnchantment extends Enchantment implements _IDemonicEnc
             if(recipe == null)
                 return;
 
-            float probability = new ModUtils.Linear(1, 0.05F, 3, 0.15F).of(level);
+            float probability = new ModUtils.Linear(1, 0.05F, 3, 0.10F).of(level);
             if(entity.getWorld().random.nextFloat() > probability)
                 return;
 

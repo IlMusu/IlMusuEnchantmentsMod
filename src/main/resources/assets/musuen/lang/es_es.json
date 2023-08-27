@@ -76,5 +76,10 @@
   "key.musuen.shockwave_enchantment": "Habilidad de encantamiento Onda expansiva",
 
   "musuen.subtitle.entity.living.elytra_wing_flap": "Alas de élitros",
-  "musuen.subtitle.entity.living.stomach_rumble": "Rugido de Estómago"
+  "musuen.subtitle.entity.living.stomach_rumble": "Rugido de Estómago",
+
+  "advancements.musuen.ilmusu_enchantments.title": "IlMusu's Enchantments",
+  "advancements.musuen.ilmusu_enchantments.description": "La Table d'Enchantement peut absorber les influences démoniaques des Crânes de Wither Skeleton placés autour d'elle. Mais soyez très prudent, vous pourriez être tué !",
+  "advancements.musuen.demonic_enchanting.title": "Affaires avec les démons",
+  "advancements.musuen.demonic_enchanting.description": "Obtenez un enchantement démoniaque grâce à la Table d'Enchantement"
 }

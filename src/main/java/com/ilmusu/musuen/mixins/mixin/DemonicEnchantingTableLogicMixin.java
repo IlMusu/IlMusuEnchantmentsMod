@@ -7,6 +7,7 @@ import com.ilmusu.musuen.mixins.MixinSharedData;
 import com.ilmusu.musuen.mixins.interfaces._IDemonicEnchantmentScreenHandler;
 import com.ilmusu.musuen.mixins.interfaces._IModDamageSources;
 import com.ilmusu.musuen.registries.ModConfigurations;
+import com.ilmusu.musuen.registries.ModCriteria;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.EnchantingTableBlock;
@@ -25,6 +26,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.screen.EnchantmentScreenHandler;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.collection.Weighting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -162,16 +164,24 @@ public abstract class DemonicEnchantingTableLogicMixin
                 nearEntities.removeIf((entity) -> entity instanceof PlayerEntity);
                 healthToConsume = takeHealthFromEntitiesRandomly(world, nearEntities, healthToConsume);
 
+                // Check before taking the life of players
                 if(healthToConsume <= 0)
+                {
+                    ModCriteria.DEMONIC_ENCHANTMENT.trigger((ServerPlayerEntity)player, enchantment);
                     return;
+                }
 
                 // Consuming the health of player entities
                 List<PlayerEntity> players = world.getNonSpectatingEntities(PlayerEntity.class, box);
                 players.removeIf(PlayerEntity::isCreative);
                 healthToConsume = takeHealthFromEntitiesRandomly(world, players, healthToConsume);
 
+                // Check after taking the life of players
                 if(healthToConsume <= 0 || player.isCreative())
+                {
+                    ModCriteria.DEMONIC_ENCHANTMENT.trigger((ServerPlayerEntity)player, enchantment);
                     return;
+                }
 
                 cir.setReturnValue(false);
 
