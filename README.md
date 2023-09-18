@@ -202,9 +202,9 @@ It is possible to add a custom head for a mob using data packs. Examples can be 
 <details>
 <summary><b>Details here</b></summary>
 The probability of dropping a head increases with the level of the enchantment: <br />
-At level 1, the probability is 5.0%. <br />
-At level 2, the probability is 10.0%. <br />
-At level 3, the probability is 15.0%. <br />
+At level 1, it consumes 20.00% of the max health and the drop probability is 5.0%. <br />
+At level 2, it consumes 25.00% of the max health and the drop probability is 10.0%. <br />
+At level 3, it consumes 30.00% of the max health and the drop probability is 15.0%. <br />
 <br />
 <p>
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/guillotining.gif?raw=true" alt="">
@@ -561,7 +561,8 @@ Since the shot projectile has no gravity, they fly in a straight line allowing f
 </details>
 
 This enchantment <b>can be applied to</b>:
-1. Hoe item
+1. Bow item
+2. Crossbow item
 
 ## DREAMLIKE ENCHANTMENT (III)
 The <b>Dreamlike Enchantment</b> decreases the probability of Phantoms spawning because of player insomnia: the insomnia reduction increases with the level of the enchantments and at the maximum level prevents completely the spawning of Phantoms.
