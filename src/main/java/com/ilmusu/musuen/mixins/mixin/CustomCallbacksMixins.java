@@ -306,6 +306,13 @@ public abstract class CustomCallbacksMixins
             return (int)LivingEntityDamageCallback.BEFORE_FALL.invoker().handler(entity, damageSource, damage);
         }
 
+        @Inject(method = "applyDamage", at = @At(value = "RETURN", ordinal = 2))
+        private void afterApplyingDamage(DamageSource source, float amount, CallbackInfo ci)
+        {
+            LivingEntity entity = (LivingEntity)(Object)this;
+            LivingEntityDamageCallback.AFTER.invoker().handler(entity, source, amount);
+        }
+
         @Inject(method = "tickMovement", at = @At(
                 value = "INVOKE",
                 target = "Lnet/minecraft/util/profiler/Profiler;pop()V",

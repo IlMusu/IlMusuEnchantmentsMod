@@ -158,7 +158,8 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
                 new PhasingSwitchMessage(false).sendToClient((ServerPlayerEntity) player);
 
                 // Consuming health
-                float percentage = new ModUtils.Linear(ench.getMinLevel(), 0.2F, ench.getMaxLevel(), 0.3F).of(level);
+                float percentage = new ModUtils.Linear(1, 0.2F, 5, 0.3F).of(level);
+                System.out.println(percentage);
                 _IDemonicEnchantment.consumeHealthValue(player, percentage, false);
             })
         );

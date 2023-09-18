@@ -52,7 +52,8 @@ public class SkyJumpEnchantment extends Enchantment
     {
         return !(other instanceof SkyJumpEnchantment) &&
                !(other instanceof LongJumpEnchantment) &&
-               !(other == Enchantments.FEATHER_FALLING);
+               !(other == Enchantments.FEATHER_FALLING) &&
+                super.canAccept(other);
     }
 
     protected static boolean canPerformAnotherSkyJump(PlayerEntity player)

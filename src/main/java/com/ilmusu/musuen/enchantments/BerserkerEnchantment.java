@@ -113,7 +113,7 @@ public class BerserkerEnchantment extends DamageEnchantment implements _IDemonic
 
             // The percentage of health to consume at the current level of the enchantment
             // Not using the min and max levels so that the enchantment is able to scale
-            float percentage = new ModUtils.Linear(0, 0.05F, 5, 0.10F).of(level);
+            float percentage = new ModUtils.Linear(1, 0.05F, 5, 0.10F).of(level);
             // Getting the amount of actually consumed health and the related damage
             float consumed = _IDemonicEnchantment.consumeHealthValue(living, percentage, false);
             additionalDamage += ((BerserkerEnchantment)ModEnchantments.BERSERKER).getDamageForHealthConsumed(consumed, level);

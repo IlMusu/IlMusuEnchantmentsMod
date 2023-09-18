@@ -66,6 +66,8 @@
   "enchantment.musuen.guillotining.desc": "Adds a small probability of dropping the head of the killed mob.",
   "enchantment.musuen.scything": "Scything",
   "enchantment.musuen.scything.desc": "Destroys also the nearby crops when this tool is used to break a crop.",
+  "enchantment.musuen.evolving": "Evolving",
+  "enchantment.musuen.evolving.desc": "Makes the enchanted item evolve with usage, improving it's statistics.",
 
   "death.attack.demonicEnchanting" : "%1$s made a bad deal with a demon",
   "death.attack.demonicEnchanting.player" : "%1$s made a bad deal with a demon",
