@@ -7,6 +7,11 @@ public interface _IEnchantmentExtensions
 {
     default float getAdditionalAttackDamage(ItemStack stack, int level, EntityGroup group)
     {
-        return 0;
+        return 0.0F;
+    }
+
+    default float getAdditionalBreakSpeed(ItemStack stack, int level)
+    {
+        return 0.0F;
     }
 }

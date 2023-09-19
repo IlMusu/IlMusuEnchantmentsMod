@@ -62,7 +62,8 @@ public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchan
     {
         return !(other instanceof SkeweringEnchantment) &&
                !(other instanceof ImpalingEnchantment) &&
-               !(other instanceof OverchargeEnchantment);
+               !(other instanceof OverchargeEnchantment) &&
+                super.canAccept(other);
     }
 
     @Override

@@ -74,7 +74,8 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
                !(other instanceof SkeweringEnchantment) &&
                !(other instanceof DamageEnchantment) &&
                !(other instanceof ImpalingEnchantment) &&
-               !(other instanceof PowerEnchantment);
+               !(other instanceof PowerEnchantment) &&
+                super.canAccept(other);
     }
 
     private static float getPullProgress(PlayerEntity player, ItemStack stack)

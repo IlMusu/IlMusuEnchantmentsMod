@@ -17,6 +17,7 @@ public class ModMessages
             registerMessage(new ShockwaveKeyBindingMessage());
             registerMessage(new SkyJumpEffectMessage());
             registerMessage(new PocketsToggleMessage());
+            registerMessage(new PlayerJumpMessage());
         }
 
         protected static void registerMessage(_Message message)

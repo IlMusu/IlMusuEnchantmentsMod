@@ -1,0 +1,28 @@
+{
+  "parent": "musuen:story/ilmusu_enchantments",
+  "display": {
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:enchanted_book"
+    },
+    "description": {
+      "translate": "advancements.musuen.demonic_enchanting.description"
+    },
+    "title": {
+      "translate": "advancements.musuen.demonic_enchanting.title"
+    },
+    "announce_to_chat": false,
+    "show_toast": true
+  },
+  "criteria": {
+    "demonic_enchantment": {
+      "trigger": "musuen:demonic_enchantment"
+    }
+  },
+  "requirements": [
+    [
+      "demonic_enchantment"
+    ]
+  ]
+}
