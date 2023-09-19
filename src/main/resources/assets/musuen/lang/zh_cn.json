@@ -66,6 +66,10 @@
   "enchantment.musuen.guillotining.desc": "小概率使击杀的生物掉落其头颅",
   "enchantment.musuen.scything": "收割",
   "enchantment.musuen.scything.desc": "当使用这个工具破坏作物时，也会摧毁附近的作物",
+  "enchantment.musuen.evolving": "进化",
+  "enchantment.musuen.evolving.desc": "使附魔物品随着使用而进化，提高其属性",
+  "enchantment.musuen.experiencing": "经验获取",
+  "enchantment.musuen.experiencing.desc": "使附魔物品在使用过程中掉落经验值",
 
   "death.attack.demonicEnchanting" : "%1$s与恶魔交易不慎",
   "death.attack.demonicEnchanting.player" : "%1$s与恶魔交易不慎",
@@ -76,5 +80,12 @@
   "key.musuen.shockwave_enchantment": "震波附魔能力",
 
   "musuen.subtitle.entity.living.elytra_wing_flap": "滑翔翼振翅",
-  "musuen.subtitle.entity.living.stomach_rumble": "胃蠕动声"
+  "musuen.subtitle.entity.living.stomach_rumble": "胃蠕动声",
+
+  "advancements.musuen.ilmusu_enchantments.title": "IlMusu's Enchantments",
+  "advancements.musuen.ilmusu_enchantments.description": "附魔台可以从周围放置的凋灵骷髅头骨中吸收恶魔的影响。但要非常小心，你可能会被杀死！",
+  "advancements.musuen.demonic_enchanting.title": "与恶魔交易",
+  "advancements.musuen.demonic_enchanting.description": "通过附魔台获得一种恶魔附魔",
+
+  "attribute.name.generic.musuen.break_speed": "破坏速度"
 }

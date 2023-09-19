@@ -9,10 +9,12 @@ public class ModEnchantments
 {
     public static final Enchantment LACERATION = new LacerationEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment SKEWERING = new SkeweringEnchantment(Enchantment.Rarity.RARE);
-    public static final Enchantment UNEARTHING = new UnearthingEnchantment(Enchantment.Rarity.RARE);
-    public static final Enchantment PHASING = new PhasingEnchantment(Enchantment.Rarity.VERY_RARE);
-    public static final Enchantment OVERCHARGED = new OverchargeEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment BERSERKER = new BerserkerEnchantment(Enchantment.Rarity.VERY_RARE);
+    public static final Enchantment UNEARTHING = new UnearthingEnchantment(Enchantment.Rarity.RARE);
+    public static final Enchantment OVERCHARGED = new OverchargeEnchantment(Enchantment.Rarity.RARE);
+    public static final Enchantment PHASING = new PhasingEnchantment(Enchantment.Rarity.VERY_RARE);
+    public static final Enchantment GUILLOTINING = new GuillotiningEnchantment(Enchantment.Rarity.VERY_RARE);
+    public static final Enchantment DEMONCTION = new DemonctionEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment REACHING = new ReachingEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment POCKETED = new PocketedEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment VEIN_MINER = new VeinMinerEnchantment(Enchantment.Rarity.RARE);
@@ -23,7 +25,6 @@ public class ModEnchantments
     public static final Enchantment TELEKINESIS = new TelekinesisEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment SKY_JUMP = new SkyJumpEnchantment(Enchantment.Rarity.UNCOMMON);
     public static final Enchantment LONG_JUMP = new LongJumpEnchantment(Enchantment.Rarity.UNCOMMON);
-    public static final Enchantment DEMONCTION = new DemonctionEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment SKYHOOK = new SkyhookEnchantment(Enchantment.Rarity.VERY_RARE);
     public static final Enchantment REFLECTION = new ReflectionEnchantment(Enchantment.Rarity.COMMON);
     public static final Enchantment SHOCKWAVE = new ShockwaveEnchantment(Enchantment.Rarity.UNCOMMON);
@@ -33,8 +34,9 @@ public class ModEnchantments
     public static final Enchantment DREAMLIKE = new DreamlikeEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment GLUTTONY = new GluttonyEnchantment(Enchantment.Rarity.VERY_RARE);
     public static final Enchantment MULTI_ARROW = new MultiArrowEnchantment(Enchantment.Rarity.VERY_RARE);
-    public static final Enchantment GUILLOTINING = new GuillotiningEnchantment(Enchantment.Rarity.VERY_RARE);
     public static final Enchantment SCYTHING = new ScythingEnchantment(Enchantment.Rarity.RARE);
+    public static final Enchantment EVOLVING = new EvolvingEnchantment(Enchantment.Rarity.VERY_RARE);
+    public static final Enchantment EXPERIENCING = new ExperiencingEnchantment(Enchantment.Rarity.RARE);
 
     public static void register()
     {
@@ -66,6 +68,8 @@ public class ModEnchantments
         registerEnchantmentIfEnabled("gluttony", GLUTTONY);
         registerEnchantmentIfEnabled("multi_arrow", MULTI_ARROW);
         registerEnchantmentIfEnabled("scything", SCYTHING);
+        registerEnchantmentIfEnabled("evolving", EVOLVING);
+        registerEnchantmentIfEnabled("experiencing", EXPERIENCING);
     }
 
     public static void registerEnchantmentIfEnabled(String name, Enchantment enchantment)

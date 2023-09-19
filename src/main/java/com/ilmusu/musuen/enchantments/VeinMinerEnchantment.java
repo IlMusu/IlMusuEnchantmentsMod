@@ -51,7 +51,8 @@ public class VeinMinerEnchantment extends Enchantment
     protected boolean canAccept(Enchantment other)
     {
         return !(other instanceof VeinMinerEnchantment) &&
-               !(other instanceof UnearthingEnchantment);
+               !(other instanceof UnearthingEnchantment) &&
+                super.canAccept(other);
     }
 
     protected static boolean canUseVeinMining(PlayerEntity player, BlockState state)

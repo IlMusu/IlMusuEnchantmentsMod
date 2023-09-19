@@ -23,5 +23,13 @@ public interface LivingEntityDamageCallback
                 return damage;
             });
 
+    Event<LivingEntityDamageCallback> AFTER = EventFactory.createArrayBacked(LivingEntityDamageCallback.class,
+            (listeners) -> (entity, source, damage) ->
+            {
+                for (LivingEntityDamageCallback listener : listeners)
+                    listener.handler(entity, source, damage);
+                return damage;
+            });
+
     float handler(LivingEntity entity, DamageSource source, float damage);
 }
