@@ -66,6 +66,10 @@
   "enchantment.musuen.guillotining.desc": "Añade una pequeña probabilidad de que la entidad muerta deje caer su cabeza.",
   "enchantment.musuen.scything": "Siega",
   "enchantment.musuen.scything.desc": "Destruye también los cultivos cercanos cuando esta herramienta se usa para romper un cultivo.",
+  "enchantment.musuen.evolving": "Évolution",
+  "enchantment.musuen.evolving.desc": "Permet à l'objet enchanté d'évoluer avec son utilisation, améliorant ses statistiques.",
+  "enchantment.musuen.experiencing": "Expérience",
+  "enchantment.musuen.experiencing.desc": "Permet à l'objet enchanté de libérer des points d'expérience lors de son utilisation.",
 
   "death.attack.demonicEnchanting" : "%1$s ha hecho un trato demoníaco",
   "death.attack.demonicEnchanting.player" : "%1$s ha hecho un trato demoníaco",
@@ -81,5 +85,7 @@
   "advancements.musuen.ilmusu_enchantments.title": "IlMusu's Enchantments",
   "advancements.musuen.ilmusu_enchantments.description": "La Table d'Enchantement peut absorber les influences démoniaques des Crânes de Wither Skeleton placés autour d'elle. Mais soyez très prudent, vous pourriez être tué !",
   "advancements.musuen.demonic_enchanting.title": "Affaires avec les démons",
-  "advancements.musuen.demonic_enchanting.description": "Obtenez un enchantement démoniaque grâce à la Table d'Enchantement"
+  "advancements.musuen.demonic_enchanting.description": "Obtenez un enchantement démoniaque grâce à la Table d'Enchantement",
+
+  "attribute.name.generic.musuen.break_speed": "Vitesse de Cassure"
 }

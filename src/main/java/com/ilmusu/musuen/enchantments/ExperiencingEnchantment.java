@@ -7,6 +7,7 @@ import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
+import com.ilmusu.musuen.utils.ModUtils;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -43,7 +44,12 @@ public class ExperiencingEnchantment extends Enchantment
 
     protected static float getExperienceDropped(int level)
     {
-        return 0.2F + (int)Math.floor(level*0.1F);
+        return 1.0F + level*1.0F;
+    }
+
+    protected static float getExperienceDropProbability(int level)
+    {
+        return new ModUtils.Linear(1, 0.2F, 3, 0.5F).of(level);
     }
 
     static
@@ -82,11 +88,12 @@ public class ExperiencingEnchantment extends Enchantment
                 experiencingLevel = EnchantmentHelper.getLevel(ModEnchantments.EXPERIENCING, stack);
             }
 
-            if(experiencingLevel == 0)
+            float probability = getExperienceDropProbability(experiencingLevel);
+            if(experiencingLevel == 0 || entity.getRandom().nextFloat() < probability)
                 return 0.0F;
 
             float experience = getExperienceDropped(experiencingLevel) * damage * 0.5F;
-            ExperienceOrbEntity.spawn((ServerWorld) entity.getWorld(), entity.getPos(), (int)experience);
+            ExperienceOrbEntity.spawn((ServerWorld) entity.getWorld(), entity.getPos(), (int)Math.ceil(experience));
             return 0.0F;
         }));
 
@@ -98,12 +105,13 @@ public class ExperiencingEnchantment extends Enchantment
                 return;
 
             int level = EnchantmentHelper.getLevel(ModEnchantments.EXPERIENCING, stack);
-            if(level == 0)
+            float probability = getExperienceDropProbability(level);
+            if(level == 0 || world.getRandom().nextFloat() < probability)
                 return;
 
             float experience = getExperienceDropped(level) * state.getBlock().getHardness() * 0.2F;
             Vec3d center = new Vec3d(pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5);
-            ExperienceOrbEntity.spawn((ServerWorld) player.getWorld(), center, (int)experience);
+            ExperienceOrbEntity.spawn((ServerWorld) player.getWorld(), center, (int)Math.ceil(experience));
         }));
     }
 }
