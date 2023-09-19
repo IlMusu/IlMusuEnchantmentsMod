@@ -34,7 +34,8 @@ public class LongJumpEnchantment extends Enchantment
     {
         return !(other instanceof LongJumpEnchantment) &&
                !(other instanceof SkyJumpEnchantment) &&
-               !(other == Enchantments.FEATHER_FALLING);
+               !(other == Enchantments.FEATHER_FALLING) &&
+                super.canAccept(other);
     }
 
     static

@@ -1,3 +1,5 @@
 accessWidener v1 named
-accessible method net/minecraft/client/particle/EnchantGlyphParticle <init> (Lnet/minecraft/client/world/ClientWorld;DDDDDD)V
 extendable class net/minecraft/enchantment/EnchantmentTarget
+accessible class net/minecraft/enchantment/EnchantmentHelper$Consumer
+accessible method net/minecraft/client/particle/EnchantGlyphParticle <init> (Lnet/minecraft/client/world/ClientWorld;DDDDDD)V
+accessible method net/minecraft/enchantment/EnchantmentHelper forEachEnchantment (Lnet/minecraft/enchantment/EnchantmentHelper$Consumer;Lnet/minecraft/item/ItemStack;)V
