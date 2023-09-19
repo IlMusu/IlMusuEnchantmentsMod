@@ -16,7 +16,6 @@ public interface _IDemonicEnchantmentScreenHandler
     static boolean isValidSkull(BlockState state)
     {
         Block block = state.getBlock();
-        return block == Blocks.SKELETON_SKULL || block == Blocks.SKELETON_WALL_SKULL ||
-                block == Blocks.WITHER_SKELETON_SKULL || block == Blocks.WITHER_SKELETON_WALL_SKULL;
+        return block == Blocks.WITHER_SKELETON_SKULL || block == Blocks.WITHER_SKELETON_WALL_SKULL;
     }
 }

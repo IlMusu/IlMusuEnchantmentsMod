@@ -45,6 +45,18 @@ public class GuillotiningEnchantment extends Enchantment implements _IDemonicEnc
         return ModConfigurations.getEnchantmentMaxLevel(this, 3);
     }
 
+    @Override
+    public boolean isAvailableForEnchantedBookOffer()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isAvailableForRandomSelection()
+    {
+        return !ModConfigurations.isDemonicEnchantingEnabled();
+    }
+
     static
     {
         EntityEquipmentDropCallback.EVENT.register(((entity, source, multiplier, drops) ->
@@ -62,12 +74,13 @@ public class GuillotiningEnchantment extends Enchantment implements _IDemonicEnc
             if(recipe == null)
                 return;
 
-            float probability = new ModUtils.Linear(1, 0.05F, 3, 0.15F).of(level);
+            float probability = new ModUtils.Linear(1, 0.05F, 3, 0.10F).of(level);
             if(entity.getWorld().random.nextFloat() > probability)
                 return;
 
             // Consumes a bit of the player health since this is demonic
-            _IDemonicEnchantment.consumeHealthValue(living, 0.1F, false);
+            float percentage = new ModUtils.Linear(1, 0.2F, 3, 0.3F).of(level);
+            _IDemonicEnchantment.consumeHealthValue(living, percentage, false);
 
             int idx = entity.getWorld().random.nextInt(recipe.getHeads().size());
             Identifier headIdentifier = recipe.getHeads().get(idx);

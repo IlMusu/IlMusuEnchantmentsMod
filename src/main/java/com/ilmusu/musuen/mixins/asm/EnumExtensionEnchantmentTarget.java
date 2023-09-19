@@ -4,6 +4,25 @@ import net.minecraft.item.*;
 
 public class EnumExtensionEnchantmentTarget
 {
+    public static class Tool extends EnchantmentTargetExtensible
+    {
+        @Override
+        public boolean isAcceptableItem(Item item)
+        {
+            return item instanceof MiningToolItem || item instanceof SwordItem || item instanceof TridentItem
+                    || item instanceof BowItem || item instanceof CrossbowItem;
+        }
+    }
+
+    public static class Reacher extends EnchantmentTargetExtensible
+    {
+        @Override
+        public boolean isAcceptableItem(Item item)
+        {
+            return item instanceof MiningToolItem || item instanceof SwordItem || item instanceof TridentItem;
+        }
+    }
+
     public static class Chargeable extends EnchantmentTargetExtensible
     {
         @Override
@@ -28,15 +47,6 @@ public class EnumExtensionEnchantmentTarget
         public boolean isAcceptableItem(Item item)
         {
             return item instanceof ElytraItem;
-        }
-    }
-
-    public static class Reacher extends EnchantmentTargetExtensible
-    {
-        @Override
-        public boolean isAcceptableItem(Item item)
-        {
-            return item instanceof MiningToolItem || item instanceof SwordItem || item instanceof TridentItem;
         }
     }
 

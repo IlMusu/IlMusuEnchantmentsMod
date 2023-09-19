@@ -4,6 +4,7 @@ import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.*;
 import com.ilmusu.musuen.mixins.interfaces._IEntityDeathSource;
 import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
+import com.ilmusu.musuen.networking.messages.PlayerJumpMessage;
 import com.ilmusu.musuen.registries.ModDamageSources;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.minecraft.block.FluidBlock;
@@ -307,6 +308,13 @@ public abstract class CustomCallbacksMixins
             return (int)LivingEntityDamageCallback.BEFORE_FALL.invoker().handler(entity, damageSource, damage);
         }
 
+        @Inject(method = "applyDamage", at = @At(value = "RETURN", ordinal = 2))
+        private void afterApplyingDamage(DamageSource source, float amount, CallbackInfo ci)
+        {
+            LivingEntity entity = (LivingEntity)(Object)this;
+            LivingEntityDamageCallback.AFTER.invoker().handler(entity, source, amount);
+        }
+
         @Inject(method = "tickMovement", at = @At(
                 value = "INVOKE",
                 target = "Lnet/minecraft/util/profiler/Profiler;pop()V",
@@ -322,8 +330,13 @@ public abstract class CustomCallbacksMixins
 
             if(LivingEntityAirJumpCallback.EVENT.invoker().handler(entity, this.jumpingCooldown))
             {
+                // Making the player perform another jump
                 this.jump();
+                new PlayerJumpMessage().sendToServer();
+                // The jump cooldown needs to be set correctly
                 this.jumpingCooldown = 10;
+                // Also resetting the fall distance
+                entity.fallDistance = 0.0F;
             }
         }
 
