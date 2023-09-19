@@ -37,6 +37,7 @@ public class ModEnchantments
     public static final Enchantment MULTI_ARROW = new MultiArrowEnchantment(Enchantment.Rarity.VERY_RARE);
     public static final Enchantment SCYTHING = new ScythingEnchantment(Enchantment.Rarity.RARE);
     public static final Enchantment EVOLVING = new EvolvingEnchantment(Enchantment.Rarity.VERY_RARE);
+    public static final Enchantment EXPERIENCING = new ExperiencingEnchantment(Enchantment.Rarity.RARE);
 
     public static void register()
     {
@@ -69,6 +70,7 @@ public class ModEnchantments
         registerEnchantmentIfEnabled("multi_arrow", MULTI_ARROW);
         registerEnchantmentIfEnabled("scything", SCYTHING);
         registerEnchantmentIfEnabled("evolving", EVOLVING);
+        registerEnchantmentIfEnabled("experiencing", EXPERIENCING);
     }
 
     public static void registerEnchantmentIfEnabled(String name, Enchantment enchantment)

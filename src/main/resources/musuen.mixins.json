@@ -26,6 +26,8 @@
     "DemonicEnchantingTableLogicMixin$DemonicEnchantmentScreenHandler",
     "DemonicEnchantingTableLogicMixin$FixEnchantmentGenerationList",
     "EnchantmentWithExtensions$EnchantmentHelperModifications",
+    "EnchantmentWithExtensions$ItemStackExtensions",
+    "EnchantmentWithExtensions$PlayerModifications",
     "EntityWithDeathSource",
     "EntityWithDeathSource$LivingEntityTrackableDrops",
     "EntityWithPersistentNbt",
