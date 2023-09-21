@@ -3,11 +3,11 @@ package com.ilmusu.musuen.enchantments;
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.EntityRendererCallback;
 import com.ilmusu.musuen.callbacks.ProjectileShotCallback;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.musuen.mixins.mixin.AccessorPersistentProjectileEntity;
 import com.ilmusu.musuen.networking.messages.SkyhookLeashMessage;
-import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.fabricmc.api.EnvType;
@@ -37,21 +37,29 @@ public class SkyhookEnchantment extends Enchantment
     public static final String SKYHOOK_HOLDER = Resources.MOD_ID+".skyhook_holder";
     public static final String SKYHOOK_PROJECTILE = Resources.MOD_ID+".skyhook_projectile";
 
-    public SkyhookEnchantment(Rarity weight)
+    public SkyhookEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
         super(weight, EnchantmentTarget.CROSSBOW, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 4);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
+    }
+
+    @Override
+    protected boolean canAccept(Enchantment other)
+    {
+        return !(other instanceof ZeroGravityEnchantment) &&
+               super.canAccept(other);
     }
 
     static

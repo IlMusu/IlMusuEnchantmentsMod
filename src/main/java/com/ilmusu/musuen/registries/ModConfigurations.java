@@ -15,6 +15,7 @@ public class ModConfigurations
     public static class EnchantmentsConfig
     {
         public static final String ENABLED = "enabled";
+        public static final String RARITY = "rarity";
         public static final String MIN_LEVEL = "min_level";
         public static final String MAX_LEVEL = "max_level";
     }
@@ -91,16 +92,20 @@ public class ModConfigurations
         ENCHANTMENTS.load();
     }
 
-    public static boolean registerEnchantmentConfig(String name)
+    public static boolean registerEnchantmentConfig(String name, Enchantment.Rarity rarity, int minLevel, int maxLevel)
     {
-        // Registering the enabled config
-        boolean isEnabled = isEnchantmentEnabled(name);
-        // Creating the group
+        // Creating the keys in any case
         String enabledKey = getEnchantmentConfigKey(name, EnchantmentsConfig.ENABLED);
+        String rarityKey = getEnchantmentConfigKey(name, EnchantmentsConfig.RARITY);
         String minLevelKey = getEnchantmentConfigKey(name, EnchantmentsConfig.MIN_LEVEL);
         String maxLevelKey = getEnchantmentConfigKey(name, EnchantmentsConfig.MAX_LEVEL);
-        ENCHANTMENTS.createConfigGroup(enabledKey, List.of(minLevelKey, maxLevelKey));
-        return isEnabled;
+        ENCHANTMENTS.createConfigGroup(enabledKey, List.of(rarityKey, minLevelKey, maxLevelKey));
+        ENCHANTMENTS.setConfigIfAbsent(enabledKey, true, Object::toString, Boolean::parseBoolean);
+        ENCHANTMENTS.setConfigIfAbsent(rarityKey, rarity, Object::toString, Enchantment.Rarity::valueOf);
+        ENCHANTMENTS.setConfigIfAbsent(minLevelKey, minLevel, Object::toString, Integer::parseInt);
+        ENCHANTMENTS.setConfigIfAbsent(maxLevelKey, maxLevel, Object::toString, Integer::parseInt);
+        // Check if the enchantment is enabled
+        return isEnchantmentEnabled(name);
     }
 
     public static void write()
@@ -147,58 +152,33 @@ public class ModConfigurations
         return whiteList.contains(Registries.BLOCK.getId(state.getBlock()));
     }
 
-    private static String getEnchantmentConfigKey(String name, String config)
+    private static String getEnchantmentConfigKey(String enchantment, String config)
     {
-        return name+"."+config.toLowerCase();
+        return enchantment+"."+config.toLowerCase();
     }
 
-    private static boolean isEnchantmentEnabled(String name)
+    private static boolean isEnchantmentEnabled(String enchantment)
     {
-        String enabledKey = getEnchantmentConfigKey(name, EnchantmentsConfig.ENABLED);
-        Object configValue = ENCHANTMENTS.getConfigValue(enabledKey, Boolean::parseBoolean);
-        if(configValue != null)
-            return (boolean) configValue;
-
-        ENCHANTMENTS.setConfigIfAbsent(enabledKey, true, Object::toString, Boolean::parseBoolean);
-        return true;
+        String enabledKey = getEnchantmentConfigKey(enchantment, EnchantmentsConfig.ENABLED);
+        return (boolean) ENCHANTMENTS.getConfigValue(enabledKey, Boolean::parseBoolean);
     }
 
-    public static int getEnchantmentMinLevel(Enchantment enchantment, int min)
+    public static int getEnchantmentMinLevel(String enchantment)
     {
-        String name = Registries.ENCHANTMENT.getId(enchantment).getPath();
-        String key = getEnchantmentConfigKey(name, EnchantmentsConfig.MIN_LEVEL);
-        Object configValue = ENCHANTMENTS.getConfigValue(key, Integer::parseInt);
-        if(configValue != null)
-            return (int) configValue;
-
-        try {
-            ENCHANTMENTS.setConfigIfAbsent(key, min, Object::toString, Integer::parseInt);
-            min = Math.max(1, (int) ENCHANTMENTS.getConfigValue(key, null));
-        }
-        catch (NumberFormatException exception) {
-            Resources.LOGGER.error("Could not read minimum level for "+name+" enchantment! Defaulting to "+min+"!");
-        }
-
-        return min;
+        String key = getEnchantmentConfigKey(enchantment, EnchantmentsConfig.MIN_LEVEL);
+        return (int) ENCHANTMENTS.getConfigValue(key, Integer::parseInt);
     }
 
-    public static int getEnchantmentMaxLevel(Enchantment enchantment, int max)
+    public static int getEnchantmentMaxLevel(String enchantment)
     {
-        String name = Registries.ENCHANTMENT.getId(enchantment).getPath();
-        String key = getEnchantmentConfigKey(name, EnchantmentsConfig.MAX_LEVEL);
-        Object configValue = ENCHANTMENTS.getConfigValue(key, Integer::parseInt);
-        if(configValue != null)
-            return (int) configValue;
+        String key = getEnchantmentConfigKey(enchantment, EnchantmentsConfig.MAX_LEVEL);
+        return (int) ENCHANTMENTS.getConfigValue(key, Integer::parseInt);
+    }
 
-        try {
-            ENCHANTMENTS.setConfigIfAbsent(key, max, Object::toString, Integer::parseInt);
-            max = Math.min((int) ENCHANTMENTS.getConfigValue(key, null), 255);
-        }
-        catch (NumberFormatException exception) {
-            Resources.LOGGER.error("Could not read maximum level for "+name+" enchantment! Defaulting to "+max+"!");
-        }
-
-        return max;
+    public static Enchantment.Rarity getEnchantmentRarity(String enchantment)
+    {
+        String key = getEnchantmentConfigKey(enchantment, EnchantmentsConfig.RARITY);
+        return (Enchantment.Rarity) ENCHANTMENTS.getConfigValue(key, null);
     }
 
     @SuppressWarnings("unchecked")

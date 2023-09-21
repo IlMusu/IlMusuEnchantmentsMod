@@ -4,12 +4,12 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.player.PlayerEntity;
 
-public interface PlayerPhantomSpawnCallback
+public interface PhantomSpawnCallback
 {
-    Event<PlayerPhantomSpawnCallback> BEFORE = EventFactory.createArrayBacked(PlayerPhantomSpawnCallback.class,
+    Event<PhantomSpawnCallback> BEFORE = EventFactory.createArrayBacked(PhantomSpawnCallback.class,
             (listeners) -> (player, insomniaAmount) ->
             {
-                for (PlayerPhantomSpawnCallback listener : listeners)
+                for (PhantomSpawnCallback listener : listeners)
                     insomniaAmount *= listener.handler(player, insomniaAmount);
                 return insomniaAmount;
             });

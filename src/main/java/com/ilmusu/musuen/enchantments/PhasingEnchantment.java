@@ -2,6 +2,7 @@ package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.PlayerFovMultiplierCallback;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.musuen.networking.messages.PhasingSwitchMessage;
@@ -44,9 +45,10 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
 
     public static float clientTargetFov = 1.0F;
 
-    public PhasingEnchantment(Rarity weight)
+    public PhasingEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
         super(weight, EnchantmentTarget.ARMOR_LEGS, new EquipmentSlot[]{EquipmentSlot.LEGS});
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
@@ -58,13 +60,13 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 5);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
     }
 
     @Override
@@ -97,7 +99,7 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
         // If there was no block on the path of the ray, simply teleport the player there
         BlockHitResult hitResult = ModRaycast.raycastFullBlock(player, 0.0F, distance);
         if(hitResult.getType() == HitResult.Type.MISS)
-            return performPlayerPhasing(player, ModEnchantments.PHASING, hitResult, level);
+            return performPlayerPhasing(player, hitResult, level);
 
         Box box = player.getBoundingBox(player.getPose()).expand(0.3F, 0.0F, 0.3F);
         box = box.withMinY(box.minY+0.6F);
@@ -106,13 +108,13 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
 
         // If it is not possible to phase, teleport to the looked block
         if(phaseResult == null)
-            return performPlayerPhasing(player, ModEnchantments.PHASING, offsetFromDir(hitResult), level);
+            return performPlayerPhasing(player, offsetFromDir(hitResult), level);
 
         // This is the actual phasing
-        return performPlayerPhasing(player, ModEnchantments.PHASING, phaseResult, level);
+        return performPlayerPhasing(player, phaseResult, level);
     }
 
-    private static boolean performPlayerPhasing(PlayerEntity player, Enchantment ench, HitResult result, int level)
+    private static boolean performPlayerPhasing(PlayerEntity player, HitResult result, int level)
     {
         // Modifies the target position to make it more suitable
         Vec3d target = result.getPos();
@@ -159,7 +161,6 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
 
                 // Consuming health
                 float percentage = new ModUtils.Linear(1, 0.2F, 5, 0.3F).of(level);
-                System.out.println(percentage);
                 _IDemonicEnchantment.consumeHealthValue(player, percentage, false);
             })
         );

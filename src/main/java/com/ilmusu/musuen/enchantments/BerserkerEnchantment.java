@@ -3,6 +3,7 @@ package com.ilmusu.musuen.enchantments;
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.HudRenderCallback;
 import com.ilmusu.musuen.callbacks.PlayerAttackCallback;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.networking.messages.BerserkOverlayMessage;
 import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantments;
@@ -36,9 +37,10 @@ public class BerserkerEnchantment extends DamageEnchantment implements _IDemonic
     private static ModUtils.Linear berserkOverlay;
     private static float berserkOverlayTime;
 
-    public BerserkerEnchantment(Rarity weight)
+    public BerserkerEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
         super(weight, 0, EquipmentSlot.MAINHAND);
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
@@ -50,13 +52,13 @@ public class BerserkerEnchantment extends DamageEnchantment implements _IDemonic
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 5);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
     }
 
     @Override
