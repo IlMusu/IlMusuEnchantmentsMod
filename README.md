@@ -51,7 +51,7 @@ At level 2, it consumes 13.75% of the max health and produces +7.0 additional da
 At level 3, it consumes 17.50% of the max health and produces +9.7 additional damage. <br />
 At level 4, it consumes 21.25% of the max health and produces +12.7 additional damage. <br />
 At level 5, it consumes 25.00% of the max health and produces +16.0 additional damage. <br />
-
+<br />
 The previous values assumed that the player had 20 maximum health, otherwise, this formula can be used: <br />
 <b>additional_damage = (enchantment_level * 0.2) + (consumed_player_health * (2.0 + enchantment_level * 0.2))</b>
 <br />
@@ -69,7 +69,7 @@ This enchantment <b>is not compatible</b> with:
 2. Berserker Enchantment
 
 ## SKEWERING ENCHANTMENT (V)
-The <b><span style="color:purple">Skewering Enchantment</span></b> provides additional damage for the trident both in the case of melee attack and ranged attack. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level, it provides +16.0 additional damage and consumes 25% of the player maximum health. <br />
+The <b><span style="color:purple">Skewering Enchantment</span></b> provides additional damage for the trident both in the case of melee attack and ranged attack. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level, it provides +16.0 (assuming the player has 20 maximum health) additional damage and consumes 25% of the player maximum health. An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
 
 <details>
 <summary><b>Details here</b></summary>
@@ -79,7 +79,9 @@ At level 2, it consumes 13.75% of the max health and produces +7.0 additional da
 At level 3, it consumes 17.50% of the max health and produces +9.7 additional damage. <br />
 At level 4, it consumes 21.25% of the max health and produces +12.7 additional damage. <br />
 At level 5, it consumes 25.00% of the max health and produces +16.0 additional damage. <br />
-An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
+<br />
+The previous values assumed that the player had 20 maximum health, otherwise, this formula can be used: <br />
+<b>additional_damage = (enchantment_level * 0.2) + (consumed_player_health * (2.0 + enchantment_level * 0.2))</b>
 <br />
 <p>
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/skewering.gif?raw=true" alt="">
