@@ -52,7 +52,7 @@ At level 3, it consumes 17.50% of the max health and produces +9.7 additional da
 At level 4, it consumes 21.25% of the max health and produces +12.7 additional damage. <br />
 At level 5, it consumes 25.00% of the max health and produces +16.0 additional damage. <br />
 <br />
-The previous values assumed that the player had 20 maximum health, otherwise, this formula can be used: <br />
+The previous values assumed the player having 20 maximum health, otherwise, this formula can be used: <br />
 <b>additional_damage = (enchantment_level * 0.2) + (consumed_player_health * (2.0 + enchantment_level * 0.2))</b> <br />
 <br />
 <p>
@@ -80,7 +80,7 @@ At level 3, it consumes 17.50% of the max health and produces +9.7 additional da
 At level 4, it consumes 21.25% of the max health and produces +12.7 additional damage. <br />
 At level 5, it consumes 25.00% of the max health and produces +16.0 additional damage. <br />
 <br />
-The previous values assumed that the player had 20 maximum health, otherwise, this formula can be used: <br />
+The previous values assumed the player having 20 maximum health, otherwise, this formula can be used: <br />
 <b>additional_damage = (enchantment_level * 0.2) + (consumed_player_health * (2.0 + enchantment_level * 0.2))</b> <br />
 <br />
 <p>
