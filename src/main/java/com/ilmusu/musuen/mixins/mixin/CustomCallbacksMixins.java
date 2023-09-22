@@ -24,6 +24,7 @@ import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.*;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -396,7 +397,7 @@ public abstract class CustomCallbacksMixins
         @ModifyVariable(method = "spawn", ordinal = 1, at = @At(value = "STORE"))
         private int beforeSpawningPhantom(int insomnia)
         {
-            insomnia = (int) PlayerPhantomSpawnCallback.BEFORE.invoker().handler(PhantomSpawnerCallbacks.player, insomnia);
+            insomnia = (int) PhantomSpawnCallback.BEFORE.invoker().handler(PhantomSpawnerCallbacks.player, insomnia);
             return Math.max(1, insomnia);
         }
     }
@@ -426,6 +427,17 @@ public abstract class CustomCallbacksMixins
         private void onEntityCreation(ItemStack stack, CallbackInfo ci)
         {
             ItemEntityStackCallback.EVENT.invoker().handler((ItemEntity)(Object)this, stack);
+        }
+    }
+
+    @Mixin(ItemStack.class)
+    public abstract static class ItemStackCallbacks
+    {
+        @Inject(method = "use", at = @At("HEAD"))
+        private void onItemStackUse(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir)
+        {
+            ItemStack stack = (ItemStack)(Object)this;
+            PlayerItemUseCallback.EVENT.invoker().handler(user, hand, stack);
         }
     }
 

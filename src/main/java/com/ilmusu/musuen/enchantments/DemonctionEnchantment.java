@@ -2,6 +2,7 @@ package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.LivingEntityDamageCallback;
 import com.ilmusu.musuen.callbacks.PlayerHurtTiltCallback;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModDamageTypeTags;
 import com.ilmusu.musuen.registries.ModDamageTypes;
@@ -22,21 +23,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class DemonctionEnchantment extends Enchantment
 {
-    public DemonctionEnchantment(Rarity weight)
+    public DemonctionEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
         super(weight, EnchantmentTarget.ARMOR, new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET});
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 5);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
     }
 
     @SuppressWarnings("unused")
