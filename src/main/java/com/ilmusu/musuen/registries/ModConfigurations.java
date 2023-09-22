@@ -5,6 +5,7 @@ import com.ilmusu.musuen.Resources;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
@@ -29,6 +30,7 @@ public class ModConfigurations
         public static final String VEIN_MINING_ENABLED_WHILE_NOT_SNEAKING = "vein_mining_enabled_while_not_sneaking";
         public static final String VEIN_MINING_HAS_WHITE_LIST = "vein_mining_has_white_list";
         public static final String VEIN_MINING_WHITE_LIST = "vein_mining_white_list";
+        public static final String VEIN_MINING_TOOLS = "vein_mining_tools";
     }
 
     public static final Configuration MOD = new Configuration(Resources.MOD_ID, "mod");
@@ -82,11 +84,18 @@ public class ModConfigurations
         MOD.setConfigIfAbsent(
             ModConfig.VEIN_MINING_WHITE_LIST, List.of(), """
             # This is the white list of items that is allowed for the vein mining enchantment when the white list
-            # is enabled. The blocks must be written inside the square brackets, separated by commas and with no
-            # blank spaces: the blocks ids can be found in game using the F3+H "Advanced Tooltips".
-            # An example is the following: [minecraft:stone,minecraft:dirt,minecraft:coal_ore]""",
-            ModConfigurations::listOfIdentifiesToString,
+            # is enabled. The blocks must be written inside the square brackets, separated by commas: the blocks ids
+            # can be found in game using the F3+H "Advanced Tooltips".
+            # An example is the following: [minecraft:stone, minecraft:dirt, minecraft:coal_ore]""",
+            ModConfigurations::listOfIdentifiersToString,
             ModConfigurations::stringToListOfIdentifiers);
+        MOD.setConfigIfAbsent(
+            ModConfig.VEIN_MINING_TOOLS, List.of("pickaxe", "axe", "shovel", "hoe"), """
+            # This is the white list of tools that can be enchanted with the vein mining enchantment. The tools must
+            # be written inside the square brackets, separated by commas.
+            # An example is the following: [pickaxe, axe, shovel, hoe]""",
+            ModConfigurations::listOfStringsToString,
+            ModConfigurations::stringToListOfStrings);
 
         // Loading the configuration for the enchantments from file
         ENCHANTMENTS.load();
@@ -152,6 +161,21 @@ public class ModConfigurations
         return whiteList.contains(Registries.BLOCK.getId(state.getBlock()));
     }
 
+    @SuppressWarnings("unchecked")
+    public static boolean canToolVeinMine(Item item)
+    {
+        List<String> tools = (List<String>) MOD.getConfigValue(ModConfig.VEIN_MINING_TOOLS, null);
+        if(item instanceof PickaxeItem)
+            return tools.contains("pickaxe");
+        if(item instanceof AxeItem)
+            return tools.contains("axe");
+        if(item instanceof ShovelItem)
+            return tools.contains("shovel");
+        if(item instanceof HoeItem)
+            return tools.contains("hoe");
+        return false;
+    }
+
     private static String getEnchantmentConfigKey(String enchantment, String config)
     {
         return enchantment+"."+config.toLowerCase();
@@ -182,7 +206,7 @@ public class ModConfigurations
     }
 
     @SuppressWarnings("unchecked")
-    protected static String listOfIdentifiesToString(Object identifierList)
+    protected static String listOfIdentifiersToString(Object identifierList)
     {
         List<Identifier> identifiers = (List<Identifier>)identifierList;
         List<String> list = identifiers.stream().map(Identifier::toString).toList();
@@ -195,5 +219,18 @@ public class ModConfigurations
         string = string.substring(1, string.length()-1);
         List<String> list = List.of(string.split(","));
         return list.stream().map((str) -> new Identifier(str.strip())).toList();
+    }
+
+    protected static String listOfStringsToString(Object strings)
+    {
+        return strings.toString();
+    }
+
+    protected static List<String> stringToListOfStrings(String string)
+    {
+        string = string.trim();
+        string = string.substring(1, string.length()-1);
+        List<String> list = List.of(string.split(","));
+        return list.stream().map(String::strip).toList();
     }
 }

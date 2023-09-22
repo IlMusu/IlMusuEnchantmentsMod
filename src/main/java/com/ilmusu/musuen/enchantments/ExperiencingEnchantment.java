@@ -50,7 +50,7 @@ public class ExperiencingEnchantment extends Enchantment
 
     protected static float getExperienceDropProbability(int level)
     {
-        return new ModUtils.Linear(1, 0.2F, 3, 0.5F).of(level);
+        return new ModUtils.Linear(1, 0.05F, 3, 0.10F).of(level);
     }
 
     static
@@ -93,8 +93,8 @@ public class ExperiencingEnchantment extends Enchantment
             if(experiencingLevel == 0 || entity.getRandom().nextFloat() < probability)
                 return 0.0F;
 
-            float experience = getExperienceDropped(experiencingLevel) * damage * 0.5F;
-            ExperienceOrbEntity.spawn((ServerWorld) entity.getWorld(), entity.getPos(), (int)Math.ceil(experience));
+            float experience = getExperienceDropped(experiencingLevel);
+            ExperienceOrbEntity.spawn((ServerWorld) entity.getWorld(), entity.getPos(), (int)experience);
             return 0.0F;
         }));
 
