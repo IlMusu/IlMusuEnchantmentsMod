@@ -3,7 +3,7 @@ package com.ilmusu.musuen.enchantments;
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.LivingEntityDamageCallback;
 import com.ilmusu.musuen.callbacks.ProjectileShotCallback;
-import com.ilmusu.musuen.registries.ModConfigurations;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
@@ -27,21 +27,22 @@ public class EvolvingEnchantment extends Enchantment implements _IEnchantmentExt
     // The multipliers for computing the actual additional speed value
     private static final float SPEED_MULTIPLIER = 1.0F;
 
-    public EvolvingEnchantment(Rarity weight)
+    public EvolvingEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
         super(weight, ModEnchantmentTargets.TOOL, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 5);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
     }
 
     @Override
@@ -113,7 +114,7 @@ public class EvolvingEnchantment extends Enchantment implements _IEnchantmentExt
             // Leveling the damage on the amount of damage
             NbtCompound nbt = stack.getOrCreateNbt();
             float evolvingAmount = nbt.getFloat(EVOLVING_TAG);
-            evolvingAmount += damage * (0.0001F*level);
+            evolvingAmount += damage * 0.000005F * level;
             nbt.putFloat(EVOLVING_TAG, Math.min(evolvingAmount, getMaxEvolvingAmount(level)));
             return 0.0F;
         }));
@@ -136,7 +137,7 @@ public class EvolvingEnchantment extends Enchantment implements _IEnchantmentExt
             // Leveling the damage on the amount of damage
             NbtCompound nbt = stack.getOrCreateNbt();
             float evolvingAmount = nbt.getFloat(EVOLVING_TAG);
-            evolvingAmount += state.getBlock().getHardness() * 0.5F * (0.0001F*level);
+            evolvingAmount += state.getBlock().getHardness() * 0.000005F * level;
             nbt.putFloat(EVOLVING_TAG, evolvingAmount);
         }));
 

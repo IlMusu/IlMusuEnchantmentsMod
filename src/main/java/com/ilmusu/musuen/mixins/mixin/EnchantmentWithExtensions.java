@@ -76,8 +76,7 @@ public abstract class EnchantmentWithExtensions
     @Mixin(ItemStack.class)
     public static abstract class ItemStackExtensions
     {
-        @Shadow
-        protected abstract int getHideFlags();
+        @Shadow protected abstract int getHideFlags();
 
         @Shadow
         private static boolean isSectionVisible(int flags, ItemStack.TooltipSection tooltipSection)
@@ -101,7 +100,7 @@ public abstract class EnchantmentWithExtensions
                 return;
 
             // Adding the tooltip
-            String operation = "attribute.modifier.plus."+ EntityAttributeModifier.Operation.ADDITION.getId();
+            String operation = "attribute.modifier.plus."+EntityAttributeModifier.Operation.ADDITION.getId();
             Text attributeName = new TranslatableText("attribute.name.generic.musuen.break_speed");
             String value = ItemStack.MODIFIER_FORMAT.format(additionalDigSpeed);
             list.add(new LiteralText(" ").append(new TranslatableText(operation, value, attributeName)).formatted(Formatting.DARK_GREEN));
