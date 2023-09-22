@@ -26,8 +26,6 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
 
-import static net.minecraft.item.ItemStack.MODIFIER_FORMAT;
-
 public abstract class EnchantmentWithExtensions
 {
     @Mixin(EnchantmentHelper.class)
@@ -104,7 +102,7 @@ public abstract class EnchantmentWithExtensions
             // Adding the tooltip
             String operation = "attribute.modifier.plus."+EntityAttributeModifier.Operation.ADDITION.getId();
             Text attributeName = Text.translatable("attribute.name.generic.musuen.break_speed");
-            String value = MODIFIER_FORMAT.format(additionalDigSpeed);
+            String value = ItemStack.MODIFIER_FORMAT.format(additionalDigSpeed);
             list.add(ScreenTexts.space().append(Text.translatable(operation, value, attributeName)).formatted(Formatting.DARK_GREEN));
         }
     }
