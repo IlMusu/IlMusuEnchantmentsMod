@@ -250,31 +250,37 @@ public abstract class DemonicEnchantingTableLogicMixin
             FixEnchantmentGenerationList.enchantingPower = 0;
 
             // Adding only one demonic enchantment at the beginning of the list
-            List<EnchantmentLevelEntry> demonics = getPossibleDemonicEntries(power, stack);
+            List<EnchantmentLevelEntry> demonics = getPossibleDemonicEntries(power, stack, list);
             Weighting.getRandom(random, demonics).ifPresent((entry -> list.add(0, entry)));
         }
 
         // Copied and modified from the EnchantmentHelper
         @Unique
-        private static List<EnchantmentLevelEntry> getPossibleDemonicEntries(int power, ItemStack stack)
+        private static List<EnchantmentLevelEntry> getPossibleDemonicEntries(int power, ItemStack stack, List<EnchantmentLevelEntry> generated)
         {
             ArrayList<EnchantmentLevelEntry> list = Lists.newArrayList();
             Item item = stack.getItem();
             boolean isBook = stack.isOf(Items.BOOK);
 
-            block0: for (Enchantment enchantment : Registry.ENCHANTMENT)
+            block0: for (Enchantment demonic : Registry.ENCHANTMENT)
             {
-                if(!(enchantment instanceof _IDemonicEnchantment))
-                    continue ;
-                if(!enchantment.type.isAcceptableItem(item) && !isBook)
+                // The enchantment must be demonic
+                if(!(demonic instanceof _IDemonicEnchantment))
+                    continue;
+                // The target must be acceptable and not a book
+                if(!demonic.type.isAcceptableItem(item) && !isBook)
+                    continue;
+                // The demonic enchantment must be compatible with the already generated enchantments
+                if(generated.stream().anyMatch((entry -> !entry.enchantment.canCombine(demonic))))
                     continue;
 
-                for (int i = enchantment.getMaxLevel(); i > enchantment.getMinLevel() - 1; --i)
+                for (int i = demonic.getMaxLevel(); i > demonic.getMinLevel()-1; --i)
                 {
-                    if (power < enchantment.getMinPower(i) || power > enchantment.getMaxPower(i))
+                    // Adding the enchantment at the max possible level given the power
+                    if (power < demonic.getMinPower(i) || power > demonic.getMaxPower(i))
                         continue;
 
-                    list.add(new EnchantmentLevelEntry(enchantment, i));
+                    list.add(new EnchantmentLevelEntry(demonic, i));
                     continue block0;
                 }
             }

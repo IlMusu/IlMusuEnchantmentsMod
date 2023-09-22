@@ -1,7 +1,7 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.LivingEntityJumpCallback;
-import com.ilmusu.musuen.registries.ModConfigurations;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -12,21 +12,22 @@ import net.minecraft.util.math.MathHelper;
 
 public class LongJumpEnchantment extends Enchantment
 {
-    public LongJumpEnchantment(Rarity weight)
+    public LongJumpEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
         super(weight, EnchantmentTarget.ARMOR_FEET, new EquipmentSlot[]{EquipmentSlot.FEET});
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 5);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
     }
 
     @Override

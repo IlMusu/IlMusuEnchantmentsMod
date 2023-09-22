@@ -1,7 +1,7 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.PlayerTickCallback;
-import com.ilmusu.musuen.registries.ModConfigurations;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.registries.ModSoundEvents;
 import com.ilmusu.musuen.utils.ModUtils;
@@ -15,21 +15,22 @@ import net.minecraft.sound.SoundCategory;
 
 public class GluttonyEnchantment extends Enchantment
 {
-    public GluttonyEnchantment(Rarity weight)
+    public GluttonyEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
         super(weight, EnchantmentTarget.ARMOR_HEAD, new EquipmentSlot[]{EquipmentSlot.HEAD});
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 3);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
     }
 
     static

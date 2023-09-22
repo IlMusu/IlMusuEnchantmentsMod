@@ -2,6 +2,7 @@ package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.PlayerAttackCallback;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.minecraft.enchantment.Enchantment;
@@ -22,9 +23,10 @@ public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchan
 {
     private static final String NBT_DAMAGE_TAG = Resources.MOD_ID+".skewering_additional_damage";
 
-    public SkeweringEnchantment(Rarity weight)
+    public SkeweringEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
         super(weight, EnchantmentTarget.TRIDENT, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
@@ -36,13 +38,13 @@ public class SkeweringEnchantment extends Enchantment implements _IDemonicEnchan
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 5);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
     }
 
     @Override

@@ -3,8 +3,8 @@ package com.ilmusu.musuen.enchantments;
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.LivingEntityDamageCallback;
 import com.ilmusu.musuen.callbacks.ProjectileShotCallback;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
-import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
@@ -25,31 +25,32 @@ public class ExperiencingEnchantment extends Enchantment
 {
     private static final String EXPERIENCING_TAG = Resources.MOD_ID+"."+"experiencing";
 
-    public ExperiencingEnchantment(Rarity weight)
+    public ExperiencingEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
         super(weight, ModEnchantmentTargets.TOOL, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 3);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
     }
 
     protected static float getExperienceDropped(int level)
     {
-        return 1.0F + level*1.0F;
+        return 1.0F + level*0.5F;
     }
 
     protected static float getExperienceDropProbability(int level)
     {
-        return new ModUtils.Linear(1, 0.2F, 3, 0.5F).of(level);
+        return new ModUtils.Linear(1, 0.05F, 3, 0.15F).of(level);
     }
 
     static
@@ -89,11 +90,11 @@ public class ExperiencingEnchantment extends Enchantment
             }
 
             float probability = getExperienceDropProbability(experiencingLevel);
-            if(experiencingLevel == 0 || entity.getRandom().nextFloat() < probability)
+            if(experiencingLevel == 0 || entity.getRandom().nextFloat() > probability)
                 return 0.0F;
 
-            float experience = getExperienceDropped(experiencingLevel) * damage * 0.5F;
-            ExperienceOrbEntity.spawn((ServerWorld) entity.getWorld(), entity.getPos(), (int)Math.ceil(experience));
+            float experience = getExperienceDropped(experiencingLevel);
+            ExperienceOrbEntity.spawn((ServerWorld) entity.getWorld(), entity.getPos(), (int)experience);
             return 0.0F;
         }));
 
@@ -106,12 +107,12 @@ public class ExperiencingEnchantment extends Enchantment
 
             int level = EnchantmentHelper.getLevel(ModEnchantments.EXPERIENCING, stack);
             float probability = getExperienceDropProbability(level);
-            if(level == 0 || world.getRandom().nextFloat() < probability)
+            if(level == 0 || world.getRandom().nextFloat() > probability)
                 return;
 
-            float experience = getExperienceDropped(level) * state.getBlock().getHardness() * 0.2F;
+            float experience = getExperienceDropped(level);
             Vec3d center = new Vec3d(pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5);
-            ExperienceOrbEntity.spawn((ServerWorld) player.getWorld(), center, (int)Math.ceil(experience));
+            ExperienceOrbEntity.spawn((ServerWorld) player.getWorld(), center, (int)experience);
         }));
     }
 }

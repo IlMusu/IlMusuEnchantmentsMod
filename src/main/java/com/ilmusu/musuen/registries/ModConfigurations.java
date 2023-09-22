@@ -5,6 +5,7 @@ import com.ilmusu.musuen.Resources;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -15,6 +16,7 @@ public class ModConfigurations
     public static class EnchantmentsConfig
     {
         public static final String ENABLED = "enabled";
+        public static final String RARITY = "rarity";
         public static final String MIN_LEVEL = "min_level";
         public static final String MAX_LEVEL = "max_level";
     }
@@ -28,6 +30,7 @@ public class ModConfigurations
         public static final String VEIN_MINING_ENABLED_WHILE_NOT_SNEAKING = "vein_mining_enabled_while_not_sneaking";
         public static final String VEIN_MINING_HAS_WHITE_LIST = "vein_mining_has_white_list";
         public static final String VEIN_MINING_WHITE_LIST = "vein_mining_white_list";
+        public static final String VEIN_MINING_TOOLS = "vein_mining_tools";
     }
 
     public static final Configuration MOD = new Configuration(Resources.MOD_ID, "mod");
@@ -81,26 +84,37 @@ public class ModConfigurations
         MOD.setConfigIfAbsent(
             ModConfig.VEIN_MINING_WHITE_LIST, List.of(), """
             # This is the white list of items that is allowed for the vein mining enchantment when the white list
-            # is enabled. The blocks must be written inside the square brackets, separated by commas and with no
-            # blank spaces: the blocks ids can be found in game using the F3+H "Advanced Tooltips".
-            # An example is the following: [minecraft:stone,minecraft:dirt,minecraft:coal_ore]""",
-            ModConfigurations::listOfIdentifiesToString,
+            # is enabled. The blocks must be written inside the square brackets, separated by commas: the blocks ids
+            # can be found in game using the F3+H "Advanced Tooltips".
+            # An example is the following: [minecraft:stone, minecraft:dirt, minecraft:coal_ore]""",
+            ModConfigurations::listOfIdentifiersToString,
             ModConfigurations::stringToListOfIdentifiers);
+        MOD.setConfigIfAbsent(
+            ModConfig.VEIN_MINING_TOOLS, List.of("pickaxe", "axe", "shovel", "hoe"), """
+            # This is the white list of tools that can be enchanted with the vein mining enchantment. The tools must
+            # be written inside the square brackets, separated by commas.
+            # An example is the following: [pickaxe, axe, shovel, hoe]""",
+            ModConfigurations::listOfStringsToString,
+            ModConfigurations::stringToListOfStrings);
 
         // Loading the configuration for the enchantments from file
         ENCHANTMENTS.load();
     }
 
-    public static boolean registerEnchantmentConfig(String name)
+    public static boolean registerEnchantmentConfig(String name, Enchantment.Rarity rarity, int minLevel, int maxLevel)
     {
-        // Registering the enabled config
-        boolean isEnabled = isEnchantmentEnabled(name);
-        // Creating the group
+        // Creating the keys in any case
         String enabledKey = getEnchantmentConfigKey(name, EnchantmentsConfig.ENABLED);
+        String rarityKey = getEnchantmentConfigKey(name, EnchantmentsConfig.RARITY);
         String minLevelKey = getEnchantmentConfigKey(name, EnchantmentsConfig.MIN_LEVEL);
         String maxLevelKey = getEnchantmentConfigKey(name, EnchantmentsConfig.MAX_LEVEL);
-        ENCHANTMENTS.createConfigGroup(enabledKey, List.of(minLevelKey, maxLevelKey));
-        return isEnabled;
+        ENCHANTMENTS.createConfigGroup(enabledKey, List.of(rarityKey, minLevelKey, maxLevelKey));
+        ENCHANTMENTS.setConfigIfAbsent(enabledKey, true, Object::toString, Boolean::parseBoolean);
+        ENCHANTMENTS.setConfigIfAbsent(rarityKey, rarity, Object::toString, Enchantment.Rarity::valueOf);
+        ENCHANTMENTS.setConfigIfAbsent(minLevelKey, minLevel, Object::toString, Integer::parseInt);
+        ENCHANTMENTS.setConfigIfAbsent(maxLevelKey, maxLevel, Object::toString, Integer::parseInt);
+        // Check if the enchantment is enabled
+        return isEnchantmentEnabled(name);
     }
 
     public static void write()
@@ -147,62 +161,52 @@ public class ModConfigurations
         return whiteList.contains(Registry.BLOCK.getId(state.getBlock()));
     }
 
-    private static String getEnchantmentConfigKey(String name, String config)
+    @SuppressWarnings("unchecked")
+    public static boolean canToolVeinMine(Item item)
     {
-        return name+"."+config.toLowerCase();
+        List<String> tools = (List<String>) MOD.getConfigValue(ModConfig.VEIN_MINING_TOOLS, null);
+        if(item instanceof PickaxeItem)
+            return tools.contains("pickaxe");
+        if(item instanceof AxeItem)
+            return tools.contains("axe");
+        if(item instanceof ShovelItem)
+            return tools.contains("shovel");
+        if(item instanceof HoeItem)
+            return tools.contains("hoe");
+        return false;
     }
 
-    private static boolean isEnchantmentEnabled(String name)
+    private static String getEnchantmentConfigKey(String enchantment, String config)
     {
-        String enabledKey = getEnchantmentConfigKey(name, EnchantmentsConfig.ENABLED);
-        Object configValue = ENCHANTMENTS.getConfigValue(enabledKey, Boolean::parseBoolean);
-        if(configValue != null)
-            return (boolean) configValue;
-
-        ENCHANTMENTS.setConfigIfAbsent(enabledKey, true, Object::toString, Boolean::parseBoolean);
-        return true;
+        return enchantment+"."+config.toLowerCase();
     }
 
-    public static int getEnchantmentMinLevel(Enchantment enchantment, int min)
+    private static boolean isEnchantmentEnabled(String enchantment)
     {
-        String name = Registry.ENCHANTMENT.getId(enchantment).getPath();
-        String key = getEnchantmentConfigKey(name, EnchantmentsConfig.MIN_LEVEL);
-        Object configValue = ENCHANTMENTS.getConfigValue(key, Integer::parseInt);
-        if(configValue != null)
-            return (int) configValue;
-
-        try {
-            ENCHANTMENTS.setConfigIfAbsent(key, min, Object::toString, Integer::parseInt);
-            min = Math.max(1, (int) ENCHANTMENTS.getConfigValue(key, null));
-        }
-        catch (NumberFormatException exception) {
-            Resources.LOGGER.error("Could not read minimum level for "+name+" enchantment! Defaulting to "+min+"!");
-        }
-
-        return min;
+        String enabledKey = getEnchantmentConfigKey(enchantment, EnchantmentsConfig.ENABLED);
+        return (boolean) ENCHANTMENTS.getConfigValue(enabledKey, Boolean::parseBoolean);
     }
 
-    public static int getEnchantmentMaxLevel(Enchantment enchantment, int max)
+    public static int getEnchantmentMinLevel(String enchantment)
     {
-        String name = Registry.ENCHANTMENT.getId(enchantment).getPath();
-        String key = getEnchantmentConfigKey(name, EnchantmentsConfig.MAX_LEVEL);
-        Object configValue = ENCHANTMENTS.getConfigValue(key, Integer::parseInt);
-        if(configValue != null)
-            return (int) configValue;
+        String key = getEnchantmentConfigKey(enchantment, EnchantmentsConfig.MIN_LEVEL);
+        return (int) ENCHANTMENTS.getConfigValue(key, Integer::parseInt);
+    }
 
-        try {
-            ENCHANTMENTS.setConfigIfAbsent(key, max, Object::toString, Integer::parseInt);
-            max = Math.min((int) ENCHANTMENTS.getConfigValue(key, null), 255);
-        }
-        catch (NumberFormatException exception) {
-            Resources.LOGGER.error("Could not read maximum level for "+name+" enchantment! Defaulting to "+max+"!");
-        }
+    public static int getEnchantmentMaxLevel(String enchantment)
+    {
+        String key = getEnchantmentConfigKey(enchantment, EnchantmentsConfig.MAX_LEVEL);
+        return (int) ENCHANTMENTS.getConfigValue(key, Integer::parseInt);
+    }
 
-        return max;
+    public static Enchantment.Rarity getEnchantmentRarity(String enchantment)
+    {
+        String key = getEnchantmentConfigKey(enchantment, EnchantmentsConfig.RARITY);
+        return (Enchantment.Rarity) ENCHANTMENTS.getConfigValue(key, null);
     }
 
     @SuppressWarnings("unchecked")
-    protected static String listOfIdentifiesToString(Object identifierList)
+    protected static String listOfIdentifiersToString(Object identifierList)
     {
         List<Identifier> identifiers = (List<Identifier>)identifierList;
         List<String> list = identifiers.stream().map(Identifier::toString).toList();
@@ -215,5 +219,18 @@ public class ModConfigurations
         string = string.substring(1, string.length()-1);
         List<String> list = List.of(string.split(","));
         return list.stream().map((str) -> new Identifier(str.strip())).toList();
+    }
+
+    protected static String listOfStringsToString(Object strings)
+    {
+        return strings.toString();
+    }
+
+    protected static List<String> stringToListOfStrings(String string)
+    {
+        string = string.trim();
+        string = string.substring(1, string.length()-1);
+        List<String> list = List.of(string.split(","));
+        return list.stream().map(String::strip).toList();
     }
 }

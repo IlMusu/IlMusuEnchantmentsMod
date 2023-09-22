@@ -1,6 +1,7 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.EntityEquipmentDropCallback;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.recipes.HeadRecipe;
 import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModCustomRecipes;
@@ -22,9 +23,10 @@ import net.minecraft.util.registry.Registry;
 
 public class GuillotiningEnchantment extends Enchantment implements _IDemonicEnchantment
 {
-    public GuillotiningEnchantment(Rarity weight)
+    public GuillotiningEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
         super(weight, EnchantmentTarget.WEAPON, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
@@ -36,13 +38,13 @@ public class GuillotiningEnchantment extends Enchantment implements _IDemonicEnc
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 3);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
     }
 
     @Override

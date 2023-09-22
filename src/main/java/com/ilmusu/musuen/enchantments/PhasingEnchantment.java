@@ -2,6 +2,7 @@ package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.PlayerFovMultiplierCallback;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.musuen.networking.messages.PhasingSwitchMessage;
@@ -40,9 +41,10 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
 
     public static float clientTargetFov = 1.0F;
 
-    public PhasingEnchantment(Rarity weight)
+    public PhasingEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
         super(weight, EnchantmentTarget.ARMOR_LEGS, new EquipmentSlot[]{EquipmentSlot.LEGS});
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
@@ -54,13 +56,13 @@ public class PhasingEnchantment extends Enchantment implements _IDemonicEnchantm
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 5);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
     }
 
     @Override

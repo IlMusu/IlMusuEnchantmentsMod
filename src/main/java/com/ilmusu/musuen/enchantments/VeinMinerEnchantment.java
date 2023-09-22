@@ -1,15 +1,16 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.PlayerBreakSpeedCallback;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.musuen.registries.ModConfigurations;
+import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -25,21 +26,22 @@ public class VeinMinerEnchantment extends Enchantment
 {
     private static final String LABEL = "is_veinmining";
 
-    public VeinMinerEnchantment(Rarity rarity)
+    public VeinMinerEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
-        super(rarity, EnchantmentTarget.DIGGER, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        super(weight, ModEnchantmentTargets.VEIN_MINERS, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 5);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
     }
 
     public int getMaxBreakableBlocks(int level)
