@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class DemonicEnchantingTableRenderingMixin
 {
     @Mixin(EnchantmentScreen.class)
-    @Debug(export = true)
     public abstract static class HeartRequirementsRendering
     {
         @Unique private int slot = 0;
