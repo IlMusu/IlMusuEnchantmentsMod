@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.ButtonTextures;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
@@ -278,8 +279,9 @@ public abstract class PlayerWithPockets implements _IPlayerPockets
         {
             _IPlayerPockets pockets = ((_IPlayerPockets)MinecraftClient.getInstance().player);
 
-            this.pocketsButton = new TexturedButtonWidget(0,0,20,18,0,0,19,
-                    Resources.POCKETS_BUTTON_TEXTURE, button -> pockets.setPocketsOpen(!pockets.arePocketsOpen()));
+            this.pocketsButton = new TexturedButtonWidget(0, 0, 20, 18,
+                    new ButtonTextures(Resources.POCKETS_BUTTON_NORMAL_TEXTURE, Resources.POCKETS_BUTTON_HIGHLIGHT_TEXTURE),
+                    button -> pockets.setPocketsOpen(!pockets.arePocketsOpen()));
             this.updatePocketsButtonPos();
 
             ((AccessorScreen)this).getDrawables().add(this.pocketsButton);

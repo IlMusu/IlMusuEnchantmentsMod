@@ -63,8 +63,8 @@ public abstract class DemonicEnchantingTableRenderingMixin
 
         @Inject(method = "drawBackground", at = @At(
                 value = "INVOKE",
-                target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V",
-                ordinal = 3,
+                target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V",
+                ordinal = 2,
                 shift = At.Shift.AFTER
         ))
         private void addUnsaturatedHealthRequirementRendering(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci)
@@ -76,8 +76,8 @@ public abstract class DemonicEnchantingTableRenderingMixin
 
         @Inject(method = "drawBackground", at = @At(
                 value = "INVOKE",
-                target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V",
-                ordinal = 6,
+                target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V",
+                ordinal = 5,
                 shift = At.Shift.AFTER
         ))
         private void addSaturatedHealthRequirementRendering(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci)
