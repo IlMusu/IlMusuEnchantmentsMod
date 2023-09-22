@@ -1,10 +1,10 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.client.particles.eblock.BlockParticleEffect;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.mixins.interfaces._IPlayerTickers;
 import com.ilmusu.musuen.networking.messages.ShockwaveEffectMessage;
 import com.ilmusu.musuen.networking.messages.SwingHandMessage;
-import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
@@ -32,21 +32,22 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class ShockwaveEnchantment extends Enchantment implements _IEnchantmentExtensions
 {
-    public ShockwaveEnchantment(Rarity weight)
+    public ShockwaveEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
         super(weight, ModEnchantmentTargets.SHIELD, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 3);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
     }
 
     public static void damageEntitiesWithShockwave(PlayerEntity user, Vec3d pos, Vec3d direction, Vec3d perpendicular, float size, float damage)

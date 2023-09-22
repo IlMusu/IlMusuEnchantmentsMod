@@ -1,7 +1,7 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.PlayerTickCallback;
-import com.ilmusu.musuen.registries.ModConfigurations;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import net.minecraft.enchantment.Enchantment;
@@ -20,21 +20,22 @@ public class ReachingEnchantment extends Enchantment implements _IEnchantmentExt
 {
     private static final UUID REACHING_ENCHANTMENT_ID = UUID.fromString("fdd73ea0-7eaa-4ea0-8918-744136d1a0ba");
 
-    public ReachingEnchantment(Rarity weight)
+    public ReachingEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
         super(weight, ModEnchantmentTargets.REACHER, new EquipmentSlot[]{ EquipmentSlot.MAINHAND });
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 4);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
     }
 
     @SuppressWarnings("unused")

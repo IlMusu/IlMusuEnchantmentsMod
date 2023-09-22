@@ -1,7 +1,7 @@
 package com.ilmusu.musuen.enchantments;
 
 import com.ilmusu.musuen.callbacks.ProjectileReflectionCallback;
-import com.ilmusu.musuen.registries.ModConfigurations;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import net.minecraft.enchantment.Enchantment;
@@ -11,21 +11,22 @@ import net.minecraft.entity.LivingEntity;
 
 public class ReflectionEnchantment extends Enchantment implements _IEnchantmentExtensions
 {
-    public ReflectionEnchantment(Rarity weight)
+    public ReflectionEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
         super(weight, ModEnchantmentTargets.SHIELD, new EquipmentSlot[]{EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND});
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 3);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
     }
 
     static

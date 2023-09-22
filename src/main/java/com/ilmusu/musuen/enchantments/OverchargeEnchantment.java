@@ -5,6 +5,7 @@ import com.ilmusu.musuen.callbacks.PlayerTickCallback;
 import com.ilmusu.musuen.callbacks.ProjectileHitCallback;
 import com.ilmusu.musuen.callbacks.ProjectileLoadCallback;
 import com.ilmusu.musuen.callbacks.ProjectileShotCallback;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.mixins.mixin.AccessorCrossbowItem;
 import com.ilmusu.musuen.mixins.mixin.AccessorTridentEntity;
 import com.ilmusu.musuen.registries.ModConfigurations;
@@ -30,9 +31,10 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
     private static final int OVERCHARGE_START_TICK = 40;
     private static final int DELTA_TIME_DAMAGE = 10;
 
-    public OverchargeEnchantment(Rarity weight)
+    public OverchargeEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
         super(weight, ModEnchantmentTargets.CHARGEABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
@@ -44,13 +46,13 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 5);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
     }
 
     @Override

@@ -4,9 +4,9 @@ import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.LivingEntityAirJumpCallback;
 import com.ilmusu.musuen.callbacks.PlayerLandCallback;
 import com.ilmusu.musuen.client.particles.colored.ColoredParticleEffect;
+import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
 import com.ilmusu.musuen.networking.messages.SkyJumpEffectMessage;
-import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantments;
 import com.ilmusu.musuen.utils.ModUtils;
 import net.fabricmc.fabric.api.entity.event.v1.EntityElytraEvents;
@@ -28,23 +28,24 @@ import java.awt.*;
 
 public class SkyJumpEnchantment extends Enchantment
 {
-    private static final String SKY_JUMPS_TAG = Resources.MOD_ID+".is_phasing";
+    private static final String SKY_JUMPS_TAG = Resources.MOD_ID+".count";
 
-    public SkyJumpEnchantment(Rarity weight)
+    public SkyJumpEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
         super(weight, EnchantmentTarget.ARMOR_FEET, new EquipmentSlot[]{EquipmentSlot.FEET});
+        ((_IEnchantmentLevels)this).setConfigurationLevels(minLevel, maxLevel);
     }
 
     @Override
     public int getMinLevel()
     {
-        return ModConfigurations.getEnchantmentMinLevel(this, 1);
+        return ((_IEnchantmentLevels)this).getConfigurationMinLevel();
     }
 
     @Override
     public int getMaxLevel()
     {
-        return ModConfigurations.getEnchantmentMaxLevel(this, 5);
+        return ((_IEnchantmentLevels)this).getConfigurationMaxLevel();
     }
 
     @Override

@@ -14,7 +14,7 @@ This mod provides a configuration file for the enchantments located at the follo
 ```
 
 ## DEMONIC ENCHANTING
-The demonic enchanting mechanic can be triggered by placing <b>three skulls</b> (increasing the number of skulls increases the demonic enchantments probability), which might be both wither or normal skeleton skulls, around the enchanting table as shown in the following images. Only after the skulls are placed correctly, red glyph particles start to move from the skulls to the enchanting table.
+The demonic enchanting mechanic can be triggered by placing <b>three Wither Skeleton Skulls</b> (increasing the number of skulls increases the demonic enchantments probability), around the enchanting table as shown in the following images. Only after the skulls are placed correctly, red glyph particles start to move from the skulls to the enchanting table.
 
 <p>
 	<img width="80%" src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/skulls_positioning.png?raw=true" alt="">
@@ -41,17 +41,19 @@ If the health requirement is satisfied, you will obtain the <b><span style="colo
 </p>
 
 ## LACERATION ENCHANTMENT (V)
-The <b><span style="color:purple">Laceration Enchantment</span></b> provides additional damage for weapon tools. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level, it provides +16.0 additional damage and consumes 25% of the player maximum health. <br />
+The <b><span style="color:purple">Laceration Enchantment</span></b> provides additional damage for weapon tools. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level, it provides +16.0 additional damage (assuming the player has 20 maximum health) and consumes 25% of the player maximum health. An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
 
 <details>
 <summary><b>Details here</b></summary>
 This enchantment produces more damage the more health it can consume from the player: <br />
 At level 1, it consumes 10.00% of the max health and produces +4.6 additional damage. <br />
-At level 2, it consumes 13.75% of the max health and produces +7.0 additional damage.  <br />
+At level 2, it consumes 13.75% of the max health and produces +7.0 additional damage. <br />
 At level 3, it consumes 17.50% of the max health and produces +9.7 additional damage. <br />
 At level 4, it consumes 21.25% of the max health and produces +12.7 additional damage. <br />
 At level 5, it consumes 25.00% of the max health and produces +16.0 additional damage. <br />
-An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
+<br />
+The previous values assumed the player having 20 maximum health, otherwise, this formula can be used: <br />
+<b>additional_damage = (enchantment_level * 0.2) + (consumed_player_health * (2.0 + enchantment_level * 0.2))</b> <br />
 <br />
 <p>
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/laceration.gif?raw=true" alt="">
@@ -67,17 +69,19 @@ This enchantment <b>is not compatible</b> with:
 2. Berserker Enchantment
 
 ## SKEWERING ENCHANTMENT (V)
-The <b><span style="color:purple">Skewering Enchantment</span></b> provides additional damage for the trident both in the case of melee attack and ranged attack. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level, it provides +16.0 additional damage and consumes 25% of the player maximum health. <br />
+The <b><span style="color:purple">Skewering Enchantment</span></b> provides additional damage for the trident both in the case of melee attack and ranged attack. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level, it provides +16.0 (assuming the player has 20 maximum health) additional damage and consumes 25% of the player maximum health. An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
 
 <details>
 <summary><b>Details here</b></summary>
 This enchantment produces more damage the more health it can consume from the player: <br />
 At level 1, it consumes 10.00% of the max health and produces +4.6 additional damage. <br />
-At level 2, it consumes 13.75% of the max health and produces +7.0 additional damage.  <br />
+At level 2, it consumes 13.75% of the max health and produces +7.0 additional damage. <br />
 At level 3, it consumes 17.50% of the max health and produces +9.7 additional damage. <br />
 At level 4, it consumes 21.25% of the max health and produces +12.7 additional damage. <br />
 At level 5, it consumes 25.00% of the max health and produces +16.0 additional damage. <br />
-An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
+<br />
+The previous values assumed the player having 20 maximum health, otherwise, this formula can be used: <br />
+<b>additional_damage = (enchantment_level * 0.2) + (consumed_player_health * (2.0 + enchantment_level * 0.2))</b> <br />
 <br />
 <p>
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/skewering.gif?raw=true" alt="">
@@ -92,16 +96,15 @@ This enchantment <b>is not compatible</b> with:
 2. Overcharge Enchantment
 
 ## BERSERKER ENCHANTMENT (V)
-The <b><span style="color:purple">Berserker Enchantment</span></b> provides additional damage for weapon tools. When the player performs successive attacks, he fills a "rage" indicator that provides more damage. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level and at the max rage, it provides +25.0 additional damage and consumes 10% of the player maximum health per attack.
+The <b><span style="color:purple">Berserker Enchantment</span></b> provides additional damage for weapon tools. When the player performs successive attacks, he fills a "rage" indicator that provides more damage. Since it is a demonic enchantment, attacking an entity with an item containing this enchantment <b>damages also the player</b>: at the maximum level and at the max rage, it provides +25.0 additional damage and consumes 10% of the player maximum health per attack. An important notice is that <b>this kills the player if he does not have enough health!</b> <br />
 <details>
 <summary><b>Details here</b></summary>
 This enchantment produces more damage the more health it can consume from the player: <br />
 At level 1, it consumes 5.00% of the max health, 4 attacks for full rage, and produces +5.0 additional damage. <br />
-At level 2, it consumes 6.25% of the max health, 6 attacks for full rage, and produces +10.0 additional damage.  <br />
+At level 2, it consumes 6.25% of the max health, 6 attacks for full rage, and produces +10.0 additional damage. <br />
 At level 3, it consumes 7.50% of the max health, 7 attacks for full rage, and produces +15.0 additional damage. <br />
 At level 4, it consumes 8.75% of the max health, 8 attacks for full rage, and produces +20.0 additional damage. <br />
 At level 5, it consumes 10.00% of the max health, 9 attacks for full rage, and produces +25.0 additional damage. <br />
-An important notice is that <b>this kills the player if he does not have enough health!</b> <br />
 <br />
 <p>
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/berserker.gif?raw=true" alt="">
@@ -117,7 +120,7 @@ This enchantment <b>is not compatible</b> with:
 2. Laceration Enchantment
 
 ## UNEARTHING ENCHANTMENT (V)
-The <b><span style="color:purple">Unearthing Enchantment</span></b> makes a digger tool dig tunnels with depth and area depending on the level of the enchantments. Since it is a demonic enchantment, digging with an item containing this enchantment <b>damages also the player</b>: the tunnel will be complete only if the player has enough life. <br />
+The <b><span style="color:purple">Unearthing Enchantment</span></b> makes a digger tool dig tunnels with depth and area depending on the level of the enchantments. Since it is a demonic enchantment, digging with an item containing this enchantment <b>damages also the player</b>: the tunnel will be complete only if the player has enough life. An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
 
 <details>
 <summary><b>Details here</b></summary>
@@ -127,7 +130,6 @@ At level 2, it consumes 22.5% of the max health and the tunnel will be of 3x3 bl
 At level 3, it consumes 25.0% of the max health and the tunnel will be of 3x3 blocks and 4 blocks depth. <br />
 At level 4, it consumes 27.5% of the max health and the tunnel will be of 3x3 blocks and 6 blocks depth. <br />
 At level 5, it consumes 30.0% of the max health and the tunnel will be of 5x5 blocks and 7 blocks depth. <br />
-An important notice is that it never kills the player, <b>leaving him at half a heart</b>. <br />
 <br />
 <p>
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/unearthing.gif?raw=true" alt="">
@@ -144,17 +146,16 @@ This enchantment <b>is not compatible</b> with:
 1. Veinminer Enchantment
 
 ## OVERCHARGED ENCHANTMENT (V)
-The <b><span style="color:purple">Overcharged Enchantment</span></b> makes the chargeable items to be overchargable and perform additional damage. Since it is a demonic enchantment, overcharging an item containing this enchantment <b>damages also the player</b>: after the item is normally charged, the player starts to take damage every 0.5 seconds and the projectile makes additional damage depending on the total health absorbed by the player. <br />
+The <b><span style="color:purple">Overcharged Enchantment</span></b> makes the chargeable items to be overchargable and perform additional damage. Since it is a demonic enchantment, overcharging an item containing this enchantment <b>damages also the player</b>: after the item is normally charged, the player starts to take damage every 0.5 seconds and the projectile makes additional damage depending on the total health absorbed by the player. An important notice is that <b>this kills the player if he does not have enough health!</b>  <br />
 
 <details>
 <summary><b>Details here</b></summary>
-The projectile will make additional damage depending on the level of the enchantment and the health absorbed:
-
-```bash
-additional_damage = player_endured_damage*(0.3 + enchantment_level * 0.2)
-```
-
-An important notice is that <b>this kills the player if he does not have enough health!</b>  <br />
+The projectile will make additional damage depending on the level of the enchantment and the health absorbed: <br />
+At level 1, the additional damage is +0.50 per heart absorbed. <br />
+At level 2, the additional damage is +0.70 per heart absorbed. <br />
+At level 3, the additional damage is +0.90 per heart absorbed. <br />
+At level 4, the additional damage is +1.10 per heart absorbed. <br />
+At level 5, the additional damage is +1.30 per heart absorbed. <br />
 <br />
 <p>
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/overcharged.gif?raw=true" alt="">
@@ -174,13 +175,17 @@ This enchantment <b>is not compatible</b> with:
 5. Damage Enchantments
 
 ## PHASING ENCHANTMENT (V)
-The <b><span style="color:purple">Phasing Enchantment</span></b> makes the player able to teleport: it provides the ability of both teleporting where the player is looking at and teleporting behind walls. Since it is a demonic enchantment, activating this ability <b>damages also the player</b>. <br />
+The <b><span style="color:purple">Phasing Enchantment</span></b> makes the player able to teleport: it provides the ability of both teleporting where the player is looking at and teleporting behind walls. Since it is a demonic enchantment, activating this ability <b>damages also the player</b>. An important notice is that <b>this kills the player if he does not have enough health!</b> <br />
 <b>The phasing enchantment ability is activated through the related keybinding.</b> <br />
 
 <details>
 <summary><b>Details here</b></summary>
-When the ability is activated, the logic performs a raycasting in the direction the player is looking at and, if a wall is found, it tries to teleport the player behind that wall. Instead, if a wall is not found, the player is teleported in the direction he was looking at with a distance depending on the current level of the enchantment. <br />
-An important notice is that <b>this kills the player if he does not have enough health!</b> <br />
+When the ability is activated, the logic performs a raycasting in the direction the player is looking at and, if a wall is found, it tries to teleport the player behind that wall. Instead, if a wall is not found, the player is teleported in the direction he was looking at with a distance depending on the current level of the enchantment: <br />
+At level 1, it consumes 20.00% of the max health and the maximum travel distance is 5 blocks. <br />
+At level 2, it consumes 22.50% of the max health and the maximum travel distance is 10 blocks. <br />
+At level 3, it consumes 25.00% of the max health and the maximum travel distance is 15 blocks. <br />
+At level 4, it consumes 27.50% of the max health and the maximum travel distance is 20 blocks. <br />
+At level 5, it consumes 30.00% of the max health and the maximum travel distance is 25 blocks. <br />
 <br />
 <p>
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/phasing.gif?raw=true" alt="">
@@ -191,15 +196,15 @@ This enchantment <b>can be applied to</b>:
 1. Leggings Item
 
 ## GUILLOTINING ENCHANTMENT (III)
-The <b><span style="color:purple">Guillotining Enchantment</span></b> adds a small probability of dropping a head when killing a mob or a player. Since it is a demonic enchantment, when a mob head is dropped, this enchantment <b>damages the player</b>. </br>
+The <b><span style="color:purple">Guillotining Enchantment</span></b> adds a small probability of dropping a head when killing a mob or a player. Since it is a demonic enchantment, when a mob head is dropped, this enchantment <b>damages the player</b>. An important notice is that <b>this kills the player if he does not have enough health!</b> </br>
 It is possible to add a custom head for a mob using data packs. Examples can be found [here](https://github.com/IlMusu/IlMusuEnchantmentsMod/tree/fabric_1.20.1/src/main/resources/data/musuen/head_recipes). </br>
 
 <details>
 <summary><b>Details here</b></summary>
 The probability of dropping a head increases with the level of the enchantment: <br />
-At level 1, the probability is 5.0%. <br />
-At level 2, the probability is 10.0%. <br />
-At level 3, the probability is 15.0%. <br />
+At level 1, it consumes 20.00% of the max health and the drop probability is 5.0%. <br />
+At level 2, it consumes 25.00% of the max health and the drop probability is 10.0%. <br />
+At level 3, it consumes 30.00% of the max health and the drop probability is 15.0%. <br />
 <br />
 <p>
 	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/guillotining.gif?raw=true" alt="">
@@ -556,7 +561,8 @@ Since the shot projectile has no gravity, they fly in a straight line allowing f
 </details>
 
 This enchantment <b>can be applied to</b>:
-1. Hoe item
+1. Bow item
+2. Crossbow item
 
 ## DREAMLIKE ENCHANTMENT (III)
 The <b>Dreamlike Enchantment</b> decreases the probability of Phantoms spawning because of player insomnia: the insomnia reduction increases with the level of the enchantments and at the maximum level prevents completely the spawning of Phantoms.

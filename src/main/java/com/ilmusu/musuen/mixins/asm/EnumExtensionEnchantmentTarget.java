@@ -1,5 +1,6 @@
 package com.ilmusu.musuen.mixins.asm;
 
+import com.ilmusu.musuen.registries.ModConfigurations;
 import net.minecraft.item.*;
 
 public class EnumExtensionEnchantmentTarget
@@ -38,6 +39,15 @@ public class EnumExtensionEnchantmentTarget
         public boolean isAcceptableItem(Item item)
         {
             return item instanceof BowItem || item instanceof CrossbowItem;
+        }
+    }
+
+    public static class VeinMiners extends EnchantmentTargetExtensible
+    {
+        @Override
+        public boolean isAcceptableItem(Item item)
+        {
+            return ModConfigurations.canToolVeinMine(item);
         }
     }
 
