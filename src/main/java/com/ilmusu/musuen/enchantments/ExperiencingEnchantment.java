@@ -45,12 +45,12 @@ public class ExperiencingEnchantment extends Enchantment
 
     protected static float getExperienceDropped(int level)
     {
-        return 1.0F + level*1.0F;
+        return 1.0F + level*0.5F;
     }
 
     protected static float getExperienceDropProbability(int level)
     {
-        return new ModUtils.Linear(1, 0.05F, 3, 0.10F).of(level);
+        return new ModUtils.Linear(1, 0.05F, 3, 0.15F).of(level);
     }
 
     static
@@ -90,7 +90,7 @@ public class ExperiencingEnchantment extends Enchantment
             }
 
             float probability = getExperienceDropProbability(experiencingLevel);
-            if(experiencingLevel == 0 || entity.getRandom().nextFloat() < probability)
+            if(experiencingLevel == 0 || entity.getRandom().nextFloat() > probability)
                 return 0.0F;
 
             float experience = getExperienceDropped(experiencingLevel);
@@ -107,12 +107,12 @@ public class ExperiencingEnchantment extends Enchantment
 
             int level = EnchantmentHelper.getLevel(ModEnchantments.EXPERIENCING, stack);
             float probability = getExperienceDropProbability(level);
-            if(level == 0 || world.getRandom().nextFloat() < probability)
+            if(level == 0 || world.getRandom().nextFloat() > probability)
                 return;
 
-            float experience = getExperienceDropped(level) * state.getBlock().getHardness() * 0.2F;
+            float experience = getExperienceDropped(level);
             Vec3d center = new Vec3d(pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5);
-            ExperienceOrbEntity.spawn((ServerWorld) player.getWorld(), center, (int)Math.ceil(experience));
+            ExperienceOrbEntity.spawn((ServerWorld) player.getWorld(), center, (int)experience);
         }));
     }
 }

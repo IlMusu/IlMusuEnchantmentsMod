@@ -72,7 +72,7 @@ public class ModEnchantments
         MULTI_ARROW = registerEnchantmentIfEnabled("multi_arrow", MultiArrowEnchantment::new, Enchantment.Rarity.VERY_RARE, 1, 5);
         SCYTHING = registerEnchantmentIfEnabled("scything", ScythingEnchantment::new, Enchantment.Rarity.RARE, 1, 3);
         EVOLVING = registerEnchantmentIfEnabled("evolving", EvolvingEnchantment::new, Enchantment.Rarity.VERY_RARE, 1, 5);
-        EXPERIENCING = registerEnchantmentIfEnabled("experiencing", ExperiencingEnchantment::new, Enchantment.Rarity.RARE, 1, 3);
+        EXPERIENCING = registerEnchantmentIfEnabled("experiencing", ExperiencingEnchantment::new, Enchantment.Rarity.VERY_RARE, 1, 3);
         //CRITTING = registerEnchantmentIfEnabled("critting", CritterEnchantment::new, Enchantment.Rarity.RARE, 1, 5);
     }
 
