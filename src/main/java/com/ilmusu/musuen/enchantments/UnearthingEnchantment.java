@@ -1,5 +1,6 @@
 package com.ilmusu.musuen.enchantments;
 
+import com.ilmusu.musuen.Resources;
 import com.ilmusu.musuen.callbacks.PlayerBreakSpeedCallback;
 import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.mixins.interfaces._IEntityPersistentNbt;
@@ -23,7 +24,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class UnearthingEnchantment extends Enchantment implements _IDemonicEnchantment
 {
-    private static final String LABEL = "is_unearthing";
+    private static final String UNEARTHING_TAG = Resources.MOD_ID+".is_unearthing";
 
     public UnearthingEnchantment(Rarity weight, int minLevel, int maxLevel)
     {
@@ -107,7 +108,7 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
         {
             // If the player is currently unearthing, ignore this event
             NbtCompound nbt = ((_IEntityPersistentNbt)player).getPNBT();
-            if(nbt.contains(LABEL) && Math.abs(nbt.getInt(LABEL)-player.age) < 5)
+            if(nbt.contains(UNEARTHING_TAG) && Math.abs(nbt.getInt(UNEARTHING_TAG)-player.age) < 5)
                 return true;
 
             // Check if there is a tunneling enchantment on the stack
@@ -137,7 +138,7 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
             int counter = 0;
 
             // Marking the player as using unearthing
-            nbt.putInt(LABEL, player.age);
+            nbt.putInt(UNEARTHING_TAG, player.age);
 
             // Computing the directions for digging the tunnel
             Vec3d forwardDir = new Vec3d(blockHit.getSide().getOpposite().getUnitVector());
@@ -157,7 +158,7 @@ public class UnearthingEnchantment extends Enchantment implements _IDemonicEncha
                     }
 
             // Unmarking the player as using unearthing
-            nbt.remove(LABEL);
+            nbt.remove(UNEARTHING_TAG);
             return true;
         }));
     }
