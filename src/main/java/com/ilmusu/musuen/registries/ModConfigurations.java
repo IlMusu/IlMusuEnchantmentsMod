@@ -108,11 +108,11 @@ public class ModConfigurations
         String rarityKey = getEnchantmentConfigKey(name, EnchantmentsConfig.RARITY);
         String minLevelKey = getEnchantmentConfigKey(name, EnchantmentsConfig.MIN_LEVEL);
         String maxLevelKey = getEnchantmentConfigKey(name, EnchantmentsConfig.MAX_LEVEL);
-        ENCHANTMENTS.createConfigGroup(enabledKey, List.of(rarityKey, minLevelKey, maxLevelKey));
         ENCHANTMENTS.setConfigIfAbsent(enabledKey, true, Object::toString, Boolean::parseBoolean);
         ENCHANTMENTS.setConfigIfAbsent(rarityKey, rarity, Object::toString, Enchantment.Rarity::valueOf);
         ENCHANTMENTS.setConfigIfAbsent(minLevelKey, minLevel, Object::toString, Integer::parseInt);
         ENCHANTMENTS.setConfigIfAbsent(maxLevelKey, maxLevel, Object::toString, Integer::parseInt);
+        ENCHANTMENTS.createConfigGroup(enabledKey, List.of(rarityKey, minLevelKey, maxLevelKey));
         // Check if the enchantment is enabled
         return isEnchantmentEnabled(name);
     }
