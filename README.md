@@ -472,6 +472,9 @@ At level 4, the player is attached to the arrow for 8 seconds. <br />
 This enchantment <b>can be applied to</b>:
 1. Crossbow Item
 
+This enchantment <b>is not compatible</b> with:
+1. Zero Gravity Enchantment
+
 ## REFLECTION ENCHANTMENT (III)
 The <b>Reflection Enchantment</b> makes the shield more reflective towards the projectiles by reflecting them back toward the shooter entity: the reflection force of the shield increases with the level of the enchantment and at the maximum level it provides an almost complete reflection of the projectile.
 
@@ -564,6 +567,9 @@ This enchantment <b>can be applied to</b>:
 1. Bow item
 2. Crossbow item
 
+This enchantment <b>is not compatible</b> with:
+1. Sky Hook Enchantment
+
 ## DREAMLIKE ENCHANTMENT (III)
 The <b>Dreamlike Enchantment</b> decreases the probability of Phantoms spawning because of player insomnia: the insomnia reduction increases with the level of the enchantments and at the maximum level prevents completely the spawning of Phantoms.
 
@@ -639,3 +645,55 @@ At level 3, the side of the square is 7 blocks. <br />
 
 This enchantment <b>can be applied to</b>:
 1. Hoe item
+
+## EVOLVING ENCHANTMENT (V)
+The <b>Evolving Enchantment</b> makes the enchanted tool evolve with correct usage: for example, pickaxes get upgrades on break speed while breaking blocks while swords get upgrades on damage while killing entities. The evolving process is **really** slow because of the advantage provided by this enchantment. At the maximum level, it provides +25.0 additional damage and +50.0 dig speed which should provide insta-mining.
+
+<details>
+<summary><b>Details here</b></summary>
+The evolving amount increases with the level of the enchantment: <br />
+At level 1, the evolving_amount increases by inflicted_damage * 0.000005 per hit to a maximum value of 10.0. <br />
+At level 2, the evolving_amount increases by inflicted_damage * 0.000010 per hit to a maximum value of 20.0. <br />
+At level 3, the evolving_amount increases by inflicted_damage * 0.000015 per hit to a maximum value of 30.0. <br />
+At level 4, the evolving_amount increases by inflicted_damage * 0.000020 per hit to a maximum value of 40.0. <br />
+At level 5, the evolving_amount increases by inflicted_damage * 0.000025 per hit to a maximum value of 50.0. <br />
+At level 5, the evolving_amount increases by inflicted_damage * 0.000025 per hit to a maximum value of 50.0. <br />
+<br />
+The additional attack damage is computed as: <br />
+<b>additional_damage = evolving_amount * 0.5 </b> <br />
+The additional break speed is computed as: <br />
+<b>break_speed = evolving_amount * 1.0 </b> <br />
+<br />
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Sword
+2. Pickaxe
+3. Axe
+4. Shovel
+5. Hoe
+6. Trident
+7. Bow
+8. Crossbow
+
+This enchantment <b>is not compatible</b> with:
+1. Overcharge Enchantment
+2. Skewering Enchantment
+3. Any Other Damage Enchantment
+4. Impaling Enchantment
+5. Power Enchantment
+6. Efficiency Enchantment
+7. VeinMiner Enchantment
+8. Unearthing Enchantment
+
+## EXPERIENCING ENCHANTMENT (III)
+The <b>Experiencing Enchantment</b> makes the enchanted tool drop xp when hitting (and not just killing) an entity or when digging a block.
+
+<details>
+<summary><b>Details here</b></summary>
+The evolving amount increases with the level of the enchantment: <br />
+At level 1, the experience drop probability is 5% and the experience dropped is 1. <br />
+At level 2, the experience drop probability is 10% and the experience dropped is 2. <br />
+At level 3, the experience drop probability is 15% and the experience dropped is 2. <br />
+<br />
+</details>
