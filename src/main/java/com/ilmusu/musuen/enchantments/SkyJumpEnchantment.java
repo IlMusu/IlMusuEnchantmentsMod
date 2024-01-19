@@ -72,8 +72,15 @@ public class SkyJumpEnchantment extends Enchantment
     {
         LivingEntityAirJumpCallback.EVENT.register((entity, jumpCooldown) ->
         {
+            // This should be executed only on the client, if on server it means that
+            // the player is riding or something like that in which case we want to do nothing
+            if(!entity.getWorld().isClient)
+                return false;
+
             // Player must be in air for this to work
             if(!(entity instanceof PlayerEntity player) || entity.isTouchingWater() || jumpCooldown > 5)
+                return false;
+            if(player.getVehicle() != null)
                 return false;
 
             if(!canPerformAnotherSkyJump(player))
