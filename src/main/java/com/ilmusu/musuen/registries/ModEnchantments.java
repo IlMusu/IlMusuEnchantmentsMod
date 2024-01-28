@@ -40,6 +40,7 @@ public class ModEnchantments
     public static Enchantment EVOLVING;
     public static Enchantment EXPERIENCING;
     public static Enchantment CRITTING;
+    public static Enchantment COLOSSUS;
 
     public static void register()
     {
@@ -74,6 +75,7 @@ public class ModEnchantments
         EVOLVING = registerEnchantmentIfEnabled("evolving", EvolvingEnchantment::new, Enchantment.Rarity.VERY_RARE, 1, 5);
         EXPERIENCING = registerEnchantmentIfEnabled("experiencing", ExperiencingEnchantment::new, Enchantment.Rarity.VERY_RARE, 1, 3);
         //CRITTING = registerEnchantmentIfEnabled("critting", CritterEnchantment::new, Enchantment.Rarity.RARE, 1, 5);
+        COLOSSUS = registerEnchantmentIfEnabled("colossus", ColossusEnchantment::new, Enchantment.Rarity.VERY_RARE, 1, 3);
     }
 
     public static Enchantment registerEnchantmentIfEnabled(String name, TriFunction<Enchantment.Rarity, Integer, Integer, Enchantment> constructor, Enchantment.Rarity rarity, int minLevel, int maxLevel)

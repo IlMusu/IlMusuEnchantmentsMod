@@ -52,16 +52,15 @@ public abstract class CustomCallbacksMixins
     @Mixin(TridentEntity.class)
     public abstract static class TridentEntityCallbacks
     {
-        @Shadow private ItemStack tridentStack;
-
         @Inject(method = "onEntityHit", at = @At(
                 value = "INVOKE",
                 target = "Lnet/minecraft/entity/LivingEntity;getGroup()Lnet/minecraft/entity/EntityGroup;"
         ))
         private void beforeComputingEnchantmentDamage(EntityHitResult result, CallbackInfo ci)
         {
-            Entity owner = ((TridentEntity)(Object)this).getOwner();
-            PlayerAttackCallback.BEFORE_ENCHANTMENT_DAMAGE.invoker().handler(owner, this.tridentStack, result.getEntity(), Hand.MAIN_HAND);
+            TridentEntity trident = ((TridentEntity)(Object)this);
+            PlayerAttackCallback.BEFORE_ENCHANTMENT_DAMAGE.invoker().handler(
+                    trident.getOwner(), trident.getItemStack(), result.getEntity(), Hand.MAIN_HAND);
         }
 
         @Inject(method = "onEntityHit", at = @At(
@@ -71,8 +70,9 @@ public abstract class CustomCallbacksMixins
         ))
         private void afterComputingEnchantmentDamage(EntityHitResult result, CallbackInfo ci)
         {
-            Entity owner = ((TridentEntity)(Object)this).getOwner();
-            PlayerAttackCallback.AFTER_ENCHANTMENT_DAMAGE.invoker().handler(owner, this.tridentStack, result.getEntity(), Hand.MAIN_HAND);
+            TridentEntity trident = ((TridentEntity)(Object)this);
+            PlayerAttackCallback.AFTER_ENCHANTMENT_DAMAGE.invoker().handler(
+                    trident.getOwner(), trident.getItemStack(), result.getEntity(), Hand.MAIN_HAND);
         }
     }
 
@@ -87,7 +87,7 @@ public abstract class CustomCallbacksMixins
         private void afterShootingTrident(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci,
                                           PlayerEntity player, int i, int j, TridentEntity projectile)
         {
-            ProjectileShotCallback.AFTER.invoker().handler(user, ((AccessorTridentEntity)projectile).getTridentStack(), projectile);
+            ProjectileShotCallback.AFTER.invoker().handler(user, projectile.getItemStack(), projectile);
         }
     }
 
@@ -233,8 +233,9 @@ public abstract class CustomCallbacksMixins
         ))
         private void afterSettingStackInPlayerInventory(int slot, ItemStack stack, CallbackInfo ci, DefaultedList<ItemStack> list)
         {
+            // Player might be null when a PlayerInventory is created as placeholder
             PlayerInventory inventory = (PlayerInventory)(Object)this;
-            if(list != inventory.armor)
+            if(list != inventory.armor || inventory.player == null)
                 return;
 
             EquipmentSlot equipmentSlot = EquipmentSlot.values()[2+slot];

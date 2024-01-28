@@ -1,17 +1,18 @@
 package com.ilmusu.musuen.advancements.criteria;
 
-import com.google.gson.JsonObject;
 import com.ilmusu.musuen.enchantments._IDemonicEnchantment;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancement.criterion.AbstractCriterion;
-import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
+import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.dynamic.Codecs;
 
 import java.util.Optional;
 
-public class DemonicEnchantCriterion extends AbstractCriterion<DemonicEnchantCriterion.DemonicEnchantConditions>
+public class DemonicEnchantCriterion extends AbstractCriterion<DemonicEnchantCriterion.Conditions>
 {
     public void trigger(ServerPlayerEntity player, Enchantment enchantment)
     {
@@ -19,18 +20,18 @@ public class DemonicEnchantCriterion extends AbstractCriterion<DemonicEnchantCri
     }
 
     @Override
-    protected DemonicEnchantConditions conditionsFromJson(JsonObject json, Optional<LootContextPredicate> predicate, AdvancementEntityPredicateDeserializer serializer)
+    public Codec<Conditions> getConditionsCodec()
     {
-        return new DemonicEnchantConditions(predicate);
+        return Conditions.CODEC;
     }
 
-    public static class DemonicEnchantConditions extends AbstractCriterionConditions
+    public record Conditions(Optional<LootContextPredicate> player) implements AbstractCriterion.Conditions
     {
-        @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-        private DemonicEnchantConditions(Optional<LootContextPredicate> player)
-        {
-            super(player);
-        }
+        public static final Codec<Conditions> CODEC = RecordCodecBuilder.create((instance) ->
+            instance.group(
+                Codecs.createStrictOptionalFieldCodec(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC, "player")
+                    .forGetter(Conditions::player))
+                .apply(instance, Conditions::new));
 
         public boolean matches(Enchantment enchantment)
         {

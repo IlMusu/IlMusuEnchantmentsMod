@@ -8,7 +8,6 @@ import com.ilmusu.musuen.callbacks.ProjectileShotCallback;
 import com.ilmusu.musuen.mixins.interfaces._IEnchantmentLevels;
 import com.ilmusu.musuen.mixins.interfaces._IModDamageSources;
 import com.ilmusu.musuen.mixins.mixin.AccessorCrossbowItem;
-import com.ilmusu.musuen.mixins.mixin.AccessorTridentEntity;
 import com.ilmusu.musuen.registries.ModConfigurations;
 import com.ilmusu.musuen.registries.ModEnchantmentTargets;
 import com.ilmusu.musuen.registries.ModEnchantments;
@@ -208,8 +207,8 @@ public class OverchargeEnchantment extends Enchantment implements _IDemonicEncha
                 return;
 
             // Removing the eventual tag of the trident after landing
-            if(projectile instanceof AccessorTridentEntity trident)
-                trident.getTridentStack().removeSubNbt(OVERCHARGE_DAMAGE_TAG);
+            if(projectile instanceof PersistentProjectileEntity persistent)
+                persistent.getItemStack().removeSubNbt(OVERCHARGE_DAMAGE_TAG);
         }));
     }
 }

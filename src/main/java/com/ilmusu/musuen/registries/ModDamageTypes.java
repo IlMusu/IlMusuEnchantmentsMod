@@ -9,6 +9,7 @@ public class ModDamageTypes
 {
     public static final RegistryKey<DamageType> DEMONIC_ENCHANTING = ModDamageTypes.of("demonic_enchanting");
     public static final RegistryKey<DamageType> DEMONIC_DAMAGE = ModDamageTypes.of("demonic_damage");
+    public static final RegistryKey<DamageType> COLOSSUS = ModDamageTypes.of("colossus");
 
     public static RegistryKey<DamageType> of(String identifier)
     {
