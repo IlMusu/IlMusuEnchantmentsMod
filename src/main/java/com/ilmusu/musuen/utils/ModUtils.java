@@ -55,6 +55,16 @@ public class ModUtils
         return value;
     }
 
+    //---------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------- ITEMSTACK UTILS --------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------
+
+    public static void mergeStackOrDrop(ItemStack stack, PlayerEntity player)
+    {
+        if(!player.giveItemStack(stack))
+            player.dropItem(stack, true);
+    }
+
     // ### RANDOM UTILITIES ############################################################################
 
     public static double range(Random rand, double min, double max)
@@ -88,6 +98,11 @@ public class ModUtils
     public static Vec3d randomInCircle(Random rand)
     {
         return Vec3d.fromPolar(0, rand.nextFloat()*360);
+    }
+
+    public static Vec3d randomInCircle(Random rand, float maxLength)
+    {
+        return randomInCircle(rand).multiply(rand.nextFloat()*maxLength);
     }
 
     // ### PLAYER UTILITIES ############################################################################

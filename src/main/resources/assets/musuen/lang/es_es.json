@@ -75,6 +75,7 @@
   "death.attack.demonicEnchanting.player" : "%1$s ha hecho un trato demoníaco",
   "death.attack.demonicDamage" : "Un demonio absorbió toda la vida de %1$s",
   "death.attack.demonicDamage.player": "Un demonio absorbió toda la vida de %1$s",
+  "death.attack.colossus": "%1$s fue empalado por %2$s",
 
   "key.musuen.phasing_enchantment": "Habilidad de encantamiento por fases",
   "key.musuen.shockwave_enchantment": "Habilidad de encantamiento Onda expansiva",
