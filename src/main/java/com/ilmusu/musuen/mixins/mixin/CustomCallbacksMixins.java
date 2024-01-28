@@ -233,8 +233,9 @@ public abstract class CustomCallbacksMixins
         ))
         private void afterSettingStackInPlayerInventory(int slot, ItemStack stack, CallbackInfo ci, DefaultedList<ItemStack> list)
         {
+            // Player might be null when a PlayerInventory is created as placeholder
             PlayerInventory inventory = (PlayerInventory)(Object)this;
-            if(list != inventory.armor)
+            if(list != inventory.armor || inventory.player == null)
                 return;
 
             EquipmentSlot equipmentSlot = EquipmentSlot.values()[2+slot];

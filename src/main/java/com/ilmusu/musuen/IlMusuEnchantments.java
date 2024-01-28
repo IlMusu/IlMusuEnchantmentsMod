@@ -21,9 +21,10 @@ public class IlMusuEnchantments implements ModInitializer, ClientModInitializer,
 		ModEnchantments.register();
 		ModParticles.register();
 		ModSoundEvents.register();
-		ModMessages.ServerHandlers.register();
 		ModCriteria.register();
 		ModConfigurations.write();
+		ModEntities.register();
+		ModMessages.ServerHandlers.register();
 	}
 
 	@Override
@@ -32,6 +33,7 @@ public class IlMusuEnchantments implements ModInitializer, ClientModInitializer,
 		ModKeybindings.register();
 		ModRenderings.register();
 		ModParticles.registerFactories();
+		ModEntities.registerRenders();
 		ModMessages.ClientHandlers.register();
 	}
 }

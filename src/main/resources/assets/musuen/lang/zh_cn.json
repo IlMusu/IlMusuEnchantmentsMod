@@ -75,6 +75,7 @@
   "death.attack.demonicEnchanting.player" : "%1$s与恶魔交易不慎",
   "death.attack.demonicDamage" : "恶魔汲尽了%1$s的生命力",
   "death.attack.demonicDamage.player": "恶魔汲尽了%1$s的生命力",
+  "death.attack.colossus": "%1$s被%2$s刺穿",
 
   "key.musuen.phasing_enchantment": "移相附魔能力",
   "key.musuen.shockwave_enchantment": "震波附魔能力",

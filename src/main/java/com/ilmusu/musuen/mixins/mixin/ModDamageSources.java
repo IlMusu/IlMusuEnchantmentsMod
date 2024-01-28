@@ -2,11 +2,13 @@ package com.ilmusu.musuen.mixins.mixin;
 
 import com.ilmusu.musuen.mixins.interfaces._IModDamageSources;
 import com.ilmusu.musuen.registries.ModDamageTypes;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageSources;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryKey;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -18,6 +20,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class ModDamageSources implements _IModDamageSources
 {
     @Shadow public abstract DamageSource create(RegistryKey<DamageType> key);
+
+    @Shadow public abstract DamageSource create(RegistryKey<DamageType> key, @Nullable Entity attacker);
 
     @Unique private DamageSource demonicEnchanting;
     @Unique private DamageSource demonicDamage;
@@ -39,5 +43,11 @@ public abstract class ModDamageSources implements _IModDamageSources
     public DamageSource demonicDamage()
     {
         return this.demonicDamage;
+    }
+
+    @Override
+    public DamageSource colossus(@Nullable Entity attacker)
+    {
+        return this.create(ModDamageTypes.COLOSSUS, attacker);
     }
 }
