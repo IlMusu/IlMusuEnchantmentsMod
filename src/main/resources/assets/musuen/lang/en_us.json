@@ -70,11 +70,14 @@
   "enchantment.musuen.evolving.desc": "Makes the enchanted item evolve with usage, improving it's statistics.",
   "enchantment.musuen.experiencing": "Experiencing",
   "enchantment.musuen.experiencing.desc": "Makes the enchanted item drop experience points during usage.",
+  "enchantmnet.musuen.colossus": "Colossus",
+  "enchantmnet.musune.colossus.desc": "Makes a bigger version of the enchanted tool appear from underground. Use the item to activate the enchantment.",
 
   "death.attack.demonicEnchanting" : "%1$s made a bad deal with a demon",
   "death.attack.demonicEnchanting.player" : "%1$s made a bad deal with a demon",
   "death.attack.demonicDamage" : "A demon absorbed all %1$s's life",
   "death.attack.demonicDamage.player": "A demon absorbed all %1$s's life",
+  "death.attack.colossus": "%1$s was impaled by %2$s",
 
   "key.musuen.phasing_enchantment": "Phasing Enchantment Ability",
   "key.musuen.shockwave_enchantment": "Shockwave Enchantment Ability",
