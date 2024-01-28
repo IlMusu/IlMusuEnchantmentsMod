@@ -70,6 +70,8 @@
   "enchantment.musuen.evolving.desc": "Permet à l'objet enchanté d'évoluer avec son utilisation, améliorant ses statistiques.",
   "enchantment.musuen.experiencing": "Expérience",
   "enchantment.musuen.experiencing.desc": "Permet à l'objet enchanté de libérer des points d'expérience lors de son utilisation.",
+  "enchantment.musuen.colossus": "Coloso",
+  "enchantment.musuen.colossus.desc": "Hace aparecer una versión más grande de la herramienta encantada desde el suelo. Usa el objeto para activar el encantamiento.",
 
   "death.attack.demonicEnchanting" : "%1$s ha hecho un trato demoníaco",
   "death.attack.demonicEnchanting.player" : "%1$s ha hecho un trato demoníaco",
