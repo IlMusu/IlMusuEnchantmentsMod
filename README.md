@@ -664,6 +664,9 @@ The additional attack damage is computed as: <br />
 The additional break speed is computed as: <br />
 <b>break_speed = evolving_amount * 1.0 </b> <br />
 <br />
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/images/evolving.png?raw=true" height=338 width=600 alt="">
+</p>
 </details>
 
 This enchantment <b>can be applied to</b>:
@@ -696,4 +699,35 @@ At level 1, the experience drop probability is 5% and the experience dropped is 
 At level 2, the experience drop probability is 10% and the experience dropped is 2. <br />
 At level 3, the experience drop probability is 15% and the experience dropped is 2. <br />
 <br />
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/experiencing.gif?raw=true" alt="">
+</p>
 </details>
+
+This enchantment <b>can be applied to</b>:
+1. Sword
+2. Pickaxe
+3. Axe
+4. Shovel
+5. Hoe
+6. Trident
+7. Bow
+8. Crossbow
+
+## COLOSSUS ENCHANTMENT (III)
+The <b>Colossus Enchantment</b> gives another ability to the sword: it can create copies of itself in the world that damage entities and are solid, which means that they provide collisions and the player can walk on them. The item is temporarily removed from the inventory of the user when creating the colossus and then it is returned to the inventory after the colossus disappears.
+
+<details>
+<summary><b>Details here</b></summary>
+The size and the damage of the colossus increases with the level of the enchantment: <br />
+At level 1, it performs 1.5x the base damage of the sword. <br />
+At level 2, it performs 3.0x the base damage of the sword. <br />
+At level 3, it performs 4.5x the base damage of the sword. <br />
+<br />
+<p>
+	<img src="https://github.com/IlMusu/IlMusuEnchantmentsMod/blob/documentation/gifs/colossus.gif?raw=true" alt="">
+</p>
+</details>
+
+This enchantment <b>can be applied to</b>:
+1. Sword
