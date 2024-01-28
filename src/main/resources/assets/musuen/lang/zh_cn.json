@@ -70,6 +70,8 @@
   "enchantment.musuen.evolving.desc": "使附魔物品随着使用而进化，提高其属性",
   "enchantment.musuen.experiencing": "经验获取",
   "enchantment.musuen.experiencing.desc": "使附魔物品在使用过程中掉落经验值",
+  "enchantment.musuen.colossus": "巨像",
+  "enchantment.musuen.colossus.desc": "从地下冒出一个比较大的附魔工具版本。使用该物品激活附魔。",
 
   "death.attack.demonicEnchanting" : "%1$s与恶魔交易不慎",
   "death.attack.demonicEnchanting.player" : "%1$s与恶魔交易不慎",
