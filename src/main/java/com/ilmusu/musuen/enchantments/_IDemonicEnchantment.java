@@ -57,7 +57,7 @@ public interface _IDemonicEnchantment
         return new Pair<>(healthToConsume, initialHealth-remaining);
     }
 
-    public static void damageEntityWithDemonicDamage(LivingEntity entity, float damage)
+    static void damageEntityWithDemonicDamage(LivingEntity entity, float damage)
     {
         if(entity instanceof ServerPlayerEntity player)
             new PlayerDemonicDamageMessage().sendToClient(player);
