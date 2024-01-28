@@ -33,6 +33,13 @@ public abstract class EntityAdditionalSpawnDataMixin
                 this.data = spawnData.writeSpawnData(new NbtCompound());
         }
 
+        @Inject(method = "<init>(Lnet/minecraft/entity/LivingEntity;I)V", at = @At("TAIL"))
+        private void createAdditionalDataOnPacketCreation(LivingEntity entity, int entityTypeId, CallbackInfo ci)
+        {
+            if (entity instanceof _IAdditionalSpawnData spawnData)
+                this.data = spawnData.writeSpawnData(new NbtCompound());
+        }
+
         @Inject(method = "write", at = @At("TAIL"))
         public void writeAdditionalDataIntoBuffer(PacketByteBuf buf, CallbackInfo ci)
         {
