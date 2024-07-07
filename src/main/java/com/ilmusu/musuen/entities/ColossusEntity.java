@@ -39,7 +39,7 @@ import java.util.UUID;
 
 public class ColossusEntity extends Entity implements _IAdditionalSpawnData
 {
-    public static final int DAMAGE_AFTER_TICKS = 25;
+    public static final int DAMAGE_AFTER_TICKS = 15;
     public static final int DEATH_AFTER_TICKS = 100;
 
     @Nullable private UUID ownerUUID;
@@ -145,7 +145,7 @@ public class ColossusEntity extends Entity implements _IAdditionalSpawnData
                 if(!entities.isEmpty())
                 {
                     DamageSource source = createDamageSource();
-                    float damage = this.computeStackDamage() * (this.getLevel())*1.5F;
+                    float damage = this.computeStackDamage() * (this.getLevel())*2.0F;
                     for(Entity entity : entities)
                         entity.damage(source, damage);
                 }

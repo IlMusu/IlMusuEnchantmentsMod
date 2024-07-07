@@ -15,14 +15,19 @@ import net.minecraft.registry.Registry;
 
 public class ModEntities
 {
-    public static final EntityType<ColossusEntity> COLOSSUS = Registry.register(Registries.ENTITY_TYPE,
-        Resources.identifier("colossus"), FabricEntityTypeBuilder.create(SpawnGroup.MISC, ColossusEntity::new)
-            .dimensions(EntityDimensions.fixed(0.1F, 0.1F)).trackRangeChunks(6).trackedUpdateRate(20).build());
+    public static EntityType<ColossusEntity> COLOSSUS;
+    public static EntityType<ColossusPartEntity> COLOSSUS_PART;
 
-    public static final EntityType<ColossusPartEntity> COLOSSUS_PART = Registry.register(Registries.ENTITY_TYPE,
-        Resources.identifier("colossus_part"), FabricEntityTypeBuilder.create(SpawnGroup.MISC, ColossusPartEntity::new)
-            .dimensions(EntityDimensions.changing(0.8F, 0.8F)).build());
+    public static void register()
+    {
+        COLOSSUS = Registry.register(Registries.ENTITY_TYPE,
+            Resources.identifier("colossus"), FabricEntityTypeBuilder.create(SpawnGroup.MISC, ColossusEntity::new)
+                .dimensions(EntityDimensions.fixed(0.1F, 0.1F)).trackRangeChunks(6).trackedUpdateRate(20).build());
 
+        COLOSSUS_PART = Registry.register(Registries.ENTITY_TYPE,
+            Resources.identifier("colossus_part"), FabricEntityTypeBuilder.create(SpawnGroup.MISC, ColossusPartEntity::new)
+                .dimensions(EntityDimensions.changing(0.8F, 0.8F)).build());
+    }
     public static void registerRenders()
     {
         EntityRendererRegistry.register(COLOSSUS, ColossusRenderer::new);

@@ -83,7 +83,7 @@ public class ColossusEnchantment extends Enchantment
 
     protected static Pair<Vec3d, Direction> getColossusSpawningPos(PlayerEntity user)
     {
-        HitResult result = ModRaycast.raycast(user, 15, (object) -> ColossusEnchantment.filterTargets(user, object));
+        HitResult result = ModRaycast.raycast(user, 30, (object) -> ColossusEnchantment.filterTargets(user, object));
         if(result.getType().equals(HitResult.Type.MISS))
             return null;
 
